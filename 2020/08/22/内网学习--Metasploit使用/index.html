@@ -24,7 +24,7 @@
 <meta property="og:url" content="http://example.com/2020/08/22/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Metasploit%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="Metasploit使用基础常用命令12345background  #将当前会话放置后台getuid # 查看权限shell #进入目标机cmd shellsessions    #sessions –h 查看帮助sessions -i &lt;ID值&gt;  #进入会话   -k  杀死会话  将回话保存到后台 12345meterpreter &gt; background[*] Back">
-<meta property="og:locale">
+<meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-08-22T14:46:26.000Z">
 <meta property="article:modified_time" content="2020-10-02T03:56:11.384Z">
 <meta property="article:author" content="John Doe">
@@ -67,7 +67,7 @@
 
     <form class="search-form sidebar-form">
         <div class="input-group">
-            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
             <span class="input-group-btn">
                 <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
             </span>
@@ -77,7 +77,7 @@
   <div class="ins-search-mask"></div>
   <div class="ins-search-container">
     <div class="ins-input-wrapper">
-      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
       <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
     </div>
     <div class="ins-section-wrapper">
@@ -104,37 +104,77 @@
             
             <i class="icon icon-home-fill"></i>
             
-            <span class="menu-title">Home</span>
+            <span class="menu-title">首页</span>
           </a>
         </li>
         
         
         <li class="menu-item menu-item-archives">
-          <a href="/%E5%BD%92%E6%A1%A3">
+          <a href="/archives">
             
             <i class="icon icon-archives-fill"></i>
             
-            <span class="menu-title">Archives</span>
+            <span class="menu-title">归档</span>
           </a>
         </li>
         
         
         <li class="menu-item menu-item-categories">
-          <a href="/%E5%88%86%E7%B1%BB">
+          <a href="/categories">
             
             <i class="icon icon-folder"></i>
             
-            <span class="menu-title">Categories</span>
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
           </a>
         </li>
         
         
         <li class="menu-item menu-item-about">
-          <a href="/%E5%85%B3%E4%BA%8E">
+          <a href="/about">
             
             <i class="icon icon-cup-fill"></i>
             
-            <span class="menu-title">About</span>
+            <span class="menu-title">关于</span>
           </a>
         </li>
         
@@ -149,7 +189,7 @@
   <div class="slimContent">
     
       <div class="widget">
-    <h3 class="widget-title">Board</h3>
+    <h3 class="widget-title">公告</h3>
     <div class="widget-body">
         <div id="board">
             <div class="content">
@@ -168,7 +208,7 @@
 <aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
   <div class="slimContent">
     <nav id="toc" class="article-toc">
-      <h3 class="toc-title">Catalogue</h3>
+      <h3 class="toc-title">文章目录</h3>
       <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Metasploit%E4%BD%BF%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">Metasploit使用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">1.0.1.</span> <span class="toc-text">基础常用命令</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.0.2.</span> <span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%A3%E7%90%86%E4%B8%8E%E7%AB%AF%E5%8F%A3%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.0.3.</span> <span class="toc-text">代理与端口设置</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91"><span class="toc-number">1.0.3.1.</span> <span class="toc-text">端口转发</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AEsockets5%E4%BB%A3%E7%90%86"><span class="toc-number">1.0.3.2.</span> <span class="toc-text">设置sockets5代理</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E7%9B%AE%E6%A0%87shell"><span class="toc-number">1.0.4.</span> <span class="toc-text">获取目标shell</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81shell%E7%94%9F%E6%88%90"><span class="toc-number">1.0.4.1.</span> <span class="toc-text">常见shell生成</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#PHP-Shell"><span class="toc-number">1.0.4.2.</span> <span class="toc-text">PHP-Shell</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#EXE-%E6%9C%A8%E9%A9%AC"><span class="toc-number">1.0.4.3.</span> <span class="toc-text">EXE-木马</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8D%87%E7%BA%A7%E6%AD%A3%E5%B8%B8%E7%9A%84Shell%E5%88%B0Meterpreter"><span class="toc-number">1.0.5.</span> <span class="toc-text">升级正常的Shell到Meterpreter</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E5%8E%BB%E5%BE%80%E2%80%9D%E5%86%85%E7%BD%91%E7%BD%91%E6%AE%B5%E2%80%9D%E7%9A%84%E8%B7%AF%E7%94%B1"><span class="toc-number">1.0.6.</span> <span class="toc-text">添加去往”内网网段”的路由</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0"><span class="toc-number">1.0.7.</span> <span class="toc-text">内网主机发现</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#TCP%E6%89%AB%E6%8F%8F"><span class="toc-number">1.0.7.1.</span> <span class="toc-text">TCP扫描</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#ARP%E6%89%AB%E6%8F%8F"><span class="toc-number">1.0.7.2.</span> <span class="toc-text">ARP扫描</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98"><span class="toc-number">1.0.8.</span> <span class="toc-text">解决中文乱码问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Hash%E4%B8%8E%E6%98%8E%E6%96%87%E5%AF%86%E7%A0%81%E8%8E%B7%E5%8F%96"><span class="toc-number">1.0.9.</span> <span class="toc-text">Hash与明文密码获取</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Metasploit-Portfwd%EF%BC%88%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91-%E9%87%8D%E5%AE%9A%E5%90%91%EF%BC%89"><span class="toc-number">1.0.10.</span> <span class="toc-text">Metasploit Portfwd（端口转发&#x2F;重定向）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Windows%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="toc-number">1.0.11.</span> <span class="toc-text">Windows权限提升</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Windows%E6%B8%97%E9%80%8F"><span class="toc-number">1.0.12.</span> <span class="toc-text">Windows渗透</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#cmd%E4%B8%8E3389"><span class="toc-number">1.0.12.1.</span> <span class="toc-text">cmd与3389</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#MSF%E4%B8%8E3389"><span class="toc-number">1.0.12.2.</span> <span class="toc-text">MSF与3389</span></a></li></ol></li></ol></li></ol></li></ol>
     </nav>
   </div>
@@ -205,13 +245,13 @@
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/08/22/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Metasploit%E4%BD%BF%E7%94%A8/#comments" class="article-comment-link">Comments</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/08/22/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Metasploit%E4%BD%BF%E7%94%A8/#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">Word Count: 3.8k(words)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 3.8k(字)</span>
 	
 	
-		<span class="post-readcount hidden-xs" itemprop="timeRequired">Read Count: 19(minutes)</span>
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 19(分)</span>
 	
 
       </div>
@@ -484,7 +524,7 @@
   
   
   <!-- Button trigger modal -->
-  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
   <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
     <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
   </div> -->
@@ -506,31 +546,31 @@
       <div class="modal-body">
         <div class="donate-box">
           <div class="donate-head">
-            <p>Maybe you could buy me a cup of coffee.</p>
+            <p>感谢您的支持，我会继续努力的!</p>
           </div>
           <div class="tab-content">
             <div role="tabpanel" class="tab-pane fade active in" id="alipay">
               <div class="donate-payimg">
-                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
               </div>
-              <p class="text-muted mv">Scan this qrcode</p>
-              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
             </div>
             <div role="tabpanel" class="tab-pane fade" id="wechatpay">
               <div class="donate-payimg">
-                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
               </div>
-              <p class="text-muted mv">Scan this qrcode</p>
-              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
             </div>
           </div>
           <div class="donate-footer">
             <ul class="nav nav-tabs nav-justified" role="tablist">
               <li role="presentation" class="active">
-                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
               </li>
               <li role="presentation" class="">
-                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
               </li>
             </ul>
           </div>
@@ -568,11 +608,11 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Posts',
-            PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
-            UNTITLED: '(Untitled)',
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
         },
         ROOT_URL: '/',
         CONTENT_URL: '/content.json',
