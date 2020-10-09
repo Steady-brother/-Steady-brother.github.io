@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Python学习--Python文件操作 | Hexo</title>
+  <meta name="description" content="Python文件操作Python中文件数据的读和写open()方法两个参数 mode(模式)和encoding(编码)。  encoding一般来说，打开文件的编码方式以操作系统的默认编码为准，中文可能会出现乱码，需要加encoding&#x3D;’utf-8’。 123with open(&#39;&#x2F;Users&#x2F;apple&#x2F;Desktop&#x2F;1.txt&#39;,&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python学习--Python文件操作">
+<meta property="og:url" content="http://s1eady.top/2020/08/22/Python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Python文件操作Python中文件数据的读和写open()方法两个参数 mode(模式)和encoding(编码)。  encoding一般来说，打开文件的编码方式以操作系统的默认编码为准，中文可能会出现乱码，需要加encoding&#x3D;’utf-8’。 123with open(&#39;&#x2F;Users&#x2F;apple&#x2F;Desktop&#x2F;1.txt&#39;,&amp;#">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-08-22T14:46:26.000Z">
+<meta property="article:modified_time" content="2020-10-09T06:20:34.026Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://s1eady.top/2020/08/22/Python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/steady.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">果冻</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Penetration Testing</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 中国 南京</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="/GXA111666" target="_blank" title="VX" data-toggle=tooltip data-placement=top><i class="icon icon-VX"></i></a></li>
+        
+        <li><a href="/1252195810" target="_blank" title="QQ" data-toggle=tooltip data-placement=top><i class="icon icon-QQ"></i></a></li>
+        
+        <li><a href="/1252195810@qq.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-mail"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>深山夕照深秋雨 一往情深深几许</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="toc-number">1.</span> <span class="toc-text">Python文件操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Python%E4%B8%AD%E6%96%87%E4%BB%B6%E6%95%B0%E6%8D%AE%E7%9A%84%E8%AF%BB%E5%92%8C%E5%86%99"><span class="toc-number">1.1.</span> <span class="toc-text">Python中文件数据的读和写</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#open-%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.1.</span> <span class="toc-text">open()方法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%BB%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.2.</span> <span class="toc-text">读文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%86%99%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.3.</span> <span class="toc-text">写文件</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E7%9B%AE%E5%BD%95%E5%88%97%E8%A1%A8"><span class="toc-number">1.2.</span> <span class="toc-text">获取目录列表</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#os-scandir"><span class="toc-number">1.2.1.</span> <span class="toc-text">os.scandir()</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pathlib"><span class="toc-number">1.2.2.</span> <span class="toc-text">pathlib</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E7%9B%AE%E5%BD%95%E4%B8%AD%E7%9A%84%E6%96%87%E4%BB%B6"><span class="toc-number">1.3.</span> <span class="toc-text">获取目录中的文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%97%E5%87%BA%E5%AD%90%E7%9B%AE%E5%BD%95"><span class="toc-number">1.4.</span> <span class="toc-text">列出子目录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7"><span class="toc-number">1.5.</span> <span class="toc-text">获取文件属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%9B%AE%E5%BD%95"><span class="toc-number">1.6.</span> <span class="toc-text">创建目录</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%8D%95%E4%B8%AA%E7%9B%AE%E5%BD%95"><span class="toc-number">1.6.1.</span> <span class="toc-text">创建单个目录</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%A4%9A%E4%B8%AA%E7%9B%AE%E5%BD%95"><span class="toc-number">1.6.2.</span> <span class="toc-text">创建多个目录</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%81%8D%E5%8E%86%E7%9B%AE%E5%BD%95%E5%92%8C%E5%A4%84%E7%90%86%E6%96%87%E4%BB%B6"><span class="toc-number">1.7.</span> <span class="toc-text">遍历目录和处理文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%8D%E5%88%B6%E6%96%87%E4%BB%B6"><span class="toc-number">1.8.</span> <span class="toc-text">复制文件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#shutil-copy"><span class="toc-number">1.8.1.</span> <span class="toc-text">shutil.copy()</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#shutil-copy2"><span class="toc-number">1.8.2.</span> <span class="toc-text">shutil.copy2()</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A7%BB%E5%8A%A8%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95"><span class="toc-number">1.9.</span> <span class="toc-text">移动文件和目录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95"><span class="toc-number">1.10.</span> <span class="toc-text">重命名文件和目录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96ZIP%E6%96%87%E4%BB%B6"><span class="toc-number">1.11.</span> <span class="toc-text">读取ZIP文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E5%8F%96ZIP%E6%96%87%E4%BB%B6"><span class="toc-number">1.12.</span> <span class="toc-text">提取ZIP文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%8E%E5%8A%A0%E5%AF%86%E7%9A%84%E6%96%87%E6%A1%A3%E6%8F%90%E5%8F%96%E6%95%B0%E6%8D%AE"><span class="toc-number">1.13.</span> <span class="toc-text">从加密的文档提取数据</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Python文件操作" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python学习--Python文件操作
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/08/22/Python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="article-date">
+	  <time datetime="2020-08-22T14:46:26.000Z" itemprop="datePublished">2020-08-22</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Python%E5%AD%A6%E4%B9%A0/">Python学习</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Python/" rel="tag">Python</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/08/22/Python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h3 id="Python文件操作"><a href="#Python文件操作" class="headerlink" title="Python文件操作"></a>Python文件操作</h3><h4 id="Python中文件数据的读和写"><a href="#Python中文件数据的读和写" class="headerlink" title="Python中文件数据的读和写"></a>Python中文件数据的读和写</h4><h5 id="open-方法"><a href="#open-方法" class="headerlink" title="open()方法"></a>open()方法</h5><p>两个参数</p>
+<p>mode(模式)和encoding(编码)。</p>
+<ul>
+<li><p>encoding一般来说，打开文件的编码方式以操作系统的默认编码为准，中文可能会出现乱码，需要加encoding=’utf-8’。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">with open(&#39;&#x2F;Users&#x2F;apple&#x2F;Desktop&#x2F;1.txt&#39;,&#39;r&#39;,encoding&#x3D;&#39;utf-8&#39;) as fp:</span><br><span class="line">    a&#x3D;fp.readlines()</span><br><span class="line">    print(a)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>mode，它指定文件打开的模式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#39;r&#39;： 以只读模式打开（缺省模式，必须保证文件存在）</span><br><span class="line">&#39;w&#39;：以只写模式打开。若文件存在，则清空文件，然后重新创建；若不存在，则新建</span><br><span class="line">&#39;a&#39;：以追加模式打开。若文件存在，则会追加到文件的末尾；若文件不存在，则新建</span><br><span class="line"></span><br><span class="line">常见的mode组合</span><br><span class="line">&#39;r&#39;或&#39;rt&#39;：   默认模式，文本读模式</span><br><span class="line">&#39;w&#39;或&#39;wt&#39;：以文本写模式打开（打开前文件被清空）</span><br><span class="line">&#39;rb&#39;：       以二进制读模式打开</span><br><span class="line">&#39;ab&#39;：      以二进制追加模式打开</span><br><span class="line">&#39;wb&#39;：      以二进制写模式打开（打开前文件被清空）</span><br><span class="line">&#39;r+&#39;：       以文本读写模式打开，默认写的指针开始指在文件开头, 因此会覆写文件</span><br><span class="line">&#39;w+&#39;：      以文本读写模式打开（打开前文件被清空）</span><br><span class="line">&#39;a+&#39;：      以文本读写模式打开（只能写在文件末尾）</span><br><span class="line">&#39;rb+&#39;：     以二进制读写模式打开</span><br><span class="line">&#39;wb+&#39;：   以二进制读写模式打开（打开前被清空）</span><br><span class="line">&#39;ab+&#39;：    以二进制读写模式打开</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h5 id="读文件"><a href="#读文件" class="headerlink" title="读文件"></a>读文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">with open(&#39;data.txt&#39;, &#39;r&#39;) as f:</span><br><span class="line">    data &#x3D; f.read()</span><br><span class="line">    print(&#39;context: &#123;&#125;&#39;.format(data))</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>file.read([size])<br>从文件读取指定的字节数，如果未给定或为负则读取所有。</p>
+</li>
+<li><p>file.readline([size])<br>读取整行，包括 “\n” 字符，readline()读取第一行就返回，再次调用f.readline()，会读取下一行。</p>
+</li>
+<li><p>file.readlines([sizeint])</p>
+<p>常与for循环和strip()去掉换行符配合。</p>
+<p>读取所有行并返回列表，若给定sizeint&gt;0，则是设置一次读多少字节，这是为了减轻读取压力。</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">47</span>]: <span class="keyword">with</span> open(<span class="string">&#x27;test.txt&#x27;</span>,<span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    ...:     print(f.read())</span><br><span class="line"><span class="number">1</span> <span class="keyword">is</span> everything.</span><br><span class="line">python <span class="keyword">is</span> a cat.</span><br><span class="line">this <span class="keyword">is</span> the end.</span><br><span class="line"></span><br><span class="line">In [<span class="number">48</span>]: <span class="keyword">with</span> open(<span class="string">&#x27;test.txt&#x27;</span>,<span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    ...:     print(f.readlines())</span><br><span class="line">[<span class="string">&#x27;1 is everything.\n&#x27;</span>, <span class="string">&#x27;python is a cat.\n&#x27;</span>, <span class="string">&#x27;this is the end.&#x27;</span>]</span><br><span class="line">In [<span class="number">49</span>]: <span class="keyword">with</span> open(<span class="string">&#x27;test.txt&#x27;</span>,<span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    ...:     print(f.readline())</span><br><span class="line"><span class="number">1</span> <span class="keyword">is</span> everything.</span><br><span class="line">In [<span class="number">61</span>]: <span class="keyword">with</span> open(<span class="string">&#x27;test.txt&#x27;</span>,<span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    ...:     <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines():</span><br><span class="line">    ...:         print(line)</span><br><span class="line"><span class="number">1</span> <span class="keyword">is</span> everything.</span><br><span class="line"></span><br><span class="line">python <span class="keyword">is</span> a cat.</span><br><span class="line"></span><br><span class="line">this <span class="keyword">is</span> the end.</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取内容包含换行符，所以要strip()去掉换行符</span></span><br><span class="line">In [<span class="number">62</span>]: <span class="keyword">with</span> open(<span class="string">&#x27;test.txt&#x27;</span>,<span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    ...:     <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines():</span><br><span class="line">    ...:         print(line.strip())</span><br><span class="line"><span class="number">1</span> <span class="keyword">is</span> everything.</span><br><span class="line">python <span class="keyword">is</span> a cat.</span><br><span class="line">this <span class="keyword">is</span> the end.</span><br></pre></td></tr></table></figure>
+
+<h5 id="写文件"><a href="#写文件" class="headerlink" title="写文件"></a>写文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">with open(&#39;data.txt&#39;, &#39;w&#39;) as f:</span><br><span class="line">    data &#x3D; &#39;some data to be written to the file&#39;</span><br><span class="line">    f.write(data)</span><br></pre></td></tr></table></figure>
+
+<h4 id="获取目录列表"><a href="#获取目录列表" class="headerlink" title="获取目录列表"></a>获取目录列表</h4><h5 id="os-scandir"><a href="#os-scandir" class="headerlink" title="os.scandir()"></a>os.scandir()</h5><p><code>os.scandir()</code> 调用时返回一个迭代器而不是一个列表。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line">entries &#x3D; os.scandir(&#39;&#x2F;Users&#x2F;apple&#x2F;Desktop&#39;)</span><br><span class="line">print(entries)</span><br><span class="line"># &lt;posix.ScandirIterator at 0x105b4d4b0&gt;</span><br></pre></td></tr></table></figure>
+
+<p>ScandirIterator 指向了当前目录中的所有条目。你可以遍历迭代器的内容，并打印文件名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line">with os.scandir(&#39;&#x2F;Users&#x2F;apple&#x2F;Desktop&#39;) as entries:</span><br><span class="line">    for entry in entries:</span><br><span class="line">        print(entry.name)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">➜  Desktop python3 &#x2F;Users&#x2F;apple&#x2F;Desktop&#x2F;1.py</span><br><span class="line">.DS_Store</span><br><span class="line">阅读笔记.md</span><br><span class="line">.localized</span><br><span class="line">常用操作</span><br><span class="line">huazhu.com.csv</span><br><span class="line">huazhu_url.txt</span><br><span class="line">code</span><br><span class="line">steady-learn</span><br><span class="line">vulhub-master</span><br><span class="line">未命名 2.txt</span><br><span class="line">PHP木马.md</span><br><span class="line">java基础.md</span><br><span class="line">1.py</span><br><span class="line">makedown</span><br><span class="line">SQL server.md</span><br><span class="line">开发学习</span><br><span class="line">sqlmap使用以及学习.md</span><br><span class="line">SQL注入漏洞挖掘.md</span><br><span class="line">IPC.md</span><br><span class="line">Python爬虫.md</span><br><span class="line">漏洞盒子</span><br></pre></td></tr></table></figure>
+
+<p>这里 <code>os.scandir()</code> 和with语句一起使用，因为它支持上下文管理协议。使用上下文管理器关闭迭代器并在迭代器耗尽后自动释放获取的资源。</p>
+<h5 id="pathlib"><a href="#pathlib" class="headerlink" title="pathlib"></a>pathlib</h5><p>获取目录列表的方法是使用 <code>pathlib</code> 模块：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from pathlib import Path</span><br><span class="line"></span><br><span class="line">entries &#x3D; Path(&#39;&#x2F;Users&#x2F;apple&#x2F;Desktop&#39;)</span><br><span class="line">for entry in entries.iterdir():</span><br><span class="line">    print(entry.name)</span><br></pre></td></tr></table></figure>
+
+<p><code>pathlib.Path()</code> 返回的是 <code>PosixPath</code> 或 <code>WindowsPath</code> 对象，这取决于操作系统。</p>
+<p><code>pathlib.Path()</code> 对象有一个 <code>.iterdir()</code> 的方法用于创建一个迭代器包含该目录下所有文件和目录。由 <code>.iterdir()</code> 生成的每个条目都包含文件或目录的信息，例如其名称和文件属性。<code>pathlib</code> 在Python3.4时被第一次引入，并且是对Python一个很好的加强，它为文件系统提供了面向对象的接口。</p>
+<p>在上面的例子中，你调用 <code>pathlib.Path()</code> 并传入了一个路径参数。然后调用 <code>.iterdir()</code> 来获取 <code>my_directory</code> 下的所有文件和目录列表。</p>
+<p>总结</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>os.listdir()</td>
+<td>以列表的方式返回目录中所有的文件和文件夹</td>
+</tr>
+<tr>
+<td>os.scandir()</td>
+<td>返回一个迭代器包含目录中所有的对象，对象包含文件属性信息</td>
+</tr>
+<tr>
+<td>pathlib.Path().iterdir()</td>
+<td>返回一个迭代器包含目录中所有的对象，对象包含文件属性信息</td>
+</tr>
+</tbody></table>
+<h4 id="获取目录中的文件"><a href="#获取目录中的文件" class="headerlink" title="获取目录中的文件"></a>获取目录中的文件</h4><p>打印出目录中文件的名称。为了过滤目录并仅列出 <code>os.listdir()</code> 生成的目录列表的文件，要使用 <code>os.path</code> ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line"></span><br><span class="line">basepath &#x3D; &#39;&#x2F;Users&#x2F;apple&#x2F;Desktop&#39;</span><br><span class="line">for entry in os.listdir(basepath):</span><br><span class="line">    # 使用os.path.isfile判断该路径是否是文件类型</span><br><span class="line">    if os.path.isfile(os.path.join(basepath, entry)):</span><br><span class="line">        print(entry)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ python3 &#x2F;Users&#x2F;apple&#x2F;Desktop&#x2F;1.py</span><br><span class="line">.DS_Store</span><br><span class="line">阅读笔记.md</span><br><span class="line">.localized</span><br><span class="line">huazhu.com.csv</span><br><span class="line">huazhu_url.txt</span><br><span class="line">未命名 2.txt</span><br><span class="line">PHP木马.md</span><br><span class="line">java基础.md</span><br><span class="line">1.py</span><br><span class="line">SQL server.md</span><br><span class="line">sqlmap使用以及学习.md</span><br><span class="line">SQL注入漏洞挖掘.md</span><br><span class="line">IPC.md</span><br><span class="line">Python爬虫.md</span><br></pre></td></tr></table></figure>
+
+<p>在这里调用 <code>os.listdir()</code> 返回指定路径中所有内容的列表，接着使用 <code>os.path.isfile()</code> 过滤列表让其只显示文件类型而非目录类型。</p>
+<p>一个更简单的方式来列出一个目录中所有的文件是使用 <code>os.scandir()</code> 或 <code>pathlib.Path()</code> :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line"></span><br><span class="line">basepath &#x3D; &#39;&#x2F;Users&#x2F;apple&#x2F;Desktop&#39;</span><br><span class="line">with os.scandir(basepath) as entries:</span><br><span class="line">    for entry in entries:</span><br><span class="line">        if entry.is_file():</span><br><span class="line">            print(entry.name)</span><br></pre></td></tr></table></figure>
+
+<p><code>pathlib.Path()</code> 列出一个目录中的文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from pathlib import Path</span><br><span class="line"></span><br><span class="line">basepath &#x3D; Path(&#39;&#x2F;Users&#x2F;apple&#x2F;Desktop&#39;)</span><br><span class="line">for entry in basepath.iterdir():</span><br><span class="line">    if entry.is_file():</span><br><span class="line">        print(entry.name)</span><br></pre></td></tr></table></figure>
+
+<h4 id="列出子目录"><a href="#列出子目录" class="headerlink" title="列出子目录"></a>列出子目录</h4><p><code>os.listdir()</code> 和 <code>os.path()</code> :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line"></span><br><span class="line">basepath &#x3D; &#39;&#x2F;Users&#x2F;apple&#x2F;Desktop&#39;</span><br><span class="line">for entry in os.listdir(basepath):</span><br><span class="line">    if os.path.isdir(os.path.join(basepath, entry)):</span><br><span class="line">        print(entry)</span><br></pre></td></tr></table></figure>
+
+<p><code>os.scandir()</code> ：</p>
+<p><code>is_dir()</code> 返回 True，否侧返回False</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line"></span><br><span class="line">basepath &#x3D; &#39;&#x2F;Users&#x2F;apple&#x2F;Desktop&#39;</span><br><span class="line">with os.scandir(basepath) as entries:</span><br><span class="line">    for entry in entries:</span><br><span class="line">        if entry.is_dir():</span><br><span class="line">            print(entry.name)</span><br></pre></td></tr></table></figure>
+
+<p><code>pathlib.Path()</code> ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from pathlib import Path</span><br><span class="line"></span><br><span class="line">basepath &#x3D; Path(&#39;&#x2F;Users&#x2F;apple&#x2F;Desktop&#39;)</span><br><span class="line">for entry in basepath.iterdir():</span><br><span class="line">    if entry.is_dir():</span><br><span class="line">        print(entry.name)</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>.iterdir()</code> 迭代器返回的每一项上调用 <code>is_dir()</code> 检查是文件还是目录。</p>
+<h4 id="获取文件属性"><a href="#获取文件属性" class="headerlink" title="获取文件属性"></a>获取文件属性</h4><p><code>os.scandir()</code> 和 <code>pathlib.Path()</code> 能直接获取到包含文件属性的目录列表。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line"></span><br><span class="line">with os.scandir(&#39;&#x2F;Users&#x2F;apple&#x2F;Desktop&#39;) as entries:</span><br><span class="line">    for entry in entries:</span><br><span class="line">        info &#x3D; entry.stat()</span><br><span class="line">        print(info.st_mtime)       </span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">1548163662.3952665</span><br><span class="line">1548163689.1982062</span><br><span class="line">1548163697.9175904</span><br><span class="line">1548163721.1841028</span><br><span class="line">1548163740.765162</span><br><span class="line">1548163769.4702623</span><br><span class="line">&quot;&quot;&quot;</span><br></pre></td></tr></table></figure>
+
+<p><code>os.scandir()</code> 返回一个 <code>ScandirIterator</code> 对象。<code>ScandirIterator</code> 对象中的每一项有 <code>.stat()</code> 方法能获取关于它指向文件或目录的信息。</p>
+<p><code>.stat()</code> 提供了例如文件大小和最后修改时间的信息。</p>
+<h4 id="创建目录"><a href="#创建目录" class="headerlink" title="创建目录"></a>创建目录</h4><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>os.mkdir()</td>
+<td>创建单个子目录</td>
+</tr>
+<tr>
+<td>os.makedirs()</td>
+<td>创建多个目录，包括中间目录</td>
+</tr>
+<tr>
+<td>Pathlib.Path.mkdir()</td>
+<td>创建单个或多个目录</td>
+</tr>
+</tbody></table>
+<h5 id="创建单个目录"><a href="#创建单个目录" class="headerlink" title="创建单个目录"></a>创建单个目录</h5><p>要创建单个目录，把目录路径作为参数传给 <code>os.mkdir()</code> :</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">os.mkdir(<span class="string">&#x27;/steady/1.php&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>如果该目录已经存在，<code>os.mkdir()</code> 将抛出 <code>FileExistsError</code> 异常。或者，你也可以使用 <code>pathlib</code> 来创建目录:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</span><br><span class="line"></span><br><span class="line">p = Path(<span class="string">&#x27;example_directory&#x27;</span>)</span><br><span class="line">p.mkdir()</span><br></pre></td></tr></table></figure>
+
+<p>如果路径已经存在，<code>mkdir()</code> 会抛出 <code>FileExistsError</code> 异常:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FileExistsError: [Errno 17] File exists: &#39;example_directory&#39;</span><br></pre></td></tr></table></figure>
+
+<p>为了避免像这样的错误抛出， 当发生错误时捕获错误并让你的用户知道:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path</span><br><span class="line"></span><br><span class="line">p = Path(<span class="string">&#x27;example_directory&#x27;</span>)</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    p.mkdir()</span><br><span class="line"><span class="keyword">except</span> FileExistsError <span class="keyword">as</span> e:</span><br><span class="line">    print(e)</span><br></pre></td></tr></table></figure>
+
+<h5 id="创建多个目录"><a href="#创建多个目录" class="headerlink" title="创建多个目录"></a>创建多个目录</h5><p>os.makedirs() 和 os.mkdir() 类似。两者之间的区别在于，os.makedirs() 不仅可以创建单独的目录，还可以递归的创建目录树。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">os.makedirs(<span class="string">&#x27;2018/10/05&#x27;</span>, mode=<span class="number">0o770</span>)</span><br></pre></td></tr></table></figure>
+
+<p>上述代码创建了 <code>2018/10/05</code> 的目录结构并为所有者和组用户提供读、写和执行权限。默认的模式为 <code>0o777</code> ，增加了其他用户组的权限。</p>
+<h4 id="遍历目录和处理文件"><a href="#遍历目录和处理文件" class="headerlink" title="遍历目录和处理文件"></a>遍历目录和处理文件</h4><p>Python函数 <code>os.walk()</code> 来实现这一功能。<code>os.walk()</code> 用于通过从上到下或从下到上遍历树来生成目录树中的文件名。</p>
+<p><code>os.walk()</code> 默认是从上到下遍历目录:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">for</span> dirpath, dirname, files <span class="keyword">in</span> os.walk(<span class="string">&#x27;目录位置&#x27;</span>):</span><br><span class="line">   print(<span class="string">f&#x27;Found directory: <span class="subst">&#123;dirpath&#125;</span>&#x27;</span>)</span><br><span class="line">   <span class="keyword">for</span> file_name <span class="keyword">in</span> files:</span><br><span class="line">       print(file_name)</span><br></pre></td></tr></table></figure>
+
+<p><code>os.walk()</code> 在每个循环中返回三个值：</p>
+<ol>
+<li>当前文件夹的名称</li>
+<li>当前文件夹中子文件夹的列表</li>
+<li>当前文件夹中文件的列表</li>
+</ol>
+<p>在每次迭代中，会打印出它找到的子目录和文件的名称：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Found directory: /Users/apple/Desktop/steady-learn/笔记/漏洞原理/SQL/Mysql注入学习/sql注入题</span><br><span class="line">.DS_Store</span><br><span class="line">SQL注入-<span class="number">-8.</span>md</span><br><span class="line">SQL注入-<span class="number">-3.</span>md</span><br><span class="line">SQL注入-<span class="number">-6.</span>md</span><br><span class="line">SQL注入-<span class="number">-2.</span>md</span><br><span class="line">SQL注入-<span class="number">-5.</span>md</span><br><span class="line">SQL注入-<span class="number">-1.</span>md</span><br><span class="line">SQL注入-<span class="number">-4.</span>md</span><br><span class="line">Found directory: /Users/apple/Desktop/steady-learn/笔记/漏洞原理/SQL/Mysql注入学习/sql注入</span><br><span class="line">SQL注入--过滤空格.md</span><br><span class="line">SQL注入--过滤<span class="keyword">and</span>、<span class="keyword">or</span>.md</span><br><span class="line">.DS_Store</span><br><span class="line">SQL注入--字符型和数字型注入的判断.md</span><br></pre></td></tr></table></figure>
+
+<h4 id="复制文件"><a href="#复制文件" class="headerlink" title="复制文件"></a>复制文件</h4><h5 id="shutil-copy"><a href="#shutil-copy" class="headerlink" title="shutil.copy()"></a>shutil.copy()</h5><p>使用<code>shutil.copy()</code> 将文件从一个位置复制到另一个位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import shutil</span><br><span class="line"></span><br><span class="line">src &#x3D; &#39;path&#x2F;to&#x2F;file.txt&#39;</span><br><span class="line">dst &#x3D; &#39;path&#x2F;to&#x2F;dest_dir&#39;</span><br><span class="line">shutil.copy(src, dst)</span><br></pre></td></tr></table></figure>
+
+<p> <code>shutil.copy(src，dst)</code> 会将文件 <code>src</code> 复制到 <code>dst</code> 中指定的位置。 如果 <code>dst</code> 是文件，则该文件的内容将替换为 <code>src</code> 的内容。 如果 <code>dst</code> 是目录，则 <code>src</code> 将被复制到该目录中。 <code>shutil.copy()</code> 仅复制文件的内容和文件的权限。 其他元数据（如文件的创建和修改时间）不会保留。</p>
+<h5 id="shutil-copy2"><a href="#shutil-copy2" class="headerlink" title="shutil.copy2()"></a>shutil.copy2()</h5><p>复制时保留所有文件元数据</p>
+<h4 id="移动文件和目录"><a href="#移动文件和目录" class="headerlink" title="移动文件和目录"></a>移动文件和目录</h4><p>要将文件或目录移动到其他位置，请使用 <code>shutil.move(src，dst)</code> 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import shutil</span><br><span class="line">dst &#x3D; shutil.move(&#39;dir_1&#x2F;&#39;, &#39;backup&#x2F;&#39;)</span><br><span class="line">print(dst)  # &#39;backup&#39;</span><br></pre></td></tr></table></figure>
+
+<p>如果 <code>backup/</code> 存在，则 <code>shutil.move(&#39;dir_1/&#39;，&#39;backup/&#39;)</code> 将 <code>dir_1/</code> 移动到 <code>backup/</code> 。 如果 <code>backup/</code> 不存在，则 <code>dir_1/</code> 将重命名为 <code>backup</code> 。</p>
+<h4 id="重命名文件和目录"><a href="#重命名文件和目录" class="headerlink" title="重命名文件和目录"></a>重命名文件和目录</h4><p>Python包含用于重命名文件和目录的 <code>os.rename(src，dst)</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line">os.rename(&#39;first.zip&#39;, &#39;first_01.zip&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>上面的行将 <code>first.zip</code> 重命名为 <code>first_01.zip</code> 。 如果目标路径指向目录，则会抛出 <code>OSError</code> 。</p>
+<h4 id="读取ZIP文件"><a href="#读取ZIP文件" class="headerlink" title="读取ZIP文件"></a>读取ZIP文件</h4><p>zipfile 模块是一个底层模块，是Python标准库的一部分。 zipfile 具有可以轻松打开和提取ZIP文件的函数。 要读取ZIP文件的内容，首先要做的是创建一个 ZipFile 对象。ZipFile 对象类似于使用 open() 创建的文件对象。ZipFile 也是一个上下文管理器，因此支持with语句：</p>
+<p>打开ZIP文件后，可以通过 <code>zipfile</code> 模块提供的函数访问有关存档文件的信息。</p>
+<p>要获取存档文件中的文件列表，请在 <code>ZipFile</code> 对象上调用 <code>namelist()</code> ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import zipfile</span><br><span class="line"></span><br><span class="line">with zipfile.ZipFile(&#39;&#x2F;Users&#x2F;apple&#x2F;Desktop&#x2F;makedown.zip&#39;, &#39;r&#39;) as fp:</span><br><span class="line">    a&#x3D;fp.namelist()</span><br><span class="line">    for i in a:</span><br><span class="line">        print(i)</span><br></pre></td></tr></table></figure>
+
+<p><code>.namelist()</code> 返回存档文件中文件和目录的名称列表。要检索有关存档文件中文件的信息，使用 <code>.getinfo()</code> ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import zipfile</span><br><span class="line"></span><br><span class="line">with zipfile.ZipFile(&#39;&#x2F;Users&#x2F;apple&#x2F;Desktop&#x2F;makedown.zip&#39;, &#39;r&#39;) as zipobj:</span><br><span class="line">    bar_info &#x3D; zipobj.getinfo(&#39;makedown&#x2F;8B77F3C7-DC39-48C0-99C5-4CC7B1C123AC.png&#39;)</span><br><span class="line">    print(bar_info.file_size)</span><br></pre></td></tr></table></figure>
+
+<p><code>.getinfo()</code> 返回一个 <code>ZipInfo</code> 对象，该对象存储有关存档文件的单个成员的信息。 要获取有关存档文件中文件的信息，请将其路径作为参数传递给 <code>.getinfo()</code> 。 使用 <code>getinfo()</code> ，你可以检索有关存档文件成员的信息，例如上次修改文件的日期，压缩大小及其完整文件名。 访问 <code>.file_size</code> 将以字节为单位检索文件的原始大小。</p>
+<h4 id="提取ZIP文件"><a href="#提取ZIP文件" class="headerlink" title="提取ZIP文件"></a>提取ZIP文件</h4><p><code>zipfile</code> 模块允许你通过 <code>.extract()</code> 和 <code>.extractall()</code> 从ZIP文件中提取一个或多个文件。</p>
+<p>默认情况下，这些方法将文件提取到当前目录。 它们都采用可选的路径参数，允许指定要将文件提取到的其他指定目录。 如果该目录不存在，则会自动创建该目录。 要从压缩文件中提取文件，请执行以下操作：</p>
+<p>提取所有文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import zipfile</span><br><span class="line">import os</span><br><span class="line">data_zip &#x3D; zipfile.ZipFile(&#39;&#x2F;Users&#x2F;apple&#x2F;Desktop&#x2F;makedown.zip&#39;, &#39;r&#39;)</span><br><span class="line">data_zip.extractall(path&#x3D;&#39;&#x2F;Users&#x2F;apple&#x2F;Desktop&#x2F;1&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>提取某一个文件到当前目录下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data_zip.extract(&#39;file1.py&#39;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="从加密的文档提取数据"><a href="#从加密的文档提取数据" class="headerlink" title="从加密的文档提取数据"></a>从加密的文档提取数据</h4><p>zipfile 支持提取受密码保护的ZIP。 要提取受密码保护的ZIP文件，请将密码作为参数传递给 .extract() 或.extractall() 方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import zipfile</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; with zipfile.ZipFile(&#39;secret.zip&#39;, &#39;r&#39;) as pwd_zip:</span><br><span class="line">...     # 从加密的文档提取数据</span><br><span class="line">...     pwd_zip.extractall(path&#x3D;&#39;extract_dir&#39;, pwd&#x3D;&#39;Quish3@o&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>将以读取模式打开 <code>secret.zip</code> 存档。 密码提供给 <code>.extractall()</code> ，并且压缩文件内容被提取到 <code>extract_dir</code> 。 由于with语句，在完成提取后，存档文件会自动关闭。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://s1eady.top/2020/08/22/Python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" title="Python学习--Python文件操作" target="_blank" rel="external">http://s1eady.top/2020/08/22/Python%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/steady.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">果冻</span><small class="ml-1x">Penetration Testing</small></a></h3>
+        <div>一往情深深几许。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2020/08/22/SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E/" title="SQL--SQL注入漏洞"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2020/08/22/Python%E7%88%AC%E8%99%AB/" title="Python学习--Python爬虫基础"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="/GXA111666" target="_blank" title="VX" data-toggle=tooltip data-placement=top><i class="icon icon-VX"></i></a></li>
+        
+        <li><a href="/1252195810" target="_blank" title="QQ" data-toggle=tooltip data-placement=top><i class="icon icon-QQ"></i></a></li>
+        
+        <li><a href="/1252195810@qq.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-mail"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
