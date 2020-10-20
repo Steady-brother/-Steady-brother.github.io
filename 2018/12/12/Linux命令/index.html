@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Linux命令 | Hexo</title>
+  <meta name="description" content="Linux命令tr命令介绍tr命令主要用于删除文件中控制字符或进行字符转换。 tr命令格式： 1tr [ -d ] [ -c ] [ -s ] [ 字符串1 ] [ 字符串2 ] 文件名。其中字符串1用于查询，字符串2用于处理各种转换。  123-c 用字符串1中字符集的补集替换此字符集，要求字符集为ASCII。-d 删除字符串1中所有输入字符。-s 删除所有重复出现字符序列，只保留第一个；即将重">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux命令">
+<meta property="og:url" content="http://s1eady.top/2018/12/12/Linux%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Linux命令tr命令介绍tr命令主要用于删除文件中控制字符或进行字符转换。 tr命令格式： 1tr [ -d ] [ -c ] [ -s ] [ 字符串1 ] [ 字符串2 ] 文件名。其中字符串1用于查询，字符串2用于处理各种转换。  123-c 用字符串1中字符集的补集替换此字符集，要求字符集为ASCII。-d 删除字符串1中所有输入字符。-s 删除所有重复出现字符序列，只保留第一个；即将重">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-12-11T22:45:12.000Z">
+<meta property="article:modified_time" content="2020-10-20T11:35:50.884Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://s1eady.top/2018/12/12/Linux%E5%91%BD%E4%BB%A4/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/steady.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">果冻</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Penetration Testing</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 中国 南京</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="/GXA111666" target="_blank" title="VX" data-toggle=tooltip data-placement=top><i class="icon icon-VX"></i></a></li>
+        
+        <li><a href="/1252195810" target="_blank" title="QQ" data-toggle=tooltip data-placement=top><i class="icon icon-QQ"></i></a></li>
+        
+        <li><a href="/1252195810@qq.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-mail"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>深山夕照深秋雨 一往情深深几许</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Linux%E5%91%BD%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">Linux命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#tr"><span class="toc-number">1.1.</span> <span class="toc-text">tr</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.1.1.</span> <span class="toc-text">命令介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E6%93%8D%E4%BD%9C"><span class="toc-number">1.1.2.</span> <span class="toc-text">实例操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#grep"><span class="toc-number">1.2.</span> <span class="toc-text">grep</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E4%BB%8B%E7%BB%8D-1"><span class="toc-number">1.2.1.</span> <span class="toc-text">命令介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E6%93%8D%E4%BD%9C-1"><span class="toc-number">1.2.2.</span> <span class="toc-text">实例操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#awk"><span class="toc-number">1.3.</span> <span class="toc-text">awk</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E4%BB%8B%E7%BB%8D-2"><span class="toc-number">1.3.1.</span> <span class="toc-text">命令介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E6%93%8D%E4%BD%9C-2"><span class="toc-number">1.3.2.</span> <span class="toc-text">实例操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wc"><span class="toc-number">1.4.</span> <span class="toc-text">wc</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Linux命令" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux命令
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/12/12/Linux%E5%91%BD%E4%BB%A4/" class="article-date">
+	  <time datetime="2018-12-11T22:45:12.000Z" itemprop="datePublished">2018-12-12</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/Linux/" rel="tag">Linux</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/12/12/Linux%E5%91%BD%E4%BB%A4/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="Linux命令"><a href="#Linux命令" class="headerlink" title="Linux命令"></a>Linux命令</h1><h2 id="tr"><a href="#tr" class="headerlink" title="tr"></a>tr</h2><h3 id="命令介绍"><a href="#命令介绍" class="headerlink" title="命令介绍"></a>命令介绍</h3><p>tr命令主要用于删除文件中控制字符或进行字符转换。</p>
+<p>tr命令格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tr [ -d ] [ -c ] [ -s ] [ 字符串1 ] [ 字符串2 ] 文件名。其中字符串1用于查询，字符串2用于处理各种转换。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-c 用字符串1中字符集的补集替换此字符集，要求字符集为ASCII。</span><br><span class="line">-d 删除字符串1中所有输入字符。</span><br><span class="line">-s 删除所有重复出现字符序列，只保留第一个；即将重复出现字符串压缩为一个字符串。</span><br></pre></td></tr></table></figure>
+
+<p>常用字符类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[:alnum:]：字母和数字</span><br><span class="line">[:alpha:]：字母</span><br><span class="line">[:cntrl:]：控制（非打印）字符</span><br><span class="line">[:digit:]：数字</span><br><span class="line">[:graph:]：图形字符</span><br><span class="line">[:lower:]：小写字母</span><br><span class="line">[:print:]：可打印字符</span><br><span class="line">[:punct:]：标点符号</span><br><span class="line">[:space:]：空白字符</span><br><span class="line">[:upper:]：大写字母</span><br><span class="line">[:xdigit:]：十六进制字符</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="实例操作"><a href="#实例操作" class="headerlink" title="实例操作"></a>实例操作</h3><p>删除换行和替换换行为空</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~$ cat &#x2F;home&#x2F;steady&#x2F;tcp.txt</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">steady@steady:~$ cat &#x2F;home&#x2F;steady&#x2F;tcp.txt | tr -d &quot;\n&quot;</span><br><span class="line">12345678910</span><br><span class="line">steady@steady:~$ cat &#x2F;home&#x2F;steady&#x2F;tcp.txt | tr  &quot;\n&quot; &quot; &quot;</span><br><span class="line">1 2 3 4 5 6 7 8 9 10 </span><br></pre></td></tr></table></figure>
+
+<p>只删除数字或者字母</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~$ cat steady.txt</span><br><span class="line">2346tre2345r3rgegf43tr4rf3gef s&#x2F;.,affffuioeufoifskf&#x2F;,&#x2F;,&#39;l245</span><br><span class="line">steady@steady:~$ cat steady.txt | tr -d &quot;[0-9]&quot;</span><br><span class="line">trerrgegftrrfgef s&#x2F;.,affffuioeufoifskf&#x2F;,&#x2F;,&#39;l</span><br><span class="line">steady@steady:~$ cat steady.txt | tr -d &quot;[a-zA-Z]&quot;</span><br><span class="line">2346234534343 &#x2F;.,&#x2F;,&#x2F;,&#39;245</span><br></pre></td></tr></table></figure>
+
+<p>删除非字母的数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~$ cat steady.txt | tr -d -c &quot;[a-zA-Z]&quot;</span><br><span class="line">trerrgegftrrfgefsaffffuioeufoifskfl</span><br></pre></td></tr></table></figure>
+
+<p>去除重复字符串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~$ cat steady.txt</span><br><span class="line">12222 easdsssss asd2w111</span><br><span class="line">steady@steady:~$ cat steady.txt | tr -s &quot;2&quot;</span><br><span class="line">12 easdsssss asd2w111</span><br><span class="line">steady@steady:~$ cat steady.txt | tr -s &quot;2s&quot;</span><br><span class="line">12 easds asd2w111</span><br><span class="line">steady@steady:~$ cat steady.txt | tr -s &quot;2s1&quot;</span><br><span class="line">12 easds asd2w1</span><br></pre></td></tr></table></figure>
+
+<h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><h3 id="命令介绍-1"><a href="#命令介绍-1" class="headerlink" title="命令介绍"></a>命令介绍</h3><p>grep（global search regular expression(RE)and print out the line 即：全面搜索正则表达式并把行打印出来）命令是一个强大的文本搜索工具，它能使用正则表达式搜索文本，并把匹配的行打印出来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# grep [-acinv] [--color&#x3D;auto] &#39;搜寻字符串&#39; filename</span><br><span class="line">选项与参数：</span><br><span class="line">-a ：将 binary 文件以 text 文件的方式搜寻数据</span><br><span class="line">-c ：计算找到 &#39;搜寻字符串&#39; 的次数</span><br><span class="line">-i ：忽略大小写的不同，所以大小写视为相同</span><br><span class="line">-n ：顺便输出行号</span><br><span class="line">-v ：反向选择，亦即显示出没有 &#39;搜寻字符串&#39; 内容的那一行！</span><br><span class="line">--color&#x3D;auto ：可以将找到的关键词部分加上颜色的显示喔！</span><br></pre></td></tr></table></figure>
+
+<h3 id="实例操作-1"><a href="#实例操作-1" class="headerlink" title="实例操作"></a>实例操作</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~$ cat steady.txt | grep <span class="string">&quot;steady&quot;</span></span><br><span class="line">gjhgsteady</span><br><span class="line">steady897jhgj</span><br><span class="line">steady7678678</span><br><span class="line">steady87686</span><br><span class="line">steady@steady:~$ cat steady.txt | grep -v <span class="string">&quot;steady&quot;</span></span><br><span class="line">gongxinaojgl</span><br><span class="line"><span class="number">123456</span>gjhg</span><br><span class="line">steady@steady:~$ cat steady.txt | grep -v -n  <span class="string">&quot;steady&quot;</span></span><br><span class="line"><span class="number">3</span>:gongxinaojgl</span><br><span class="line"><span class="number">5</span>:<span class="number">123456</span>gjhg</span><br><span class="line"><span class="number">7</span>:</span><br></pre></td></tr></table></figure>
+
+<h2 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h2><h3 id="命令介绍-2"><a href="#命令介绍-2" class="headerlink" title="命令介绍"></a>命令介绍</h3><p>awk 命令的基本格式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk [options] &#39;script&#39; file</span><br></pre></td></tr></table></figure>
+
+<p><code>options</code> 这个表示一些可选的参数选项，<code>script</code> 表示 awk 的可执行脚本代码（一般被<code>&#123;&#125;</code> 花括号包围），这个是必须的。<code>file</code> 这个表示 awk 需要处理的文件，注意需要是纯文本文件（意味着 awk 能够处理）。</p>
+<p>变量</p>
+<p>变量<code>NF</code>表示当前行有多少个字段，因此<code>$NF</code>就代表最后一个字段。</p>
+<p><code>$(NF-1)</code>代表倒数第二个字段。</p>
+<p>函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tolower()：字符转为小写。</span><br><span class="line">length()：返回字符串长度。</span><br><span class="line">substr()：返回子字符串。</span><br><span class="line">sin()：正弦。</span><br><span class="line">cos()：余弦。</span><br><span class="line">sqrt()：平方根。</span><br><span class="line">rand()：随机数。</span><br></pre></td></tr></table></figure>
+
+<h3 id="实例操作-2"><a href="#实例操作-2" class="headerlink" title="实例操作"></a>实例操作</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~$ cat steady.txt</span><br><span class="line">avahi:x:<span class="number">124</span>:<span class="number">130</span>:Avahi mDNS daemon,,,:/var/run/avahi-daemon:/usr/sbin/nologin</span><br><span class="line">nm-openvpn:x:<span class="number">125</span>:<span class="number">131</span>:NetworkManager OpenVPN,,,:/var/lib/openvpn/chroot:/usr/sbin/nologin</span><br><span class="line">nm-openconnect:x:<span class="number">126</span>:<span class="number">132</span>:NetworkManager OpenConnect plugin,,,:/var/lib/NetworkManager:/usr/sbin/nologin</span><br><span class="line">pulse:x:<span class="number">127</span>:<span class="number">134</span>:PulseAudio daemon,,,:/var/run/pulse:/usr/sbin/nologin</span><br><span class="line">saned:x:<span class="number">128</span>:<span class="number">136</span>::/var/lib/saned:/usr/sbin/nologin</span><br><span class="line">inetsim:x:<span class="number">129</span>:<span class="number">138</span>::/var/lib/inetsim:/usr/sbin/nologin</span><br><span class="line">colord:x:<span class="number">130</span>:<span class="number">139</span>:colord colour management daemon,,,:/var/lib/colord:/usr/sbin/nologin</span><br><span class="line">geoclue:x:<span class="number">131</span>:<span class="number">140</span>::/var/lib/geoclue:/usr/sbin/nologin</span><br><span class="line">lightdm:x:<span class="number">132</span>:<span class="number">141</span>:Light Display Manager:/var/lib/lightdm:/bin/false</span><br><span class="line">king-phisher:x:<span class="number">133</span>:<span class="number">142</span>::/var/lib/king-phisher:/usr/sbin/nologin</span><br><span class="line">steady:x:<span class="number">1000</span>:<span class="number">1000</span>:steady,,,:/home/steady:/bin/bash</span><br><span class="line">systemd-coredump:x:<span class="number">999</span>:<span class="number">999</span>:systemd Core Dumper:/:/usr/sbin/nologin</span><br><span class="line"></span><br><span class="line">steady@steady:~$ cat steady.txt | awk -F <span class="string">&quot;:&quot;</span> <span class="string">&#x27;&#123;print $1 $2&#125;&#x27;</span></span><br><span class="line">avahix</span><br><span class="line">nm-openvpnx</span><br><span class="line">nm-openconnectx</span><br><span class="line">pulsex</span><br><span class="line">sanedx</span><br><span class="line">inetsimx</span><br><span class="line">colordx</span><br><span class="line">geocluex</span><br><span class="line">lightdmx</span><br><span class="line">king-phisherx</span><br><span class="line">steadyx</span><br><span class="line">systemd-coredumpx</span><br></pre></td></tr></table></figure>
+
+<h2 id="wc"><a href="#wc" class="headerlink" title="wc"></a>wc</h2><p>利用wc指令我们可以计算文件的Byte数、字数、或是列数，若不指定文件名称、或是所给予的文件名为”-“，则wc指令会从标准输入设备读取数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-l或--lines 只显示行数。</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://s1eady.top/2018/12/12/Linux%E5%91%BD%E4%BB%A4/" title="Linux命令" target="_blank" rel="external">http://s1eady.top/2018/12/12/Linux%E5%91%BD%E4%BB%A4/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/steady.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">果冻</span><small class="ml-1x">Penetration Testing</small></a></h3>
+        <div>一往情深深几许。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/12/26/xss/" title="xss漏洞"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/12/08/CSRF%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/" title="CSRF漏洞"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="/GXA111666" target="_blank" title="VX" data-toggle=tooltip data-placement=top><i class="icon icon-VX"></i></a></li>
+        
+        <li><a href="/1252195810" target="_blank" title="QQ" data-toggle=tooltip data-placement=top><i class="icon icon-QQ"></i></a></li>
+        
+        <li><a href="/1252195810@qq.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-mail"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
