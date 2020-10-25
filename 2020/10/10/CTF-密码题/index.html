@@ -17,25 +17,28 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>CTF-密码 | Hexo</title>
-  <meta name="description" content="CTF密码题总结Base64原理Base64编码是基于64个字符A-Z,a-z，0-9，+，&#x2F;的编码方式，因为2的6次方正好为64，所以就用6bit就可以表示出64个字符，eg:000000对应A，000001对应B。  每三个字符一组 1、每个字符转成八位二进制，一共是24位二进制。 2、24四位二进制转化成四个六位的二进制。 3、四个六位的二进制转化成十进制。 4、对应base64编码表将十进">
+  <title>Hexo</title>
+  <meta name="description" content="CTF-密码1234date: 2018-11-22 8:24:33tags: CTF-密码categories: CTF-密码toc: true  CTF密码题总结Base64原理Base64编码是基于64个字符A-Z,a-z，0-9，+，&#x2F;的编码方式，因为2的6次方正好为64，所以就用6bit就可以表示出64个字符，eg:000000对应A，000001对应B。  每三个字符一组 1、每个字符">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CTF-密码">
-<meta property="og:url" content="http://s1eady.top/2018/11/22/CTF-%E5%AF%86%E7%A0%81%E9%A2%98/index.html">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://s1eady.top/2020/10/10/CTF-%E5%AF%86%E7%A0%81%E9%A2%98/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="CTF密码题总结Base64原理Base64编码是基于64个字符A-Z,a-z，0-9，+，&#x2F;的编码方式，因为2的6次方正好为64，所以就用6bit就可以表示出64个字符，eg:000000对应A，000001对应B。  每三个字符一组 1、每个字符转成八位二进制，一共是24位二进制。 2、24四位二进制转化成四个六位的二进制。 3、四个六位的二进制转化成十进制。 4、对应base64编码表将十进">
+<meta property="og:description" content="CTF-密码1234date: 2018-11-22 8:24:33tags: CTF-密码categories: CTF-密码toc: true  CTF密码题总结Base64原理Base64编码是基于64个字符A-Z,a-z，0-9，+，&#x2F;的编码方式，因为2的6次方正好为64，所以就用6bit就可以表示出64个字符，eg:000000对应A，000001对应B。  每三个字符一组 1、每个字符">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/1656180d4f070bcb.jpeg">
 <meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201010161350712.png">
 <meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201010161406321.png">
-<meta property="article:published_time" content="2018-11-22T00:24:33.000Z">
-<meta property="article:modified_time" content="2020-10-20T12:11:49.249Z">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201022140951724.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201022141012425.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201022141027439.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201022141043441.png">
+<meta property="article:published_time" content="2020-10-10T12:41:30.378Z">
+<meta property="article:modified_time" content="2020-10-24T08:05:23.808Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="CTF-密码">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/1656180d4f070bcb.jpeg">
   <!-- Canonical links -->
-  <link rel="canonical" href="http://s1eady.top/2018/11/22/CTF-%E5%AF%86%E7%A0%81%E9%A2%98/index.html">
+  <link rel="canonical" href="http://s1eady.top/2020/10/10/CTF-%E5%AF%86%E7%A0%81%E9%A2%98/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -182,58 +185,33 @@
 
   
   
-<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
-  <div class="slimContent">
-    <nav id="toc" class="article-toc">
-      <h3 class="toc-title">文章目录</h3>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CTF%E5%AF%86%E7%A0%81%E9%A2%98%E6%80%BB%E7%BB%93"><span class="toc-number">1.</span> <span class="toc-text">CTF密码题总结</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Base64"><span class="toc-number">1.1.</span> <span class="toc-text">Base64</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Python%E4%B8%8EBase64"><span class="toc-number">1.1.2.</span> <span class="toc-text">Python与Base64</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#base64"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">base64</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E7%A0%81%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%AE%9E%E4%BE%8B"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">编码字符串实例</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E9%95%BF%E5%BA%A6%E4%B8%BA%E8%83%BD%E8%A2%AB3%E6%95%B4%E9%99%A4"><span class="toc-number">1.1.2.2.1.</span> <span class="toc-text">字符长度为能被3整除</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%95%BF%E5%BA%A6%E4%B8%8D%E8%83%BD%E8%A2%AB3%E6%95%B4%E9%99%A4"><span class="toc-number">1.1.2.2.2.</span> <span class="toc-text">字符串长度不能被3整除</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%B7%E5%90%88%E5%8A%A0%E5%AF%86"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">混合加密</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A7%BB%E4%BD%8D%E5%8A%A0%E5%AF%86"><span class="toc-number">1.1.2.4.</span> <span class="toc-text">移位加密</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#base64%E9%9A%90%E5%86%99"><span class="toc-number">1.1.2.5.</span> <span class="toc-text">base64隐写</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E6%AC%A1%E5%8A%A0%E5%AF%86"><span class="toc-number">1.1.2.6.</span> <span class="toc-text">多次加密</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#base64%E8%A1%A8%E5%8F%8D%E5%BA%8F"><span class="toc-number">1.1.2.7.</span> <span class="toc-text">base64表反序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A0%E5%AF%86"><span class="toc-number">1.1.2.8.</span> <span class="toc-text">加密</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%AF%86"><span class="toc-number">1.1.2.9.</span> <span class="toc-text">解密</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#base%E5%AE%B6%E6%97%8F"><span class="toc-number">1.1.2.10.</span> <span class="toc-text">base家族</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#base32"><span class="toc-number">1.1.2.10.1.</span> <span class="toc-text">base32</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#base16"><span class="toc-number">1.1.2.10.2.</span> <span class="toc-text">base16</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#base36"><span class="toc-number">1.1.2.10.3.</span> <span class="toc-text">base36</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#base58"><span class="toc-number">1.1.2.10.4.</span> <span class="toc-text">base58</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#base62"><span class="toc-number">1.1.2.10.5.</span> <span class="toc-text">base62</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#base91"><span class="toc-number">1.1.2.10.6.</span> <span class="toc-text">base91</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%80%86%E5%BA%8F"><span class="toc-number">1.2.</span> <span class="toc-text">字符串逆序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E5%88%B6%E8%BD%AC%E5%8C%96"><span class="toc-number">1.3.</span> <span class="toc-text">进制转化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%AF%E6%92%92%E5%AF%86%E7%A0%81"><span class="toc-number">1.4.</span> <span class="toc-text">凯撒密码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86-1"><span class="toc-number">1.4.1.</span> <span class="toc-text">原理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%AB%E6%96%AF%E5%AF%86%E7%A0%81"><span class="toc-number">1.5.</span> <span class="toc-text">莫斯密码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ASCII%E7%BC%96%E7%A0%81"><span class="toc-number">1.6.</span> <span class="toc-text">ASCII编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%8F%E6%A0%85%E5%AF%86%E7%A0%81"><span class="toc-number">1.7.</span> <span class="toc-text">栏栅密码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%B9%E6%A0%B9%E5%AF%86%E7%A0%81"><span class="toc-number">1.8.</span> <span class="toc-text">培根密码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%91%E5%BD%B1%E5%AF%86%E7%A0%818421BCD"><span class="toc-number">1.9.</span> <span class="toc-text">云影密码8421BCD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rot13"><span class="toc-number">1.10.</span> <span class="toc-text">Rot13</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#unicode%E7%BC%96%E7%A0%81"><span class="toc-number">1.11.</span> <span class="toc-text">unicode编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AE%E8%BD%AC%E6%9C%BA%E5%8A%A0%E5%AF%86"><span class="toc-number">1.12.</span> <span class="toc-text">轮转机加密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Playfair"><span class="toc-number">1.13.</span> <span class="toc-text">Playfair</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%8C%E5%B0%94%E5%AF%86%E7%A0%81"><span class="toc-number">1.14.</span> <span class="toc-text">希尔密码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%B7%E5%86%9B%E5%AF%86%E7%A0%81-%E8%B4%B9%E5%A8%9C%E5%A7%86%E5%AF%86%E7%A0%81"><span class="toc-number">1.15.</span> <span class="toc-text">德军密码([费娜姆密码])</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MD5"><span class="toc-number">1.16.</span> <span class="toc-text">MD5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%BC%E5%88%87%E6%96%AF%E7%89%B9%E7%BC%96%E7%A0%81%E5%92%8C%E5%B7%AE%E5%88%86%E6%9B%BC%E5%88%87%E6%96%AF%E7%89%B9%E7%BC%96%E7%A0%81"><span class="toc-number">1.17.</span> <span class="toc-text">曼切斯特编码和差分曼切斯特编码</span></a></li></ol></li></ol>
-    </nav>
-  </div>
-</aside>
-
 <main class="main" role="main">
   <div class="content">
   <article id="post-CTF-密码题" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
-        
-  
-    <h1 class="article-title" itemprop="name">
-      CTF-密码
-    </h1>
-  
-
-      
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/2018/11/22/CTF-%E5%AF%86%E7%A0%81%E9%A2%98/" class="article-date">
-	  <time datetime="2018-11-22T00:24:33.000Z" itemprop="datePublished">2018-11-22</time>
+	<a href="/2020/10/10/CTF-%E5%AF%86%E7%A0%81%E9%A2%98/" class="article-date">
+	  <time datetime="2020-10-10T12:41:30.378Z" itemprop="datePublished">2020-10-10</time>
 	</a>
 </span>
         
-  <span class="article-category">
-    <i class="icon icon-folder"></i>
-    <a class="article-category-link" href="/categories/CTF-%E5%AF%86%E7%A0%81/">CTF-密码</a>
-  </span>
-
         
-  <span class="article-tag">
-    <i class="icon icon-tags"></i>
-	<a class="article-tag-link-link" href="/tags/CTF-%E5%AF%86%E7%A0%81/" rel="tag">CTF-密码</a>
-  </span>
-
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/11/22/CTF-%E5%AF%86%E7%A0%81%E9%A2%98/#comments" class="article-comment-link">评论</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/10/10/CTF-%E5%AF%86%E7%A0%81%E9%A2%98/#comments" class="article-comment-link">评论</a></span>
         
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h1 id="CTF密码题总结"><a href="#CTF密码题总结" class="headerlink" title="CTF密码题总结"></a>CTF密码题总结</h1><h2 id="Base64"><a href="#Base64" class="headerlink" title="Base64"></a>Base64</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>Base64编码是基于64个字符A-Z,a-z，0-9，+，/的编码方式，因为2的6次方正好为64，所以就用6bit就可以表示出64个字符，eg:000000对应A，000001对应B。</p>
+        <figure class="highlight plain"><figcaption><span>CTF-密码</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">date: 2018-11-22 8:24:33</span><br><span class="line">tags: CTF-密码</span><br><span class="line">categories: CTF-密码</span><br><span class="line">toc: true</span><br></pre></td></tr></table></figure>
+
+<h1 id="CTF密码题总结"><a href="#CTF密码题总结" class="headerlink" title="CTF密码题总结"></a>CTF密码题总结</h1><h2 id="Base64"><a href="#Base64" class="headerlink" title="Base64"></a>Base64</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>Base64编码是基于64个字符A-Z,a-z，0-9，+，/的编码方式，因为2的6次方正好为64，所以就用6bit就可以表示出64个字符，eg:000000对应A，000001对应B。</p>
 <p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/1656180d4f070bcb.jpeg" alt="1656180d4f070bcb"></p>
 <p>每三个字符一组</p>
 <p>1、每个字符转成八位二进制，一共是24位二进制。</p>
@@ -485,12 +463,60 @@
 
 <h2 id="曼切斯特编码和差分曼切斯特编码"><a href="#曼切斯特编码和差分曼切斯特编码" class="headerlink" title="曼切斯特编码和差分曼切斯特编码"></a>曼切斯特编码和差分曼切斯特编码</h2><p>曼彻斯特编码（Manchester Encoding），也叫做相位编码（ Phase Encode，简写PE），是一个同步时钟编码技术，被物理层使用来编码一个同步位流的时钟和数据。</p>
 <p>曼彻斯特编码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">从低到高跳变表示&quot;0&quot;，从高到低跳变表示&quot;1&quot;。</span><br></pre></td></tr></table></figure>
+<p>曼彻斯特编码表示0或1有两种不同的方法：<br>第一种G. E. Thomas, Andrew S. Tanenbaum1949年提出的，它规定0是由低-高的电平跳变表示，1是高-低的电平跳变。<br>按此规则有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">编码0101（0x5）表示为00； </span><br><span class="line">编码1001（0x9）表示10； </span><br><span class="line">编码0110（0x6）表示01； </span><br><span class="line">编码1010（0xA）表示11。 </span><br></pre></td></tr></table></figure>
+
+<p>第二种IEEE 802.4（令牌总线）和低速版的IEEE 802.3（以太网）中规定, 按照这样的说法, 低-高电平跳变表示1, 高-低的电平跳变表示0。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">编码0101（0x5）表示11； </span><br><span class="line">编码1001（0x9）表示01； </span><br><span class="line">编码0110（0x6）表示10； </span><br><span class="line">编码1010（0xA）表示00；</span><br></pre></td></tr></table></figure>
 
 <p>差分曼切斯特编码</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">每位中间的跳变仅提供时钟定时，而用每位开始时有无跳变表示&quot;0&quot;或&quot;1&quot;，有跳变为&quot;0&quot;，无跳变为&quot;1&quot;。</span><br><span class="line">即:</span><br><span class="line">0-1    跳变表示 1,1-0 跳变表示 0</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#拿到编码，先转换二进制，然后根据编码规则转换成二进制，然后二进制转换字符串或者十六进制。</span></span><br><span class="line">a=<span class="string">&quot;9696965A96A996959565969A966996969696969995A69699965696A59699995596A69699959A959596999699965699559566969995A69655995596A99656969A99559655965696999559&quot;</span></span><br><span class="line">b=int(a,<span class="number">16</span>)</span><br><span class="line">c=bin(b)[<span class="number">2</span>:]</span><br><span class="line">flag=<span class="string">&quot;&quot;</span></span><br><span class="line">steady_flag=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(c),<span class="number">2</span>):</span><br><span class="line">    steady=c[i:i+<span class="number">2</span>]</span><br><span class="line">    <span class="keyword">if</span> steady==<span class="string">&#x27;01&#x27;</span>:</span><br><span class="line">        flag+=str(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">elif</span> steady==<span class="string">&#x27;10&#x27;</span>:</span><br><span class="line">        flag+=str(<span class="number">0</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(flag),<span class="number">8</span>):</span><br><span class="line">    steady_flag+=chr(int(flag[i:i+<span class="number">8</span>],<span class="number">2</span>))</span><br><span class="line">print(steady_flag)</span><br></pre></td></tr></table></figure>
+<p>第一种编码情况：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#拿到编码，先转换二进制，然后根据编码规则转换成二进制，然后二进制转换字符串或者十六进制。要注意转换之后二进制的长度是否要补充0</span></span><br><span class="line"><span class="comment">#最终直接转化字符串，一定要注意二进制数据是四的倍数。</span></span><br><span class="line">a=<span class="string">&quot;5555555595555A65556AA696AA6666666955&quot;</span></span><br><span class="line">b=int(a,<span class="number">16</span>)</span><br><span class="line">c=<span class="string">&#x27;0&#x27;</span>+bin(b)[<span class="number">2</span>:]</span><br><span class="line">print(<span class="string">&quot;转换成二进制为:&quot;</span>+c)</span><br><span class="line">flag=<span class="string">&quot;&quot;</span></span><br><span class="line">steady_flag=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(c),<span class="number">4</span>):</span><br><span class="line">	steady=c[i:i+<span class="number">4</span>]</span><br><span class="line">	<span class="keyword">if</span> steady==<span class="string">&#x27;0101&#x27;</span>:</span><br><span class="line">		flag+=str(<span class="string">&#x27;00&#x27;</span>)</span><br><span class="line">	<span class="keyword">elif</span> steady==<span class="string">&#x27;1001&#x27;</span>:</span><br><span class="line">		flag+=str(<span class="string">&#x27;10&#x27;</span>)</span><br><span class="line">	<span class="keyword">elif</span> steady==<span class="string">&#x27;0110&#x27;</span>:</span><br><span class="line">		flag+=str(<span class="string">&#x27;01&#x27;</span>)</span><br><span class="line">	<span class="keyword">elif</span> steady==<span class="string">&#x27;1010&#x27;</span>:</span><br><span class="line">		flag+=str(<span class="string">&#x27;11&#x27;</span>)</span><br><span class="line">print(<span class="string">&quot;转化之后的二进制为:&quot;</span>+flag)</span><br><span class="line">print(hex(int(flag,<span class="number">2</span>)))</span><br><span class="line"><span class="comment">#采用第二种编码方式，并且需要将二进制数据每八位逆序。然后转换十六进制。</span></span><br></pre></td></tr></table></figure>
+
+<p>第二种编码情况：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#拿到编码，先转换二进制，然后根据编码规则转换成二进制，然后二进制转换字符串或者十六进制。要注意转换之后二进制的长度是否要补充0</span></span><br><span class="line"><span class="comment">#最终直接转化字符串，一定要注意二进制数据是四的倍数。</span></span><br><span class="line">a=<span class="string">&quot;5555555595555A65556AA696AA6666666955&quot;</span></span><br><span class="line">b=int(a,<span class="number">16</span>)</span><br><span class="line">c=<span class="string">&#x27;0&#x27;</span>+bin(b)[<span class="number">2</span>:]</span><br><span class="line">print(<span class="string">&quot;转换成二进制为:&quot;</span>+c)</span><br><span class="line">flag=<span class="string">&quot;&quot;</span></span><br><span class="line">steady_flag=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(c),<span class="number">4</span>):</span><br><span class="line">	steady=c[i:i+<span class="number">4</span>]</span><br><span class="line">	<span class="keyword">if</span> steady==<span class="string">&#x27;0101&#x27;</span>:</span><br><span class="line">		flag+=str(<span class="string">&#x27;11&#x27;</span>)</span><br><span class="line">	<span class="keyword">elif</span> steady==<span class="string">&#x27;1001&#x27;</span>:</span><br><span class="line">		flag+=str(<span class="string">&#x27;01&#x27;</span>)</span><br><span class="line">	<span class="keyword">elif</span> steady==<span class="string">&#x27;0110&#x27;</span>:</span><br><span class="line">		flag+=str(<span class="string">&#x27;10&#x27;</span>)</span><br><span class="line">	<span class="keyword">elif</span> steady==<span class="string">&#x27;1010&#x27;</span>:</span><br><span class="line">		flag+=str(<span class="string">&#x27;00&#x27;</span>)</span><br><span class="line">print(<span class="string">&quot;转化之后的二进制为:&quot;</span>+flag)</span><br><span class="line"><span class="comment">#采用第二种编码方式，并且需要将二进制数据每八位逆序。然后转换十六进制。</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="仿设加密affine"><a href="#仿设加密affine" class="headerlink" title="仿设加密affine"></a>仿设加密affine</h2><p>单码加密法的另一种形式称为仿射加密法（affine cipher）。在仿射加密法中，字母表的字母被赋予一个数字，例如a=0，b=1，c=2…z=25。仿射加密法的密钥为0-25直接的数字对。</p>
+<p><strong>含义</strong></p>
+<p>仿射加密法与单码加密法没什么不同，因为明文的每个字母分别只映射到一个密文字母。仿射密码的加密算法就是一个线性变换，即对任意的明文字符x，对应的密文字符为</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201022140951724.png" alt="image-20201022140951724">，</p>
+<p>其中，a,b∈Z26，且要求gcd(a,26)=1,函数e(x)称为仿射加密函数。</p>
+<p>gcd(a,b)表示非负整数a,b的最大公因数</p>
+<p><strong>加密函数是 E(x)=(ax+b)(modm)</strong></p>
+<p>x表示明文按照某种编码得到的数字<br>a和 m互质<br>m是编码系统中字母的数目。</p>
+<p><strong>解密函数是 D(x)=a−1(x−b)(modm)</strong></p>
+<p>a−1 是 a 在 Zm群的乘法逆元。</p>
+<p><strong>乘法逆元</strong></p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201022141012425.png" alt="image-20201022141012425"></p>
+<p><strong>举例</strong></p>
+<p>下面我们以 E(x)=(5x+8)mod26函数为例子进行介绍，加密字符串为 AFFINE CIPHER，</p>
+<p>这里我们直接采用字母表26个字母作为编码系统</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201022141027439.png" alt="image-20201022141027439"></p>
+<p>其对应的加密结果是 IHHWVCSWFRCP。</p>
+<p>对于解密过程，正常解密者具有a与b，可以计算得到 a−1为 21，</p>
+<p>所以其解密函数是D(x)=21(x−8)(mod26)</p>
+<p>解密如下<br><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201022141043441.png" alt="image-20201022141043441"></p>
+<p><strong>实战</strong><br>bugku affine</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">y &#x3D; 17*x-8 flag&#123;szzyfimhyzd&#125;</span><br><span class="line"> </span><br><span class="line">答案格式：flag&#123;********&#125;</span><br></pre></td></tr></table></figure>
+
+<p>给了密文，加密函数。我们需要做的是解出解密函数。<code>解密函数是 D(x)=a−1(x−b)(modm)</code><br>所以我们要的明文就是，明文=<code>a-1*（x+8）mod 26</code>我们提到过a-1是a的乘法逆元(是a的负一次方)。a=17，所以他的乘法逆元就是23。解密函数为：<code>23*(x+8) mod 26</code><br>上脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> string  <span class="comment">#affine</span></span><br><span class="line"> </span><br><span class="line">s = <span class="string">&#x27;szzyfimhyzd&#x27;</span></span><br><span class="line">s1 = <span class="string">&#x27;&#x27;</span></span><br><span class="line">len =len(s)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len):</span><br><span class="line">    a=(<span class="number">23</span>*(ord(s[i])<span class="number">-97</span>+<span class="number">8</span>))%<span class="number">26</span></span><br><span class="line">    s1+=chr(a+<span class="number">97</span>)</span><br><span class="line"><span class="keyword">print</span> s1</span><br></pre></td></tr></table></figure>
+
+<p>脚本解释：<br>1.x表示明文按照某种编码得到的数字。即a为0，b为1，以此类推。我们在进行python解密的时候x必须要是数字，而且还是要对应<code>某种编码</code> 的数字。python中ord可以将字母转化为对应的十进制ascii，而a的ascii为97。所以这就是为什么要减去97。后面加上97是为了转换为字母。</p>
+<p>求逆元的python脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#欧几里德算法求最大公约数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_gcd</span>(<span class="params">a, b</span>):</span></span><br><span class="line">	k = a // b</span><br><span class="line">	remainder = a % b</span><br><span class="line">	<span class="keyword">while</span> remainder != <span class="number">0</span>:</span><br><span class="line">		a = b </span><br><span class="line">		b = remainder</span><br><span class="line">		k = a // b</span><br><span class="line">		remainder = a % b</span><br><span class="line">	<span class="keyword">return</span> b</span><br><span class="line">	</span><br><span class="line"><span class="comment">#改进欧几里得算法求线性方程的x与y</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_</span>(<span class="params">a, b</span>):</span></span><br><span class="line">	<span class="keyword">if</span> b == <span class="number">0</span>:</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>, <span class="number">0</span></span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">		k = a // b</span><br><span class="line">		remainder = a % b		</span><br><span class="line">		x1, y1 = get_(b, remainder)</span><br><span class="line">		x, y = y1, x1 - k * y1			</span><br><span class="line">	<span class="keyword">return</span> x, y</span><br><span class="line"> </span><br><span class="line">a = input(<span class="string">&#x27;a:&#x27;</span>)</span><br><span class="line">b = input(<span class="string">&#x27;b:&#x27;</span>)</span><br><span class="line">a, b = int(a), int(b)</span><br><span class="line"> </span><br><span class="line"><span class="comment">#将初始b的绝对值进行保存</span></span><br><span class="line"><span class="keyword">if</span> b &lt; <span class="number">0</span>:</span><br><span class="line">	m = abs(b)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	m = b</span><br><span class="line">flag = get_gcd(a, b)</span><br><span class="line"> </span><br><span class="line"><span class="comment">#判断最大公约数是否为1，若不是则没有逆元</span></span><br><span class="line"><span class="keyword">if</span> flag == <span class="number">1</span>:	</span><br><span class="line">	x, y = get_(a, b)	</span><br><span class="line">	x0 = x % m <span class="comment">#对于Python &#x27;%&#x27;就是求模运算，因此不需要&#x27;+m&#x27;</span></span><br><span class="line">	print(<span class="string">&quot;所求的逆元:&quot;</span>,x0) <span class="comment">#x0就是所求的逆元</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	print(<span class="string">&quot;Do not have!&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>BUUctf</p>
+<p>e(x)=11x+6(mod26) 密文：welcylk</p>
+<p>其中给出加密函数，a的逆元是11，所以a为19，b=6，所以构造脚本。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> string  <span class="comment">#affine</span></span><br><span class="line"><span class="keyword">import</span> base64 </span><br><span class="line">s = <span class="string">&#x27;welcylk&#x27;</span></span><br><span class="line">s1 = <span class="string">&#x27;&#x27;</span></span><br><span class="line">len =len(s)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len):</span><br><span class="line">    a=(<span class="number">19</span>*(ord(s[i])<span class="number">-97</span><span class="number">-6</span>))%<span class="number">26</span></span><br><span class="line">    s1+=chr(a+<span class="number">97</span>)</span><br><span class="line">print(base64.b64encode(s1))</span><br><span class="line"><span class="comment"># a=(a的逆元*(ord(s[i])-97-b))%26</span></span><br></pre></td></tr></table></figure>
+
+<p>暴力破解脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">str1=<span class="string">&#x27;achjbnpdfherebjsw&#x27;</span></span><br><span class="line">b=[<span class="number">1</span>,<span class="number">9</span>,<span class="number">21</span>,<span class="number">15</span>,<span class="number">3</span>,<span class="number">19</span>,<span class="number">7</span>,<span class="number">23</span>,<span class="number">11</span>,<span class="number">5</span>,<span class="number">17</span>,<span class="number">25</span>]</span><br><span class="line">flag=<span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> j <span class="keyword">in</span> b:</span><br><span class="line">	<span class="keyword">for</span> i <span class="keyword">in</span> range(len(str1)):</span><br><span class="line">		a=(j*(ord(str1[i])<span class="number">-97</span><span class="number">-7</span>))%<span class="number">26</span></span><br><span class="line">		flag+=chr(a+<span class="number">97</span>)	</span><br><span class="line">	print(<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">	print(flag)</span><br><span class="line">	flag=<span class="string">&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="手机密码"><a href="#手机密码" class="headerlink" title="手机密码"></a>手机密码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">strr = <span class="string">&quot;ooo yyy ii w uuu ee uuuu yyy uuuu y w uuu i i rr w i i rr rrr uuuu rrr uuuu t ii uuuu i w u rrr ee www ee yyy eee www w tt ee&quot;</span>.split()</span><br><span class="line">all = &#123;<span class="string">&#x27;none1&#x27;</span>:<span class="string">&#x27;&#x27;</span>,<span class="string">&#x27;none2&#x27;</span>:<span class="string">&#x27;&#x27;</span>,<span class="string">&#x27;w&#x27;</span>:<span class="string">&#x27;abc&#x27;</span>,<span class="string">&#x27;e&#x27;</span>:<span class="string">&#x27;def&#x27;</span>,<span class="string">&#x27;r&#x27;</span>:<span class="string">&#x27;ghi&#x27;</span>,<span class="string">&#x27;t&#x27;</span>:<span class="string">&#x27;jkl&#x27;</span>,<span class="string">&#x27;y&#x27;</span>:<span class="string">&#x27;mno&#x27;</span>,<span class="string">&#x27;u&#x27;</span>:<span class="string">&#x27;pors&#x27;</span>,<span class="string">&#x27;i&#x27;</span>:<span class="string">&#x27;tuv&#x27;</span>,<span class="string">&#x27;o&#x27;</span>:<span class="string">&#x27;wxyz&#x27;</span>&#125;</span><br><span class="line">flag=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> strr:</span><br><span class="line">    flag+=all[i[<span class="number">0</span>]][len(i)<span class="number">-1</span>]</span><br><span class="line">print(flag)</span><br></pre></td></tr></table></figure>
 
 
       
@@ -501,7 +527,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="http://s1eady.top/2018/11/22/CTF-%E5%AF%86%E7%A0%81%E9%A2%98/" title="CTF-密码" target="_blank" rel="external">http://s1eady.top/2018/11/22/CTF-%E5%AF%86%E7%A0%81%E9%A2%98/</a>
+      <a href="http://s1eady.top/2020/10/10/CTF-%E5%AF%86%E7%A0%81%E9%A2%98/" title="" target="_blank" rel="external">http://s1eady.top/2020/10/10/CTF-%E5%AF%86%E7%A0%81%E9%A2%98/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -547,24 +573,11 @@
   
   <ul class="pager pull-left">
     
-    <li class="prev">
-      <a href="/2018/11/30/CTF-Python/" title="CTF-python"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
-    </li>
-    
     
     <li class="next">
-      <a href="/2018/11/08/CTF-RSA/" title="CTF-RSA"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+      <a href="/2020/08/22/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Metasploit%E4%BD%BF%E7%94%A8/" title="内网学习--Metasploit使用"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
     </li>
     
-    
-    <li class="toggle-toc">
-      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
-        <span>[&nbsp;</span><span>文章目录</span>
-        <i class="text-collapsed icon icon-anchor"></i>
-        <i class="text-in icon icon-close"></i>
-        <span>]</span>
-      </a>
-    </li>
     
   </ul>
   
