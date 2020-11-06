@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>流量分析--Wireshark使用 | Hexo</title>
+  <meta name="description" content="Wireshark文件导出功能http导出功能 foremost分离1foremost 1.jpg  tcpxtract12steady@steady:~&#x2F;桌面&#x2F;steady$ tcpxtract -f &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;attachment.pcapngFound file of type &amp;quo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="流量分析--Wireshark使用">
+<meta property="og:url" content="http://s1eady.top/2020/11/22/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90--Wireshark%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Wireshark文件导出功能http导出功能 foremost分离1foremost 1.jpg  tcpxtract12steady@steady:~&#x2F;桌面&#x2F;steady$ tcpxtract -f &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;attachment.pcapngFound file of type &amp;quo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/50.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/49.png">
+<meta property="article:published_time" content="2020-11-22T02:11:12.000Z">
+<meta property="article:modified_time" content="2020-11-06T11:22:21.348Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="CTF-流量分析">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/50.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://s1eady.top/2020/11/22/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90--Wireshark%E4%BD%BF%E7%94%A8/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/1.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">果冻</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Penetration Testing</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 中国 南京</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="/GXA111666" target="_blank" title="VX" data-toggle=tooltip data-placement=top><i class="icon icon-VX"></i></a></li>
+        
+        <li><a href="/1252195810" target="_blank" title="QQ" data-toggle=tooltip data-placement=top><i class="icon icon-QQ"></i></a></li>
+        
+        <li><a href="/1252195810@qq.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-mail"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>深山夕照深秋雨 一往情深深几许</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Wireshark"><span class="toc-number">1.</span> <span class="toc-text">Wireshark</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%AF%BC%E5%87%BA%E5%8A%9F%E8%83%BD"><span class="toc-number">1.1.</span> <span class="toc-text">文件导出功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#http%E5%AF%BC%E5%87%BA%E5%8A%9F%E8%83%BD"><span class="toc-number">1.1.1.</span> <span class="toc-text">http导出功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#foremost%E5%88%86%E7%A6%BB"><span class="toc-number">1.1.2.</span> <span class="toc-text">foremost分离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcpxtract"><span class="toc-number">1.1.3.</span> <span class="toc-text">tcpxtract</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NetworkMiner"><span class="toc-number">1.1.4.</span> <span class="toc-text">NetworkMiner</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%9E%90TCP"><span class="toc-number">1.2.</span> <span class="toc-text">分析TCP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tcpick"><span class="toc-number">1.2.1.</span> <span class="toc-text">tcpick</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tcpdump"><span class="toc-number">1.3.</span> <span class="toc-text">tcpdump</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="toc-number">1.3.1.</span> <span class="toc-text">三次握手</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%8F%A1%E6%89%8B-SYN"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">第一次握手: SYN</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AC%A1%E6%8F%A1%E6%89%8B-SYN-ACK"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">第二次握手: SYN+ACK</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-ACK"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">第三次握手: ACK</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E5%88%86%E6%9E%90"><span class="toc-number">1.3.2.</span> <span class="toc-text">输出分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0"><span class="toc-number">1.3.3.</span> <span class="toc-text">参数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tcpdump%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%AE%9E%E4%BE%8B"><span class="toc-number">1.4.</span> <span class="toc-text">Tcpdump常用命令实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Wifi%E7%A0%B4%E8%A7%A3"><span class="toc-number">1.5.</span> <span class="toc-text">Wifi破解</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-流量分析--Wireshark使用" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      流量分析--Wireshark使用
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/11/22/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90--Wireshark%E4%BD%BF%E7%94%A8/" class="article-date">
+	  <time datetime="2020-11-22T02:11:12.000Z" itemprop="datePublished">2020-11-22</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/CTF-%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/">CTF-流量分析</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/CTF-%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90/" rel="tag">CTF-流量分析</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/11/22/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90--Wireshark%E4%BD%BF%E7%94%A8/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="Wireshark"><a href="#Wireshark" class="headerlink" title="Wireshark"></a>Wireshark</h1><h2 id="文件导出功能"><a href="#文件导出功能" class="headerlink" title="文件导出功能"></a>文件导出功能</h2><h3 id="http导出功能"><a href="#http导出功能" class="headerlink" title="http导出功能"></a>http导出功能</h3><p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/50.png" alt="50"></p>
+<h3 id="foremost分离"><a href="#foremost分离" class="headerlink" title="foremost分离"></a>foremost分离</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foremost 1.jpg</span><br></pre></td></tr></table></figure>
+
+<h3 id="tcpxtract"><a href="#tcpxtract" class="headerlink" title="tcpxtract"></a>tcpxtract</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~&#x2F;桌面&#x2F;steady$ tcpxtract -f &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;attachment.pcapng</span><br><span class="line">Found file of type &quot;zip&quot; in session [192.168.56.2:4244 -&gt; 192.168.56.104:23825], exporting to 00000000.zip</span><br></pre></td></tr></table></figure>
+
+<h3 id="NetworkMiner"><a href="#NetworkMiner" class="headerlink" title="NetworkMiner"></a>NetworkMiner</h3><p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/49.png" alt="49"></p>
+<h2 id="分析TCP"><a href="#分析TCP" class="headerlink" title="分析TCP"></a>分析TCP</h2><h3 id="tcpick"><a href="#tcpick" class="headerlink" title="tcpick"></a>tcpick</h3><p>由于网络通信协议众多，TCP连接状态众多，所以TCP分析较为复杂。Kali  Linux提供一款专用工具tcpick。该工具支持在线实时嗅探和离线文件嗅探。它可以自动过滤出TCP流，并列出不同出TCP的相关信息，如源和目标地址/端口号、连接状态。该工具可以自动重组流数据，按照不同的格式进行保存。同时，该工具可以在终端以多种显示重组前和重组后的数据包内容，便于用户进行分析。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~/桌面/steady$ /usr/sbin/tcpick -C -yP -r attachment.pcapng</span><br><span class="line">Starting tcpick <span class="number">0.2</span><span class="number">.1</span> at <span class="number">2020</span><span class="number">-11</span><span class="number">-05</span> <span class="number">18</span>:<span class="number">42</span> CST</span><br><span class="line">Timeout <span class="keyword">for</span> connections <span class="keyword">is</span> <span class="number">600</span></span><br><span class="line">tcpick: reading <span class="keyword">from</span> attachment.pcapng</span><br><span class="line"><span class="number">1</span>      SYN-SENT       <span class="number">192.168</span><span class="number">.56</span><span class="number">.2</span>:<span class="number">55366</span> &gt; <span class="number">192.168</span><span class="number">.56</span><span class="number">.104</span>:<span class="number">4444</span></span><br><span class="line"><span class="number">1</span>      SYN-RECEIVED   <span class="number">192.168</span><span class="number">.56</span><span class="number">.2</span>:<span class="number">55366</span> &gt; <span class="number">192.168</span><span class="number">.56</span><span class="number">.104</span>:<span class="number">4444</span></span><br><span class="line"><span class="number">1</span>      ESTABLISHED    <span class="number">192.168</span><span class="number">.56</span><span class="number">.2</span>:<span class="number">55366</span> &gt; <span class="number">192.168</span><span class="number">.56</span><span class="number">.104</span>:<span class="number">4444</span></span><br><span class="line">nc -l -p <span class="number">4445</span> &gt; flag.zip</span><br><span class="line"><span class="number">2</span>      SYN-SENT       <span class="number">192.168</span><span class="number">.56</span><span class="number">.2</span>:<span class="number">37904</span> &gt; <span class="number">192.168</span><span class="number">.56</span><span class="number">.104</span>:<span class="number">4445</span></span><br><span class="line"><span class="number">2</span>      SYN-RECEIVED   <span class="number">192.168</span><span class="number">.56</span><span class="number">.2</span>:<span class="number">37904</span> &gt; <span class="number">192.168</span><span class="number">.56</span><span class="number">.104</span>:<span class="number">4445</span></span><br><span class="line"><span class="number">2</span>      ESTABLISHED    <span class="number">192.168</span><span class="number">.56</span><span class="number">.2</span>:<span class="number">37904</span> &gt; <span class="number">192.168</span><span class="number">.56</span><span class="number">.104</span>:<span class="number">4445</span></span><br><span class="line">PK....  ...NdbN..,.%...........flag.txtUT       ....z\..z\ux.............</span><br><span class="line">..(.y..z.. ..F.......:...<span class="comment">#B z..:...YPK....,.%.......PK......    ...NdbN..,.%.........................flag.txtUT.....z\ux.............PK..........N...w.....                                                                                                     </span></span><br><span class="line"><span class="number">2</span>      FIN-WAIT<span class="number">-1</span>     <span class="number">192.168</span><span class="number">.56</span><span class="number">.2</span>:<span class="number">37904</span> &gt; <span class="number">192.168</span><span class="number">.56</span><span class="number">.104</span>:<span class="number">4445</span></span><br><span class="line"><span class="number">2</span>      FIN-WAIT<span class="number">-2</span>     <span class="number">192.168</span><span class="number">.56</span><span class="number">.2</span>:<span class="number">37904</span> &gt; <span class="number">192.168</span><span class="number">.56</span><span class="number">.104</span>:<span class="number">4445</span></span><br><span class="line"><span class="number">2</span>      TIME-WAIT      <span class="number">192.168</span><span class="number">.56</span><span class="number">.2</span>:<span class="number">37904</span> &gt; <span class="number">192.168</span><span class="number">.56</span><span class="number">.104</span>:<span class="number">4445</span></span><br><span class="line"><span class="number">2</span>      CLOSED         <span class="number">192.168</span><span class="number">.56</span><span class="number">.2</span>:<span class="number">37904</span> &gt; <span class="number">192.168</span><span class="number">.56</span><span class="number">.104</span>:<span class="number">4445</span></span><br><span class="line">unzip -P supercomplexpassword flag.zip</span><br><span class="line">Archive:  flag.zip</span><br><span class="line">  inflating: flag.txt                </span><br><span class="line"></span><br><span class="line"><span class="number">1</span>      FIN-WAIT<span class="number">-1</span>     <span class="number">192.168</span><span class="number">.56</span><span class="number">.2</span>:<span class="number">55366</span> &gt; <span class="number">192.168</span><span class="number">.56</span><span class="number">.104</span>:<span class="number">4444</span></span><br><span class="line"><span class="number">1</span>      TIME-WAIT      <span class="number">192.168</span><span class="number">.56</span><span class="number">.2</span>:<span class="number">55366</span> &gt; <span class="number">192.168</span><span class="number">.56</span><span class="number">.104</span>:<span class="number">4444</span></span><br><span class="line"><span class="number">1</span>      CLOSED         <span class="number">192.168</span><span class="number">.56</span><span class="number">.2</span>:<span class="number">55366</span> &gt; <span class="number">192.168</span><span class="number">.56</span><span class="number">.104</span>:<span class="number">4444</span></span><br><span class="line">tcpick: done reading <span class="keyword">from</span> attachment.pcapng</span><br><span class="line"></span><br><span class="line"><span class="number">24</span> packets captured                                                                                                             </span><br><span class="line"><span class="number">2</span> tcp sessions detected</span><br></pre></td></tr></table></figure>
+
+<h2 id="tcpdump"><a href="#tcpdump" class="headerlink" title="tcpdump"></a>tcpdump</h2><h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">client -&gt; server: SYN</span><br><span class="line">server -&gt; client: SYN+ACK</span><br><span class="line">client -&gt; server: ACK</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">02:52:44.513700 IP 172.17.0.9.41038 &gt; 93.184.216.34.80: Flags [S] , seq 3310420140,                 length 0</span><br><span class="line">02:52:44.692890 IP 93.184.216.34.80 &gt; 172.17.0.9.41038: Flags [S.], seq 1353235534, ack 3310420141, length 0</span><br><span class="line">02:52:44.692953 IP 172.17.0.9.41038 &gt; 93.184.216.34.80: Flags [.] ,                 ack 1353235535, length 0</span><br></pre></td></tr></table></figure>
+
+<h4 id="第一次握手-SYN"><a href="#第一次握手-SYN" class="headerlink" title="第一次握手: SYN"></a>第一次握手: SYN</h4><p><code>#1</code> 包含以下信息：</p>
+<ol>
+<li><code>02:52:44.513700</code> 时刻，客户端主动向 server（93.184.216.34）发起一个 SYN 请求，请求建立连接</li>
+<li>客户端请求的<strong>服务端端口是 80</strong>（HTTP 服务默认 80 端口），客户端使用的是<strong>临时端口</strong>（大于 1024）41038</li>
+<li><code>#1</code> 序列号是 <code>3310420140</code>，这是客户端的初始序列号（客户端和服务端分别维护自己的序列号，两者没有关系；另外，初始序列号是系统选择的，一般不是 0）</li>
+<li><code>#1</code> length 为 0，因为 SYN 包不带 TCP payload，所有信息都在 TCP header</li>
+</ol>
+<h4 id="第二次握手-SYN-ACK"><a href="#第二次握手-SYN-ACK" class="headerlink" title="第二次握手: SYN+ACK"></a>第二次握手: SYN+ACK</h4><p><code>#2</code> 的 ack 是 <code>3310420140</code>，等于 <code>#1</code> 的 seq 加 1，这就说明，<code>#2</code> 是 <code>#1</code> 的应 答包。</p>
+<p>这个应答包的特点：</p>
+<ol>
+<li>TCP flags 为 <code>S.</code>，即 SYN+ACK</li>
+<li>length 也是 0，说明没有 payload</li>
+<li>seq 为 <code>1353235534</code>，这是<strong>服务端的初始序列号</strong></li>
+<li>到达 eth0 的时间为 <code>02:52:44.692890</code>，说明时间过了 <code>18ms</code></li>
+</ol>
+<h4 id="第三次握手-ACK"><a href="#第三次握手-ACK" class="headerlink" title="第三次握手: ACK"></a>第三次握手: ACK</h4><p>同理，<code>#3</code> 的 ack 等于 <code>#2</code> 的 seq 加 1，说明 <code>#3</code> 是 <code>#2</code> 的应答包。</p>
+<p>这个包的特点：</p>
+<ol>
+<li>TCP flags 为 <code>.</code>，即 ACK</li>
+<li>长度为 0，说明没有 TCP payload</li>
+</ol>
+<p>至此，三次握手完成。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~/桌面/steady$ /usr/sbin/tcpdump  -n -r nmapll.pcapng <span class="string">&#x27;tcp[13] = 18&#x27;</span> |  awk <span class="string">&#x27;&#123;print $3&#125;&#x27;</span>| sort -u</span><br><span class="line">reading <span class="keyword">from</span> file nmapll.pcapng, link-type EN10MB (Ethernet)</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="number">.21</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="number">.22</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="number">.3306</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="number">.631</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="number">.801</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~/桌面/steady$ /usr/sbin/tcpdump  -r nmapll.pcapng <span class="string">&#x27;tcp[13] = 18&#x27;</span> |  awk <span class="string">&#x27;&#123;print $3&#125;&#x27;</span>| sort -u</span><br><span class="line">reading <span class="keyword">from</span> file nmapll.pcapng, link-type EN10MB (Ethernet)</span><br><span class="line">localhost<span class="number">.801</span></span><br><span class="line">localhost.ftp</span><br><span class="line">localhost.ipp</span><br><span class="line">localhost.mysql</span><br><span class="line">localhost.ssh</span><br></pre></td></tr></table></figure>
+
+<h3 id="输出分析"><a href="#输出分析" class="headerlink" title="输出分析"></a>输出分析</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~&#x2F;桌面&#x2F;steady$ tcpdump -r attachment.pcapng | head -n 10</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">14</span>:<span class="number">29</span>:<span class="number">32.848771</span> IP <span class="number">192.168</span><span class="number">.10</span><span class="number">.212</span><span class="number">.43424</span> &gt; li370<span class="number">-223.</span>members.linode.com.https: Flags [S], seq <span class="number">3990734865</span>, win <span class="number">29200</span>, options [mss <span class="number">1460</span>,sackOK,TS val <span class="number">668024057</span> ecr <span class="number">0</span>,nop,wscale <span class="number">7</span>], length <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>packet <strong>时间戳</strong>，例如 <code>02:52:44.513700</code> 表示抓到这个包的时间是** 02 时 52 分 44 秒 513 毫秒**</li>
+<li>packet <strong>类型</strong>，这里是 <code>IP</code> 包</li>
+<li>源 (SRC) IP 和端口，目的 (DST) IP 和端口</li>
+<li>packet TCP flags，其中<ul>
+<li><code>S</code> 表示 <code>syn</code> 包</li>
+<li><code>.</code> 表示 <code>ack</code> 包</li>
+<li><code>F</code> 表示 <code>fin</code> 包</li>
+<li><code>P</code> 表示 <code>push</code> 包（发送正常数据）</li>
+</ul>
+</li>
+<li>序列号（seq）</li>
+<li>应答号（ack）</li>
+<li>包的 payload 长度</li>
+<li>包的部分内容（ASCII）</li>
+</ul>
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-n  不对地址(比如, 主机地址, 端口号)进行数字表示到名字表示的转换.默认情况下，tcpdump抓包结果中将进行域名解析，显示的是域名地址而非ip地址，使用-n选项，可指定显示ip地址</span><br><span class="line">-r  file</span><br><span class="line">    从文件file 中读取包数据. 如果file 字段为 &#39;-&#39; 符号, 则tcpdump 会从标准输入中读取包数据.</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line">-A  以ASCII码方式显示每一个数据包(不会显示数据包中链路层头部信息). 在抓取包含</span><br><span class="line">    网页数据的数据包时, 可方便查看数据(nt: 即Handy <span class="keyword">for</span> capturing web pages).</span><br><span class="line">-c  count</span><br><span class="line">    tcpdump将在接受到count个数据包后退出.</span><br><span class="line">-C  file-size</span><br><span class="line">    (nt: 此选项用于配合-w file 选项使用)</span><br><span class="line">    该选项使得tcpdump 在把原始数据包直接保存到文件中之前, 检查此文件大小是否超过file-size. 如果超过了, 将关闭此文件,</span><br><span class="line">    另创一个文件继续用于原始数据包的记录. 新创建的文件名与-w 选项指定的文件名一致, 但文件名后多了一个数字.</span><br><span class="line">    该数字会从<span class="number">1</span>开始随着新创建文件的增多而增加. file-size的单位是百万字节(nt: 这里指<span class="number">1</span>,<span class="number">000</span>,<span class="number">000</span>个字节,</span><br><span class="line">    并非<span class="number">1</span>,<span class="number">048</span>,<span class="number">576</span>个字节, 后者是以<span class="number">1024</span>字节为<span class="number">1</span>k, <span class="number">1024</span>k字节为<span class="number">1</span>M计算所得, 即<span class="number">1</span>M=<span class="number">1024</span> ＊ <span class="number">1024</span> ＝ <span class="number">1</span>,<span class="number">048</span>,<span class="number">576</span>)</span><br><span class="line">-d  以容易阅读的形式,在标准输出上打印出编排过的包匹配码, 随后tcpdump停止.(nt | rt: human readable, 容易阅读的,</span><br><span class="line">    通常是指以ascii码来打印一些信息. compiled, 编排过的. packet-matching code, 包匹配码,含义未知, 需补充)</span><br><span class="line">-dd 以C语言的形式打印出包匹配码.</span><br><span class="line">-ddd    以十进制数的形式打印出包匹配码(会在包匹配码之前有一个附加的<span class="string">&#x27;count&#x27;</span>前缀).</span><br><span class="line">-D  打印系统中所有tcpdump可以在其上进行抓包的网络接口. 每一个接口会打印出数字编号, 相应的接口名字, 以及可能的一个网络接口</span><br><span class="line">    描述. 其中网络接口名字和数字编号可以用在tcpdump 的-i flag 选项(nt: 把名字或数字代替flag), 来指定要在其上抓包的网络</span><br><span class="line">    接口.</span><br><span class="line">    此选项在不支持接口列表命令的系统上很有用(nt: 比如, Windows 系统, 或缺乏 ifconfig -a 的UNIX系统); 接口的数字</span><br><span class="line">    编号在windows <span class="number">2000</span> 或其后的系统中很有用, 因为这些系统上的接口名字比较复杂, 而不易使用.</span><br><span class="line">    如果tcpdump编译时所依赖的libpcap库太老,-D 选项不会被支持, 因为其中缺乏 pcap_findalldevs()函数.</span><br><span class="line">-e  每行的打印输出中将包括数据包的数据链路层头部信息</span><br><span class="line">-E  spi@ipaddr algo:secret,...</span><br><span class="line">    可通过spi@ipaddr algo:secret 来解密IPsec ESP包(nt | rt:IPsec Encapsulating Security Payload,</span><br><span class="line">    IPsec 封装安全负载, IPsec可理解为, 一整套对ip数据包的加密协议, ESP 为整个IP 数据包或其中上层协议部分被加密后的数据,</span><br><span class="line">    前者的工作模式称为隧道模式; 后者的工作模式称为传输模式 . 工作原理, 另需补充).</span><br><span class="line">    需要注意的是, 在终端启动tcpdump 时, 可以为IPv4 ESP packets 设置密钥(secret）.</span><br><span class="line">    可用于加密的算法包括des-cbc, <span class="number">3</span>des-cbc, blowfish-cbc, rc3-cbc, cast128-cbc, 或者没有(none).</span><br><span class="line">    默认的是des-cbc(nt: des, Data Encryption Standard, 数据加密标准, 加密算法未知, 另需补充).</span><br><span class="line">    secret 为用于ESP 的密钥, 使用ASCII 字符串方式表达. 如果以 <span class="number">0</span>x 开头, 该密钥将以<span class="number">16</span>进制方式读入.</span><br><span class="line">    该选项中ESP 的定义遵循RFC2406, 而不是 RFC1827. 并且, 此选项只是用来调试的, 不推荐以真实密钥(secret)来</span><br><span class="line">    使用该选项, 因为这样不安全: 在命令行中输入的secret 可以被其他人通过ps 等命令查看到.</span><br><span class="line">    除了以上的语法格式(nt: 指spi@ipaddr algo:secret), 还可以在后面添加一个语法输入文件名字供tcpdump 使用</span><br><span class="line">    (nt：即把spi@ipaddr algo:secret,... 中...换成一个语法文件名). 此文件在接受到第一个ESP　包时会打开此</span><br><span class="line">    文件, 所以最好此时把赋予tcpdump 的一些特权取消(nt: 可理解为, 这样防范之后, 当该文件为恶意编写时,</span><br><span class="line">    不至于造成过大损害).</span><br><span class="line">-f  显示外部的IPv4 地址时(nt: foreign IPv4 addresses, 可理解为, 非本机ip地址), 采用数字方式而不是名字.</span><br><span class="line">    (此选项是用来对付Sun公司的NIS服务器的缺陷(nt: NIS, 网络信息服务, tcpdump 显示外部地址的名字时会</span><br><span class="line">    用到她提供的名称服务): 此NIS服务器在查询非本地地址名字时,常常会陷入无尽的查询循环).</span><br><span class="line">    由于对外部(foreign)IPv4地址的测试需要用到本地网络接口(nt: tcpdump 抓包时用到的接口)</span><br><span class="line">    及其IPv4 地址和网络掩码. 如果此地址或网络掩码不可用, 或者此接口根本就没有设置相应网络地址和网络</span><br><span class="line">    掩码(nt: linux 下的 <span class="string">&#x27;any&#x27;</span> 网络接口就不需要设置地址和掩码, 不过此<span class="string">&#x27;any&#x27;</span>接口可以收到系统中所有接口的</span><br><span class="line">    数据包), 该选项不能正常工作.</span><br><span class="line">-F  file</span><br><span class="line">    使用file 文件作为过滤条件表达式的输入, 此时命令行上的输入将被忽略.</span><br><span class="line">-i  interface</span><br><span class="line">    指定tcpdump 需要监听的接口.  如果没有指定, tcpdump 会从系统接口列表中搜寻编号最小的已配置好的接口(不包括 loopback 接口).</span><br><span class="line">    一但找到第一个符合条件的接口, 搜寻马上结束.</span><br><span class="line">    在采用<span class="number">2.2</span>版本或之后版本内核的Linux 操作系统上, <span class="string">&#x27;any&#x27;</span> 这个虚拟网络接口可被用来接收所有网络接口上的数据包</span><br><span class="line">    (nt: 这会包括目的是该网络接口的, 也包括目的不是该网络接口的). 需要注意的是如果真实网络接口不能工作在<span class="string">&#x27;混杂&#x27;</span>模式(promiscuous)下,</span><br><span class="line">    则无法在<span class="string">&#x27;any&#x27;</span>这个虚拟的网络接口上抓取其数据包.</span><br><span class="line">    如果 -D 标志被指定, tcpdump会打印系统中的接口编号，而该编号就可用于此处的interface 参数.</span><br><span class="line">-l  对标准输出进行行缓冲(nt: 使标准输出设备遇到一个换行符就马上把这行的内容打印出来).</span><br><span class="line">    在需要同时观察抓包打印以及保存抓包记录的时候很有用. 比如, 可通过以下命令组合来达到此目的:</span><br><span class="line">    ``tcpdump  -l  |  tee dat<span class="string">&#x27;&#x27;</span> 或者 ``tcpdump  -l   &gt; dat  &amp;  tail  -f  dat<span class="string">&#x27;&#x27;</span>.</span><br><span class="line">    (nt: 前者使用tee来把tcpdump 的输出同时放到文件dat和标准输出中, 而后者通过重定向操作<span class="string">&#x27;&gt;&#x27;</span>, 把tcpdump的输出放到</span><br><span class="line">    dat 文件中, 同时通过tail把dat文件中的内容放到标准输出中)</span><br><span class="line">-L  列出指定网络接口所支持的数据链路层的类型后退出.(nt: 指定接口通过-i 来指定)</span><br><span class="line">-m  module</span><br><span class="line">    通过module 指定的file 装载SMI MIB 模块(nt: SMI，Structure of Management Information, 管理信息结构</span><br><span class="line">    MIB, Management Information Base, 管理信息库. 可理解为, 这两者用于SNMP(Simple Network Management Protoco)</span><br><span class="line">    协议数据包的抓取. 具体SNMP 的工作原理未知, 另需补充).</span><br><span class="line">    此选项可多次使用, 从而为tcpdump 装载不同的MIB 模块.</span><br><span class="line">-M  secret</span><br><span class="line">    如果TCP 数据包(TCP segments)有TCP-MD5选项(在RFC <span class="number">2385</span>有相关描述), 则为其摘要的验证指定一个公共的密钥secret.</span><br><span class="line">-n  不对地址(比如, 主机地址, 端口号)进行数字表示到名字表示的转换.</span><br><span class="line">-N  不打印出host 的域名部分. 比如, 如果设置了此选现, tcpdump 将会打印<span class="string">&#x27;nic&#x27;</span> 而不是 <span class="string">&#x27;nic.ddn.mil&#x27;</span>.</span><br><span class="line">-O  不启用进行包匹配时所用的优化代码. 当怀疑某些bug是由优化代码引起的, 此选项将很有用.</span><br><span class="line">-p  一般情况下, 把网络接口设置为非<span class="string">&#x27;混杂&#x27;</span>模式. 但必须注意 , 在特殊情况下此网络接口还是会以<span class="string">&#x27;混杂&#x27;</span>模式来工作； 从而, <span class="string">&#x27;-p&#x27;</span> 的设与不设,</span><br><span class="line">    不能当做以下选现的代名词:</span><br><span class="line">    <span class="string">&#x27;ether host &#123;local-hw-add&#125;&#x27;</span> 或  <span class="string">&#x27;ether broadcast&#x27;</span>(nt: 前者表示只匹配以太网地址为host 的包, 后者表示匹配以太网地址为广播地址的数据包).</span><br><span class="line">-q  快速(也许用&#x27;安静&#x27;更好?)打印输出. 即打印很少的协议相关信息, 从而输出行都比较简短.</span><br><span class="line">-R  设定tcpdump 对 ESP/AH 数据包的解析按照 RFC1825而不是RFC1829(nt: AH, 认证头, ESP， 安全负载封装,</span><br><span class="line">    这两者会用在IP包的安全传输机制中). 如果此选项被设置, tcpdump 将不会打印出<span class="string">&#x27;禁止中继&#x27;</span>域(nt: relay prevention field). 另外,</span><br><span class="line">     由于ESP/AH规范中没有规定ESP/AH数据包必须拥有协议版本号域,</span><br><span class="line">    所以tcpdump不能从收到的ESP/AH数据包中推导出协议版本号.</span><br><span class="line">-r  file</span><br><span class="line">    从文件file 中读取包数据. 如果file 字段为 <span class="string">&#x27;-&#x27;</span> 符号, 则tcpdump 会从标准输入中读取包数据.</span><br><span class="line">-S  打印TCP 数据包的顺序号时, 使用绝对的顺序号, 而不是相对的顺序号.(nt: 相对顺序号可理解为, 相对第一个TCP 包顺序号的差距,</span><br><span class="line">    比如, 接受方收到第一个数据包的绝对顺序号为<span class="number">232323</span>, 对于后来接收到的第<span class="number">2</span>个,第<span class="number">3</span>个数据包, tcpdump会打印其序列号为<span class="number">1</span>, <span class="number">2</span>分别</span><br><span class="line">    表示与第一个数据包的差距为<span class="number">1</span> 和 <span class="number">2.</span> 而如果此时-S 选项被设置, 对于后来接收到的第<span class="number">2</span>个, 第<span class="number">3</span>个数据包会打印出其绝对顺序号:</span><br><span class="line">    <span class="number">232324</span>, <span class="number">232325</span>).</span><br><span class="line">-s  snaplen</span><br><span class="line">    设置tcpdump的数据包抓取长度为snaplen, 如果不设置默认将会是<span class="number">68</span>字节(而支持网络接口分接头(nt: NIT, 上文已有描述,</span><br><span class="line">    可搜索<span class="string">&#x27;网络接口分接头&#x27;</span>关键字找到那里)的SunOS系列操作系统中默认的也是最小值是<span class="number">96</span>).</span><br><span class="line">    <span class="number">68</span>字节对于IP, ICMP(nt: Internet Control Message Protocol,</span><br><span class="line">    因特网控制报文协议), TCP 以及 UDP 协议的报文已足够, 但对于名称服务(nt: 可理解为dns, nis等服务), NFS服务相关的</span><br><span class="line">    数据包会产生包截短. 如果产生包截短这种情况, tcpdump的相应打印输出行中会出现<span class="string">&#x27;&#x27;</span>[|proto]<span class="string">&#x27;&#x27;</span>的标志（proto 实际会显示为</span><br><span class="line">    被截短的数据包的相关协议层次). 需要注意的是, 采用长的抓取长度(nt: snaplen比较大), 会增加包的处理时间, 并且会减少</span><br><span class="line">    tcpdump 可缓存的数据包的数量， 从而会导致数据包的丢失. 所以, 在能抓取我们想要的包的前提下, 抓取长度越小越好.</span><br><span class="line">    把snaplen 设置为<span class="number">0</span> 意味着让tcpdump自动选择合适的长度来抓取数据包.</span><br><span class="line">-T  type</span><br><span class="line">    强制tcpdump按type指定的协议所描述的包结构来分析收到的数据包.  目前已知的type 可取的协议为:</span><br><span class="line">    aodv (Ad-hoc On-demand Distance Vector protocol, 按需距离向量路由协议, 在Ad hoc(点对点模式)网络中使用),</span><br><span class="line">    cnfp (Cisco  NetFlow  protocol),  rpc(Remote Procedure Call), rtp (Real-Time Applications protocol),</span><br><span class="line">    rtcp (Real-Time Applications con-trol protocol), snmp (Simple Network Management Protocol),</span><br><span class="line">    tftp (Trivial File Transfer Protocol, 碎文件协议), vat (Visual Audio Tool, 可用于在internet 上进行电</span><br><span class="line">    视电话会议的应用层协议), 以及wb (distributed White Board, 可用于网络会议的应用层协议).</span><br><span class="line">-t     在每行输出中不打印时间戳</span><br><span class="line">-tt    不对每行输出的时间进行格式处理(nt: 这种格式一眼可能看不出其含义, 如时间戳打印成<span class="number">1261798315</span>)</span><br><span class="line">-ttt   tcpdump 输出时, 每两行打印之间会延迟一个段时间(以毫秒为单位)</span><br><span class="line">-tttt  在每行打印的时间戳之前添加日期的打印</span><br><span class="line">-u     打印出未加密的NFS 句柄(nt: handle可理解为NFS 中使用的文件句柄, 这将包括文件夹和文件夹中的文件)</span><br><span class="line">-U    使得当tcpdump在使用-w 选项时, 其文件写入与包的保存同步.(nt: 即, 当每个数据包被保存时, 它将及时被写入文件中,</span><br><span class="line">      而不是等文件的输出缓冲已满时才真正写入此文件)</span><br><span class="line">       -U 标志在老版本的libcap库(nt: tcpdump 所依赖的报文捕获库)上不起作用, 因为其中缺乏pcap_cump_flush()函数.</span><br><span class="line">-v    当分析和打印的时候, 产生详细的输出. 比如, 包的生存时间, 标识, 总长度以及IP包的一些选项. 这也会打开一些附加的包完整性</span><br><span class="line">      检测, 比如对IP或ICMP包头部的校验和.</span><br><span class="line">-vv   产生比-v更详细的输出. 比如, NFS回应包中的附加域将会被打印, SMB数据包也会被完全解码.</span><br><span class="line">-vvv  产生比-vv更详细的输出. 比如, telent 时所使用的SB, SE 选项将会被打印, 如果telnet同时使用的是图形界面,</span><br><span class="line">      其相应的图形选项将会以<span class="number">16</span>进制的方式打印出来(nt: telnet 的SB,SE选项含义未知, 另需补充).</span><br><span class="line">-w    把包数据直接写入文件而不进行分析和打印输出. 这些包数据可在随后通过-r 选项来重新读入并进行分析和打印.</span><br><span class="line">-W    filecount</span><br><span class="line">      此选项与-C 选项配合使用, 这将限制可打开的文件数目, 并且当文件数据超过这里设置的限制时, 依次循环替代之前的文件, 这相当</span><br><span class="line">      于一个拥有filecount 个文件的文件缓冲池. 同时, 该选项会使得每个文件名的开头会出现足够多并用来占位的<span class="number">0</span>, 这可以方便这些</span><br><span class="line">      文件被正确的排序.</span><br><span class="line">-x    当分析和打印时, tcpdump 会打印每个包的头部数据, 同时会以<span class="number">16</span>进制打印出每个包的数据(但不包括连接层的头部).</span><br><span class="line">      总共打印的数据大小不会超过整个数据包的大小与snaplen 中的最小值. 必须要注意的是, 如果高层协议数据没有snaplen 这么长,</span><br><span class="line">      并且数据链路层(比如, Ethernet层)有填充数据, 则这些填充数据也会被打印.(nt: so <span class="keyword">for</span> link  layers  that</span><br><span class="line">      pad, 未能衔接理解和翻译, 需补充 )</span><br><span class="line">-xx   tcpdump 会打印每个包的头部数据, 同时会以<span class="number">16</span>进制打印出每个包的数据, 其中包括数据链路层的头部.</span><br><span class="line">-X    当分析和打印时, tcpdump 会打印每个包的头部数据, 同时会以<span class="number">16</span>进制和ASCII码形式打印出每个包的数据(但不包括连接层的头部).</span><br><span class="line">      这对于分析一些新协议的数据包很方便.</span><br><span class="line">-XX   当分析和打印时, tcpdump 会打印每个包的头部数据, 同时会以<span class="number">16</span>进制和ASCII码形式打印出每个包的数据, 其中包括数据链路层的头部.</span><br><span class="line">      这对于分析一些新协议的数据包很方便.</span><br><span class="line">-y    datalinktype</span><br><span class="line">      设置tcpdump 只捕获数据链路层协议类型是datalinktype的数据包</span><br><span class="line">-Z    user</span><br><span class="line">      使tcpdump 放弃自己的超级权限(如果以root用户启动tcpdump, tcpdump将会有超级用户权限), 并把当前tcpdump的</span><br><span class="line">      用户ID设置为user, 组ID设置为user首要所属组的ID(nt: tcpdump 此处可理解为tcpdump 运行之后对应的进程)</span><br><span class="line">      此选项也可在编译的时候被设置为默认打开.(nt: 此时user 的取值未知, 需补充)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Tcpdump常用命令实例"><a href="#Tcpdump常用命令实例" class="headerlink" title="Tcpdump常用命令实例"></a>Tcpdump常用命令实例</h2><ul>
+<li>不可见的图层</li>
+<li>Adobe的元数据格式‘XMP’</li>
+<li>Adobe的XMP元数据</li>
+<li>PDF的‘增量生成’功能允许保留用户不可见的前版本信息</li>
+<li>白色的文字或背景图</li>
+<li>图片背后的文字信息</li>
+<li>图层后面被覆盖的另一个图层</li>
+<li>不显示的注释层。</li>
+</ul>
+<h2 id="Wifi破解"><a href="#Wifi破解" class="headerlink" title="Wifi破解"></a>Wifi破解</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">aircrack-ng ctf.pcap -w /usr/share/wordlists/rockyou.txt</span><br><span class="line">airdecap-ng ctf.pcap -e ctf -p password1</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~&#x2F;桌面&#x2F;steady$ aircrack-ng -w passwd.txt shipin.cap</span><br><span class="line">Reading packets, please wait...</span><br><span class="line">Opening shipin.cap</span><br><span class="line">Read 16664 packets.</span><br><span class="line">   #  BSSID              ESSID                     Encryption</span><br><span class="line">   1  00:1D:0F:5D:D0:EE  0719                      WPA (1 handshake)</span><br><span class="line">Choosing first network as target.</span><br><span class="line">Reading packets, please wait...</span><br><span class="line">Opening shipin.cap</span><br><span class="line">Read 16664 packets.</span><br><span class="line">1 potential targets</span><br><span class="line"></span><br><span class="line">                               Aircrack-ng 1.6 </span><br><span class="line"></span><br><span class="line">      [00:00:00] 1&#x2F;1 keys tested (37.17 k&#x2F;s) </span><br><span class="line"></span><br><span class="line">      Time left: --</span><br><span class="line"></span><br><span class="line">                           KEY FOUND! [ 88888888 ]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      Master Key     : B4 30 38 0F 24 7B 57 AC DE B5 3A 7F 2E FE 6B 45 </span><br><span class="line">                       0B 34 02 C3 89 F9 69 D5 B7 35 87 1B FB 4C EE 7F </span><br><span class="line"></span><br><span class="line">      Transient Key  : 17 AE 23 D0 69 7C 0D 45 2B 40 F6 7D 06 C9 C5 6F </span><br><span class="line">                       25 F0 B0 48 7A 6C 22 7C E2 73 50 71 46 FE 5D 0C </span><br><span class="line">                       8F 59 01 BE 66 56 DF 1E 58 DD 34 DB BF A7 2D FD </span><br><span class="line">                       2C 53 11 7F B2 E5 F0 16 7F 57 F5 6A 04 36 F5 71 </span><br><span class="line"></span><br><span class="line">      EAPOL HMAC     : 75 19 C5 F3 3E 33 58 23 CA 4B A1 85 FB 46 C0 2A </span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~&#x2F;桌面&#x2F;steady$ aircrack-ng &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;shipin.cap</span><br><span class="line">Reading packets, please wait...</span><br><span class="line">Opening &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;shipin.cap</span><br><span class="line">Read 16664 packets.</span><br><span class="line">#注意ESSID</span><br><span class="line">   #  BSSID              ESSID                     Encryption</span><br><span class="line"></span><br><span class="line">   1  00:1D:0F:5D:D0:EE  0719                      WPA (1 handshake)</span><br><span class="line"></span><br><span class="line">Choosing first network as target.</span><br><span class="line"></span><br><span class="line">Reading packets, please wait...</span><br><span class="line">Opening &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;shipin.cap</span><br><span class="line">Read 16664 packets.</span><br><span class="line"></span><br><span class="line">1 potential targets</span><br><span class="line"></span><br><span class="line">Please specify a dictionary (option -w).</span><br></pre></td></tr></table></figure>
+
+<p><code>-e</code>后面的为<code>ESSID</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~/桌面/steady$ airdecap-ng -e <span class="number">0719</span> -p <span class="number">88888888</span> shipin.cap</span><br><span class="line">Total number of stations seen            <span class="number">6</span></span><br><span class="line">Total number of packets read         <span class="number">16664</span></span><br><span class="line">Total number of WEP data packets         <span class="number">0</span></span><br><span class="line">Total number of WPA data packets        <span class="number">27</span></span><br><span class="line">Number of plaintext data packets         <span class="number">0</span></span><br><span class="line">Number of decrypted WEP  packets         <span class="number">0</span></span><br><span class="line">Number of corrupted WEP  packets         <span class="number">0</span></span><br><span class="line">Number of decrypted WPA  packets        <span class="number">16</span></span><br><span class="line">Number of bad TKIP (WPA) packets         <span class="number">0</span></span><br><span class="line">Number of bad CCMP (WPA) packets         <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p>之后会解出来一个压缩包。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://s1eady.top/2020/11/22/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90--Wireshark%E4%BD%BF%E7%94%A8/" title="流量分析--Wireshark使用" target="_blank" rel="external">http://s1eady.top/2020/11/22/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90--Wireshark%E4%BD%BF%E7%94%A8/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/1.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">果冻</span><small class="ml-1x">Penetration Testing</small></a></h3>
+        <div>一往情深深几许。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2021/02/13/CTF-Crypto%E5%88%B7%E9%A2%982/" title="CTF-Crypto刷题1"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2020/11/10/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/" title="CTF-python库PIL的使用"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/2.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/1.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="/GXA111666" target="_blank" title="VX" data-toggle=tooltip data-placement=top><i class="icon icon-VX"></i></a></li>
+        
+        <li><a href="/1252195810" target="_blank" title="QQ" data-toggle=tooltip data-placement=top><i class="icon icon-QQ"></i></a></li>
+        
+        <li><a href="/1252195810@qq.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-mail"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
