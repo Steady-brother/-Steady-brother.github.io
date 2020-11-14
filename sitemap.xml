@@ -2,7 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://s1eady.top/tags/index-1.html</loc>
+    <loc>http://s1eady.top/tags/index.html</loc>
+    
+    <lastmod>2020-11-14</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://s1eady.top/categories/index.html</loc>
     
     <lastmod>2020-11-14</lastmod>
     
@@ -316,48 +323,6 @@
     
   </url>
   
-  <url>
-    <loc>http://s1eady.top/about/index.html</loc>
-    
-    <lastmod>2020-10-02</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://s1eady.top/books/index.html</loc>
-    
-    <lastmod>2019-08-02</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://s1eady.top/categories/index.html</loc>
-    
-    <lastmod>2019-08-02</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://s1eady.top/repository/index.html</loc>
-    
-    <lastmod>2019-08-02</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://s1eady.top/links/index.html</loc>
-    
-    <lastmod>2019-08-02</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://s1eady.top/tags/index.html</loc>
-    
-    <lastmod>2019-08-02</lastmod>
-    
-  </url>
-  
 
   <url>
     <loc>http://s1eady.top/</loc>
@@ -366,13 +331,6 @@
     <priority>1.0</priority>
   </url>
 
-  
-  <url>
-    <loc>http://s1eady.top/tags/%E7%BB%84%E4%BB%B6%E5%AE%89%E5%85%A8/</loc>
-    <lastmod>2020-11-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
   
   <url>
     <loc>http://s1eady.top/tags/%E5%AE%89%E5%85%A8%E5%B7%A5%E5%85%B7%E5%AD%A6%E4%B9%A0/</loc>
@@ -389,6 +347,13 @@
   </url>
   
   <url>
+    <loc>http://s1eady.top/tags/CTF-python/</loc>
+    <lastmod>2020-11-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://s1eady.top/tags/CTF-%E5%AF%86%E7%A0%81/</loc>
     <lastmod>2020-11-14</lastmod>
     <changefreq>daily</changefreq>
@@ -396,7 +361,7 @@
   </url>
   
   <url>
-    <loc>http://s1eady.top/tags/CTF-python/</loc>
+    <loc>http://s1eady.top/tags/%E7%BB%84%E4%BB%B6%E5%AE%89%E5%85%A8/</loc>
     <lastmod>2020-11-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -468,13 +433,6 @@
 
   
   <url>
-    <loc>http://s1eady.top/categories/%E7%BB%84%E4%BB%B6%E5%AE%89%E5%85%A8/</loc>
-    <lastmod>2020-11-14</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>http://s1eady.top/categories/%E5%AE%89%E5%85%A8%E5%B7%A5%E5%85%B7%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2020-11-14</lastmod>
     <changefreq>daily</changefreq>
@@ -489,6 +447,13 @@
   </url>
   
   <url>
+    <loc>http://s1eady.top/categories/CTF-python/</loc>
+    <lastmod>2020-11-14</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://s1eady.top/categories/CTF-%E5%AF%86%E7%A0%81/</loc>
     <lastmod>2020-11-14</lastmod>
     <changefreq>daily</changefreq>
@@ -496,7 +461,7 @@
   </url>
   
   <url>
-    <loc>http://s1eady.top/categories/CTF-python/</loc>
+    <loc>http://s1eady.top/categories/%E7%BB%84%E4%BB%B6%E5%AE%89%E5%85%A8/</loc>
     <lastmod>2020-11-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
