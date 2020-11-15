@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>CTF-杂项刷题3 | Hexo</title>
+  <meta name="description" content="Buuctf杂项爬12steady@steady:~&#x2F;桌面&#x2F;steady&#x2F;_key.ftm.extracted$ file &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;_key.ftm.extracted&#x2F;爬&#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;_k">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF-杂项刷题3">
+<meta property="og:url" content="http://s1eady.top/2020/10/30/CTF-%E6%9D%82%E9%A1%B9%E5%88%B7%E9%A2%982/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Buuctf杂项爬12steady@steady:~&#x2F;桌面&#x2F;steady&#x2F;_key.ftm.extracted$ file &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;_key.ftm.extracted&#x2F;爬&#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;_k">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/48.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/51.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/52.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/53.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/54.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/57.png">
+<meta property="article:published_time" content="2020-10-30T10:23:13.000Z">
+<meta property="article:modified_time" content="2020-11-06T11:51:14.685Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="CTF-杂项">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/48.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://s1eady.top/2020/10/30/CTF-%E6%9D%82%E9%A1%B9%E5%88%B7%E9%A2%982/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/1.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">果冻</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Penetration Testing</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 中国 南京</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="/GXA111666" target="_blank" title="VX" data-toggle=tooltip data-placement=top><i class="icon icon-VX"></i></a></li>
+        
+        <li><a href="/1252195810" target="_blank" title="QQ" data-toggle=tooltip data-placement=top><i class="icon icon-QQ"></i></a></li>
+        
+        <li><a href="/1252195810@qq.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-mail"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>深山夕照深秋雨 一往情深深几许</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Buuctf"><span class="toc-number">1.</span> <span class="toc-text">Buuctf</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%82%E9%A1%B9"><span class="toc-number">1.1.</span> <span class="toc-text">杂项</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%88%AC"><span class="toc-number">1.1.1.</span> <span class="toc-text">爬</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WUSTCTF2020-girlfriend"><span class="toc-number">1.1.2.</span> <span class="toc-text">[WUSTCTF2020]girlfriend</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GUET-CTF2019-%E8%99%9A%E5%81%87%E7%9A%84%E5%8E%8B%E7%BC%A9%E5%8C%85"><span class="toc-number">1.1.3.</span> <span class="toc-text">[GUET-CTF2019]虚假的压缩包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#easy-misc"><span class="toc-number">1.1.4.</span> <span class="toc-text">easy misc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B4%BE%E5%A4%A7%E6%98%9F%E7%9A%84%E7%83%A6%E6%81%BC"><span class="toc-number">1.1.5.</span> <span class="toc-text">派大星的烦恼</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GKCTF2020-Harley-Quinn"><span class="toc-number">1.1.6.</span> <span class="toc-text">[GKCTF2020]Harley Quinn</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B2%BD%E5%AD%90%E7%9A%84%E6%9D%A5%E5%8E%86"><span class="toc-number">1.1.7.</span> <span class="toc-text">粽子的来历</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BSidesSF2019-zippy"><span class="toc-number">1.1.8.</span> <span class="toc-text">[BSidesSF2019]zippy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WUSTCTF2020-spaceclub"><span class="toc-number">1.1.9.</span> <span class="toc-text">[WUSTCTF2020]spaceclub</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CTF2019-otaku"><span class="toc-number">1.1.10.</span> <span class="toc-text">[*CTF2019]otaku</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ACTF%E6%96%B0%E7%94%9F%E8%B5%9B2020-music"><span class="toc-number">1.1.11.</span> <span class="toc-text">[ACTF新生赛2020]music</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#voip"><span class="toc-number">1.1.12.</span> <span class="toc-text">voip</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B9%96%E5%8D%97%E7%9C%81%E8%B5%9B2019-Findme"><span class="toc-number">1.1.13.</span> <span class="toc-text">[湖南省赛2019]Findme</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Business-Planning-Group"><span class="toc-number">1.1.14.</span> <span class="toc-text">Business Planning Group</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%88%91%E7%88%B1Linux"><span class="toc-number">1.1.15.</span> <span class="toc-text">我爱Linux</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GUET-CTF2019-soul-sipse"><span class="toc-number">1.1.16.</span> <span class="toc-text">[GUET-CTF2019]soul sipse</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BSidesSF2019-diskimage"><span class="toc-number">1.1.17.</span> <span class="toc-text">[BSidesSF2019]diskimage</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#V-amp-N2020-%E5%85%AC%E5%BC%80%E8%B5%9B-%E6%8B%89%E8%83%AF%E7%9A%84%E4%B8%89%E6%9D%A1%E5%91%BD%E4%BB%A4"><span class="toc-number">1.1.18.</span> <span class="toc-text">[V&amp;N2020 公开赛]拉胯的三条命令</span></a></li></ol></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-CTF-杂项刷题2" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CTF-杂项刷题3
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/10/30/CTF-%E6%9D%82%E9%A1%B9%E5%88%B7%E9%A2%982/" class="article-date">
+	  <time datetime="2020-10-30T10:23:13.000Z" itemprop="datePublished">2020-10-30</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/CTF-%E6%9D%82%E9%A1%B9/">CTF-杂项</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/CTF-%E6%9D%82%E9%A1%B9/" rel="tag">CTF-杂项</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/10/30/CTF-%E6%9D%82%E9%A1%B9%E5%88%B7%E9%A2%982/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="Buuctf"><a href="#Buuctf" class="headerlink" title="Buuctf"></a>Buuctf</h1><h2 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h2><h3 id="爬"><a href="#爬" class="headerlink" title="爬"></a>爬</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~&#x2F;桌面&#x2F;steady&#x2F;_key.ftm.extracted$ file &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;_key.ftm.extracted&#x2F;爬</span><br><span class="line">&#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;_key.ftm.extracted&#x2F;爬: PDF document, version 1.7</span><br></pre></td></tr></table></figure>
+
+<p>pdf文件打开。图片背后有十六进制转化得到flag。</p>
+<h3 id="WUSTCTF2020-girlfriend"><a href="#WUSTCTF2020-girlfriend" class="headerlink" title="[WUSTCTF2020]girlfriend"></a>[WUSTCTF2020]girlfriend</h3><p>dtmf-decoder</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~&#x2F;桌面&#x2F;steady&#x2F;_key.ftm.extracted$ dtmf2num &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;_key.ftm.extracted&#x2F;girlfriend.wav</span><br><span class="line"></span><br><span class="line">DTMF2NUM 0.1.1</span><br><span class="line">by Luigi Auriemma</span><br><span class="line">e-mail: aluigi@autistici.org</span><br><span class="line">web:    aluigi.org</span><br><span class="line"></span><br><span class="line">- open &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;_key.ftm.extracted&#x2F;girlfriend.wav</span><br><span class="line">  wave size      7466540</span><br><span class="line">  format tag     1</span><br><span class="line">  channels:      2</span><br><span class="line">  samples&#x2F;sec:   44100</span><br><span class="line">  avg&#x2F;bytes&#x2F;sec: 176400</span><br><span class="line">  block align:   4</span><br><span class="line">  bits:          16</span><br><span class="line">  samples:       3733270</span><br><span class="line">  bias adjust:   215</span><br><span class="line">  volume peaks:  -12024 12025</span><br><span class="line">  normalize:     20742</span><br><span class="line">  resampling to: 8000hz</span><br><span class="line"></span><br><span class="line">- MF numbers:    47777777</span><br><span class="line"></span><br><span class="line">- DTMF numbers:  999*666*88*2*777*33*6*999*4*4444*777*555*333*777*444*33*66*3*7777</span><br></pre></td></tr></table></figure>
+
+<p>手机键盘。</p>
+<p>ttl隐写。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">63    00111111</span><br><span class="line">127   01111111</span><br><span class="line">191   10111111</span><br><span class="line">255   11111111</span><br></pre></td></tr></table></figure>
+
+<p>每一个 TTL 只有前两位隐藏数据，每四个为一组，隐藏一个字节。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">&#x27;1.txt&#x27;</span>,<span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> fp:</span><br><span class="line">    a=fp.readlines()</span><br><span class="line">    p=[]</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> range(len(a)):</span><br><span class="line">       p.append(int(a[x])) </span><br><span class="line">    s=<span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> p:</span><br><span class="line">        <span class="keyword">if</span>(i==<span class="number">63</span>):</span><br><span class="line">            b=<span class="string">&#x27;00&#x27;</span></span><br><span class="line">        <span class="keyword">elif</span>(i==<span class="number">127</span>):</span><br><span class="line">            b=<span class="string">&#x27;01&#x27;</span></span><br><span class="line">        <span class="keyword">elif</span>(i==<span class="number">191</span>):</span><br><span class="line">            b=<span class="string">&#x27;10&#x27;</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            b=<span class="string">&#x27;11&#x27;</span></span><br><span class="line">        s +=b</span><br><span class="line"><span class="comment"># print(s)</span></span><br><span class="line">flag = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(s),<span class="number">8</span>):</span><br><span class="line">    flag += chr(int(s[i:i+<span class="number">8</span>],<span class="number">2</span>))</span><br><span class="line">print(flag)</span><br></pre></td></tr></table></figure>
+
+<p>发现是一个压缩包。一键脚本。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- encoding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Decrypt</span>():</span></span><br><span class="line">    f = open(<span class="string">&#x27;t.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>)</span><br><span class="line">    fh = open(<span class="string">&#x27;flag.zip&#x27;</span>, <span class="string">&#x27;wb&#x27;</span>)</span><br><span class="line">    binstring = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    hexstring = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> num <span class="keyword">in</span> f.readlines():</span><br><span class="line">        bins = <span class="string">&#x27;&#123;:08b&#125;&#x27;</span>.format(int(num.strip()))</span><br><span class="line">        binstring += bins[:<span class="number">2</span>]</span><br><span class="line">    f.close()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(binstring), <span class="number">8</span>):</span><br><span class="line">        hexstring += chr(int(binstring[i:i+<span class="number">8</span>], <span class="number">2</span>))</span><br><span class="line">    fh.write(binascii.unhexlify(hexstring))</span><br><span class="line">    fh.close()</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    print(<span class="string">&quot;Start...&quot;</span>)</span><br><span class="line">    Decrypt()</span><br><span class="line">    print(<span class="string">&quot;Done!&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>伪加密，循环base64解密。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- encoding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">base64decode</span>():</span></span><br><span class="line">    f = open(<span class="string">&#x27;flag.txt&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>)</span><br><span class="line">    flag = f.read()</span><br><span class="line">    <span class="keyword">while</span> <span class="string">b&#x27;flag&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> flag:</span><br><span class="line">        flag = base64.b64decode(flag)</span><br><span class="line">    print(flag)</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    print(<span class="string">&quot;Start...&quot;</span>)</span><br><span class="line">    base64decode()</span><br><span class="line">    print(<span class="string">&#x27;Done!&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>有大量的ICMP数据包，并且icmp数据包有data字段，直接wireshark提取。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tshark -r out.pcap -T fields -e &quot;data&quot; &gt;flag.txt</span><br></pre></td></tr></table></figure>
+
+<p>发现txt中有大量重复的数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2424535441525424242d2d2d2d2d424547494e2043455254494649434154452d2d2d2d2d0a</span><br></pre></td></tr></table></figure>
+
+<p>每4行都是重复的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sort 1.txt | uniq &gt;&gt;2.txt</span><br></pre></td></tr></table></figure>
+
+<p>python批量转十六进制。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">lines&#x3D;open(&#39;out.txt&#39;,&#39;rb&#39;).readlines()</span><br><span class="line">file&#x3D;open(&#39;old_file.txt&#39;,&#39;wb&#39;)</span><br><span class="line">i&#x3D;0</span><br><span class="line">for line in lines:</span><br><span class="line">        if i%4&#x3D;&#x3D;0:</span><br><span class="line">                file.write(line.strip().decode(&#39;hex&#39;))</span><br><span class="line">        i+&#x3D;1</span><br><span class="line">file.close()</span><br></pre></td></tr></table></figure>
+
+<p>像是十六进制，但是每行头上有<code>$$START$$+</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line">lines=open(<span class="string">&#x27;old_file.txt&#x27;</span>,<span class="string">&#x27;rb&#x27;</span>).readlines()</span><br><span class="line">file=open(<span class="string">&#x27;new_file&#x27;</span>,<span class="string">&#x27;wb&#x27;</span>)</span><br><span class="line">result=<span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> lines[<span class="number">1</span>:<span class="number">-1</span>]:</span><br><span class="line">    result+=line[<span class="number">9</span>:].strip()</span><br><span class="line">file.write(base64.b64decode(result))</span><br></pre></td></tr></table></figure>
+
+<p>得到一个zip。一个gif。查看每一帧的间隔时间。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">identify -verbose flag.gif | grep Delay</span><br><span class="line">  Delay: 50x100</span><br><span class="line">  Delay: 50x100</span><br><span class="line">  Delay: 50x100</span><br><span class="line">  Delay: 20x100</span><br><span class="line">  Delay: 50x100</span><br><span class="line">  Delay: 20x100</span><br><span class="line">  Delay: 20x100</span><br><span class="line">  Delay: 66x100</span><br><span class="line">  Delay: 66x100</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">identify -format &quot;%s %T \n&quot; flag.gif </span><br></pre></td></tr></table></figure>
+
+<p>把20改成0,50改成1 转下ascii。</p>
+<h3 id="GUET-CTF2019-虚假的压缩包"><a href="#GUET-CTF2019-虚假的压缩包" class="headerlink" title="[GUET-CTF2019]虚假的压缩包"></a>[GUET-CTF2019]虚假的压缩包</h3><p>两个压缩包，一个未加密，一个真密码。伪加密解压出来是rsa题，解密得到密码–答案是5。解压真压缩包，拿到一张图片和一个文件，图片修改高度。提示^5。即把文件与5异或。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">f1 = open(<span class="string">&#x27;./cipher&#x27;</span>,<span class="string">&#x27;r&#x27;</span>)</span><br><span class="line">xor_data = f1.read()</span><br><span class="line">f1.close()</span><br><span class="line">dec_data = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> xor_data:</span><br><span class="line">    tmp = int(i,<span class="number">16</span>) ^ <span class="number">5</span></span><br><span class="line">    dec_data += hex(tmp)[<span class="number">2</span>:]</span><br><span class="line">print(dec_data[:<span class="number">10</span>])</span><br></pre></td></tr></table></figure>
+
+<p><code>504b030414</code>是个压缩包，保存为压缩包。打开之后发现是个word。改为doc。</p>
+<p>拿到许多英文句子，直接搜索flag。发现flag被隐藏。直接改颜色。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/48.png" alt="48"></p>
+<h3 id="easy-misc"><a href="#easy-misc" class="headerlink" title="easy misc"></a>easy misc</h3><p>掩码攻击拿到压缩包内容。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">a = dIW</span><br><span class="line">b = sSD</span><br><span class="line">c = adE </span><br><span class="line">d = jVf</span><br><span class="line">e = QW8</span><br><span class="line">f = SA=</span><br><span class="line">g = jBt</span><br><span class="line">h = <span class="number">5</span>RE</span><br><span class="line">i = tRQ</span><br><span class="line">j = SPA</span><br><span class="line">k = <span class="number">8</span>DS</span><br><span class="line">l = XiE</span><br><span class="line">m = S8S</span><br><span class="line">n = MkF</span><br><span class="line">o = T9p</span><br><span class="line">p = PS5</span><br><span class="line">q = E/S</span><br><span class="line">r = -sd</span><br><span class="line">s = SQW</span><br><span class="line">t = obW</span><br><span class="line">u = /WS</span><br><span class="line">v = SD9</span><br><span class="line">w = cw=</span><br><span class="line">x = ASD</span><br><span class="line">y = FTa</span><br><span class="line">z = AE7</span><br></pre></td></tr></table></figure>
+
+<p>词频分析。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">file = open(<span class="string">&#x27;./1.txt&#x27;</span>)</span><br><span class="line">line = file.readlines()</span><br><span class="line">file.seek(<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line">file.close()</span><br><span class="line"></span><br><span class="line">result = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">97</span>,<span class="number">123</span>):</span><br><span class="line">	count = <span class="number">0</span></span><br><span class="line">	<span class="keyword">for</span> j <span class="keyword">in</span> line:</span><br><span class="line">		find_line = re.findall(chr(i),j)</span><br><span class="line">		count += len(find_line)</span><br><span class="line">	result[chr(i)] = count</span><br><span class="line">res = sorted(result.items(),key=<span class="keyword">lambda</span> item:item[<span class="number">1</span>],reverse=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">num = <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> res:</span><br><span class="line">		print(<span class="string">&#x27;频数第&#123;0&#125;: &#x27;</span>.format(num),x)</span><br><span class="line">		num += <span class="number">1</span> </span><br></pre></td></tr></table></figure>
+
+<h3 id="派大星的烦恼"><a href="#派大星的烦恼" class="headerlink" title="派大星的烦恼"></a>派大星的烦恼</h3><p>放入01edito，找到<code>&quot;DD&quot;``DD``&quot;&quot;&quot;&quot;D&quot;DD&quot;&quot;&quot;``&quot;&quot;&quot;DD&quot;&quot;&quot;``DD&quot;DD&quot;``&quot;D&quot;``&quot;DDD&quot;``&quot;D&quot;``D``&quot;DD&quot;``&quot;&quot;&quot;&quot;``&quot;DD&quot;``&quot;D&quot;``&quot;&quot;``&quot;DD&quot;``D``&quot;D&quot;``DD&quot;&quot;&quot;``&quot;D&quot;``DD&quot;``&quot;D&quot;``&quot;``&quot;DD&quot;``&quot;&quot;&quot;``&quot;DDD&quot;``&quot;&quot;``&quot;D&quot;``DD&quot;&quot;``&quot;D&quot;``&quot;``&quot;DD&quot;``&quot;``&quot;D&quot;``&quot;DD&quot;``D``&quot;D&quot;``DD``&quot;&quot;&quot;DD&quot;&quot;DD&quot;D&quot;D&quot;&quot;DD&quot;&quot;DD&quot;DD&quot;&quot;&quot;``D``&quot;&quot;&quot;DD&quot;&quot;DD&quot;DD&quot;&quot;D&quot;D&quot;&quot;DD&quot;D&quot;D&quot;DD&quot;&quot;&quot;``D``&quot;&quot;&quot;DD&quot;&quot;&quot;``D&quot;DD&quot;``&quot;DD&quot;``&quot;``&quot;DD&quot;``D``&quot;D&quot;``&quot;DD&quot;``&quot;``&quot;D&quot;``DD&quot;``&quot;DD&quot;``&quot;DD&quot;``&quot;&quot;&quot;``&quot;DDD&quot;``&quot;DD&quot;``&quot;DD&quot;``&quot;``&quot;D&quot;``&quot;DD&quot;``&quot;</code>。</p>
+<p>D变1，”变成0。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bin_to_str</span>(<span class="params">s</span>):</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>.join([chr(i) <span class="keyword">for</span> i <span class="keyword">in</span> [int(b, <span class="number">2</span>) <span class="keyword">for</span> b <span class="keyword">in</span> s.split(<span class="string">&#x27; &#x27;</span>)]])</span><br><span class="line">a = <span class="string">&quot;01101100 00101100 00001100 01101100 10011100 10101100 00001100 10000110 10101100 00101100 10001100 00011100 00101100 01000110 00100110 10101100 01100110 10100110 01101100 01000110 01101100 10100110 10101100 01000110 00101100 11000110 10100110 00101100 11001100 00011100 11001100 01001100&quot;</span></span><br><span class="line">a = a.split(<span class="string">&#x27; &#x27;</span>)</span><br><span class="line">flag=<span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> a:</span><br><span class="line">    test=i[::<span class="number">-1</span>]</span><br><span class="line">    flag+=bin_to_str(test)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">print</span> flag</span><br></pre></td></tr></table></figure>
+
+<h3 id="GKCTF2020-Harley-Quinn"><a href="#GKCTF2020-Harley-Quinn" class="headerlink" title="[GKCTF2020]Harley Quinn"></a>[GKCTF2020]Harley Quinn</h3><p>使用<code>dtmf2num</code>，解密没成功。使用<code>multimon-ng</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~$ multimon-ng -t wav -a dtmf /home/steady/桌面/steady/Heathens.wav</span><br><span class="line">multimon-ng <span class="number">1.1</span><span class="number">.9</span></span><br><span class="line">  (C) <span class="number">1996</span>/<span class="number">1997</span> by Tom Sailer HB9JNX/AE4WA</span><br><span class="line">  (C) <span class="number">2012</span><span class="number">-2020</span> by Elias Oenal</span><br><span class="line">Available demodulators: POCSAG512 POCSAG1200 POCSAG2400 FLEX EAS UFSK1200 CLIPFSK FMSFSK AFSK1200 AFSK2400 AFSK2400_2 AFSK2400_3 HAPN4800 FSK9600 DTMF ZVEI1 ZVEI2 ZVEI3 DZVEI PZVEI EEA EIA CCIR MORSE_CW DUMPCSV X10 SCOPE</span><br><span class="line">Enabled demodulators: DTMF</span><br><span class="line">DTMF: <span class="comment">#</span></span><br><span class="line">DTMF: <span class="number">2</span></span><br><span class="line">DTMF: <span class="number">2</span></span><br><span class="line">DTMF: <span class="number">2</span></span><br><span class="line">DTMF: <span class="number">8</span></span><br><span class="line">DTMF: <span class="number">3</span></span><br><span class="line">DTMF: <span class="number">4</span></span><br><span class="line">DTMF: <span class="number">4</span></span><br><span class="line">DTMF: <span class="number">4</span></span><br><span class="line">DTMF: <span class="number">7</span></span><br><span class="line">DTMF: <span class="number">7</span></span><br><span class="line">DTMF: <span class="number">7</span></span><br><span class="line">DTMF: <span class="number">7</span></span><br><span class="line">DTMF: <span class="number">3</span></span><br><span class="line">DTMF: <span class="number">8</span></span><br><span class="line">DTMF: <span class="number">8</span></span><br><span class="line">DTMF: <span class="number">6</span></span><br><span class="line">DTMF: <span class="number">6</span></span><br><span class="line">DTMF: <span class="comment">#</span></span><br><span class="line">sox WARN rate: rate clipped 2152 samples; decrease volume?</span><br><span class="line">sox WARN dither: dither clipped 1920 samples; decrease volume?</span><br></pre></td></tr></table></figure>
+
+<p>手机密码。</p>
+<h3 id="粽子的来历"><a href="#粽子的来历" class="headerlink" title="粽子的来历"></a>粽子的来历</h3><p>doc打不开，尝试修改某处为FF。打开在后行间距转化0或者1。</p>
+<h3 id="BSidesSF2019-zippy"><a href="#BSidesSF2019-zippy" class="headerlink" title="[BSidesSF2019]zippy"></a>[BSidesSF2019]zippy</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~&#x2F;桌面&#x2F;steady&#x2F;media$ tcpxtract -f attachment.pcapng</span><br><span class="line">Found file of type &quot;zip&quot; in session [192.168.56.2:4244 -&gt; 192.168.56.104:23825], exporting to 00000000.zip</span><br></pre></td></tr></table></figure>
+
+<h3 id="WUSTCTF2020-spaceclub"><a href="#WUSTCTF2020-spaceclub" class="headerlink" title="[WUSTCTF2020]spaceclub"></a>[WUSTCTF2020]spaceclub</h3><p>text文件空白，全选，每一行的长短对应一个二进制数字。长为1，断为0。最后转二进制。</p>
+<h3 id="CTF2019-otaku"><a href="#CTF2019-otaku" class="headerlink" title="[*CTF2019]otaku"></a>[*CTF2019]otaku</h3><p>一个压缩包、一个word，打开word，打开隐藏文字。发现多了一下的文字。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello everyone, I am Gilbert. Everyone thought that I was killed, but actually I survived. Now that I have no cash with me and I’m trapped in another country. I can&#39;t contact Violet now. She must be desperate to see me and I don&#39;t want her to cry for me. I need to pay 300 for the train, and 88 for the meal. Cash or battlenet point are both accepted.&#x2F;&#x2F;最后可以看到明文攻击。</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/51.png" alt="51"></p>
+<p>可以看到这时候CRC一样。可以进行明文攻击。拿到图片，lsb隐写。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ctf&#123;vI0l3t_Ev3rg@RdeN&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="ACTF新生赛2020-music"><a href="#ACTF新生赛2020-music" class="headerlink" title="[ACTF新生赛2020]music"></a>[ACTF新生赛2020]music</h3><p>放入winhex中，发现大量的A1。将文件与A1进行异或。发现文件头<code>0000001866747970</code>，mp4文件格式。修改后缀，听音乐拿到flag。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/52.png" alt="52"></p>
+<h3 id="voip"><a href="#voip" class="headerlink" title="voip"></a>voip</h3><p>数据包，voip：互联网协议语音（VoIP），也称为IP电话，简称电话。</p>
+<p>点击播放流并播放即有声音读出flag：seccon{9001IVR}</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/53.png" alt="53"></p>
+<p>读取电话音频。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/54.png" alt="54"></p>
+<h3 id="湖南省赛2019-Findme"><a href="#湖南省赛2019-Findme" class="headerlink" title="[湖南省赛2019]Findme"></a>[湖南省赛2019]Findme</h3><p>七张图，一张一张分析。</p>
+<p>第一张，图片高度明显小，直接CRC爆破，拿到图片，发现高度可以了但是图片模糊了。</p>
+<p>然后使用<code>Stegsolve</code>打开，在<code>blue 2</code>通道发现二维码。扫描拿到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZmxhZ3s0X3</span><br></pre></td></tr></table></figure>
+
+<p>第二张图，binwalk分离，没有分离出来东西。<code>strings</code>查看，发现有txt字样。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CRys</span><br><span class="line">CRys</span><br><span class="line">2&#x2F;998.txt</span><br><span class="line">jRys</span><br><span class="line">jRys</span><br><span class="line">jRys</span><br><span class="line">2&#x2F;999.txt</span><br></pre></td></tr></table></figure>
+
+<p>可以判定藏有压缩包。尝试搜搜常见的压缩包头部，比如zip、7z等等，但是都没有发现什么线索。直接搜索png尾部，<code>49 45 4E 44 AE 42 60 82</code>。发现后面的数据为<code>37 7A 03 04</code>。有点像zip的头部，直接修改504B。打开之后发现文件打不开，提示文件损坏。返回看看，发现zip中有7z字样，最后直接把所有的7z替换为PK。导出十六进制，然后放入notepad，把37 7A替换为50 4B。保存，还是不能打开最后直接使用winrar进行修复。解压拿到许多文件。解压对文件大小进行排序，发现618.txt在第一个直接打开发现<code>You find it: 1RVcmVfc</code>。</p>
+<p>第三个图片。</p>
+<p>chunk[0]-chunk[6]的每一个数据块的crc值都是可打印的Ascii字符。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/57.png" alt="57"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; [0x33,0x52,0x6C,0x5A,0x33,0x30,0x3D]</span><br><span class="line">for i in a:</span><br><span class="line">    print(chr(i),end&#x3D;&quot;&quot;)</span><br><span class="line"></span><br><span class="line">#运行结果：3RlZ30&#x3D;</span><br></pre></td></tr></table></figure>
+
+<p>第四个图片。</p>
+<p><code>exiftool</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~&#x2F;桌面&#x2F;steady$ exiftool &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;4.png</span><br><span class="line">ExifTool Version Number         : 12.07</span><br><span class="line">File Name                       : 4.png</span><br><span class="line">Directory                       : &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady</span><br><span class="line">File Size                       : 63 kB</span><br><span class="line">File Modification Date&#x2F;Time     : 2019:10:19 18:50:30+08:00</span><br><span class="line">File Access Date&#x2F;Time           : 2020:11:05 21:06:05+08:00</span><br><span class="line">File Inode Change Date&#x2F;Time     : 2020:11:05 21:06:05+08:00</span><br><span class="line">File Permissions                : rw-------</span><br><span class="line">File Type                       : PNG</span><br><span class="line">File Type Extension             : png</span><br><span class="line">MIME Type                       : image&#x2F;png</span><br><span class="line">Image Width                     : 145</span><br><span class="line">Image Height                    : 263</span><br><span class="line">Bit Depth                       : 8</span><br><span class="line">Color Type                      : RGB</span><br><span class="line">Compression                     : Deflate&#x2F;Inflate</span><br><span class="line">Filter                          : Adaptive</span><br><span class="line">Interlace                       : Noninterlaced</span><br><span class="line">Pixels Per Unit X               : 2835</span><br><span class="line">Pixels Per Unit Y               : 2835</span><br><span class="line">Pixel Units                     : meters</span><br><span class="line">Warning                         : [minor] Text chunk(s) found after PNG IDAT (may be ignored by some readers)</span><br><span class="line">Artist                          : another part:cExlX1BsY</span><br><span class="line">Image Size                      : 145x263</span><br><span class="line">Megapixels                      : 0.038</span><br></pre></td></tr></table></figure>
+
+<p>第五张图片。</p>
+<p><code>strings</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">5.png &#x3D;&gt; Yzcllfc0lN</span><br></pre></td></tr></table></figure>
+
+<h3 id="Business-Planning-Group"><a href="#Business-Planning-Group" class="headerlink" title="Business Planning Group"></a>Business Planning Group</h3><p>bpg图片，直接搜索PNG尾部<code>42 60 82</code>，接下来是bpg的头部，截取下来。使用<code>Honeyview</code>，打开。</p>
+<p>打开之后拿到base64解码，拿到flag。</p>
+<h3 id="我爱Linux"><a href="#我爱Linux" class="headerlink" title="我爱Linux"></a>我爱Linux</h3><p>python序列化</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import pickle  </span><br><span class="line"></span><br><span class="line">fp &#x3D; open(&quot;2.txt&quot;,&quot;rb+&quot;)      &#39;&#39;&#39; 打开序列化文件 &#39;&#39;&#39;</span><br><span class="line">fw &#x3D; open(&#39;pickle.txt&#39;, &#39;w&#39;)  &#39;&#39;&#39; 打开保存文件 &#39;&#39;&#39;</span><br><span class="line">a&#x3D;pickle.load(fp)             &#39;&#39;&#39; 反序列化文件编译 &#39;&#39;&#39;</span><br><span class="line">pickle&#x3D;str(a)                 &#39;&#39;&#39; 转换成字符串要不然不能保存 &#39;&#39;&#39;</span><br><span class="line">fw.write( pickle )            &#39;&#39;&#39; 写入文件 &#39;&#39;&#39;</span><br><span class="line">fw.close()                    &#39;&#39;&#39; 关闭文件 &#39;&#39;&#39;</span><br><span class="line">fp.close()                    &#39;&#39;&#39; 关闭文件 &#39;&#39;&#39;</span><br></pre></td></tr></table></figure>
+
+<p>第一个是坐标，第二个是内容。画图。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">fw = open(<span class="string">&quot;pickle.txt&quot;</span>,<span class="string">&quot;r&quot;</span>)</span><br><span class="line">text=fw.read( )</span><br><span class="line">i=<span class="number">0</span></span><br><span class="line">a=<span class="number">0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> i&lt;len(text)+<span class="number">1</span>:</span><br><span class="line">    <span class="keyword">if</span>(text[i]==<span class="string">&#x27;]&#x27;</span>):</span><br><span class="line">       print(<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">       a=<span class="number">0</span></span><br><span class="line">    <span class="keyword">elif</span>(text[i]==<span class="string">&#x27;(&#x27;</span>):</span><br><span class="line">        <span class="keyword">if</span>(text[i+<span class="number">2</span>]==<span class="string">&#x27;,&#x27;</span>):</span><br><span class="line">            b=text[i+<span class="number">1</span>]</span><br><span class="line">            d=text[i+<span class="number">1</span>]</span><br><span class="line">            b=int(b)-int(a)</span><br><span class="line">            c=<span class="number">1</span></span><br><span class="line">            <span class="keyword">while</span> c&lt;b:</span><br><span class="line">                print(<span class="string">&quot; &quot;</span>, end=<span class="string">&quot;&quot;</span>)</span><br><span class="line">                c += <span class="number">1</span></span><br><span class="line">            print(text[i+<span class="number">5</span>], end=<span class="string">&quot;&quot;</span>)</span><br><span class="line">            a=int(d)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            b=text[i+<span class="number">1</span>]+text[i+<span class="number">2</span>]</span><br><span class="line">            d=text[i+<span class="number">1</span>]+text[i+<span class="number">2</span>]</span><br><span class="line">            b=int(b)-int(a)</span><br><span class="line">            c=<span class="number">1</span></span><br><span class="line">            <span class="keyword">while</span> c&lt;b:</span><br><span class="line">                print(<span class="string">&quot; &quot;</span>, end=<span class="string">&quot;&quot;</span>)</span><br><span class="line">                c += <span class="number">1</span></span><br><span class="line">            print(text[i+<span class="number">6</span>], end=<span class="string">&quot;&quot;</span>)</span><br><span class="line">            a=int(d)</span><br><span class="line">    i +=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="GUET-CTF2019-soul-sipse"><a href="#GUET-CTF2019-soul-sipse" class="headerlink" title="[GUET-CTF2019]soul sipse"></a>[GUET-CTF2019]soul sipse</h3><p>一个音频，打开之后没有发现什么东西。尝试binwalk。分离不出东西。尝试隐写。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~/桌面/steady$ steghide extract -sf out.wav</span><br><span class="line">Enter passphrase: </span><br><span class="line">wrote extracted data to <span class="string">&quot;download.txt&quot;</span>.</span><br></pre></td></tr></table></figure>
+
+<p>拿到一个下载链接。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;share.weiyun.com&#x2F;5wVTIN3</span><br></pre></td></tr></table></figure>
+
+<p>一个PNG文件，修复头部，图片是unicode，编码使用小红帽编码。</p>
+<h3 id="BSidesSF2019-diskimage"><a href="#BSidesSF2019-diskimage" class="headerlink" title="[BSidesSF2019]diskimage"></a>[BSidesSF2019]diskimage</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@root:&#x2F;tmp# zsteg &#39;&#x2F;tmp&#x2F;attachment (1).png&#39; --all</span><br><span class="line">b8,rgb,lsb,xy       .. file: DOS&#x2F;MBR boot sector, code offset 0x3c+2, OEM-ID &quot;~mitsumi&quot;, root entries 224, sectors 2880 (volumes &lt;&#x3D;32 MB) , sectors&#x2F;FAT 9, sectors&#x2F;track 18, serial number 0x7e572f0f, unlabeled, FAT (12 bit)</span><br></pre></td></tr></table></figure>
+
+<p>导出一个fat数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@root:&#x2F;tmp# zsteg -a &#39;b8,rgb,lsb,xy&#39; &#39;&#x2F;tmp&#x2F;attachment (1).png&#39;  &gt;flag.dat</span><br></pre></td></tr></table></figure>
+
+<h3 id="V-amp-N2020-公开赛-拉胯的三条命令"><a href="#V-amp-N2020-公开赛-拉胯的三条命令" class="headerlink" title="[V&amp;N2020 公开赛]拉胯的三条命令"></a>[V&amp;N2020 公开赛]拉胯的三条命令</h3><p>直接tcpdump</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~/桌面/steady$ /usr/sbin/tcpdump  -n -r nmapll.pcapng <span class="string">&#x27;tcp[13] = 18&#x27;</span> |  awk <span class="string">&#x27;&#123;print $3&#125;&#x27;</span>| sort -u</span><br><span class="line">reading <span class="keyword">from</span> file nmapll.pcapng, link-type EN10MB (Ethernet)</span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="number">.21</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="number">.22</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="number">.3306</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="number">.631</span></span><br><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="number">.801</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://s1eady.top/2020/10/30/CTF-%E6%9D%82%E9%A1%B9%E5%88%B7%E9%A2%982/" title="CTF-杂项刷题3" target="_blank" rel="external">http://s1eady.top/2020/10/30/CTF-%E6%9D%82%E9%A1%B9%E5%88%B7%E9%A2%982/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/1.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">果冻</span><small class="ml-1x">Penetration Testing</small></a></h3>
+        <div>一往情深深几许。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2020/11/10/Python%E5%AD%A6%E4%B9%A0--os%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8/" title="Python学习--os库的使用"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2020/10/26/CTF-Crypto%E5%88%B7%E9%A2%981/" title="CTF-Crypto刷题1"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/2.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/1.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="/GXA111666" target="_blank" title="VX" data-toggle=tooltip data-placement=top><i class="icon icon-VX"></i></a></li>
+        
+        <li><a href="/1252195810" target="_blank" title="QQ" data-toggle=tooltip data-placement=top><i class="icon icon-QQ"></i></a></li>
+        
+        <li><a href="/1252195810@qq.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-mail"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>CTF-杂项题总结 | Hexo</title>
+  <meta name="description" content="CTF-杂项压缩包注释注释藏头flag，查看注释可以放入winhex查看十六进制的末尾(最好使用这种方式，因为有时候压缩包注释可能是隐藏的)，或者直接压缩软件查看十六进制。如果遇到隐藏的注释，可以放入sublim或者notepad++。 如果RAR压缩包中有注释的话，在winhex中的ascii中会有CMT字段。 zipinfo查看元数据123456789101112131415161718192">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF-杂项题总结">
+<meta property="og:url" content="http://s1eady.top/2020/11/10/CTF-%E6%9D%82%E9%A1%B9%E9%A2%98%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="CTF-杂项压缩包注释注释藏头flag，查看注释可以放入winhex查看十六进制的末尾(最好使用这种方式，因为有时候压缩包注释可能是隐藏的)，或者直接压缩软件查看十六进制。如果遇到隐藏的注释，可以放入sublim或者notepad++。 如果RAR压缩包中有注释的话，在winhex中的ascii中会有CMT字段。 zipinfo查看元数据123456789101112131415161718192">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/1.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/2.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/3.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/5.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/10.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/11.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/9.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/12.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/15.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/26.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/4.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/6.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/57.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/55.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/56.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/23.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/13.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/25.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/37.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/45.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/14.png">
+<meta property="article:published_time" content="2020-11-10T14:14:20.000Z">
+<meta property="article:modified_time" content="2020-11-06T11:27:41.312Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="CTF-杂项">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/1.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://s1eady.top/2020/11/10/CTF-%E6%9D%82%E9%A1%B9%E9%A2%98%E6%80%BB%E7%BB%93/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/1.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">果冻</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Penetration Testing</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 中国 南京</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="/GXA111666" target="_blank" title="VX" data-toggle=tooltip data-placement=top><i class="icon icon-VX"></i></a></li>
+        
+        <li><a href="/1252195810" target="_blank" title="QQ" data-toggle=tooltip data-placement=top><i class="icon icon-QQ"></i></a></li>
+        
+        <li><a href="/1252195810@qq.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-mail"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>深山夕照深秋雨 一往情深深几许</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CTF-%E6%9D%82%E9%A1%B9"><span class="toc-number">1.</span> <span class="toc-text">CTF-杂项</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%8B%E7%BC%A9%E5%8C%85"><span class="toc-number">1.1.</span> <span class="toc-text">压缩包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E9%87%8A"><span class="toc-number">1.1.1.</span> <span class="toc-text">注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zipinfo%E6%9F%A5%E7%9C%8B%E5%85%83%E6%95%B0%E6%8D%AE"><span class="toc-number">1.1.2.</span> <span class="toc-text">zipinfo查看元数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%8B%E7%BC%A9%E5%8C%85%E8%A7%A3%E5%8E%8B"><span class="toc-number">1.1.3.</span> <span class="toc-text">压缩包解压</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%AA%E5%8A%A0%E5%AF%86ZIP"><span class="toc-number">1.1.4.</span> <span class="toc-text">伪加密ZIP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%AA%E5%8A%A0%E5%AF%86RAR"><span class="toc-number">1.1.5.</span> <span class="toc-text">伪加密RAR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%8E%E6%96%87%E6%94%BB%E5%87%BB"><span class="toc-number">1.1.6.</span> <span class="toc-text">明文攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%A4%E4%B8%AA%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.6.1.</span> <span class="toc-text">两个文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AA%E6%9C%89%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.6.2.</span> <span class="toc-text">只有一个文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#kali-%E6%98%8E%E6%96%87%E6%94%BB%E5%87%BB"><span class="toc-number">1.1.6.3.</span> <span class="toc-text">kali 明文攻击</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CRC%E7%88%86%E7%A0%B4%E9%AB%98%E5%BA%A6"><span class="toc-number">1.1.7.</span> <span class="toc-text">CRC爆破高度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CRC%E7%88%86%E7%A0%B4%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="toc-number">1.1.8.</span> <span class="toc-text">CRC爆破文件内容</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC"><span class="toc-number">1.1.8.1.</span> <span class="toc-text">编写脚本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#crc32-py"><span class="toc-number">1.1.8.2.</span> <span class="toc-text">crc32.py</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3"><span class="toc-number">1.1.9.</span> <span class="toc-text">暴力破解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A9%E7%A0%81%E6%94%BB%E5%87%BB"><span class="toc-number">1.1.9.1.</span> <span class="toc-text">掩码攻击</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E5%8E%8B%E7%BC%A9%E5%8C%85%E7%9A%84%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6"><span class="toc-number">1.1.10.</span> <span class="toc-text">关于压缩包的十六进制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E5%8F%8D%E5%BA%8F"><span class="toc-number">1.1.10.1.</span> <span class="toc-text">十六进制反序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E5%BC%82%E6%88%96"><span class="toc-number">1.1.10.2.</span> <span class="toc-text">十六进制异或</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%8B%E7%BC%A9%E5%8C%85%E4%B8%AD%E8%97%8F%E6%9C%89%E6%95%B0%E6%8D%AE"><span class="toc-number">1.1.11.</span> <span class="toc-text">压缩包中藏有数据</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#01editoer"><span class="toc-number">1.1.11.1.</span> <span class="toc-text">01editoer</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%8B%E7%BC%A9%E5%8C%85NTFS%E9%9A%90%E5%86%99"><span class="toc-number">1.1.12.</span> <span class="toc-text">压缩包NTFS隐写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.1.13.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%BB%E5%9B%BE"><span class="toc-number">1.2.</span> <span class="toc-text">画图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E5%9D%90%E6%A0%87%E7%94%BB%E5%9B%BE"><span class="toc-number">1.2.1.</span> <span class="toc-text">三坐标画图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#01%E4%BA%8C%E7%BB%B4%E7%A0%81"><span class="toc-number">1.2.2.</span> <span class="toc-text">01二维码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%89%B2%E5%9B%BE%E7%89%87%E6%89%B9%E9%87%8F%E6%89%AB%E6%8F%8F%E4%BA%8C%E7%BB%B4%E7%A0%81"><span class="toc-number">1.2.3.</span> <span class="toc-text">分割图片批量扫描二维码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8A%E4%B8%8B%E5%B7%A6%E5%8F%B3%E7%94%BB%E5%9B%BE"><span class="toc-number">1.2.4.</span> <span class="toc-text">上下左右画图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E5%9D%90%E6%A0%87%E7%94%BB%E5%9B%BE"><span class="toc-number">1.2.5.</span> <span class="toc-text">二坐标画图</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E7%89%87"><span class="toc-number">1.3.</span> <span class="toc-text">图片</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#compare"><span class="toc-number">1.3.1.</span> <span class="toc-text">compare</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#diif"><span class="toc-number">1.3.2.</span> <span class="toc-text">diif</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#wbs43open"><span class="toc-number">1.3.3.</span> <span class="toc-text">wbs43open</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hexdump"><span class="toc-number">1.3.4.</span> <span class="toc-text">hexdump</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#webp"><span class="toc-number">1.3.5.</span> <span class="toc-text">webp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#exiftools"><span class="toc-number">1.3.6.</span> <span class="toc-text">exiftools</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%9B%BE%E7%89%87%E5%85%83%E6%95%B0%E6%8D%AE"><span class="toc-number">1.3.6.1.</span> <span class="toc-text">查看图片元数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%B9%E9%87%8F%E6%8F%90%E5%8F%96%E5%85%83%E6%95%B0%E6%8D%AE"><span class="toc-number">1.3.6.2.</span> <span class="toc-text">批量提取元数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8F%90%E5%8F%96%E7%BC%A9%E7%95%A5%E5%9B%BE"><span class="toc-number">1.3.6.3.</span> <span class="toc-text">提取缩略图</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#winhex%E4%B8%8E01editor"><span class="toc-number">1.3.7.</span> <span class="toc-text">winhex与01editor</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AD%A3%E5%B8%B8%E6%83%85%E5%86%B5"><span class="toc-number">1.3.7.1.</span> <span class="toc-text">正常情况</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E6%AE%8A%E6%83%85%E5%86%B5"><span class="toc-number">1.3.7.2.</span> <span class="toc-text">特殊情况</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%89%87%E6%A8%A1%E7%B3%8A%E5%A4%84%E7%90%86"><span class="toc-number">1.3.8.</span> <span class="toc-text">图片模糊处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E5%AE%BD%E5%BA%A6%E5%92%8C%E9%AB%98%E5%BA%A6"><span class="toc-number">1.3.9.</span> <span class="toc-text">修改宽度和高度</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#JPG%E6%96%87%E4%BB%B6%E4%BF%AE%E6%94%B9%E5%9B%BE%E7%89%87%E9%AB%98%E5%BA%A6%E5%92%8C%E5%AE%BD%E5%BA%A6"><span class="toc-number">1.3.9.1.</span> <span class="toc-text">JPG文件修改图片高度和宽度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PNG%E6%96%87%E4%BB%B6%E4%BF%AE%E6%94%B9%E5%9B%BE%E7%89%87%E9%AB%98%E5%BA%A6%E5%AE%BD%E5%BA%A6"><span class="toc-number">1.3.9.2.</span> <span class="toc-text">PNG文件修改图片高度宽度</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%AD%A3%E5%B8%B8%E4%BF%AE%E6%94%B9"><span class="toc-number">1.3.9.2.1.</span> <span class="toc-text">正常修改</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#CRC%E7%88%86%E7%A0%B4%E4%BF%AE%E6%94%B9"><span class="toc-number">1.3.9.2.2.</span> <span class="toc-text">CRC爆破修改</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%89%87%E9%94%90%E5%8C%96"><span class="toc-number">1.3.10.</span> <span class="toc-text">图片锐化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LSB%E9%9A%90%E5%86%99"><span class="toc-number">1.3.11.</span> <span class="toc-text">LSB隐写</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#lsb-py"><span class="toc-number">1.3.11.1.</span> <span class="toc-text">lsb.py</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%AB%E4%BD%8D%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%9C%80%E4%BD%8E%E6%9C%89%E6%95%88%E4%BD%8D%E9%9A%90%E5%86%99"><span class="toc-number">1.3.11.2.</span> <span class="toc-text">八位二进制最低有效位隐写</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#stegsolve"><span class="toc-number">1.3.11.3.</span> <span class="toc-text">stegsolve</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E5%9B%BE%E7%89%87%E4%B8%AD%E6%8F%90%E5%8F%96flag"><span class="toc-number">1.3.12.</span> <span class="toc-text">从图片中提取flag</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Binwalk"><span class="toc-number">1.3.13.</span> <span class="toc-text">Binwalk</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8dd%E5%91%BD%E4%BB%A4%E5%88%86%E7%A6%BB"><span class="toc-number">1.3.13.1.</span> <span class="toc-text">使用dd命令分离</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8foremost%E5%B7%A5%E5%85%B7%E5%88%86%E7%A6%BB"><span class="toc-number">1.3.13.2.</span> <span class="toc-text">使用foremost工具分离</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JPHS"><span class="toc-number">1.3.14.</span> <span class="toc-text">JPHS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.3.15.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B2%E6%B0%B4%E5%8D%B0"><span class="toc-number">1.3.16.</span> <span class="toc-text">盲水印</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%99%AE%E9%80%9A%E7%9B%B2%E6%B0%B4%E5%8D%B0"><span class="toc-number">1.3.16.1.</span> <span class="toc-text">普通盲水印</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%91%E5%9F%9F%E7%9B%B2%E6%B0%B4%E5%8D%B0"><span class="toc-number">1.3.16.2.</span> <span class="toc-text">频域盲水印</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NTFS%E9%9A%90%E5%86%99"><span class="toc-number">1.3.17.</span> <span class="toc-text">NTFS隐写</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#notepad"><span class="toc-number">1.3.17.1.</span> <span class="toc-text">notepad</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stegdetect"><span class="toc-number">1.3.18.</span> <span class="toc-text">stegdetect</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stegpy"><span class="toc-number">1.3.19.</span> <span class="toc-text">stegpy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#outguess"><span class="toc-number">1.3.20.</span> <span class="toc-text">outguess</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#F5%E9%9A%90%E5%86%99"><span class="toc-number">1.3.21.</span> <span class="toc-text">F5隐写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%89%87%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E5%A4%84%E7%90%86"><span class="toc-number">1.3.22.</span> <span class="toc-text">图片十六进制处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zsteg"><span class="toc-number">1.3.23.</span> <span class="toc-text">zsteg</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0"><span class="toc-number">1.3.23.1.</span> <span class="toc-text">常用参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%BC%E5%87%BA%E6%96%87%E4%BB%B6"><span class="toc-number">1.3.23.2.</span> <span class="toc-text">导出文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%98%BE%E7%A4%BA%E7%BB%86%E8%8A%82"><span class="toc-number">1.3.23.3.</span> <span class="toc-text">显示细节</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8BLSB%E4%BF%A1%E6%81%AF"><span class="toc-number">1.3.23.4.</span> <span class="toc-text">查看LSB信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#all%E5%8F%82%E6%95%B0"><span class="toc-number">1.3.23.5.</span> <span class="toc-text">--all参数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ImageMagick"><span class="toc-number">1.3.24.</span> <span class="toc-text">ImageMagick</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#identify"><span class="toc-number">1.3.24.1.</span> <span class="toc-text">identify</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8F%90%E5%8F%96%E6%AF%8F%E4%B8%80%E5%B8%A7%E7%9A%84%E9%97%B4%E9%9A%94"><span class="toc-number">1.3.24.1.1.</span> <span class="toc-text">提取每一帧的间隔</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%9B%BE%E7%89%87%E8%AF%A6%E6%83%85"><span class="toc-number">1.3.24.1.2.</span> <span class="toc-text">查看图片详情</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#steghide"><span class="toc-number">1.3.25.</span> <span class="toc-text">steghide</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%AF%86"><span class="toc-number">1.3.25.1.</span> <span class="toc-text">解密</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A0%B4%E8%A7%A3%E5%AF%86%E7%A0%81"><span class="toc-number">1.3.25.2.</span> <span class="toc-text">破解密码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#stegcracker"><span class="toc-number">1.3.25.3.</span> <span class="toc-text">stegcracker</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stepic"><span class="toc-number">1.3.26.</span> <span class="toc-text">stepic</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stegoveritas"><span class="toc-number">1.3.27.</span> <span class="toc-text">stegoveritas</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#extundelete"><span class="toc-number">1.3.28.</span> <span class="toc-text">extundelete</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%A4%E5%BC%A0%E7%9B%B8%E4%BC%BC%E7%9A%84%E5%9B%BE%E7%89%87"><span class="toc-number">1.3.29.</span> <span class="toc-text">两张相似的图片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chunk%E5%9D%97%E4%B8%AD%E8%97%8F%E6%9C%89%E4%BF%A1%E6%81%AF"><span class="toc-number">1.3.30.</span> <span class="toc-text">chunk块中藏有信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IDAT%E6%A0%87%E8%AF%86%E7%BC%BA%E5%B0%91"><span class="toc-number">1.3.31.</span> <span class="toc-text">IDAT标识缺少</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IDAT%E4%BF%A1%E6%81%AF%E9%9A%90%E8%97%8F"><span class="toc-number">1.3.32.</span> <span class="toc-text">IDAT信息隐藏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%89%87%E6%8B%BC%E6%8E%A5"><span class="toc-number">1.3.33.</span> <span class="toc-text">图片拼接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Honeyview"><span class="toc-number">1.3.34.</span> <span class="toc-text">Honeyview</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#db%E6%96%87%E4%BB%B6"><span class="toc-number">1.3.35.</span> <span class="toc-text">db文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E7%BB%B4%E7%A0%81"><span class="toc-number">1.4.</span> <span class="toc-text">二维码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9F%B3%E9%A2%91%E9%9A%90%E5%86%99"><span class="toc-number">1.5.</span> <span class="toc-text">音频隐写</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Audacity"><span class="toc-number">1.5.1.</span> <span class="toc-text">Audacity</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%AB%E6%96%AF%E7%94%B5%E7%A0%81"><span class="toc-number">1.5.1.1.</span> <span class="toc-text">莫斯电码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%91%E8%B0%B1%E5%9B%BE"><span class="toc-number">1.5.1.2.</span> <span class="toc-text">频谱图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%AC%E7%94%B5%E8%AF%9D%E5%8F%B7%E7%A0%81"><span class="toc-number">1.5.1.3.</span> <span class="toc-text">听电话号码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sox"><span class="toc-number">1.5.2.</span> <span class="toc-text">sox</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mediainfo"><span class="toc-number">1.5.3.</span> <span class="toc-text">mediainfo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#silienteye"><span class="toc-number">1.5.4.</span> <span class="toc-text">silienteye</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MP3Stego"><span class="toc-number">1.5.5.</span> <span class="toc-text">MP3Stego</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ffmpeg"><span class="toc-number">1.5.6.</span> <span class="toc-text">ffmpeg</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8MP3%E8%84%9A%E6%9C%AC"><span class="toc-number">1.5.7.</span> <span class="toc-text">使用MP3脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dtmf2num"><span class="toc-number">1.5.8.</span> <span class="toc-text">dtmf2num</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#kali-dtmf2num"><span class="toc-number">1.5.8.1.</span> <span class="toc-text">kali dtmf2num</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BD%91%E7%AB%99"><span class="toc-number">1.5.8.2.</span> <span class="toc-text">网站</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%84%9A%E6%9C%AC"><span class="toc-number">1.5.8.3.</span> <span class="toc-text">脚本</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#multimon-ng"><span class="toc-number">1.5.9.</span> <span class="toc-text">multimon-ng</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mkvinfo"><span class="toc-number">1.5.10.</span> <span class="toc-text">mkvinfo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mkvextract"><span class="toc-number">1.5.11.</span> <span class="toc-text">mkvextract</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mediainfo-1"><span class="toc-number">1.5.12.</span> <span class="toc-text">mediainfo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Steganography"><span class="toc-number">1.5.13.</span> <span class="toc-text">Steganography</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#morse2ascii"><span class="toc-number">1.5.14.</span> <span class="toc-text">morse2ascii</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#strings%E5%91%BD%E4%BB%A4"><span class="toc-number">1.6.</span> <span class="toc-text">strings命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#word%E6%96%87%E6%A1%A3"><span class="toc-number">1.7.</span> <span class="toc-text">word文档</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%B9%E5%8F%98%E6%96%87%E5%AD%97%E9%A2%9C%E8%89%B2"><span class="toc-number">1.7.1.</span> <span class="toc-text">改变文字颜色</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%96%E6%B6%88%E9%9A%90%E8%97%8F%E6%96%87%E5%AD%97"><span class="toc-number">1.7.2.</span> <span class="toc-text">取消隐藏文字</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#01editor"><span class="toc-number">1.8.</span> <span class="toc-text">01editor</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BF%BB%E8%BD%AC%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6"><span class="toc-number">1.8.1.</span> <span class="toc-text">翻转十六进制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GIF%E5%9B%BE%E7%89%87"><span class="toc-number">1.9.</span> <span class="toc-text">GIF图片</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%89%87%E5%88%86%E5%B8%A7"><span class="toc-number">1.9.1.</span> <span class="toc-text">图片分帧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%89%87%E5%90%88%E5%B9%B6"><span class="toc-number">1.9.2.</span> <span class="toc-text">图片合并</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AF%8F%E4%B8%80%E5%B8%A7%E7%9A%84%E9%97%B4%E9%9A%94%E6%97%B6%E9%97%B4"><span class="toc-number">1.9.3.</span> <span class="toc-text">每一帧的间隔时间</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python%E9%9A%90%E5%86%99"><span class="toc-number">1.10.</span> <span class="toc-text">Python隐写</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#unpy2exe"><span class="toc-number">1.10.1.</span> <span class="toc-text">unpy2exe</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#uncompyle6"><span class="toc-number">1.10.2.</span> <span class="toc-text">uncompyle6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stegosaurus"><span class="toc-number">1.10.3.</span> <span class="toc-text">stegosaurus</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#python%E5%BA%8F%E5%88%97%E5%8C%96%E5%86%85%E5%AE%B9%E7%9A%84%E5%AD%98%E5%85%A5"><span class="toc-number">1.10.4.</span> <span class="toc-text">python序列化内容的存入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E5%91%BD%E4%BB%A4"><span class="toc-number">1.11.</span> <span class="toc-text">常见命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%88%E5%B9%B6%E6%96%87%E4%BB%B6"><span class="toc-number">1.11.1.</span> <span class="toc-text">合并文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6"><span class="toc-number">1.11.2.</span> <span class="toc-text">生成十六进制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#base64%E9%9A%90%E5%86%99"><span class="toc-number">1.12.</span> <span class="toc-text">base64隐写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#excle"><span class="toc-number">1.13.</span> <span class="toc-text">excle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#word%E3%80%81ppt"><span class="toc-number">1.14.</span> <span class="toc-text">word、ppt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vmdk"><span class="toc-number">1.15.</span> <span class="toc-text">vmdk</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%B7%E4%BD%A0%E5%8D%A1%E5%85%B9"><span class="toc-number">1.16.</span> <span class="toc-text">迷你卡兹</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#xortool"><span class="toc-number">1.17.</span> <span class="toc-text">xortool</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PDF%E9%9A%90%E5%86%99"><span class="toc-number">1.17.1.</span> <span class="toc-text">PDF隐写</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-1"><span class="toc-number">2.</span> <span class="toc-text">总结</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-CTF-杂项题总结" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CTF-杂项题总结
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2020/11/10/CTF-%E6%9D%82%E9%A1%B9%E9%A2%98%E6%80%BB%E7%BB%93/" class="article-date">
+	  <time datetime="2020-11-10T14:14:20.000Z" itemprop="datePublished">2020-11-10</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/CTF-%E6%9D%82%E9%A1%B9/">CTF-杂项</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/CTF-%E6%9D%82%E9%A1%B9/" rel="tag">CTF-杂项</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2020/11/10/CTF-%E6%9D%82%E9%A1%B9%E9%A2%98%E6%80%BB%E7%BB%93/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="CTF-杂项"><a href="#CTF-杂项" class="headerlink" title="CTF-杂项"></a>CTF-杂项</h1><h2 id="压缩包"><a href="#压缩包" class="headerlink" title="压缩包"></a>压缩包</h2><h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>注释藏头flag，查看注释可以放入winhex查看十六进制的末尾(最好使用这种方式，因为有时候压缩包注释可能是隐藏的)，或者直接压缩软件查看十六进制。如果遇到隐藏的注释，可以放入sublim或者notepad++。</p>
+<p>如果RAR压缩包中有注释的话，在winhex中的ascii中会有CMT字段。</p>
+<h3 id="zipinfo查看元数据"><a href="#zipinfo查看元数据" class="headerlink" title="zipinfo查看元数据"></a>zipinfo查看元数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~&#x2F;桌面&#x2F;steady$ zipinfo -v &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;1.zip</span><br><span class="line">Central directory entry #1:</span><br><span class="line">---------------------------</span><br><span class="line"></span><br><span class="line">  1.py</span><br><span class="line"></span><br><span class="line">  offset of local header from start of archive:   0</span><br><span class="line">                                                  (0000000000000000h) bytes</span><br><span class="line">  file system or operating system of origin:      MS-DOS, OS&#x2F;2 or NT FAT</span><br><span class="line">  version of encoding software:                   6.3</span><br><span class="line">  minimum file system compatibility required:     MS-DOS, OS&#x2F;2 or NT FAT</span><br><span class="line">  minimum software version required to extract:   2.0</span><br><span class="line">  compression method:                             deflated</span><br><span class="line">  compression sub-type (deflation):               normal</span><br><span class="line">  file security status:                           not encrypted</span><br><span class="line">  extended local header:                          no</span><br><span class="line">  file last modified on (DOS date&#x2F;time):          2020 Nov 6 11:55:08</span><br><span class="line">  32-bit CRC value (hex):                         01e344f3</span><br><span class="line">  compressed size:                                385 bytes</span><br><span class="line">  uncompressed size:                              771 bytes</span><br><span class="line">  length of filename:                             4 characters</span><br><span class="line">  length of extra field:                          36 bytes</span><br><span class="line">  length of file comment:                         0 characters</span><br><span class="line">  disk number on which file begins:               disk 1</span><br><span class="line">  apparent file type:                             binary</span><br><span class="line">  non-MSDOS external file attributes:             000000 hex</span><br><span class="line">  MS-DOS file attributes (20 hex):                arc </span><br><span class="line"></span><br><span class="line">  The central-directory extra field contains:</span><br><span class="line">  - A subfield with ID 0x000a (PKWARE Win32) and 32 data bytes.  The first</span><br><span class="line">    20 are:   00 00 00 00 01 00 18 00 d0 b0 f5 9d f0 b3 d6 01 d0 b0 f5 9d.</span><br><span class="line"></span><br><span class="line">  There is no file comment.</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="压缩包解压"><a href="#压缩包解压" class="headerlink" title="压缩包解压"></a>压缩包解压</h3><p>大多是使用python自动化解压，常用的python库为<code>zipfile</code>、<code>unrar</code>。</p>
+<p>比如：</p>
+<p>直接批量读取文件。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line">flag=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">32</span>):</span><br><span class="line">	f=open(<span class="string">&#x27;C:/Users/12521/Desktop/subject/&#x27;</span>+str(i)+<span class="string">&#x27;/&#x27;</span>+str(i)+<span class="string">&#x27;.txt&#x27;</span>,<span class="string">&#x27;r&#x27;</span>)</span><br><span class="line">	flag+=f.read()</span><br><span class="line">print(base64.b64decode(flag))</span><br></pre></td></tr></table></figure>
+
+<p>批量解压带有密码的压缩包，文件名字就是压缩包的密码(zip、rar同理)。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> unrar <span class="keyword">import</span> rarfile</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">unzip</span>(<span class="params">zipname</span>):</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        passwd = zipname[<span class="number">0</span>:<span class="number">6</span>]</span><br><span class="line">        zf = rarfile.RarFile(<span class="string">&#x27;C:/Users/12521/gif/&#x27;</span>+zipname,<span class="string">&#x27;r&#x27;</span>)</span><br><span class="line">        zf.extractall(<span class="string">&#x27;./gif/&#x27;</span>,pwd=passwd)</span><br><span class="line"><span class="comment">#        zf.close()</span></span><br><span class="line">        os.remove(zipname)</span><br><span class="line">        zipname = zf.namelist()[<span class="number">0</span>].replace(<span class="string">&#x27;\\&#x27;</span>,<span class="string">&#x27;/&#x27;</span>)</span><br><span class="line">        print(zipname)</span><br><span class="line">unzip(<span class="string">&quot;flag.rar&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="伪加密ZIP"><a href="#伪加密ZIP" class="headerlink" title="伪加密ZIP"></a>伪加密ZIP</h3><p>总结：通过<strong>压缩源文件目录区50 4B 01 02 1F 00 14 00 0奇/偶 00 来表示是否加密</strong>。</p>
+<h3 id="伪加密RAR"><a href="#伪加密RAR" class="headerlink" title="伪加密RAR"></a>伪加密RAR</h3><p>RAR的标记块和结束块都是固定的7字节序列，分别为0x52 61 72 21 1A 07 00和0xC4 3D 7B 00 40 07 00。文件块这边要注意一下HEAD_FLAGS这个头部，其中HEAD_FLAGS的低三位代表加密标志，此位若被置为1，则文件使用了基于密钥的加密。</p>
+<h3 id="明文攻击"><a href="#明文攻击" class="headerlink" title="明文攻击"></a>明文攻击</h3><p>前提：</p>
+<p>有一个已知的文件，然后加密的压缩包中也有一个我们已知的文件，这时候我们可以尝试明文攻击。</p>
+<p>攻击方式：</p>
+<p>首先我们需要把我们的已知的文件使用winrar进行压缩，这里必须使用winrar文件，而且我们需要保证我们手动压缩的文件和我们需要解密的文件后缀以及压缩方式是一样的。</p>
+<p>这里使用工具可以直接破解。如果工具提示无法载入，可以使用winrar的修复功能对压缩包进行修复。</p>
+<h4 id="两个文件"><a href="#两个文件" class="headerlink" title="两个文件"></a>两个文件</h4><p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/1.png" alt="1"></p>
+<p>具体的文件拓扑图</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/2.png" alt="2"></p>
+<p>明文攻击的具体特点就是敏感文件的CRC值是一样的。这里我们可以使用WINRA工具进行查看。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/3.png" alt="3"></p>
+<h4 id="只有一个文件"><a href="#只有一个文件" class="headerlink" title="只有一个文件"></a>只有一个文件</h4><p>手动生成一个文件然后<code>rbkcrack.exe</code>进行破解。</p>
+<h4 id="kali-明文攻击"><a href="#kali-明文攻击" class="headerlink" title="kali 明文攻击"></a>kali 明文攻击</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~&#x2F;bin$ .&#x2F;pkcrack -c &quot;logo.png&quot; -p logo.png  -C &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;flag.zip -P &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;logo.zip -d .&#x2F;1.zip</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-C:要破解的目标文件(含路径)</span><br><span class="line"></span><br><span class="line">-c:破解文件中的明文文件的名字(其路径不包括系统路径,从zip文件一层开始)</span><br><span class="line"></span><br><span class="line">-P:压缩后的明文文件</span><br><span class="line"></span><br><span class="line">-p:压缩的明文文件中明文文件的名字(也就是readme.txt在readme.zip中的位置)</span><br><span class="line">-d:指定文件名及所在的绝对路径，将解密后的zip文件输出</span><br></pre></td></tr></table></figure>
+
+<h3 id="CRC爆破高度"><a href="#CRC爆破高度" class="headerlink" title="CRC爆破高度"></a>CRC爆破高度</h3><p>修改图片高度，当图片高度出现问题的时候，我们需要根据CRC值爆破出高度，修改高度拿到flag。并且图片高度出现问题的时候，在linux下，图片无法正常打开。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/5.png" alt="5"></p>
+<p>使用脚本根据CRC的值爆破出正常的高度</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">p=<span class="number">0</span></span><br><span class="line">m = open(<span class="string">&quot;flag.png&quot;</span>,<span class="string">&quot;rb&quot;</span>).read()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">5000</span>):</span><br><span class="line">    <span class="keyword">if</span>(p==<span class="number">1</span>):</span><br><span class="line">    	<span class="keyword">break</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">5000</span>):</span><br><span class="line">        c = m[<span class="number">12</span>:<span class="number">16</span>] + struct.pack(<span class="string">&#x27;&gt;i&#x27;</span>, i) + struct.pack(<span class="string">&#x27;&gt;i&#x27;</span>, j)+m[<span class="number">24</span>:<span class="number">29</span>]</span><br><span class="line">        crc = binascii.crc32(c) &amp; <span class="number">0xffffffff</span></span><br><span class="line">        <span class="keyword">if</span> crc == <span class="number">0x3d9a65d0</span>:</span><br><span class="line">            p=<span class="number">1</span></span><br><span class="line">            <span class="comment">#print(c)</span></span><br><span class="line">            print(hex(i),hex(j))</span><br><span class="line">            <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="CRC爆破文件内容"><a href="#CRC爆破文件内容" class="headerlink" title="CRC爆破文件内容"></a>CRC爆破文件内容</h3><p>CRC校验实用程序库，在数据存储和数据通讯领域，为了保证数据的正确，就不得不采用检错的手段。 在诸多检错手段中，CRC是最著名的一种。CRC的全称是循环冗余校验。 在产生CRC32时，源数据块的每一位都参与了运算，因此即使数据块中只有一位发生改变也会得到不同 的CRC32值，利用这个原理我们可以直接爆破出加密文件中的内容。 每个文件都有唯一的CRC32值，即便数据中一个bit发生变化，也会导致CRC32值不同。若是知道一段数 据的长度和CRC32值，便可穷举数据，与其CRC32对照，以此达到暴力猜解的目的。但限于CPU的能 力，通常只适用于较小文本文件。</p>
+<p>通常情况下加密文件一般比较小，可以爆破CRC的值。而且爆破crc的位数通常与文件的大小有关。</p>
+<h4 id="编写脚本"><a href="#编写脚本" class="headerlink" title="编写脚本"></a>编写脚本</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line">s=string.printable</span><br><span class="line">c =[<span class="number">0xF3B61B38</span>,<span class="number">0xF3B61B38</span>,<span class="number">0X6ABF4A82</span>,<span class="number">0X5ED1937E</span>,<span class="number">0X09b9265b</span>,<span class="number">0x84b12bae</span>,<span class="number">0x70659eff</span>,<span class="number">0x90b077e1</span>,<span class="number">0x6abf4a82</span>]</span><br><span class="line">password = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> crc <span class="keyword">in</span> c:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> s:</span><br><span class="line">        <span class="keyword">if</span> crc==(binascii.crc32(i.encode())&amp;<span class="number">0xffffffff</span>):</span><br><span class="line">            password =password + i</span><br><span class="line">print(password)</span><br></pre></td></tr></table></figure>
+
+<p>自动提取文件的CRC值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> zipfile</span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line">s=string.printable</span><br><span class="line">f = zipfile.ZipFile(<span class="string">&quot;flag.zip&quot;</span>)</span><br><span class="line">l = f.namelist()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> l:</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> s:</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&quot;.txt&quot;</span> <span class="keyword">in</span> i:</span><br><span class="line">            <span class="keyword">if</span>(f.getinfo(i).CRC==binascii.crc32(j.encode())):</span><br><span class="line">                print(j)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> zipfile</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">CrackCrc</span>(<span class="params">crc</span>):</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> dic:</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> dic:</span><br><span class="line">            <span class="keyword">for</span> p <span class="keyword">in</span> dic:</span><br><span class="line">                <span class="keyword">for</span> q <span class="keyword">in</span> dic:</span><br><span class="line">                    s = i + j + p + q</span><br><span class="line">                    <span class="keyword">if</span> crc == (binascii.crc32(s) &amp; <span class="number">0xffffffff</span>):</span><br><span class="line">                        f.write(s)</span><br><span class="line">                        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">CrackZip</span>():</span></span><br><span class="line">    <span class="keyword">for</span> I <span class="keyword">in</span> range(<span class="number">68</span>):</span><br><span class="line">        file = <span class="string">&#x27;123/out&#x27;</span> + str(I) + <span class="string">&#x27;.zip&#x27;</span></span><br><span class="line">        f = zipfile.ZipFile(file, <span class="string">&#x27;r&#x27;</span>)</span><br><span class="line">        GetCrc = f.getinfo(<span class="string">&#x27;data.txt&#x27;</span>)</span><br><span class="line">        crc = GetCrc.CRC</span><br><span class="line">        CrackCrc(crc)</span><br><span class="line"></span><br><span class="line">dic = string.ascii_letters + string.digits + <span class="string">&#x27;+/=&#x27;</span></span><br><span class="line">f = open(<span class="string">&#x27;out.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>)</span><br><span class="line">CrackZip()</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
+
+<h4 id="crc32-py"><a href="#crc32-py" class="headerlink" title="crc32.py"></a>crc32.py</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">python3 crc32.py reverse <span class="number">0x15b89588</span></span><br><span class="line"><span class="number">4</span> bytes: &#123;<span class="number">0xc9</span>, <span class="number">0xbf</span>, <span class="number">0xd6</span>, <span class="number">0x30</span>&#125;</span><br><span class="line">verification checksum: <span class="number">0x15b89588</span> (OK)</span><br><span class="line">alternative: AKjKcy (OK)</span><br><span class="line">alternative: BVptH1 (OK)</span><br><span class="line">alternative: FRmuIR (OK)</span><br><span class="line">alternative: Ka6j7X (OK)</span><br><span class="line">alternative: ND4JDn (OK)</span><br><span class="line">alternative: SgZWO3 (OK)</span><br><span class="line">alternative: WcGVNP (OK)</span><br><span class="line">alternative: _iQ5Bx (OK)</span><br><span class="line">alternative: bYCMs4 (OK)</span><br><span class="line">alternative: c5qQli (OK)</span><br><span class="line">alternative: d093GV (OK)</span><br><span class="line">alternative: oKFBdr (OK)</span><br><span class="line">alternative: shint6 (OK)//敏感字符</span><br><span class="line">alternative: wltouU (OK)</span><br></pre></td></tr></table></figure>
+
+<p>会列举出文件内容，这时候我们需要找到敏感字符。</p>
+<h3 id="暴力破解"><a href="#暴力破解" class="headerlink" title="暴力破解"></a>暴力破解</h3><p>使用暴力破解的时候，如果我们无法载入文件，如图</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/10.png" alt="10"></p>
+<p>我们可以使用winRAR工具进行压缩包修复。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/11.png" alt="11"></p>
+<h4 id="掩码攻击"><a href="#掩码攻击" class="headerlink" title="掩码攻击"></a>掩码攻击</h4><p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/9.png" alt="9"></p>
+<h3 id="关于压缩包的十六进制"><a href="#关于压缩包的十六进制" class="headerlink" title="关于压缩包的十六进制"></a>关于压缩包的十六进制</h3><h4 id="十六进制反序"><a href="#十六进制反序" class="headerlink" title="十六进制反序"></a>十六进制反序</h4><p>使用脚本反序</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">steady_str=<span class="string">&#x27;4B50040300140009000872D74F55439F46CE0034000000260000000800006C666761742E7478C21C1AF9380F7F03C962F53BED1B5385CA595270F34D7C254B8FC92A76A115C99800EFAA55BF064FF3E37E7CF843E767B1DB813A4B500807439F46CE00340000002600004B500201001F00140009000872D74F55439F46CE00340000002600000008002400000000000000200000000000006C666761742E7478000A0020000000000001001844B9F4F387D701D53904C216855101D53904C216855101D54B5006050000000000010001005A0000006A000000800D09200A20200D20200A0A0D09200D20200A0A0D2009202009200A0D20200A0D20200D20090A202020200D09200A20200D20200A0D09200A20090D20200A09200D20090A202020200D09200A09090D20200A09090A0D20090D20090A202020200D09200A20200A0D20090D20090A0D20200A0D20200A20200A0D200920090A0D47646C686D6374555861744D47617346695A77313264745132636C686E62704E&#x27;</span></span><br><span class="line">flag=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(steady_str),<span class="number">4</span>):</span><br><span class="line">    steady_str1=steady_str[i:i+<span class="number">4</span>]</span><br><span class="line">    steady_str2=steady_str1[<span class="number">0</span>:<span class="number">2</span>]</span><br><span class="line">    steady_str3=steady_str1[<span class="number">2</span>:<span class="number">4</span>]</span><br><span class="line">    flag+=steady_str3+steady_str2</span><br><span class="line">print(flag)</span><br></pre></td></tr></table></figure>
+
+<p>直接使用winhex反序</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/12.png" alt="12"></p>
+<h4 id="十六进制异或"><a href="#十六进制异或" class="headerlink" title="十六进制异或"></a>十六进制异或</h4><p>题目会提示<code>0ff</code>，十六进制与<code>0xff</code>异或。</p>
+<p>使用脚本异或、或者winhex功能(如上)。</p>
+<h3 id="压缩包中藏有数据"><a href="#压缩包中藏有数据" class="headerlink" title="压缩包中藏有数据"></a>压缩包中藏有数据</h3><h4 id="01editoer"><a href="#01editoer" class="headerlink" title="01editoer"></a>01editoer</h4><p>使用该软件打开如果提示载入错误，说明该压缩包藏有文件。使用binwalk等等进行分离。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/15.png" alt="15"></p>
+<h3 id="压缩包NTFS隐写"><a href="#压缩包NTFS隐写" class="headerlink" title="压缩包NTFS隐写"></a>压缩包NTFS隐写</h3><p>压缩包也可能会有NTFS隐写，使用win命令<code>dir /r</code>或者<code>lads.exe</code>查看是否有NTFS隐写。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>1、有时候压缩包打不开、压缩包有密码，可以直接使用<code>rar</code>进行解压，如果要求输入密码可以直接空密码就可以解压出文件。</p>
+<p>2、压缩包如果有注释，winhex中的ascii会有CMT字段。</p>
+<h2 id="画图"><a href="#画图" class="headerlink" title="画图"></a>画图</h2><h3 id="三坐标画图"><a href="#三坐标画图" class="headerlink" title="三坐标画图"></a>三坐标画图</h3><p>判断坐标大小，求出图片的长度和宽度。</p>
+<p>首先notepad++求行号。</p>
+<p>其次python脚本求图片大小。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">a=<span class="number">61366</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">1000</span>):</span><br><span class="line">	<span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">1000</span>):</span><br><span class="line">		<span class="keyword">if</span> (i*j)==a:</span><br><span class="line">			print(i,j)</span><br><span class="line">(<span class="number">122</span>, <span class="number">503</span>)</span><br><span class="line">(<span class="number">503</span>, <span class="number">122</span>)</span><br></pre></td></tr></table></figure>
+
+<p>然后脚本画图。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line">x=<span class="number">503</span></span><br><span class="line">y=<span class="number">122</span></span><br><span class="line"></span><br><span class="line">img=Image.new(<span class="string">&quot;RGB&quot;</span>,(x,y))</span><br><span class="line">file1=open(<span class="string">&#x27;./1.txt&#x27;</span>,<span class="string">&#x27;r&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,x):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>,y):</span><br><span class="line">        line=file1.readline().replace(<span class="string">&#x27;\n&#x27;</span>,<span class="string">&#x27;&#x27;</span>).split(<span class="string">&#x27;,&#x27;</span>)</span><br><span class="line">        print(line)</span><br><span class="line">        img.putpixel((i,j),(int(line[<span class="number">0</span>]),int(line[<span class="number">1</span>]),int(line[<span class="number">2</span>])))</span><br><span class="line">img.show()</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="01二维码"><a href="#01二维码" class="headerlink" title="01二维码"></a>01二维码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line">MAX = <span class="number">25</span></span><br><span class="line">img = Image.new(<span class="string">&quot;RGB&quot;</span>,(MAX,MAX))</span><br><span class="line">str=<span class="string">&quot;1111111011100111101111111100000101011101000100000110111010010010010010111011011101010000110001011101101110101110110110101110110000010011011001010000011111111010101010101111111000000000011100110000000010000011010010111100110111010010110101100001001101100110100100111101111111111111100000000001101101110100101110100101101001011011011001000100100111111100111111111110110010000000010000011110111100110110010111111010110111111000100000000011101111000110101111111010101100101011011100000100011001110001011110111010010111101111101001011101000011101000110111101110100101000110000111010000010000100100100011101111111010110010101011111&quot;</span></span><br><span class="line">i = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> y <span class="keyword">in</span> range (<span class="number">0</span>,MAX):</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> range (<span class="number">0</span>,MAX):</span><br><span class="line">        <span class="keyword">if</span>(str[i] == <span class="string">&#x27;1&#x27;</span>):</span><br><span class="line">            img.putpixel([x,y],(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            img.putpixel([x,y],(<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>))</span><br><span class="line">        i = i+<span class="number">1</span></span><br><span class="line">img.show()</span><br><span class="line">img.save(<span class="string">&quot;flag.png&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>使用kali工具扫描二维码拿到flag，如果二维码太小，可以放大截图，然后继续扫描。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~$ zbarimg &quot;&#x2F;home&#x2F;steady&#x2F;桌面&#x2F;1.png&quot; &gt;&gt; 1.txt</span><br></pre></td></tr></table></figure>
+
+<p><code>QR-Code:flag&#123;bin_2_qrcode&#125;</code></p>
+<h3 id="分割图片批量扫描二维码"><a href="#分割图片批量扫描二维码" class="headerlink" title="分割图片批量扫描二维码"></a>分割图片批量扫描二维码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">id = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">25</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">25</span>):</span><br><span class="line">        box = (<span class="number">25</span> * i, <span class="number">25</span> * j, <span class="number">25</span> * (i + <span class="number">1</span>), <span class="number">25</span> * (j + <span class="number">1</span>))</span><br><span class="line">        im.crop(box).resize((<span class="number">500</span>, <span class="number">500</span>), Image.ANTIALIAS).save(<span class="string">&#x27;C:/Users/12521/Desktop/CTF脚本/图片二维码/分割二维码/1/%03d.png&#x27;</span> % id)</span><br><span class="line">        id += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~$ <span class="keyword">for</span> i <span class="keyword">in</span> &#123;<span class="number">0.</span><span class="number">.624</span>&#125;;do zbarimg <span class="string">&quot;./$i.png&quot;</span>;done &gt;&gt; qr.txt</span><br></pre></td></tr></table></figure>
+
+<h3 id="上下左右画图"><a href="#上下左右画图" class="headerlink" title="上下左右画图"></a>上下左右画图</h3><p><code>R-right  L-left  U-up  D-down</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">s=<span class="string">&#x27;DDDDDDDDDRRRRRRDDDDDDDDDDDDDDDDLLLDDDDDDDDDDDLLRRRRLLDDDDDDDDDDDDDDDDDDDDDDDDUUUUUUUUUUUUUUUUUUUURRRRRRRUUUUUUUUUUUUUUUDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDUUUUUUUUUUUUUUUUUUUURRRRRRRRUUUUUUUUUUULLLLLRRRRRRLDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDLLLLUUUUUUUUUUUUUURRRRUUUUURRRRRUUUUUUUUUUURRRRRDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDLLLLLUUUUUUUUUUUUUUUUUUUDDDDDDDDDDDDDDDDDDDRRRRRRLDDDDDDDDDDDDDLLLLLLLRRRRRRRRLUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUURRRRRUUUUUUUUUUUUUUUUURRLLDDDDDDDDDDDDDDDDDDDDDDLLDDDDRRDDDDDDDDDDDDDDDDDDDDDDDRRLLUUUUUUUUUUUUUUUUUUUUUUULLUUUURRUUUUURRRRRRRRUUUUUUUUUUULLLLLRRRRRRLDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDLLLLUUUUUUUUUUUUUURRRRUUUUURRRRDDDDDDDDDDDDDDDDDDDDDDRRRRRLLLLLUUUUUUUUUUUUUUUUUUUUUURRRRRUUUUUUUUUUUUUUUULLLLLRRRRRDDDDDDDDDDDDDDDDRRRUUUUUUUUUUUUUUUURRRRLLLLDDDDDDDDDDDDDDDDRRRRDDDDDDDDDDDDDDDDDDDDDDLLLLRRRRUUUUUUUUUUUUUUUUUUUUUURRRRRUUUUUUUUUUUUUUUURRRRRDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDLLLLLUUUUUUUUUUUUUUUUUUUUUURRRRRRRRRRRRUUUUUUUUUUUUUUUULLLLLRRRRRDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDLLLLLRRRRRUUUUUUUUUUUUUUUUUUUUUURRRRRRRUUUUUUUUUUUUUUUULLLLLRRRRRDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDLLLLLRRRRRUUUUUUUUUUUUUUUUUUUUUURRUUUUUUUUUUUUUUUURRRRRDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDLLLLLUUUUUUUUUUUUUUUUUUUUUURRRRRRRRRRUUUUUUUUUUUUUUUUUUUUULLLRRRDDDDDDDDDDDDDDDDDDDDDDDDRRDDDDLLDDDDDDDDDDDDDDDDDDDDLLL&#x27;</span></span><br><span class="line">flag =np.zeros((<span class="number">199</span>,<span class="number">100</span>))</span><br><span class="line">x=<span class="number">0</span></span><br><span class="line">y=<span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(s)):</span><br><span class="line">	<span class="keyword">if</span>(s[i]==<span class="string">&#x27;D&#x27;</span>):</span><br><span class="line">		y=y+<span class="number">1</span></span><br><span class="line">		flag[x][y]=<span class="string">&#x27;1&#x27;</span></span><br><span class="line">	<span class="keyword">elif</span>(s[i]==<span class="string">&#x27;U&#x27;</span>):</span><br><span class="line">		y=y<span class="number">-1</span></span><br><span class="line">		flag[x][y]=<span class="string">&#x27;1&#x27;</span></span><br><span class="line">	<span class="keyword">elif</span>(s[i]==<span class="string">&#x27;R&#x27;</span>):</span><br><span class="line">		x=x+<span class="number">1</span></span><br><span class="line">		flag[x][y]=<span class="string">&#x27;1&#x27;</span></span><br><span class="line">	<span class="keyword">elif</span>(s[i]==<span class="string">&#x27;L&#x27;</span>):</span><br><span class="line">		x=x<span class="number">-1</span></span><br><span class="line">		flag[x][y]=<span class="string">&#x27;1&#x27;</span></span><br><span class="line">f = open(<span class="string">&#x27;flag.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">	s=<span class="string">&#x27;&#x27;</span></span><br><span class="line">	<span class="keyword">for</span> z <span class="keyword">in</span> range(<span class="number">199</span>):</span><br><span class="line">		<span class="keyword">if</span>(str(flag[z][j])==<span class="string">&#x27;0.0&#x27;</span>):</span><br><span class="line">			s+=<span class="string">&#x27; &#x27;</span></span><br><span class="line">		<span class="keyword">else</span>:</span><br><span class="line">			s+=<span class="string">&#x27;x&#x27;</span></span><br><span class="line">	f.write(s)</span><br><span class="line">	f.write(<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">f.close</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line">im = Image.new(<span class="string">&#x27;RGB&#x27;</span>,(<span class="number">1000</span>,<span class="number">1000</span>),<span class="string">&#x27;black&#x27;</span>)</span><br><span class="line"> <span class="comment">#把flag中的字母读出来</span></span><br><span class="line">line = <span class="string">&quot;DDDDDDDDDRRRRRRDDDDDDDDDDDDDDDDLLLDDDDDDDDDDDLLRRRRLLDDDDDDDDDDDDDDDDDDDDDDDDUUUUUUUUUUUUUUUUUUUURRRRRRRUUUUUUUUUUUUUUUDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDUUUUUUUUUUUUUUUUUUUURRRRRRRRUUUUUUUUUUULLLLLRRRRRRLDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDLLLLUUUUUUUUUUUUUURRRRUUUUURRRRRUUUUUUUUUUURRRRRDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDLLLLLUUUUUUUUUUUUUUUUUUUDDDDDDDDDDDDDDDDDDDRRRRRRLDDDDDDDDDDDDDLLLLLLLRRRRRRRRLUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUURRRRRUUUUUUUUUUUUUUUUURRLLDDDDDDDDDDDDDDDDDDDDDDLLDDDDRRDDDDDDDDDDDDDDDDDDDDDDDRRLLUUUUUUUUUUUUUUUUUUUUUUULLUUUURRUUUUURRRRRRRRUUUUUUUUUUULLLLLRRRRRRLDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDLLLLUUUUUUUUUUUUUURRRRUUUUURRRRDDDDDDDDDDDDDDDDDDDDDDRRRRRLLLLLUUUUUUUUUUUUUUUUUUUUUURRRRRUUUUUUUUUUUUUUUULLLLLRRRRRDDDDDDDDDDDDDDDDRRRUUUUUUUUUUUUUUUURRRRLLLLDDDDDDDDDDDDDDDDRRRRDDDDDDDDDDDDDDDDDDDDDDLLLLRRRRUUUUUUUUUUUUUUUUUUUUUURRRRRUUUUUUUUUUUUUUUURRRRRDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDLLLLLUUUUUUUUUUUUUUUUUUUUUURRRRRRRRRRRRUUUUUUUUUUUUUUUULLLLLRRRRRDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDLLLLLRRRRRUUUUUUUUUUUUUUUUUUUUUURRRRRRRUUUUUUUUUUUUUUUULLLLLRRRRRDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDLLLLLRRRRRUUUUUUUUUUUUUUUUUUUUUURRUUUUUUUUUUUUUUUURRRRRDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDLLLLLUUUUUUUUUUUUUUUUUUUUUURRRRRRRRRRUUUUUUUUUUUUUUUUUUUUULLLRRRDDDDDDDDDDDDDDDDDDDDDDDDRRDDDDLLDDDDDDDDDDDDDDDDDDDDLLL&quot;</span></span><br><span class="line">a = [<span class="number">300</span>,<span class="number">300</span>] <span class="comment">#起始位置</span></span><br><span class="line"><span class="comment">#把flag[0]当做左右移动 flag[1]当做上下移动</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> line:</span><br><span class="line">    <span class="keyword">if</span> i == <span class="string">&#x27;D&#x27;</span>:</span><br><span class="line">        a[<span class="number">1</span>] = a[<span class="number">1</span>]+<span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> i == <span class="string">&#x27;U&#x27;</span>:</span><br><span class="line">        a[<span class="number">1</span>] = a[<span class="number">1</span>]<span class="number">-1</span></span><br><span class="line">    <span class="keyword">if</span> i == <span class="string">&#x27;R&#x27;</span>:</span><br><span class="line">        a[<span class="number">0</span>] = a[<span class="number">0</span>]+<span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> i == <span class="string">&#x27;L&#x27;</span>:</span><br><span class="line">        a[<span class="number">0</span>] = a[<span class="number">0</span>]<span class="number">-1</span></span><br><span class="line">    im.putpixel(a ,(<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>)) <span class="comment">## putpixel是通过坐标点来进行画图</span></span><br><span class="line"><span class="comment">##刚开始是按照惯例 让i == &#x27;u&#x27; +1 画出来是个倒立的图形 所以只能让 ‘D&#x27;+1</span></span><br><span class="line">print(a)</span><br><span class="line">im.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="二坐标画图"><a href="#二坐标画图" class="headerlink" title="二坐标画图"></a>二坐标画图</h3><p>kali的<code>gnuplot</code>,主要该工具去需要去掉<code>（）</code>、以及逗号变成空格。</p>
+<p>python脚本。</p>
+<h2 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h2><h3 id="compare"><a href="#compare" class="headerlink" title="compare"></a>compare</h3><p>比较两张图片是否有异同。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compare &#39;&#x2F;root&#x2F;桌面&#x2F;flag&#x2F;1.png&#39;  &#39;&#x2F;root&#x2F;桌面&#x2F;flag&#x2F;2.png&#39;  out.png</span><br></pre></td></tr></table></figure>
+
+<p>查看得到的图片有什么异常。</p>
+<h3 id="diif"><a href="#diif" class="headerlink" title="diif"></a>diif</h3><p>比较两张图片的不同，并显示十六进制。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">diff -a a.jpg b.jpg|hexdump -C</span><br></pre></td></tr></table></figure>
+
+<h3 id="wbs43open"><a href="#wbs43open" class="headerlink" title="wbs43open"></a>wbs43open</h3><p>bmp文件解密。</p>
+<h3 id="hexdump"><a href="#hexdump" class="headerlink" title="hexdump"></a>hexdump</h3><p>查看文件十六进制。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexdump -C flag.png</span><br></pre></td></tr></table></figure>
+
+<h3 id="webp"><a href="#webp" class="headerlink" title="webp"></a>webp</h3><ul>
+<li><code>cwebp</code> - 编码器工具：可将 <code>png</code> 转为 <code>webp</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cwebp 1.png -o 2.webp</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>dwebp</code> - 解码器工具：可将 <code>webp</code> 转为 <code>png</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dwebp 1.webp -o 2.png</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>vwebp</code> - 查看器工具：可直接查看 <code>webp</code> 格式图片</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vwebp 1.webp</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>webpinfo</code> - 格式查看工具：可打印出 <code>WebP</code> 文件的块级结构以及基本完整性检查</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webpinfo 1.webp</span><br></pre></td></tr></table></figure>
+
+<h3 id="exiftools"><a href="#exiftools" class="headerlink" title="exiftools"></a>exiftools</h3><h4 id="查看图片元数据"><a href="#查看图片元数据" class="headerlink" title="查看图片元数据"></a>查看图片元数据</h4><p>可以查看图片信息–数据可以包括诸如相机型号，闪光灯是否闪光，日期，时间甚至GPS坐标之类的信息。</p>
+<p>比较重要的数据为<code>XP Comment</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exiftool flag.jpg</span><br></pre></td></tr></table></figure>
+
+<h4 id="批量提取元数据"><a href="#批量提取元数据" class="headerlink" title="批量提取元数据"></a>批量提取元数据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exiftool * | grep &quot;flag&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">imgs = os.listdir(<span class="string">&#x27;.&#x27;</span>)</span><br><span class="line">print(imgs)</span><br><span class="line">imgs = [img <span class="keyword">for</span> img <span class="keyword">in</span> imgs <span class="keyword">if</span> <span class="string">&#x27;.jpg&#x27;</span> <span class="keyword">in</span> img]</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> img <span class="keyword">in</span> imgs:</span><br><span class="line">    exif_dict = dict()</span><br><span class="line"><span class="comment">#   img=re.sub(r&#x27;[(|)]&#x27;,&#x27;&#x27;,img)</span></span><br><span class="line">    exif = os.popen(<span class="string">&#x27;exiftool &#x27;</span> + <span class="string">&#x27;&quot;&#x27;</span> + img + <span class="string">&#x27;&quot;&#x27;</span>).read()</span><br><span class="line">    exif = exif.split(<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> ex <span class="keyword">in</span> exif:</span><br><span class="line">        ex = ex.split(<span class="string">&#x27;:&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> len(ex) == <span class="number">2</span>:</span><br><span class="line">            exif_dict[ex[<span class="number">0</span>].strip()] = ex[<span class="number">1</span>].split()</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;XP Comment&#x27;</span> <span class="keyword">in</span> exif_dict:</span><br><span class="line">        print(exif_dict[<span class="string">&#x27;XP Comment&#x27;</span>])</span><br></pre></td></tr></table></figure>
+
+<h4 id="提取缩略图"><a href="#提取缩略图" class="headerlink" title="提取缩略图"></a>提取缩略图</h4><p>XnView软件直接查看缩略图。</p>
+<p>可以查看图片信息同时也可以缩略图提取，缩略图的最大特点就是两张图片都能在win和linux正常显示，但是在linux中图片会显示出别的信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exiftool -b -ThumbnailImage delta.jpg &gt; flag.jpg</span><br></pre></td></tr></table></figure>
+
+<h3 id="winhex与01editor"><a href="#winhex与01editor" class="headerlink" title="winhex与01editor"></a>winhex与01editor</h3><h4 id="正常情况"><a href="#正常情况" class="headerlink" title="正常情况"></a>正常情况</h4><p>丢入之后可以看到图片对应的ascii，其中可能藏有flag、base64等编码。</p>
+<p>有时候需要修补文件头或者修补文件尾部。(通常是直接在头部或者尾部修补)</p>
+<h4 id="特殊情况"><a href="#特殊情况" class="headerlink" title="特殊情况"></a>特殊情况</h4><p>特别情况下一个文件中可能会夹杂着其他的文件，可以使用binwalk分离。</p>
+<p>有时候会藏有其他文件，但是其他文件的头部或者是尾部可能损坏或者缺失，binwalk分离不出来，需要我们手动找到需要</p>
+<p>修改的部位，然后进行相应的修补。并且需要修改的地方不会是在头部或者尾部，而是大量文本的中间部分，这就是需要</p>
+<p>我们先去搜索相应的敏感特殊字符或者十六进制。在搜索的时候，也可以尝试搜索某些文件的尾部，文件尾部结束之后就</p>
+<p>会对应某些文件的头部，比如：</p>
+<p>RAR的头部十六进制为：<code>526172211A</code>，对应的ascii为：<code>Rar!</code>。</p>
+<p>PNG的头部十六进制为：<code>89504E470D0A1A0A0000000D</code>，对应的ascii为    <code>PNG</code>，有时候文件损坏，头部的数据并不会有</p>
+<p>PNG，这时候我们可以搜索PNG特有的ascii—-<code>IHDR</code>,在PNG的尾部，也会特有<code>IEND</code>。尾部十六进制为：<code>49454E44AE426082</code>。</p>
+<p>GIF的头部十六进制为：<code>4749463839</code>，对应的ascii为：<code>GIF89a</code>。</p>
+<p>还有其他文件格式，就不一一列出。</p>
+<h3 id="图片模糊处理"><a href="#图片模糊处理" class="headerlink" title="图片模糊处理"></a>图片模糊处理</h3><p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/26.png" alt="26"></p>
+<h3 id="修改宽度和高度"><a href="#修改宽度和高度" class="headerlink" title="修改宽度和高度"></a>修改宽度和高度</h3><h4 id="JPG文件修改图片高度和宽度"><a href="#JPG文件修改图片高度和宽度" class="headerlink" title="JPG文件修改图片高度和宽度"></a>JPG文件修改图片高度和宽度</h4><p>搜索<code>FFC0</code>后的第四到七的字节就是图片的宽和高度。</p>
+<h4 id="PNG文件修改图片高度宽度"><a href="#PNG文件修改图片高度宽度" class="headerlink" title="PNG文件修改图片高度宽度"></a>PNG文件修改图片高度宽度</h4><h5 id="正常修改"><a href="#正常修改" class="headerlink" title="正常修改"></a>正常修改</h5><p>右键查看图片属性，查到长度和宽度，然后转换十六进制，搜索，修改对应的宽度、高度，然后修改成对应的十六进制。</p>
+<h5 id="CRC爆破修改"><a href="#CRC爆破修改" class="headerlink" title="CRC爆破修改"></a>CRC爆破修改</h5><p>根据CRC爆破出正常的高度和宽度，进而进行修改。</p>
+<h3 id="图片锐化"><a href="#图片锐化" class="headerlink" title="图片锐化"></a>图片锐化</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding:utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line">img = Image.open(<span class="string">&#x27;ifs.bmp&#x27;</span>)</span><br><span class="line"></span><br><span class="line">X = img.size[<span class="number">0</span>]</span><br><span class="line">Y = img.size[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> X,Y</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(X<span class="number">-2</span>):</span><br><span class="line">  <span class="keyword">for</span> j <span class="keyword">in</span> range(Y<span class="number">-2</span>):</span><br><span class="line">    a = img.getpixel((i,j))[<span class="number">0</span>]+img.getpixel((i,j))[<span class="number">1</span>]+img.getpixel((i,j))[<span class="number">2</span>]</span><br><span class="line">    b = img.getpixel((i,j+<span class="number">1</span>))[<span class="number">0</span>]+img.getpixel((i,j+<span class="number">1</span>))[<span class="number">1</span>]+img.getpixel((i,j+<span class="number">1</span>))[<span class="number">2</span>]</span><br><span class="line">    c = img.getpixel((i,j+<span class="number">2</span>))[<span class="number">0</span>]+img.getpixel((i,j+<span class="number">2</span>))[<span class="number">1</span>]+img.getpixel((i,j+<span class="number">2</span>))[<span class="number">2</span>]</span><br><span class="line">    <span class="keyword">if</span> (a &gt; b <span class="keyword">and</span> c &gt; b) <span class="keyword">or</span> (a &lt; b <span class="keyword">and</span> c &lt; b):</span><br><span class="line">      <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">      img.putpixel((i,j),(<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>))</span><br><span class="line"></span><br><span class="line">img.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="LSB隐写"><a href="#LSB隐写" class="headerlink" title="LSB隐写"></a>LSB隐写</h3><h4 id="lsb-py"><a href="#lsb-py" class="headerlink" title="lsb.py"></a>lsb.py</h4><p>在debain8的虚拟机上</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@root:~/桌面/cloacked-pixel-master<span class="comment"># python2 lsb.py extract 11.png 1.txt 123456</span></span><br><span class="line">[+] Image size: <span class="number">331</span>x300 pixels.</span><br><span class="line">[+] Written extracted data to <span class="number">1.</span>txt.</span><br></pre></td></tr></table></figure>
+
+<h4 id="八位二进制最低有效位隐写"><a href="#八位二进制最低有效位隐写" class="headerlink" title="八位二进制最低有效位隐写"></a>八位二进制最低有效位隐写</h4><p>这里要注意图片的模式。如果为L就必须要注意。而且图片是png或者bmp,不能是jpg。</p>
+<p>取每个坐标的像素，然后转换成二进制，然后与1异或得到的0或1就是隐藏的信息，将0或1转换得到flag，比如转换为二维码或者直接转成字符串。</p>
+<h4 id="stegsolve"><a href="#stegsolve" class="headerlink" title="stegsolve"></a>stegsolve</h4><p>最常见的是两张图片进行xor，一定要注意xor的顺序，先打开某一个文件，然后两者在xor，顺序是有影响的。</p>
+<p>每个通道的0位置，把每个0位置保存下来进行xor。</p>
+<p>直接提取信息–<code>data extract</code>，这里配合zsteg。</p>
+<h3 id="从图片中提取flag"><a href="#从图片中提取flag" class="headerlink" title="从图片中提取flag"></a>从图片中提取flag</h3><p>图片中隐约的有flag这时候我们需要使用脚本去根据rgb值提取flag。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line">img = Image.open(<span class="string">&#x27;hide.png&#x27;</span>)</span><br><span class="line">w = img.width</span><br><span class="line">h = img.height</span><br><span class="line">img_obj = Image.new(<span class="string">&quot;RGB&quot;</span>,(w//<span class="number">16</span>,h//<span class="number">16</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(w//<span class="number">16</span>):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> range(h//<span class="number">16</span>):</span><br><span class="line">        (r,g,b)=img.getpixel((x*<span class="number">16</span>,y*<span class="number">16</span>))</span><br><span class="line">        img_obj.putpixel((x,y),(r,g,b))</span><br><span class="line"></span><br><span class="line">img_obj.save(<span class="string">&#x27;ok.png&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Binwalk"><a href="#Binwalk" class="headerlink" title="Binwalk"></a>Binwalk</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># binwalk flag.jpg</span><br></pre></td></tr></table></figure>
+
+<p>binwalk自动分析文件：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># binwalk flag.jpg</span></span><br><span class="line"> </span><br><span class="line">DECIMAL       HEXADECIMAL     DESCRIPTION</span><br><span class="line">--------------------------------------------------------------------------------</span><br><span class="line"><span class="number">0</span>             <span class="number">0x0</span>             JPEG image data, JFIF standard <span class="number">1.01</span></span><br><span class="line"><span class="number">382</span>           <span class="number">0x17E</span>           Copyright string: <span class="string">&quot;Copyright (c) 1998 Hewlett-Packard Company&quot;</span></span><br><span class="line"><span class="number">3192</span>          <span class="number">0xC78</span>           TIFF image data, big-endian, offset of first image directory: <span class="number">8</span></span><br><span class="line"><span class="number">140147</span>        <span class="number">0x22373</span>         JPEG image data, JFIF standard <span class="number">1.01</span></span><br><span class="line"><span class="number">140177</span>        <span class="number">0x22391</span>         TIFF image data, big-endian, offset of first image directory: <span class="number">8</span></span><br></pre></td></tr></table></figure>
+
+<p>jpg文件还隐藏着另一个jpg文件，从140147块偏移开始就是另一张jpg。</p>
+<h4 id="使用dd命令分离"><a href="#使用dd命令分离" class="headerlink" title="使用dd命令分离"></a>使用dd命令分离</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># dd if&#x3D;flag.jpg of&#x3D;flag-1.jpg skip&#x3D;28673 bs&#x3D;1</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>是指定输入文件</span><br><span class="line">of是指定输出文件</span><br><span class="line">skip是指定从输入文件开头跳过<span class="number">140147</span>个块后再开始复制</span><br><span class="line">bs设置每次读写块的大小为<span class="number">1</span>字节</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用foremost工具分离"><a href="#使用foremost工具分离" class="headerlink" title="使用foremost工具分离"></a>使用foremost工具分离</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foremost flag.jpg</span><br></pre></td></tr></table></figure>
+
+<h3 id="JPHS"><a href="#JPHS" class="headerlink" title="JPHS"></a>JPHS</h3><p>针对jpg行为，有时候需要密码，有时候直接空密码。</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/4.png" alt="4"></h3><h3 id="盲水印"><a href="#盲水印" class="headerlink" title="盲水印"></a>盲水印</h3><h4 id="普通盲水印"><a href="#普通盲水印" class="headerlink" title="普通盲水印"></a>普通盲水印</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 bwmforpy3.py decode hui.png hui_with_wm.png wm_from_hui.png --oldseed</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">bwm.py 程序文件python2版本</span><br><span class="line">bwmforpy3.py 程序文件python3版本</span><br><span class="line">hui.png 无水印的原图</span><br><span class="line">wm.png 水印图</span><br><span class="line">hui_with_wm.png 有盲水印的图</span><br><span class="line">wm_from_hui.png 反解出来的水印图</span><br></pre></td></tr></table></figure>
+
+<h4 id="频域盲水印"><a href="#频域盲水印" class="headerlink" title="频域盲水印"></a>频域盲水印</h4><p>脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python pinyubwm.py --original 1.png --image 2.png --result out.png</span><br></pre></td></tr></table></figure>
+
+<h3 id="NTFS隐写"><a href="#NTFS隐写" class="headerlink" title="NTFS隐写"></a>NTFS隐写</h3><p>NTFS交换数据流（alternate data streams，简称ADS）是NTFS磁盘格式的一个特性，在NTFS文件系统下，每个文件都可以存在多个数据流，就是说除了主文件流之外还可以有许多非主文件流寄宿在主文件流中。它使用资源派生来维持与文件相关的信息，虽然我们无法看到数据流文件，但是它却是真实存在于我们的系统中的。创建一个数据交换流文件的方法很简单，命令为”宿主文件:准备与宿主文件关联的数据流文件”。</p>
+<p>利用方式</p>
+<p>使用winrar解压文件，然后使用工具扫描，会直接看到解压的文件。一定要先使用winrar解压文件。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/6.png" alt="6"></p>
+<p>可以使用工具对文件进行检测，查看是否存在ntfs隐写。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">F:\CTF-tools\NTFS&gt;lads.exe /S</span><br><span class="line"></span><br><span class="line">LADS - Freeware version <span class="number">4.10</span></span><br><span class="line">(C) Copyright <span class="number">1998</span><span class="number">-2007</span> Frank Heyne Software (http://www.heysoft.de)</span><br><span class="line">This program lists files <span class="keyword">with</span> alternate data streams (ADS)</span><br><span class="line">Use LADS on your own risk!</span><br><span class="line"></span><br><span class="line">Scanning directory F:\CTF-tools\NTFS\ <span class="keyword">with</span> subdirectories</span><br><span class="line"></span><br><span class="line">      size  ADS <span class="keyword">in</span> file</span><br><span class="line">----------  ---------------------------------</span><br><span class="line">        <span class="number">23</span>  F:\CTF-tools\NTFS\a.jpg:flag1.txt</span><br><span class="line">      <span class="number">1064</span>  F:\CTF-tools\NTFS\a.jpg:Zone.Identifier</span><br><span class="line"></span><br><span class="line">      <span class="number">1087</span> bytes <span class="keyword">in</span> <span class="number">2</span> ADS listed</span><br></pre></td></tr></table></figure>
+
+<p>或者使用cmd命令来查看是否存在隐写</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">F:\CTF-tools\NTFS&gt;dir /r</span><br><span class="line"> 驱动器 F 中的卷是 新加卷</span><br><span class="line"> 卷的序列号是 BE8A<span class="number">-2731</span></span><br><span class="line"></span><br><span class="line"> F:\CTF-tools\NTFS 的目录</span><br><span class="line"></span><br><span class="line"><span class="number">2020</span>/<span class="number">10</span>/<span class="number">27</span>  <span class="number">11</span>:<span class="number">19</span>    &lt;DIR&gt;          .</span><br><span class="line"><span class="number">2020</span>/<span class="number">10</span>/<span class="number">27</span>  <span class="number">11</span>:<span class="number">19</span>    &lt;DIR&gt;          ..</span><br><span class="line"><span class="number">2020</span>/<span class="number">02</span>/<span class="number">17</span>  <span class="number">16</span>:<span class="number">09</span>            <span class="number">31</span>,<span class="number">469</span> a.jpg</span><br><span class="line">                                 <span class="number">23</span> a.jpg:flag1.txt:$DATA</span><br><span class="line">                              <span class="number">1</span>,<span class="number">064</span> a.jpg:Zone.Identifier:$DATA</span><br><span class="line"><span class="number">2007</span>/<span class="number">01</span>/<span class="number">04</span>  <span class="number">04</span>:<span class="number">10</span>            <span class="number">61</span>,<span class="number">952</span> lads.exe</span><br><span class="line"><span class="number">2020</span>/<span class="number">10</span>/<span class="number">22</span>  <span class="number">14</span>:<span class="number">50</span>           <span class="number">952</span>,<span class="number">930</span> ntfsstreamseditor.exe</span><br><span class="line"><span class="number">2007</span>/<span class="number">04</span>/<span class="number">27</span>  <span class="number">10</span>:<span class="number">17</span>            <span class="number">87</span>,<span class="number">424</span> streams.exe</span><br><span class="line"><span class="number">2020</span>/<span class="number">10</span>/<span class="number">27</span>  <span class="number">11</span>:<span class="number">15</span>         <span class="number">3</span>,<span class="number">403</span>,<span class="number">439</span> test.mp4</span><br><span class="line">                                <span class="number">131</span> test.mp4:Zone.Identifier:$DATA</span><br><span class="line"><span class="number">2020</span>/<span class="number">10</span>/<span class="number">27</span>  <span class="number">11</span>:<span class="number">19</span>         <span class="number">3</span>,<span class="number">379</span>,<span class="number">226</span> test.rar</span><br><span class="line">               <span class="number">6</span> 个文件      <span class="number">7</span>,<span class="number">916</span>,<span class="number">440</span> 字节</span><br><span class="line">               <span class="number">2</span> 个目录 <span class="number">82</span>,<span class="number">187</span>,<span class="number">112</span>,<span class="number">448</span> 可用字节</span><br></pre></td></tr></table></figure>
+
+<p>然后可以使用工具进行数据提取，7z压缩工具可以看到是否有隐写数据。</p>
+<h4 id="notepad"><a href="#notepad" class="headerlink" title="notepad"></a>notepad</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">notepad 1.txt:flag.txt</span><br></pre></td></tr></table></figure>
+
+<p>直接可以看到文件，可以使用<code>strings</code>命令来查看是否有ntfs隐写。</p>
+<h3 id="stegdetect"><a href="#stegdetect" class="headerlink" title="stegdetect"></a>stegdetect</h3><p><code>stegdetect</code>可以检测jpg通过<code>JSteg</code>、<code>JPHide</code>、<code>OutGuess</code>、<code>Invisible Secrets</code>、<code>F5</code>、<code>appendX</code>和<code>Camouflage</code>等这些隐写。</p>
+<p>检测隐写方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">检查jpg图片隐写方法_win</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">stegdetect.exe -tjopi -s 10.0 [stego_file]</span><br><span class="line"></span><br><span class="line">-s 修改检测算法的敏感度，该值的默认值为1。检测结果的匹配度与检测算法的敏感度成正比，算法敏感度的值越大，检测出的可疑文件包含敏感信息的可能性越大。</span><br><span class="line">-t 设置要检测哪些隐写工具（默认检测jopi），可设置的选项如下：</span><br><span class="line">j 检测图像中的信息是否是用jsteg嵌入的。</span><br><span class="line">o 检测图像中的信息是否是用outguess嵌入的。</span><br><span class="line">p 检测图像中的信息是否是用jphide嵌入的。</span><br><span class="line">i 检测图像中的信息是否是用invisible secrets嵌入的。</span><br></pre></td></tr></table></figure>
+
+<p>暴力破解密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python steg_brute.py -b -d [字典] -f [jpg_file]</span><br></pre></td></tr></table></figure>
+
+<p>stegbreak</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">stegbreak -r rules.ini -f password.txt -t p [stego_file]</span><br><span class="line"># password.txt为自带字典</span><br><span class="line">Loaded 1 files...</span><br><span class="line">[stego_file]：jphide[v5](2333)</span><br><span class="line"># 2333为该文件jphide的密码</span><br></pre></td></tr></table></figure>
+
+<h3 id="stegpy"><a href="#stegpy" class="headerlink" title="stegpy"></a>stegpy</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;home&#x2F;steady&#x2F;.local&#x2F;bin&#x2F;stegpy &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;1.webp -p</span><br></pre></td></tr></table></figure>
+
+<p>提取信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stegpy _image.png</span><br></pre></td></tr></table></figure>
+
+<p>带口令提取信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stegpy _image.png -p</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="outguess"><a href="#outguess" class="headerlink" title="outguess"></a>outguess</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">加密：</span><br><span class="line">outguess -k “my secret key” -d hidden.txt demo.jpg out.jpg</span><br><span class="line">加密之后，demo.jpg会覆盖out.jpg,</span><br><span class="line">hidden.txt中的内容是要隐藏的东西</span><br><span class="line"></span><br><span class="line">解密：</span><br><span class="line">outguess -k 123456 -r 4.jpg hidden.txt</span><br><span class="line">解密之后，解密内容放在hidden.txt中</span><br></pre></td></tr></table></figure>
+
+<h3 id="F5隐写"><a href="#F5隐写" class="headerlink" title="F5隐写"></a>F5隐写</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">F5隐写加密：</span><br><span class="line">java Embed 原图片.jpg 生成的图片.jpg -e 隐藏的文件.txt -p 密码</span><br><span class="line">F5隐写解密：</span><br><span class="line">java Extract 生成的图片.jpg -p 密码</span><br></pre></td></tr></table></figure>
+
+<h3 id="图片十六进制处理"><a href="#图片十六进制处理" class="headerlink" title="图片十六进制处理"></a>图片十六进制处理</h3><p>比如直接逆序十六进制，或者与其他数据异或，这里可以借助winhex功能。</p>
+<h3 id="zsteg"><a href="#zsteg" class="headerlink" title="zsteg"></a>zsteg</h3><p>zsteg可以检测PNG和BMP图片里的隐写数据。</p>
+<h4 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ zsteg 1.bmp --bits 1 --channel r --lsb --order xy --limit 2048</span><br><span class="line">$ zsteg 1.bmp --bits 1 --channel g --lsb --order xy --limit 2048</span><br><span class="line">$ zsteg 1.bmp --bits 1 --channel b --lsb --order xy --limit 2048</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">--bits 1：每次只摘取颜色通道中的第 1 个比特。</span><br><span class="line">--channel r：只摘取红色通道的比特位。</span><br><span class="line">--lsb：按最低有效位优先的顺序进行摘取。</span><br><span class="line">--order xy：按照从左至右、从上至下的顺序对图像素点进行摘取。</span><br><span class="line">--limit 2048：最多摘取输出 2048 字节。</span><br></pre></td></tr></table></figure>
+
+<h4 id="导出文件"><a href="#导出文件" class="headerlink" title="导出文件"></a>导出文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zsteg -e &quot;b1,bgr,lsb,xy&quot; pcat.png &gt; p.exe</span><br></pre></td></tr></table></figure>
+
+<h4 id="显示细节"><a href="#显示细节" class="headerlink" title="显示细节"></a>显示细节</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~&#x2F;桌面&#x2F;steady$ zsteg &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;output&#x2F;png&#x2F;hide.png -v</span><br><span class="line">b2,bgr,msb,xy       .. text: &quot;Wz]Wz]iz&quot;</span><br><span class="line">    00000000: 74 9a 5e 29 cf f3 a9 c0  a7 fc 75 5d 82 90 a6 57  |t.^)......u]...W|</span><br><span class="line">    00000010: 7a 5d 57 7a 5d 69 7a ed  c4 3c 77 5d 37 23 26 d2  |z]Wz]iz..&lt;w]7#&amp;.|</span><br><span class="line">    00000020: cd 5d 67 76 b1 47 2e 24  e9 2d f1 42 c6 8b 47 92  |.]gv.G.$.-.B..G.|</span><br><span class="line">    00000030: 2e 41 ec fb ee 12 ae eb  46 84 bb 47 11 e1 ee 04  |.A......F..G....|</span><br><span class="line">    00000040: 11 11 44 44 44 44 e4 ba  71 4c 92 6a 45 ad d4 fa  |..DDDD..qL.jE...|</span><br><span class="line">    00000050: 57 a3 dd 2c 8b c0 0b a8  d5 5b c2 c5 5f 57 ba 9c  |W..,.....[.._W..|</span><br><span class="line">    00000060: b1 61 18 96 35 a0 70 c9  e6 39 8b b3 28 00 a8 aa  |.a..5.p..9..(...|</span><br><span class="line">    00000070: aa aa 3f 50 01 95 aa 0e  fd 77 1c ff ff 57 e9 29  |..?P.....w...W.)|</span><br><span class="line">    00000080: ff ed c8 f4 7d 6b 18 ec  61 b4 53 cb 25 26 d2 75  |....&#125;k..a.S.%&amp;.u|</span><br><span class="line">    00000090: cb 22 73 5d a7 bf bb ab  bf f3 9c 78 a9 65 0d 02  |.&quot;s].......x.e..|</span><br><span class="line">    000000a0: 1f 11 9e 32 0c e2 ad 07  18 f9 5a c9 3c 7b 14 97  |...2......Z.&lt;&#123;..|</span><br><span class="line">    000000b0: bd 38 ee d9 09 89 b3 9d  e9 29 a7 62 4c 9b a3 8b  |.8.......).bL...|</span><br><span class="line">    000000c0: 15 17 f8 7c 0a bd e2 7d  8b 65 39 b0 36 17 86 96  |...|...&#125;.e9.6...|</span><br><span class="line">    000000d0: e5 31 2d 9a bc a9 70 2b  eb 08 a8 17 0f 85 5b 8b  |.1-...p+......[.|</span><br><span class="line">    000000e0: 81 f6 2d f8 54 7b e4 c7  01 c3 1e 69 db 15 50 a9  |..-.T&#123;.....i..P.|</span><br><span class="line">    000000f0: a3 8d d9 df c7 4a c3 a0  eb ba be fa c7 c1 1e 6a  |.....J.........j|</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="查看LSB信息"><a href="#查看LSB信息" class="headerlink" title="查看LSB信息"></a>查看LSB信息</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zsteg flag.png</span><br></pre></td></tr></table></figure>
+
+<p>第二个参数就是rgb，这里只有r，代表红色的0号通道藏有PNG，我们打开stegsolve的red 0通道可以看到有PNG信息。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">b1,r,lsb,xy         .. file: PNG image data, <span class="number">526</span> x <span class="number">298</span>, <span class="number">8</span>-bit/color RGB, non-interlaced</span><br><span class="line">b1,bgr,msb,xy       .. text: <span class="string">&quot;C2dB2IH&amp;$&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>提取图片中的信息</p>
+<p>有时候我们直接提取会提取出一半数据，这时候我们直接使用-l参数设置我们提取信息的长度。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zsteg warmup.bmp b1,r,lsb,xy -l 2048</span><br></pre></td></tr></table></figure>
+
+<h4 id="all参数"><a href="#all参数" class="headerlink" title="--all参数"></a><code>--all</code>参数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@root:~&#x2F;桌面&#x2F;flag&#x2F;套娃# zsteg &#39;&#x2F;root&#x2F;桌面&#x2F;flag&#x2F;套娃&#x2F;2&#x2F;3&#x2F;4&#x2F;5&#x2F;6&#x2F;warmup.bmp&#39; --all</span><br></pre></td></tr></table></figure>
+
+<h3 id="ImageMagick"><a href="#ImageMagick" class="headerlink" title="ImageMagick"></a>ImageMagick</h3><p>ImageMagick是一个免费的开源，功能丰富，基于文本和跨平台的图像处理工具，用于创建，编辑，编写或转换位图图像。 它可在Linux，Windows，Mac Os X，iOS，Android OS和许多其他操作系统上运行。</p>
+<h4 id="identify"><a href="#identify" class="headerlink" title="identify"></a>identify</h4><h5 id="提取每一帧的间隔"><a href="#提取每一帧的间隔" class="headerlink" title="提取每一帧的间隔"></a>提取每一帧的间隔</h5><p>间隔时间转成0或者1，拿到flag。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">identify -format &quot;%T\n&quot; *.gif&gt;1.txt</span><br></pre></td></tr></table></figure>
+
+<h5 id="查看图片详情"><a href="#查看图片详情" class="headerlink" title="查看图片详情"></a>查看图片详情</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">identify example.png</span><br></pre></td></tr></table></figure>
+
+<p>从指定文件中获取缩略图：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~&#x2F;桌面&#x2F;steady&#x2F;output&#x2F;jpg$ exiftool -b -ThumbnailImage &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;hekkerman.jpg&gt; thumbnail.jpg </span><br></pre></td></tr></table></figure>
+
+<h3 id="steghide"><a href="#steghide" class="headerlink" title="steghide"></a>steghide</h3><h4 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h4><p>多用于jpg文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steghide.exe extract -sf flag.jpg</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steghide extract -sf 1.jpg -p 123456</span><br></pre></td></tr></table></figure>
+
+<h4 id="破解密码"><a href="#破解密码" class="headerlink" title="破解密码"></a>破解密码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python steg_brute.py -b -d [字典] -f [jpg_file]</span><br></pre></td></tr></table></figure>
+
+<p>或者–kali有文件夹</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> subprocess <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span>():</span></span><br><span class="line">    stegoFile=<span class="string">&#x27;thing.jpg&#x27;</span></span><br><span class="line">    extractFile=<span class="string">&#x27;hide.txt&#x27;</span></span><br><span class="line">    passFile=<span class="string">&#x27;english.dic&#x27;</span></span><br><span class="line"></span><br><span class="line">    errors=[<span class="string">&#x27;could not extract&#x27;</span>,<span class="string">&#x27;steghide --help&#x27;</span>,<span class="string">&#x27;Syntax error&#x27;</span>]</span><br><span class="line">    cmdFormat=<span class="string">&#x27;steghide extract -sf &quot;%s&quot; -xf &quot;%s&quot; -p &quot;%s&quot;&#x27;</span></span><br><span class="line">    f=open(passFile,<span class="string">&#x27;r&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines():</span><br><span class="line">        cmd=cmdFormat %(stegoFile,extractFile,line.strip())</span><br><span class="line">        p=Popen(cmd,shell=<span class="literal">True</span>,stdout=PIPE,stderr=STDOUT)</span><br><span class="line">        content=unicode(p.stdout.read(),<span class="string">&#x27;gbk&#x27;</span>)</span><br><span class="line">        <span class="keyword">for</span> err <span class="keyword">in</span> errors:</span><br><span class="line">            <span class="keyword">if</span> err <span class="keyword">in</span> content:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">print</span> content,</span><br><span class="line">            <span class="keyword">print</span> <span class="string">&#x27;the passphrase is %s&#x27;</span> %(line.strip())</span><br><span class="line">            f.close()</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    foo()</span><br><span class="line">    <span class="keyword">print</span> <span class="string">&#x27;ok&#x27;</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="stegcracker"><a href="#stegcracker" class="headerlink" title="stegcracker"></a>stegcracker</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~&#x2F;桌面$ &#x2F;home&#x2F;steady&#x2F;.local&#x2F;bin&#x2F;stegcracker</span><br></pre></td></tr></table></figure>
+
+<p>有时候也可以破解音频。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~&#x2F;桌面&#x2F;steady$ steghide extract -sf out.wav</span><br><span class="line">Enter passphrase: </span><br><span class="line">wrote extracted data to &quot;download.txt&quot;.</span><br></pre></td></tr></table></figure>
+
+<h3 id="stepic"><a href="#stepic" class="headerlink" title="stepic"></a>stepic</h3><p>提取数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~$ stepic --decode --image-in&#x3D;&#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;1.png --out&#x3D;output.txt</span><br></pre></td></tr></table></figure>
+
+<p>转jpg</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~&#x2F;桌面&#x2F;steady$ stepic -i &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;output&#x2F;png&#x2F;00001069.png -d &gt; thing</span><br></pre></td></tr></table></figure>
+
+<h3 id="stegoveritas"><a href="#stegoveritas" class="headerlink" title="stegoveritas"></a>stegoveritas</h3><p>一键查看文件信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;home&#x2F;steady&#x2F;.local&#x2F;bin&#x2F;stegoveritas flag.jpg</span><br></pre></td></tr></table></figure>
+
+<h3 id="extundelete"><a href="#extundelete" class="headerlink" title="extundelete"></a>extundelete</h3><p>恢复文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">extundelete --restore-all corrupt-file.img</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">恢复&#x2F;dev&#x2F;sda5中所有数据</span><br><span class="line">xtundelete &#x2F;dev&#x2F;sda5 --restore-all </span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="两张相似的图片"><a href="#两张相似的图片" class="headerlink" title="两张相似的图片"></a>两张相似的图片</h3><p>Beyond Compare 4工具</p>
+<p>stegsolve异或</p>
+<p>盲水印</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kali compare 1.jpg 2.jpg out.jpg</span><br></pre></td></tr></table></figure>
+
+<h3 id="chunk块中藏有信息"><a href="#chunk块中藏有信息" class="headerlink" title="chunk块中藏有信息"></a>chunk块中藏有信息</h3><p>CRC块中有可打印字符，正常的CRC应该是六个字节，三个十六进制数。比如，C4ED3H。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/57.png" alt="57"></p>
+<h3 id="IDAT标识缺少"><a href="#IDAT标识缺少" class="headerlink" title="IDAT标识缺少"></a>IDAT标识缺少</h3><p>如果png图片模糊，可能缺少<code>IDAT</code>标识，放入01也会提示，<code>*ERROR: CRC Mismatch @ chunk[2]; in data: f4ff7854; expected: 0761f34a</code>。</p>
+<p>01提示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">*ERROR: CRC Mismatch @ chunk[2]; in data: f4ff7854; expected: 0761f34a</span><br><span class="line">*ERROR: CRC Mismatch @ chunk[3]; in data: 80a3b703; expected: a4d05483</span><br><span class="line">*ERROR: CRC Mismatch @ chunk[29]; in data: 00000000; expected: 5808f045</span><br></pre></td></tr></table></figure>
+
+<p>在工作区查看遍历。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/55.png" alt="55"></p>
+<p><code>IDAT</code>十六进制标识为：<code>49 44 41 54</code>，将两个chunk的IDAT在<code>union CTYPE type</code>的位置补上即可得到完整的图片。</p>
+<p>直接找到对应位置修改。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/56.png" alt="56"></p>
+<h3 id="IDAT信息隐藏"><a href="#IDAT信息隐藏" class="headerlink" title="IDAT信息隐藏"></a>IDAT信息隐藏</h3><p>IDAT：存储实际的数据，在数据流中可包含多个连续顺序的图像数据块，储存图像像数数据。在数据流中可包含多个连续顺序的图像数据块。采用 LZ77 算法的派生算法进行压缩。可以用 zlib 解压缩。IDAT块只有当上一个块充满时，才会继续下 一个新块。</p>
+<p>首先查看png的idat信息，是否有前一块没有满，后一块有数据的情况。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pngcheck.exe -v sctf.png</span><br></pre></td></tr></table></figure>
+
+<p>我们可以看到最后一个数据块出问题了，根据PNG结构，我们直接搜索ascii码-IDAT，因为是最后一个数据块，所以直接，搜索最后一个idat或者直接搜索<code>49444154</code>。接下来就需要分析该数据块的结构，首先<code>49444154</code>是<code>Chunk Type Code（数据块类型码）</code>，他的前面是<code>Length（长度）</code>，这里是<code>0000008A</code>，转换成十进制，就是138也就是说，<code>Chunk Data（数据块数据）</code>的长度是138，最后四个字节就是<code>CRC</code>。如图：</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/23.png" alt="23"></p>
+<p>去出数据块数据，zlib解压，二进制转字符串。</p>
+<h3 id="图片拼接"><a href="#图片拼接" class="headerlink" title="图片拼接"></a>图片拼接</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">montage *jpg -tile <span class="number">10</span>x12 -geometry <span class="number">200</span>x100+<span class="number">0</span>+<span class="number">0</span> out.jpg <span class="comment">#把图片碎片合成一个图片</span></span><br><span class="line"><span class="comment"># 将目录中的jpg文件按顺序拼成x轴10块，y轴12块，每个图块大小为200x100像素，输出文件为out.jpg</span></span><br><span class="line"></span><br><span class="line">gaps --image=out.jpg --generations=<span class="number">50</span> --population=<span class="number">120</span> --size=<span class="number">100</span> <span class="comment">#还原原图片</span></span><br><span class="line">--image           指向拼图的路径</span><br><span class="line">--size            拼图块的像素尺寸</span><br><span class="line">--generations     遗传算法的代的数量</span><br><span class="line">--population      个体数量</span><br><span class="line">--verbose         每一代训练结束后展示最佳结果</span><br><span class="line">--save            将拼图还原为图像</span><br></pre></td></tr></table></figure>
+
+<h3 id="Honeyview"><a href="#Honeyview" class="headerlink" title="Honeyview"></a>Honeyview</h3><p>可以打开bgp文件。</p>
+<h3 id="db文件"><a href="#db文件" class="headerlink" title="db文件"></a>db文件</h3><p>如果文件中有.db文件，尝试thumbs文件，db文件在win下不可见，直接再压缩包中拖入工具。</p>
+<h2 id="二维码"><a href="#二维码" class="headerlink" title="二维码"></a>二维码</h2><p>二维码颜色反转，使用<code>stegsolve.jar</code>，进行颜色反转。</p>
+<p>有时候两张图片使用stegsove得到一个不清晰二维码，可以继续使用stegsolve修复二维码。</p>
+<h2 id="音频隐写"><a href="#音频隐写" class="headerlink" title="音频隐写"></a>音频隐写</h2><h3 id="Audacity"><a href="#Audacity" class="headerlink" title="Audacity"></a>Audacity</h3><h4 id="莫斯电码"><a href="#莫斯电码" class="headerlink" title="莫斯电码"></a>莫斯电码</h4><p>常用工具<code>Audacity </code>。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/13.png" alt="13"></p>
+<p>把上面的点作为 1，下面的点作为 0</p>
+<p><code>0110011001101100011000010110011101111011011001100110010100111000011001100110010000110100001101100011100000110010001100000011010100110001001100110110001000110101001101000110001101100100011001000011010100111001011000100011000000110100001110000011010100110111001100010011100101100110001110010011010001111101</code></p>
+<p>使用python脚本分析频谱图，对高低振幅转换为<code>01</code>，高振幅为<code>1</code>，低振幅为<code>0</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"><span class="keyword">import</span> wave</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">write_records</span>(<span class="params">records, format, f</span>):</span></span><br><span class="line">    <span class="comment">#Write a sequence of tuples to a binary file of structures.</span></span><br><span class="line">    record_struct = Struct(format)</span><br><span class="line">    <span class="keyword">for</span> r <span class="keyword">in</span> records:</span><br><span class="line">        f.write(record_struct.pack(*r))</span><br><span class="line"></span><br><span class="line">path = <span class="string">&quot;./music.wav&quot;</span></span><br><span class="line">f = wave.open(path, <span class="string">&quot;rb&quot;</span>)</span><br><span class="line"><span class="comment"># 读取格式信息</span></span><br><span class="line"><span class="comment"># (nchannels, sampwidth, framerate, nframes, comptype, compname)</span></span><br><span class="line">params = f.getparams()</span><br><span class="line">nchannels, sampwidth, framerate, nframes = params[:<span class="number">4</span>]</span><br><span class="line"><span class="comment"># 读取波形数据</span></span><br><span class="line">str_data = f.readframes(nframes)</span><br><span class="line">f.close()</span><br><span class="line"><span class="comment">#将波形数据转换为数组</span></span><br><span class="line">wave_data = np.fromstring(str_data, dtype=np.short)</span><br><span class="line">b = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="comment"># arr = [elem for elem in wave_data if elem &gt;0]</span></span><br><span class="line">max = <span class="number">0</span></span><br><span class="line">d = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> wave_data:</span><br><span class="line">    <span class="keyword">if</span> i &lt;<span class="number">0</span>:</span><br><span class="line">        <span class="keyword">if</span> max !=<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">if</span> max&lt;<span class="number">25000</span>:</span><br><span class="line">                d +=<span class="string">&#x27;0&#x27;</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                d += <span class="string">&#x27;1&#x27;</span></span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line">        max = <span class="number">0</span></span><br><span class="line">    <span class="keyword">if</span> max &lt; i:</span><br><span class="line">        max = i</span><br><span class="line"></span><br><span class="line">print(d)</span><br><span class="line">print(<span class="string">&quot;\n\n\n\n&quot;</span>)</span><br><span class="line">a = re.findall(<span class="string">r&#x27;.&#123;8&#125;&#x27;</span>,d)</span><br><span class="line">hex_list=[]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> a:</span><br><span class="line">    res = hex(int(i,<span class="number">2</span>))</span><br><span class="line">    hex_list.append(res)</span><br><span class="line">print(hex_list)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">&quot;result.txt&quot;</span>,<span class="string">&quot;wb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> hex_list:</span><br><span class="line">        s = struct.pack(<span class="string">&#x27;B&#x27;</span>,int(x,<span class="number">16</span>))</span><br><span class="line">        f.write(s)</span><br></pre></td></tr></table></figure>
+
+<h4 id="频谱图"><a href="#频谱图" class="headerlink" title="频谱图"></a>频谱图</h4><p>直接右键查看频谱图。有时候切换频谱图看不到内容，这里可以修改频率。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/25.png" alt="25"></p>
+<h4 id="听电话号码"><a href="#听电话号码" class="headerlink" title="听电话号码"></a>听电话号码</h4><h3 id="sox"><a href="#sox" class="headerlink" title="sox"></a>sox</h3><p>变慢音频</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sox slowed.wav fast.wav speed 3.2</span><br></pre></td></tr></table></figure>
+
+<p>直接查看频谱图</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sox slowed.wav -n spectrogram</span><br></pre></td></tr></table></figure>
+
+<p>修改频谱图使其更清楚</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sox slowed.wav -n spectrogram -z 30 -Z -20 -x 1600</span><br></pre></td></tr></table></figure>
+
+<p>查看音频元数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~&#x2F;桌面&#x2F;steady$ sox --i &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;music.wav</span><br><span class="line"></span><br><span class="line">Input File     : &#39;&#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;music.wav&#39;</span><br><span class="line">Channels       : 1</span><br><span class="line">Sample Rate    : 8000</span><br><span class="line">Precision      : 16-bit</span><br><span class="line">Duration       : 00:00:20.08 &#x3D; 160640 samples ~ 1506 CDDA sectors</span><br><span class="line">File Size      : 321k</span><br><span class="line">Bit Rate       : 128k</span><br><span class="line">Sample Encoding: 16-bit Signed Integer PCM</span><br></pre></td></tr></table></figure>
+
+<p>只获取该选项对应的信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~&#x2F;桌面&#x2F;steady$ soxi -ss &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;music.wav</span><br><span class="line">160640</span><br><span class="line">steady@steady:~&#x2F;桌面&#x2F;steady$ </span><br><span class="line">steady@steady:~&#x2F;桌面&#x2F;steady$ soxi -B &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;music.wav</span><br><span class="line">128k</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="mediainfo"><a href="#mediainfo" class="headerlink" title="mediainfo"></a>mediainfo</h3><p>查看音频元数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~&#x2F;桌面&#x2F;steady$ mediainfo &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;fast.wav</span><br><span class="line">General                                                                                                                                                                           </span><br><span class="line">Complete name                            : &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;fast.wav                                                                                                      </span><br><span class="line">Format                                   : Wave                                                                                                                                   </span><br><span class="line">File size                                : 5.13 MiB</span><br><span class="line">Duration                                 : 56 s 62 ms</span><br><span class="line">Overall bit rate mode                    : Constant</span><br><span class="line">Overall bit rate                         : 768 kb&#x2F;s</span><br><span class="line"></span><br><span class="line">Audio</span><br><span class="line">Format                                   : PCM</span><br><span class="line">Format settings                          : Little &#x2F; Signed</span><br><span class="line">Codec ID                                 : 1</span><br><span class="line">Duration                                 : 56 s 62 ms</span><br><span class="line">Bit rate mode                            : Constant</span><br><span class="line">Bit rate                                 : 768 kb&#x2F;s</span><br><span class="line">Channel(s)                               : 1 channel</span><br><span class="line">Sampling rate                            : 48.0 kHz</span><br><span class="line">Bit depth                                : 16 bits</span><br><span class="line">Stream size                              : 5.13 MiB (100%)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="silienteye"><a href="#silienteye" class="headerlink" title="silienteye"></a>silienteye</h3><p>使用sileneye工具打开，即可得到flag。</p>
+<h3 id="MP3Stego"><a href="#MP3Stego" class="headerlink" title="MP3Stego"></a>MP3Stego</h3><p>密码可能藏在字符串中。</p>
+<p>使用strings</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strings mp3 | grep &quot;flag&quot;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Decode.exe -X -P 密码 flag.mp3#解密之后在文件下可能会出现txt文件。</span><br></pre></td></tr></table></figure>
+
+<h3 id="ffmpeg"><a href="#ffmpeg" class="headerlink" title="ffmpeg"></a>ffmpeg</h3><p>视频分帧</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i flag.mp4 -f image2 image%d.jpg,将视频分离并且重命名为image1,2,3…jpg的图片文件</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i flag.mp4 -r 60 -f image2 image%d.jpg,将视频分离并且重命名为image1,2,3…jpg的图片文件</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i ogreman -map 0:s:0 ogreman-subs.srt</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep &quot;font size&quot; ogreman-subs.srt | cut -d&quot;&gt;&quot; -f2</span><br></pre></td></tr></table></figure>
+
+<p>也可以分离gif</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i flag.gif frame_%05d.png</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用MP3脚本"><a href="#使用MP3脚本" class="headerlink" title="使用MP3脚本"></a>使用MP3脚本</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">F:\CTF-tools\音频隐写\mp3&gt;python3 F:\CTF-tools\音频隐写\mp3\mp3.py F:\CTF-tools\音频隐写\mp3\我很抱歉.mp3</span><br><span class="line">HDCTF&#123;she_nerver_be_with_me&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="dtmf2num"><a href="#dtmf2num" class="headerlink" title="dtmf2num"></a>dtmf2num</h3><p><strong><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%8F%8C%E9%9F%B3%E5%A4%9A%E9%A2%91">双音多频信号</a>（Dual-Tone Multi-Frequency, DTMF）</strong>，电话系统中电话机与交换机之间的一种用户信令，最常用于发拨号时送被叫号码。使用工具拿到音频中的电话号码。</p>
+<p>通过拨号音的信号频率判断内容。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/37.png" alt="37"></p>
+<h4 id="kali-dtmf2num"><a href="#kali-dtmf2num" class="headerlink" title="kali dtmf2num"></a>kali dtmf2num</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~/桌面/tools/debian$ dtmf2num /home/steady/桌面/steady/密码.wav</span><br><span class="line"></span><br><span class="line">DTMF2NUM <span class="number">0.1</span><span class="number">.1</span></span><br><span class="line">by Luigi Auriemma</span><br><span class="line">e-mail: aluigi@autistici.org</span><br><span class="line">web:    aluigi.org</span><br><span class="line"></span><br><span class="line">- open /home/steady/桌面/steady/密码.wav</span><br><span class="line">  wave size      <span class="number">2633728</span></span><br><span class="line">  format tag     <span class="number">1</span></span><br><span class="line">  channels:      <span class="number">2</span></span><br><span class="line">  samples/sec:   <span class="number">48000</span></span><br><span class="line">  avg/bytes/sec: <span class="number">192000</span></span><br><span class="line">  block align:   <span class="number">4</span></span><br><span class="line">  bits:          <span class="number">16</span></span><br><span class="line">  samples:       <span class="number">1316864</span></span><br><span class="line">  bias adjust:   <span class="number">2</span></span><br><span class="line">  volume peaks:  <span class="number">-388</span> <span class="number">388</span></span><br><span class="line">  normalize:     <span class="number">32379</span></span><br><span class="line">  resampling to: <span class="number">8000</span>hz</span><br><span class="line"></span><br><span class="line">- MF numbers:    <span class="number">44</span></span><br><span class="line"></span><br><span class="line">- DTMF numbers:  <span class="number">18688422216</span>D09<span class="comment">#重要信息。</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="网站"><a href="#网站" class="headerlink" title="网站"></a>网站</h4><p><code>http://dialabc.com/sound/detect/index.html</code>。</p>
+<h4 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h4><p>也可以使用脚本，修改文件路径直接就可以拿到拨号号码。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># load wav file。</span></span><br><span class="line">    <span class="comment">#这里注意修改文件。</span></span><br><span class="line">    wav = wave.open(<span class="string">&#x27;./1.wav&#x27;</span>, <span class="string">&#x27;r&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>解码出来的数字可能会有杂音，我们需要根据实际情况去重复。</p>
+<h3 id="multimon-ng"><a href="#multimon-ng" class="headerlink" title="multimon-ng"></a>multimon-ng</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">root@root:~<span class="comment"># multimon-ng -t wav -a dtmf &#x27;/tmp/1.wav&#x27; </span></span><br><span class="line">multimon-ng <span class="number">1.1</span><span class="number">.7</span></span><br><span class="line">  (C) <span class="number">1996</span>/<span class="number">1997</span> by Tom Sailer HB9JNX/AE4WA</span><br><span class="line">  (C) <span class="number">2012</span><span class="number">-2019</span> by Elias Oenal</span><br><span class="line">Available demodulators: POCSAG512 POCSAG1200 POCSAG2400 FLEX EAS UFSK1200 CLIPFSK FMSFSK AFSK1200 AFSK2400 AFSK2400_2 AFSK2400_3 HAPN4800 FSK9600 DTMF ZVEI1 ZVEI2 ZVEI3 DZVEI PZVEI EEA EIA CCIR MORSE_CW DUMPCSV X10 SCOPE</span><br><span class="line">Enabled demodulators: DTMF</span><br><span class="line">DTMF: <span class="number">1</span></span><br><span class="line">DTMF: <span class="number">1</span></span><br><span class="line">DTMF: <span class="number">8</span></span><br><span class="line">DTMF: <span class="number">6</span></span><br><span class="line">DTMF: <span class="number">8</span></span><br><span class="line">DTMF: <span class="number">4</span></span><br><span class="line">DTMF: <span class="number">2</span></span><br><span class="line">DTMF: <span class="number">2</span></span><br><span class="line">DTMF: <span class="number">1</span></span><br><span class="line">DTMF: <span class="number">1</span></span><br><span class="line">DTMF: <span class="number">6</span></span><br><span class="line">DTMF: <span class="number">0</span></span><br><span class="line">DTMF: <span class="number">9</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="mkvinfo"><a href="#mkvinfo" class="headerlink" title="mkvinfo"></a>mkvinfo</h3><p>MKVToolNix是一套功能强大的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/mkv/1658908">mkv</a>(Matroska)格式制作和处理的工具，支持将多种视频、音频、字幕等格式封装成mkv格式，支持提取mkv内音频及字幕到文件。</p>
+<p>注意轨道和轨道类型。这里有三个轨道，可以看到这里有三个轨道–a video, an audio and a subs track。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~$ mkvinfo ogreman</span><br><span class="line">+ EBML 头</span><br><span class="line">|+ EBML 版本: <span class="number">1</span></span><br><span class="line">|+ EBML 读取版本: <span class="number">1</span></span><br><span class="line">|+ EBML ID 最大长度: <span class="number">4</span></span><br><span class="line">|+ EBML 大小最大长度: <span class="number">8</span></span><br><span class="line">|+ 文档类型: matroska</span><br><span class="line">|+ 文档类型版本: <span class="number">2</span></span><br><span class="line">|+ 文档类型读取版本: <span class="number">2</span></span><br><span class="line">+ 剪辑: 大小 <span class="number">159642</span></span><br><span class="line">|+ 定位头 (子条目将被跳过)</span><br><span class="line">|+ EBML void: 大小 <span class="number">148</span></span><br><span class="line">|+ 剪辑信息</span><br><span class="line">| + 时间戳缩放: <span class="number">1000000</span></span><br><span class="line">| + 混流应用程序: Lavf55<span class="number">.12</span><span class="number">.0</span></span><br><span class="line">| + 写入应用程序: HandBrake <span class="number">0.10</span><span class="number">.5</span> <span class="number">2016021100</span></span><br><span class="line">| + 剪辑 UID: <span class="number">0x26</span> <span class="number">0xdd</span> <span class="number">0x34</span> <span class="number">0x12</span> <span class="number">0x3f</span> <span class="number">0xa9</span> <span class="number">0xec</span> <span class="number">0x24</span> <span class="number">0xe6</span> <span class="number">0x53</span> <span class="number">0x9e</span> <span class="number">0xd3</span> <span class="number">0x45</span> <span class="number">0xe1</span> <span class="number">0xc1</span> <span class="number">0xe4</span></span><br><span class="line">| + 时长: <span class="number">00</span>:<span class="number">00</span>:<span class="number">02.500000000</span></span><br><span class="line">|+ 轨道</span><br><span class="line">| + 轨道</span><br><span class="line">|  + 轨道编号: <span class="number">1</span> (mkvmerge &amp; mkvextract 的轨道 ID: <span class="number">0</span>)</span><br><span class="line">|  + 轨道 UID: <span class="number">1</span></span><br><span class="line">|  + 紧缩标记: <span class="number">0</span></span><br><span class="line">|  + 语言: und</span><br><span class="line">|  + 编码格式 ID: V_MPEG4/ISO/AVC</span><br><span class="line">|  + 轨道类型: 视频</span><br><span class="line">|  + 默认帧时长: <span class="number">00</span>:<span class="number">00</span>:<span class="number">00.033333333</span> (对应视频轨的 <span class="number">30.000</span> 帧/场每秒)</span><br><span class="line">|  + 视频轨道</span><br><span class="line">|   + 像素宽度: <span class="number">1156</span></span><br><span class="line">|   + 像素高度: <span class="number">720</span></span><br><span class="line">|   + 显示器宽度: <span class="number">1156</span></span><br><span class="line">|   + 显示器高度: <span class="number">720</span></span><br><span class="line">|   + 显示器单位: <span class="number">3</span> (宽高比)</span><br><span class="line">|  + 编解码器私有数据: 大小 <span class="number">44</span> (H<span class="number">.264</span> 档次: Main @L4<span class="number">.0</span>)</span><br><span class="line">| + 轨道</span><br><span class="line">|  + 轨道编号: <span class="number">2</span> (mkvmerge &amp; mkvextract 的轨道 ID: <span class="number">1</span>)</span><br><span class="line">|  + 轨道 UID: <span class="number">2</span></span><br><span class="line">|  + 紧缩标记: <span class="number">0</span></span><br><span class="line">|  + 名称: Stereo</span><br><span class="line">|  + 语言: und</span><br><span class="line">|  + 编码格式 ID: A_AAC</span><br><span class="line">|  + 轨道类型: 音频</span><br><span class="line">|  + 音频轨</span><br><span class="line">|   + 声道数: <span class="number">2</span></span><br><span class="line">|   + 采样率: <span class="number">44100.0</span></span><br><span class="line">|  + 编解码器私有数据: 大小 <span class="number">5</span></span><br><span class="line">| + 轨道</span><br><span class="line">|  + 轨道编号: <span class="number">3</span> (mkvmerge &amp; mkvextract 的轨道 ID: <span class="number">2</span>)</span><br><span class="line">|  + 轨道 UID: <span class="number">3</span></span><br><span class="line">|  + 紧缩标记: <span class="number">0</span></span><br><span class="line">|  + 语言: eng</span><br><span class="line">|  + 默认轨道标记: <span class="number">0</span></span><br><span class="line">|  + 编码格式 ID: S_TEXT/ASS</span><br><span class="line">|  + 轨道类型: 字幕</span><br><span class="line">|  + 编解码器私有数据: 大小 <span class="number">481</span></span><br><span class="line">|+ 标签</span><br><span class="line">| + 标签</span><br><span class="line">|  + 目标</span><br><span class="line">|  + 简单</span><br><span class="line">|   + 名称: CREATION_TIME</span><br><span class="line">|   + 字符串: <span class="number">2016</span><span class="number">-11</span><span class="number">-22</span>T23:<span class="number">49</span>:<span class="number">31</span>Z</span><br><span class="line">|  + 简单</span><br><span class="line">|   + 名称: ENCODER</span><br><span class="line">|   + 字符串: Lavf55<span class="number">.12</span><span class="number">.0</span></span><br><span class="line">| + 标签</span><br><span class="line">|  + 目标</span><br><span class="line">|   + 轨道 UID: <span class="number">2</span></span><br><span class="line">| + 标签</span><br><span class="line">|  + 目标</span><br><span class="line">|   + 轨道 UID: <span class="number">3</span></span><br><span class="line">|+ 簇</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="mkvextract"><a href="#mkvextract" class="headerlink" title="mkvextract"></a>mkvextract</h3><p>提取三个轨道的信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mkvextract tracks ogreman 0:video 1:audio 2:subs</span><br><span class="line">steady@steady:~$ mkvextract tracks &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;output&#x2F;png&#x2F;output&#x2F;png&#x2F;ogreman 0:video 1:audio 2:subs</span><br><span class="line">正在将 CodecID 为 V_MPEG4&#x2F;ISO&#x2F;AVC 的轨道 0 提取到文件「video」。容器格式: AVC&#x2F;H.264 elementary stream                                  </span><br><span class="line">正在将 CodecID 为 A_AAC 的轨道 1 提取到文件「audio」。容器格式: raw AAC file with ADTS headers                                               </span><br><span class="line">正在将 CodecID 为 S_TEXT&#x2F;ASS 的轨道 2 提取到文件「subs」。容器格式: SSA&#x2F;ASS text subtitles                                                     </span><br><span class="line">进度: 100% </span><br></pre></td></tr></table></figure>
+
+<p>查看我文件即可获取flag。</p>
+<h3 id="mediainfo-1"><a href="#mediainfo-1" class="headerlink" title="mediainfo"></a>mediainfo</h3><p>查看音频元数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~/桌面/tools/stegoVeritas-master/stegoveritas$ mediainfo /home/steady/桌面/tools/music.wav</span><br><span class="line">General</span><br><span class="line">Complete name                            : /home/steady/桌面/tools/music.wav</span><br><span class="line">Format                                   : Wave</span><br><span class="line">File size                                : <span class="number">313</span> KiB</span><br><span class="line">Duration                                 : <span class="number">20</span> s <span class="number">0</span> ms</span><br><span class="line">Overall bit rate mode                    : Constant</span><br><span class="line">Overall bit rate                         : <span class="number">128</span> kb/s</span><br><span class="line"></span><br><span class="line">Audio</span><br><span class="line">Format                                   : PCM</span><br><span class="line">Format settings                          : Little / Signed</span><br><span class="line">Codec ID                                 : <span class="number">1</span></span><br><span class="line">Duration                                 : <span class="number">20</span> s <span class="number">0</span> ms</span><br><span class="line">Bit rate mode                            : Constant</span><br><span class="line">Bit rate                                 : <span class="number">128</span> kb/s</span><br><span class="line">Channel(s)                               : <span class="number">1</span> channel</span><br><span class="line">Sampling rate                            : <span class="number">8</span> <span class="number">000</span> Hz</span><br><span class="line">Bit depth                                : <span class="number">16</span> bits</span><br><span class="line">Stream size                              : <span class="number">312</span> KiB (<span class="number">100</span>%)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Steganography"><a href="#Steganography" class="headerlink" title="Steganography"></a>Steganography</h3><p>音频lsb</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~&#x2F;.local&#x2F;bin$ &#x2F;home&#x2F;steady&#x2F;.local&#x2F;bin&#x2F;stegolsb wavsteg </span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python WavSteg.py -r -s 咻咻咻.wav -o output -n <span class="number">1</span> -b <span class="number">1000</span> &amp;&amp; cat output</span><br></pre></td></tr></table></figure>
+
+<h3 id="morse2ascii"><a href="#morse2ascii" class="headerlink" title="morse2ascii"></a>morse2ascii</h3><p>使用au软件，将音频文件导出为wav文件。(前提是能分离立体声到单声道。)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~$ morse2ascii &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;_BitcoinPay.png.extracted&#x2F;4.wav</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/45.png" alt="45"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~$ morse2ascii &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;_BitcoinPay.png.extracted&#x2F;4.wav</span><br><span class="line"></span><br><span class="line">MORSE2ASCII 0.2</span><br><span class="line">by Luigi Auriemma</span><br><span class="line">e-mail: aluigi@autistici.org</span><br><span class="line">web:    aluigi.org</span><br><span class="line"></span><br><span class="line">- open &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;_BitcoinPay.png.extracted&#x2F;4.wav</span><br><span class="line">  wave size      1025374</span><br><span class="line">  format tag     1</span><br><span class="line">  channels:      1</span><br><span class="line">  samples&#x2F;sec:   8000</span><br><span class="line">  avg&#x2F;bytes&#x2F;sec: 16000</span><br><span class="line">  block align:   2</span><br><span class="line">  bits:          16</span><br><span class="line">  samples:       512687</span><br><span class="line">  bias adjust:   43</span><br><span class="line">  volume peaks:  -2486 2487</span><br><span class="line">  normalize:     30280</span><br><span class="line">  resampling to  8000hz</span><br><span class="line"></span><br><span class="line">- decoded morse data:</span><br><span class="line">f029bd6f551139eedeb8e45a175b0786  f029bd6f5</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="strings命令"><a href="#strings命令" class="headerlink" title="strings命令"></a>strings命令</h2><p>使用strings命令查看当前文件夹所有文件内容并截取敏感字符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strings * | grep &quot;flag&quot;</span><br></pre></td></tr></table></figure>
+
+<p>使用strings命令查看指定文件夹中的文件的所有内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep &quot;flag&quot; -r &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;眼见非实</span><br></pre></td></tr></table></figure>
+
+<p>快速查看jpg有无属性信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strings misc2.jpg | grep &quot;?xpacket&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="word文档"><a href="#word文档" class="headerlink" title="word文档"></a>word文档</h2><h3 id="改变文字颜色"><a href="#改变文字颜色" class="headerlink" title="改变文字颜色"></a>改变文字颜色</h3><h3 id="取消隐藏文字"><a href="#取消隐藏文字" class="headerlink" title="取消隐藏文字"></a>取消隐藏文字</h3><p>选项–&gt;视图–&gt;隐藏文字。</p>
+<h2 id="01editor"><a href="#01editor" class="headerlink" title="01editor"></a>01editor</h2><h3 id="翻转十六进制"><a href="#翻转十六进制" class="headerlink" title="翻转十六进制"></a>翻转十六进制</h3><p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/14.png" alt="14"></p>
+<h2 id="GIF图片"><a href="#GIF图片" class="headerlink" title="GIF图片"></a>GIF图片</h2><h3 id="图片分帧"><a href="#图片分帧" class="headerlink" title="图片分帧"></a>图片分帧</h3><p>Python脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#分离gif.py</span></span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line">savepath = <span class="string">&quot;C:/Users/12521/flag/&quot;</span> <span class="comment">#保存路径</span></span><br><span class="line"></span><br><span class="line">im = Image.open(<span class="string">&#x27;1.gif&#x27;</span>)   <span class="comment">#从文件加载图像</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    im.save(savepath+<span class="string">&#x27;&#123;:d&#125;.png&#x27;</span>.format(im.tell())) <span class="comment">#读取每一帧</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        im.seek(im.tell()+<span class="number">1</span>) <span class="comment">#在不同帧之间移动</span></span><br><span class="line">        im.save(savepath+<span class="string">&#x27;&#123;:d&#125;.png&#x27;</span>.format(im.tell()))  <span class="comment">#保存文件</span></span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<p>GIF分帧工具</p>
+<p><code>GifSplitter.exe</code></p>
+<p>kali分帧工具</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convert flag.gif flag.png</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="图片合并"><a href="#图片合并" class="headerlink" title="图片合并"></a>图片合并</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt <span class="comment">#</span></span><br><span class="line">res = Image.new(<span class="string">&#x27;RGBA&#x27;</span>,(<span class="number">402</span>,<span class="number">600</span>)) </span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">201</span>): </span><br><span class="line">	filename = <span class="string">f&quot;./flag/<span class="subst">&#123;x&#125;</span>.png&quot;</span> </span><br><span class="line">	print(filename) </span><br><span class="line">	tmp = Image.open(filename)</span><br><span class="line">	res.paste(tmp,(x*<span class="number">2</span>,<span class="number">0</span>))</span><br><span class="line">	plt.imshow(res) </span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#拼接图像.py</span></span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line">path = <span class="string">&quot;C:/Users/12521/flag/&quot;</span></span><br><span class="line">save_path = <span class="string">&#x27;C:/Users/12521/&#x27;</span></span><br><span class="line"></span><br><span class="line">im = Image.new(<span class="string">&#x27;RGBA&#x27;</span>,(<span class="number">2</span>*<span class="number">201</span>,<span class="number">600</span>)) <span class="comment">#创建新照片</span></span><br><span class="line">imagefile = [] <span class="comment">#存储所有的图像的名称</span></span><br><span class="line">width = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">201</span>):</span><br><span class="line">    imagefile.append(Image.open(path+str(i)+<span class="string">&#x27;.png&#x27;</span>)) <span class="comment">#遍历，将图像名称存入imagfile</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> image <span class="keyword">in</span> imagefile:</span><br><span class="line">    im.paste(image,(width,<span class="number">0</span>,<span class="number">2</span>+width,<span class="number">600</span>)) <span class="comment">#将图片张贴到另一张图片上</span></span><br><span class="line">    width = width +<span class="number">2</span> 别以<span class="number">7</span></span><br><span class="line">im.save(save_path+<span class="string">&#x27;steady.png&#x27;</span>)</span><br><span class="line">im.show()</span><br></pre></td></tr></table></figure>
+
+<p>使用kali工具合并</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@root:~&#x2F;桌面&#x2F;flag# montage flag*.png -tile x1 -geometry +0+0 flag.png</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-tile是拼接时每行和每列的图片数，这里用x1，就是只一行</span><br><span class="line">-geometry是首选每个图和边框尺寸，我们边框为0，图照原始尺寸即可。</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="每一帧的间隔时间"><a href="#每一帧的间隔时间" class="headerlink" title="每一帧的间隔时间"></a>每一帧的间隔时间</h3><p>通过<code>identify</code>命令清晰的打印出每一帧的时间间隔。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ identify -format <span class="string">&quot;%s %T \n&quot;</span> <span class="number">100.</span>gif</span><br><span class="line">第n帧 间隔时间</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~&#x2F;桌面&#x2F;steady&#x2F;_key.ftm.extracted$ identify -verbose flag.gif | grep Delay</span><br></pre></td></tr></table></figure>
+
+<h2 id="Python隐写"><a href="#Python隐写" class="headerlink" title="Python隐写"></a>Python隐写</h2><h3 id="unpy2exe"><a href="#unpy2exe" class="headerlink" title="unpy2exe"></a>unpy2exe</h3><p>编译文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unpy2exe.py -o calc calc.exe</span><br></pre></td></tr></table></figure>
+
+<h3 id="uncompyle6"><a href="#uncompyle6" class="headerlink" title="uncompyle6"></a>uncompyle6</h3><p>拿到pyc文件使用工具得到py文件。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:/tmp/uncompyle6/bin$steady@steady:~$ /home/steady/桌面/tools/python-uncompyle6-master/bin/uncompyle6 /home/steady/桌面/steady/<span class="number">4.</span>pyc</span><br></pre></td></tr></table></figure>
+
+<h3 id="stegosaurus"><a href="#stegosaurus" class="headerlink" title="stegosaurus"></a>stegosaurus</h3><p>使用工具解出藏有的flag。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:/tmp/stegosaurus$ ./stegosaurus -x /tmp/QAQ.pyc</span><br></pre></td></tr></table></figure>
+
+<h3 id="python序列化内容的存入"><a href="#python序列化内容的存入" class="headerlink" title="python序列化内容的存入"></a>python序列化内容的存入</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import pickle  </span><br><span class="line"></span><br><span class="line">fp &#x3D; open(&quot;2.txt&quot;,&quot;rb+&quot;)      &#39;&#39;&#39; 打开序列化文件 &#39;&#39;&#39;</span><br><span class="line">fw &#x3D; open(&#39;pickle.txt&#39;, &#39;w&#39;)  &#39;&#39;&#39; 打开保存文件 &#39;&#39;&#39;</span><br><span class="line">a&#x3D;pickle.load(fp)             &#39;&#39;&#39; 反序列化文件编译 &#39;&#39;&#39;</span><br><span class="line">pickle&#x3D;str(a)                 &#39;&#39;&#39; 转换成字符串要不然不能保存 &#39;&#39;&#39;</span><br><span class="line">fw.write( pickle )            &#39;&#39;&#39; 写入文件 &#39;&#39;&#39;</span><br><span class="line">fw.close()                    &#39;&#39;&#39; 关闭文件 &#39;&#39;&#39;</span><br><span class="line">fp.close()                    &#39;&#39;&#39; 关闭文件 &#39;&#39;&#39;</span><br></pre></td></tr></table></figure>
+
+<h2 id="常见命令"><a href="#常见命令" class="headerlink" title="常见命令"></a>常见命令</h2><h3 id="合并文件"><a href="#合并文件" class="headerlink" title="合并文件"></a>合并文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copy &#x2F;B 文件1+文件2+... 合并文件名.rar</span><br></pre></td></tr></table></figure>
+
+<h3 id="生成十六进制"><a href="#生成十六进制" class="headerlink" title="生成十六进制"></a>生成十六进制</h3><p><code>xxd</code>命令生成一个hex文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xxd -p -r 文件 hex</span><br></pre></td></tr></table></figure>
+
+<h2 id="base64隐写"><a href="#base64隐写" class="headerlink" title="base64隐写"></a>base64隐写</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">→  ~ b64steg.py -f stego.txt -s output.txt</span><br><span class="line">Base_sixty_four_point_five</span><br></pre></td></tr></table></figure>
+
+<h2 id="excle"><a href="#excle" class="headerlink" title="excle"></a>excle</h2><p>修改后缀为rar</p>
+<p><code>strings</code>直接搜索flag。</p>
+<h2 id="word、ppt"><a href="#word、ppt" class="headerlink" title="word、ppt"></a>word、ppt</h2><p>直接搜索flag，修改颜色。</p>
+<p>转换为zip，或者zip转换doc。</p>
+<p>doc如果打不开，尝试放入winhex，将某处改为FF。</p>
+<p>使用工具破解密码，<code>AccentOPR.CracKed.By.Hmily[LCG][LSG]</code>。</p>
+<p>ppt也可以改变颜色，拿到隐藏的文字。</p>
+<p>如果文字复制不了需要先格式刷</p>
+<h2 id="vmdk"><a href="#vmdk" class="headerlink" title="vmdk"></a>vmdk</h2><p>拿到这个文件，可以先使用7z当作压缩包打开。</p>
+<p>其次对.fat文件进行挂载。</p>
+<h2 id="迷你卡兹"><a href="#迷你卡兹" class="headerlink" title="迷你卡兹"></a>迷你卡兹</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">privilege::debug</span><br><span class="line">sekurlsa::minidump lsass.dmp</span><br><span class="line">sekurlsa::logonpasswords full</span><br></pre></td></tr></table></figure>
+
+<h2 id="xortool"><a href="#xortool" class="headerlink" title="xortool"></a>xortool</h2><p>猜测xor加密的密码长度以值(key)</p>
+<p>使用方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xortool (-x) -c 20 123.txt</span><br><span class="line">#-x：代表文件内容为十六进制</span><br><span class="line">#-c：后加出现频率最高的字符，文本内容一般是空格（20），二进制文件一般是00</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~$ /home/steady/.local/bin/xortool  -c <span class="number">20</span> /home/steady/桌面/steady/badd3e0621ff43de8cf802545bbd3ed0</span><br><span class="line">The most probable key lengths:</span><br><span class="line"> <span class="number">2</span>:  <span class="number">12.2</span>%</span><br><span class="line"> <span class="number">5</span>:  <span class="number">11.9</span>%</span><br><span class="line"> <span class="number">9</span>:   <span class="number">9.8</span>%</span><br><span class="line"><span class="number">13</span>:  <span class="number">22.2</span>%</span><br><span class="line"><span class="number">20</span>:   <span class="number">6.8</span>%</span><br><span class="line"><span class="number">22</span>:   <span class="number">6.2</span>%</span><br><span class="line"><span class="number">26</span>:  <span class="number">12.8</span>%</span><br><span class="line"><span class="number">30</span>:   <span class="number">4.6</span>%</span><br><span class="line"><span class="number">39</span>:   <span class="number">7.8</span>%</span><br><span class="line"><span class="number">52</span>:   <span class="number">5.7</span>%</span><br><span class="line">Key-length can be <span class="number">3</span>*n</span><br><span class="line"><span class="number">1</span> <span class="function">possible <span class="title">key</span><span class="params">(s)</span> of length 13:</span></span><br><span class="line">Good\tuckToYou</span><br><span class="line">Found <span class="number">1</span> plaintexts with <span class="number">95</span>%+ valid characters</span><br><span class="line">See files filename-key.csv, filename-char_used-perc_valid.csv</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="PDF隐写"><a href="#PDF隐写" class="headerlink" title="PDF隐写"></a>PDF隐写</h3><p> wbStego4.3open</p>
+<h1 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h1><p>1、任何文件都可以尝试一下ntfs隐写，不要在过于在意压缩包中的图片，有时候压缩包也可能存在ntfs隐写。</p>
+<p>2、图片如果在win下可以正常访问，但是在linux无法访问，一定要尝试crc爆破，修改高度。</p>
+<p>3、jpg、png图片都可以修改高度和宽度。</p>
+<p>4、遇到jpg文件多查看一下文件属性。</p>
+<p>5、遇到图片使用strings查看一下有没有敏感字符。</p>
+<p>6、jpg图片藏有一下信息，属性中一定有信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;x:xmpmeta xmlns:x&#x3D;&quot;adobe:ns:meta&#x2F;&quot;&gt;&lt;rdf:RDF xmlns:rdf&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;1999&#x2F;02&#x2F;22-rdf-syntax-ns#&quot;&#x2F;&gt;&lt;&#x2F;x:xmpmeta&gt;</span><br></pre></td></tr></table></figure>
+
+<p>7、压缩包crc爆破一定要搞清楚文件原始大小是多少，使用bandzip查看。</p>
+<p>8、zip可以改doc，同样doc也可以改zip。</p>
+<p>9、如果拿到许多文件，肯定有特殊的文件，如果存在于zip中，则要看一看CRC是不是一样。</p>
+<p>10、任何i都要把流程走一遍，比如binwalk。</p>
+<p>11、拿到二进制先判断数量如果能开放，可以尝试转化为二维码。如果是八的倍数，尝试八个一组转换为二进制。也可以转换成摩斯密码。</p>
+<p>12、如果一个文件提示flag不在这里，呢么很可能这个文件还藏有另一个文件，就是ntfs隐写，7z可以看到是否存在隐写流。</p>
+<p>13、<code>vmdk</code>文件可以用7z解压。</p>
+<p>14、如果有十六进制文件，直接使用01的导入十六进制功能。</p>
+<p>15、拿到一个exe文件可以先尝试运行。</p>
+<p>16、可以使用<code>strings</code>命令来查看是否存在ntfs。</p>
+<p>17、base32解密一定要注意后面的等号个数。</p>
+<p>16、多个文件，一定要注意下多个文件的修改日期、大小、md5等。找到不同的呢个一个。</p>
+<p>17、一个字符串，判断长度。是否是3、8、2的倍数，3的倍数，八进制。2的倍数十六进制。8的倍数二进制八个一组。是否大于128，大于128减去128转换字符串。</p>
+<p>18、看到<code>63、255、127、191</code>，ttl隐写</p>
+<p>19、关于二进制，有时候可以逆序、八位逆序。</p>
+<p>20、数字有重复的话，手机九键盘。</p>
+<p>21、明文攻击一定要使用winrar先进行压缩。如果出现提示：一个文档必须只有一个文件。说明没有用winrar进行压缩。</p>
+<p>22、mp4也可以使用<code>exiftool powpow.mp4</code></p>
+<p>23、zsteg也可以检测bmp。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://s1eady.top/2020/11/10/CTF-%E6%9D%82%E9%A1%B9%E9%A2%98%E6%80%BB%E7%BB%93/" title="CTF-杂项题总结" target="_blank" rel="external">http://s1eady.top/2020/11/10/CTF-%E6%9D%82%E9%A1%B9%E9%A2%98%E6%80%BB%E7%BB%93/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/1.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">果冻</span><small class="ml-1x">Penetration Testing</small></a></h3>
+        <div>一往情深深几许。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2020/11/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/" title="CTF-杂项手册"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2020/11/10/CTF-python%E5%BA%93zipfile%E7%9A%84%E4%BD%BF%E7%94%A8/" title="CTF-python库zipfile的使用"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/2.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/1.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="/GXA111666" target="_blank" title="VX" data-toggle=tooltip data-placement=top><i class="icon icon-VX"></i></a></li>
+        
+        <li><a href="/1252195810" target="_blank" title="QQ" data-toggle=tooltip data-placement=top><i class="icon icon-QQ"></i></a></li>
+        
+        <li><a href="/1252195810@qq.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-mail"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

