@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="CTF杂项手册图片base64base64图片头：data:image&#x2F;jpg;base64,。 文件格式PNG文件头总是由位固定的字节来描述，剩余的部分由 3 个以上的 PNG 的数据块（Chunk）按照特定的顺序组成。 总体来说就是： 1文件头 89 50 4E 47 0D 0A 1A 0A + 数据块 + 数据块 + 数据块……  数据块 CHUNkPNG 定义了两种类型的数据块，一种是称为">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF-杂项手册">
+<meta property="og:url" content="http://s1eady.top/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/index.html">
+<meta property="og:site_name" content="steady&#39;s blog">
+<meta property="og:description" content="CTF杂项手册图片base64base64图片头：data:image&#x2F;jpg;base64,。 文件格式PNG文件头总是由位固定的字节来描述，剩余的部分由 3 个以上的 PNG 的数据块（Chunk）按照特定的顺序组成。 总体来说就是： 1文件头 89 50 4E 47 0D 0A 1A 0A + 数据块 + 数据块 + 数据块……  数据块 CHUNkPNG 定义了两种类型的数据块，一种是称为">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/22.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/24.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/38.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/39.png">
+<meta property="og:image" content="c:/Users/12521/AppData/Roaming/Typora/typora-user-images/image-20201030154428607.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/28.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/47.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/59.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/60.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/61.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/62.png">
+<meta property="article:published_time" content="2019-05-10T14:14:20.000Z">
+<meta property="article:modified_time" content="2020-11-15T09:59:47.051Z">
+<meta property="article:author" content="steady">
+<meta property="article:tag" content="CTF-杂项">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/22.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CTF-杂项手册</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="steady's blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/projects_url">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/05/13/CTF-Crypto%E5%88%B7%E9%A2%982/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E9%A2%98%E6%80%BB%E7%BB%93/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://s1eady.top/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://s1eady.top/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/&text=CTF-杂项手册"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://s1eady.top/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/&title=CTF-杂项手册"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://s1eady.top/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/&is_video=false&description=CTF-杂项手册"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CTF-杂项手册&body=Check out this article: http://s1eady.top/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://s1eady.top/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/&title=CTF-杂项手册"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://s1eady.top/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/&title=CTF-杂项手册"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://s1eady.top/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/&title=CTF-杂项手册"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://s1eady.top/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/&title=CTF-杂项手册"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://s1eady.top/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/&name=CTF-杂项手册&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://s1eady.top/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/&t=CTF-杂项手册"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CTF%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C"><span class="toc-number">1.</span> <span class="toc-text">CTF杂项手册</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%89%87base64"><span class="toc-number">1.0.1.</span> <span class="toc-text">图片base64</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.0.2.</span> <span class="toc-text">文件格式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PNG"><span class="toc-number">1.0.2.1.</span> <span class="toc-text">PNG</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%9D%97-CHUNk"><span class="toc-number">1.0.2.1.1.</span> <span class="toc-text">数据块 CHUNk</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%A4%B4%E6%95%B0%E6%8D%AE%E5%9D%97IHDR"><span class="toc-number">1.0.2.1.2.</span> <span class="toc-text">文件头数据块IHDR</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9B%BE%E5%83%8F%E7%BB%93%E6%9D%9F%E6%95%B0%E6%8D%AEIEND"><span class="toc-number">1.0.2.1.3.</span> <span class="toc-text">图像结束数据IEND</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9B%BE%E5%83%8F%E6%95%B0%E6%8D%AE%E5%9D%97IDAT"><span class="toc-number">1.0.2.1.4.</span> <span class="toc-text">图像数据块IDAT</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JPG"><span class="toc-number">1.0.2.2.</span> <span class="toc-text">JPG</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ZIP"><span class="toc-number">1.0.2.3.</span> <span class="toc-text">ZIP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RAR"><span class="toc-number">1.0.2.4.</span> <span class="toc-text">RAR</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F-1"><span class="toc-number">1.0.2.4.1.</span> <span class="toc-text">文件格式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%AF%8F%E4%B8%AA%E5%9D%97%E7%9A%84%E7%BB%84%E6%88%90"><span class="toc-number">1.0.2.4.2.</span> <span class="toc-text">每个块的组成</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%93%E5%B0%BE%E5%BF%AB"><span class="toc-number">1.0.2.4.3.</span> <span class="toc-text">结尾快</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MKV"><span class="toc-number">1.0.2.5.</span> <span class="toc-text">MKV</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#WAV"><span class="toc-number">1.0.2.6.</span> <span class="toc-text">WAV</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#RIFF%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.0.2.6.1.</span> <span class="toc-text">RIFF格式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#CHUNK%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-number">1.0.2.6.2.</span> <span class="toc-text">CHUNK的结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%84%89%E5%86%B2%E7%BC%96%E7%A0%81%E8%B0%83%E5%88%B6%EF%BC%88PCM%EF%BC%89"><span class="toc-number">1.0.2.6.3.</span> <span class="toc-text">脉冲编码调制（PCM）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#WAV%E6%96%87%E4%BB%B6%E7%9A%84CHUNK%E4%BF%A1%E6%81%AF"><span class="toc-number">1.0.2.6.4.</span> <span class="toc-text">WAV文件的CHUNK信息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Python%E4%BB%A3%E7%A0%81"><span class="toc-number">1.0.2.6.5.</span> <span class="toc-text">Python代码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#PYC"><span class="toc-number">1.0.2.6.6.</span> <span class="toc-text">PYC</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ELF%E6%96%87%E4%BB%B6"><span class="toc-number">1.0.2.7.</span> <span class="toc-text">ELF文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#vmdk"><span class="toc-number">1.0.2.8.</span> <span class="toc-text">vmdk</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#avi"><span class="toc-number">1.0.2.9.</span> <span class="toc-text">avi</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8"><span class="toc-number">1.0.3.</span> <span class="toc-text">工具使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#01editor"><span class="toc-number">1.0.3.1.</span> <span class="toc-text">01editor</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#notepad"><span class="toc-number">1.0.3.2.</span> <span class="toc-text">notepad++</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E7%A0%81"><span class="toc-number">1.0.3.2.1.</span> <span class="toc-text">解码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A0%87%E8%AE%B0%E6%9B%BF%E6%8D%A2%E5%8A%9F%E8%83%BD"><span class="toc-number">1.0.3.2.2.</span> <span class="toc-text">标记替换功能</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E5%A4%A7%E5%B0%8F%E5%86%99"><span class="toc-number">1.0.3.2.3.</span> <span class="toc-text">转换大小写</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%94%9F%E6%88%90md5"><span class="toc-number">1.0.3.2.4.</span> <span class="toc-text">生成md5</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        CTF-杂项手册
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">steady</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-05-10T14:14:20.000Z" itemprop="datePublished">2019-05-10</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/CTF-%E6%9D%82%E9%A1%B9/">CTF-杂项</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/CTF-%E6%9D%82%E9%A1%B9/" rel="tag">CTF-杂项</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="CTF杂项手册"><a href="#CTF杂项手册" class="headerlink" title="CTF杂项手册"></a>CTF杂项手册</h1><h3 id="图片base64"><a href="#图片base64" class="headerlink" title="图片base64"></a>图片base64</h3><p>base64图片头：<code>data:image/jpg;base64,</code>。</p>
+<h3 id="文件格式"><a href="#文件格式" class="headerlink" title="文件格式"></a>文件格式</h3><h4 id="PNG"><a href="#PNG" class="headerlink" title="PNG"></a>PNG</h4><p>文件头总是由位固定的字节来描述，剩余的部分由 3 个以上的 PNG 的数据块（Chunk）按照特定的顺序组成。</p>
+<p>总体来说就是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">文件头 89 50 4E 47 0D 0A 1A 0A + 数据块 + 数据块 + 数据块……</span><br></pre></td></tr></table></figure>
+
+<h5 id="数据块-CHUNk"><a href="#数据块-CHUNk" class="headerlink" title="数据块 CHUNk"></a>数据块 CHUNk</h5><p>PNG 定义了两种类型的数据块，一种是称为关键数据块（critical chunk），这是标准的数据块，另一种叫做辅助数据块（ancillary chunks），这是可选的数据块。关键数据块定义了 4 个标准数据块，每个 PNG 文件都必须包含它们，PNG 读写软件也都必须要支持这些数据块。</p>
+<p>也就是说有的数据块是可选的，有的是必须有的，我们就介绍一下必须有的数据块。</p>
+<p>对于每个数据块都有着统一的数据结构，每个数据块由 4 个部分组成。</p>
+<table>
+<thead>
+<tr>
+<th align="center">Length（长度）</th>
+<th>4 字节</th>
+<th>指定数据块中数据域的长度，其长度不超过（231－1）字节</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Chunk Type Code（数据块类型码）</td>
+<td>4 字节</td>
+<td>数据块类型码由 ASCII 字母（A - Z 和 a - z）组成</td>
+</tr>
+<tr>
+<td align="center">Chunk Data（数据块数据）</td>
+<td>可变长度</td>
+<td>存储按照 Chunk Type Code 指定的数据</td>
+</tr>
+<tr>
+<td align="center">CRC（循环冗余检测）</td>
+<td>4 字节</td>
+<td>存储用来检测是否有错误的循环冗余码</td>
+</tr>
+</tbody></table>
+<h5 id="文件头数据块IHDR"><a href="#文件头数据块IHDR" class="headerlink" title="文件头数据块IHDR"></a>文件头数据块IHDR</h5><p>文件头数据块 IHDR（Header Chunk）：它包含有 PNG 文件中存储的图像数据的基本信息，由 13 字节组成，并要作为第一个数据块出现在 PNG 数据流中，而且一个 PNG 数据流中只能有一个文件头数据块。</p>
+<p>文件头数据块（IHDR）定义了PNG文件的宽高、色深、压缩方法等参数。</p>
+<p>上面我们讲了每个数据块都包含四个部分：</p>
+<ul>
+<li>长度（Length）：4 bytes</li>
+<li>数据块类型（Chunk Type）：4 bytes</li>
+<li>数据块数据（Chunk Data）：Length bytes</li>
+<li><strong>CRC</strong>校验码：4 bytes，由Chunk Type和Chunk Data</li>
+</ul>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/22.png" alt="22"></p>
+<h5 id="图像结束数据IEND"><a href="#图像结束数据IEND" class="headerlink" title="图像结束数据IEND"></a>图像结束数据IEND</h5><p>图像结束数据 IEND（image trailer chunk）：它用来标记 PNG 文件或者数据流已经结束，并且必须要放在文件的尾部。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">00 00 00 00 49 45 4E 44 AE 42 60 82</span><br></pre></td></tr></table></figure>
+
+<p>IEND 数据块的长度总是 <code>00 00 00 00</code>，数据标识总是 IEND <code>49 45 4E 44</code>，因此，CRC 码也总是 <code>AE 42 60 82</code>。</p>
+<h5 id="图像数据块IDAT"><a href="#图像数据块IDAT" class="headerlink" title="图像数据块IDAT"></a>图像数据块IDAT</h5><p>图像数据块 IDAT（image data chunk）：它存储实际的数据，在数据流中可包含多个连续顺序的图像数据块。</p>
+<p>IDAT 块只有当上一个块充满时，才会继续一个新的块。使用pngcheck工具进行检查，如果前一个数据块没有满，而后一个数据块有数据，则说明这里隐藏了信息。</p>
+<h4 id="JPG"><a href="#JPG" class="headerlink" title="JPG"></a>JPG</h4><p>JPEG（Joint Photographic Experts Group）是联合图像专家小组的英文缩写。它由国际电话与电报咨询委员会CCITT（The International Telegraph and Telephone Consultative Committee）与国际标准化组织ISO于1986年联合成立的一个小组，负责制定静态数字图像的编码标准。</p>
+<p>JPEG算法压缩出来的静态图片文件称为JPEG文件，扩展名通常为.jpg、.jpe、jpeg。</p>
+<p>JPEG文件大体上可以分成两个部分：标记码(Tag)和压缩数据。</p>
+<p>标记码由两个字节构成，其前一个字节是固定值0xFF，后一个字节则根据不同意义有不同数值。在每个标记码之前还可以添加数目不限的无意义的0xFF填充，也就说连续的多个0xFF可以被理解为一个0xFF，并表示一个标记码的开始。而在一个完整的两字节的标记码后，就是该标记码对应的压缩数据流，记录了关于文件的诸种信息。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/24.png" alt="24"></p>
+<p>常用的标记有<a target="_blank" rel="noopener" href="http://blog.csdn.net/lpt19832003/article/details/Editor/FCKeditor/editor/fckeditor.html?InstanceName=ctl00_ContentPlaceHolder1_EntryEditor1_richTextEditor_richTextEditor&Toolbar=Default#SOI">SOI</a>、<a target="_blank" rel="noopener" href="http://blog.csdn.net/lpt19832003/article/details/Editor/FCKeditor/editor/fckeditor.html?InstanceName=ctl00_ContentPlaceHolder1_EntryEditor1_richTextEditor_richTextEditor&Toolbar=Default#APP0">APP0</a>、<a target="_blank" rel="noopener" href="http://blog.csdn.net/lpt19832003/article/details/Editor/FCKeditor/editor/fckeditor.html?InstanceName=ctl00_ContentPlaceHolder1_EntryEditor1_richTextEditor_richTextEditor&Toolbar=Default#DQT">DQT</a>、<a target="_blank" rel="noopener" href="http://blog.csdn.net/lpt19832003/article/details/Editor/FCKeditor/editor/fckeditor.html?InstanceName=ctl00_ContentPlaceHolder1_EntryEditor1_richTextEditor_richTextEditor&Toolbar=Default#SOF">SOF0</a>、<a target="_blank" rel="noopener" href="http://blog.csdn.net/lpt19832003/article/details/Editor/FCKeditor/editor/fckeditor.html?InstanceName=ctl00_ContentPlaceHolder1_EntryEditor1_richTextEditor_richTextEditor&Toolbar=Default#DHT">DHT</a>、<a target="_blank" rel="noopener" href="http://blog.csdn.net/lpt19832003/article/details/Editor/FCKeditor/editor/fckeditor.html?InstanceName=ctl00_ContentPlaceHolder1_EntryEditor1_richTextEditor_richTextEditor&Toolbar=Default#DRI">DRI</a>、<a target="_blank" rel="noopener" href="http://blog.csdn.net/lpt19832003/article/details/Editor/FCKeditor/editor/fckeditor.html?InstanceName=ctl00_ContentPlaceHolder1_EntryEditor1_richTextEditor_richTextEditor&Toolbar=Default#SOS">SOS</a>、<a target="_blank" rel="noopener" href="http://blog.csdn.net/lpt19832003/article/details/Editor/FCKeditor/editor/fckeditor.html?InstanceName=ctl00_ContentPlaceHolder1_EntryEditor1_richTextEditor_richTextEditor&Toolbar=Default#EOI">EOI</a>。</p>
+<p>注意，SOI等都是标记的名称。在文件中，标记码是以标记代码形式出现。例如SOI的标记代码为0xFFD8，即在JPEG文件中的如果出现数据0xFFD8，则表示此处为一个SOI标记。</p>
+<p>常用标记的标记代码、占用字节长度和表示的意义。</p>
+<p>SOF0</p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>名称</th>
+<th>长度</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>①</td>
+<td>数据长度</td>
+<td>2 字节</td>
+<td>①~⑥ 六个字段的总长度，即不包括标记代码，但包括本字段</td>
+</tr>
+<tr>
+<td>②</td>
+<td>精度</td>
+<td>1 字节</td>
+<td>每个数据样本的位数，通常是 8 位，一般软件都不支持 12 位和 16 位</td>
+</tr>
+<tr>
+<td>③</td>
+<td>图像高度</td>
+<td>2 字节</td>
+<td>图像高度（单位：像素），如果不支持 DNL 就必须 &gt; 0</td>
+</tr>
+<tr>
+<td>④</td>
+<td>图像宽度</td>
+<td>2 字节</td>
+<td>图像宽度（单位：像素），如果不支持 DNL 就必须 &gt; 0</td>
+</tr>
+<tr>
+<td>⑤</td>
+<td>颜色分量数</td>
+<td>1 字节</td>
+<td>只有 3 个数值可选<br/> 1：灰度图；3：YCrCb 或 YIQ；4：CMYK；<br/> 而 JFIF 中使用 YCrCb，故这里颜色分量数恒为 3</td>
+</tr>
+<tr>
+<td>⑥</td>
+<td>颜色分量信息</td>
+<td>颜色分量数×3字节（通常为 9 字节）</td>
+<td>《颜色分量信息表格》</td>
+</tr>
+</tbody></table>
+<p>通常找到FFC0，之后的第三个到第七个字节就是长度和宽度。</p>
+<h4 id="ZIP"><a href="#ZIP" class="headerlink" title="ZIP"></a>ZIP</h4><p>一个 ZIP 文件由三个部分组成：</p>
+<p>压缩源文件数据区+压缩源文件目录区+压缩源文件目录结束标志。</p>
+<ul>
+<li><p>压缩源文件数据区：</p>
+<p>50 4B 03 04：这是头文件标记（0x04034b50）<br>14 00：解压文件所需 pkware 版本<br><strong>00 00：全局方式位标记（有无加密）</strong><br>08 00：压缩方式<br>5A 7E：最后修改文件时间<br>F7 46：最后修改文件日期<br>16 B5 80 14：CRC-32校验（1480B516）<br>19 00 00 00：压缩后尺寸（25）<br>17 00 00 00：未压缩尺寸（23）<br>07 00：文件名长度<br>00 00：扩展记录长度 </p>
+</li>
+<li><p>压缩源文件目录区：</p>
+<p>50 4B 01 02：目录中文件文件头标记(0x02014b50)<br>3F 00：压缩使用的 pkware 版本<br>14 00：解压文件所需 pkware 版本<br><strong>00 00：全局方式位标记（有无加密，这个更改这里进行伪加密，改为09 00打开就会提示有密码了）</strong><br>08 00：压缩方式<br>5A 7E：最后修改文件时间<br>F7 46：最后修改文件日期<br>16 B5 80 14：CRC-32校验（1480B516）<br>19 00 00 00：压缩后尺寸（25）<br>17 00 00 00：未压缩尺寸（23）<br>07 00：文件名长度<br>24 00：扩展字段长度<br>00 00：文件注释长度<br>00 00：磁盘开始号<br>00 00：内部文件属性<br>20 00 00 00：外部文件属性<br>00 00 00 00：局部头部偏移量</p>
+</li>
+<li><p>压缩源文件目录结束标志： </p>
+<p>50 4B 05 06：目录结束标记<br>00 00：当前磁盘编号<br>00 00：目录区开始磁盘编号<br>01 00：本磁盘上纪录总数<br>01 00：目录区中纪录总数<br>59 00 00 00：目录区尺寸大小<br>3E 00 00 00：目录区对第一张磁盘的偏移量<br>00 00：ZIP 文件注释长度</p>
+</li>
+</ul>
+<p>总结：通过<strong>压缩源文件目录区50 4B 01 02 1F 00 14 00 0奇/偶 00 来表示是否加密</strong>。</p>
+<h4 id="RAR"><a href="#RAR" class="headerlink" title="RAR"></a>RAR</h4><h5 id="文件格式-1"><a href="#文件格式-1" class="headerlink" title="文件格式"></a>文件格式</h5><p>RAR 文件主要由标记块，压缩文件头块，文件头块，结尾块组成。Rar压缩包的文件头为 <code>0x 52 61 72 21 1A 07 00</code>。</p>
+<p>RAR的标记块和结束块都是固定的7字节序列，分别为0x52 61 72 21 1A 07 00和0xC4 3D 7B 00 40 07 00。文件块这边要注意一下HEAD_FLAGS这个头部，其中HEAD_FLAGS的低三位代表加密标志，此位若被置为1，则文件使用了基于密钥的加密。</p>
+<h5 id="每个块的组成"><a href="#每个块的组成" class="headerlink" title="每个块的组成"></a>每个块的组成</h5><table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">大小</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">HEAD_CRC</td>
+<td align="left">2</td>
+<td align="left">全部块或块部分的CRC</td>
+</tr>
+<tr>
+<td align="left">HEAD_TYPE</td>
+<td align="left">1</td>
+<td align="left">块类型</td>
+</tr>
+<tr>
+<td align="left">HEAD_FLAGS</td>
+<td align="left">2</td>
+<td align="left">阻止标志</td>
+</tr>
+<tr>
+<td align="left">HEAD_SIZE</td>
+<td align="left">2</td>
+<td align="left">块大小</td>
+</tr>
+<tr>
+<td align="left">ADD_SIZE</td>
+<td align="left">4</td>
+<td align="left">可选字段 - 添加块大小</td>
+</tr>
+</tbody></table>
+<h5 id="结尾快"><a href="#结尾快" class="headerlink" title="结尾快"></a>结尾快</h5><p>结尾快（Terminator）都是固定的。</p>
+<table>
+<thead>
+<tr>
+<th align="left">Field Name</th>
+<th align="left">Size (bytes)</th>
+<th align="left">Possibilities</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">HEAD_CRC</td>
+<td align="left">2</td>
+<td align="left">Always 0x3DC4</td>
+</tr>
+<tr>
+<td align="left">HEAD_TYPE</td>
+<td align="left">1</td>
+<td align="left">Header type: 0x7b</td>
+</tr>
+<tr>
+<td align="left">HEAD_FLAGS</td>
+<td align="left">2</td>
+<td align="left">Always 0x4000</td>
+</tr>
+<tr>
+<td align="left">HEAD_SIZE</td>
+<td align="left">2</td>
+<td align="left">Block size = 0x0007</td>
+</tr>
+</tbody></table>
+<h4 id="MKV"><a href="#MKV" class="headerlink" title="MKV"></a>MKV</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@root:~&#x2F;桌面&#x2F;flag# file &#39;&#x2F;root&#x2F;桌面&#x2F;flag&#x2F;ogreman&#39; </span><br><span class="line">&#x2F;root&#x2F;桌面&#x2F;flag&#x2F;ogreman: Matroska data</span><br></pre></td></tr></table></figure>
+
+<h4 id="WAV"><a href="#WAV" class="headerlink" title="WAV"></a>WAV</h4><h5 id="RIFF格式"><a href="#RIFF格式" class="headerlink" title="RIFF格式"></a>RIFF格式</h5><p>「 Resource Interchange File Format（简称RIFF），资源交换文件格式，是一种按照标记区块存储数据（tagged chunks）的通用文件存储格式，多用于存储音频、视频等多媒体数据.Microsoft在windows下的AVI、ANI 、WAV等都是基于RIFF实现的。</p>
+<p>RIFF是由chunk构成的，chunk是RIFF组成的基本单位，每个CHUNK可看作存贮了视频的一帧数据或者是音频的一帧数据。</p>
+<h5 id="CHUNK的结构"><a href="#CHUNK的结构" class="headerlink" title="CHUNK的结构"></a>CHUNK的结构</h5><p>CHUNK总共由三个部分组成：</p>
+<ul>
+<li>FOURCC  使用4字节的ASIIC字符标识类型</li>
+<li>SIZE       数据的大小</li>
+<li>DATA      用于存放数据</li>
+</ul>
+<p>CHUNK在一般情况下不能嵌套，但是当CHUNK的FOURCC为”RIFF”或者是”LIST”的时候可以嵌套数据。</p>
+<p>“RIFF”的第一个CHUNK的FOURCC一定是”RIFF”，所以FOURCC为LIST的一定是子CHUNK及SUBCHUNK。</p>
+<p>“RIFF”的CHUNK在DATA区域的前四个字节称为”Form Type”记录了数据的类型，比如我们的wav文件的Form Type就是”WAV”。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/38.png" alt="38"></p>
+<h5 id="脉冲编码调制（PCM）"><a href="#脉冲编码调制（PCM）" class="headerlink" title="脉冲编码调制（PCM）"></a>脉冲编码调制（PCM）</h5><p>「PCM 脉冲编码调制是Pulse Code Modulation的缩写，脉冲编码调制是数字通信的编码方式之一.主要过程是将话音、图像等模拟信号每隔一定时间进行取样，使其离散化，同时将抽样值按分层单位四舍五入取整量化，同时将抽样值按一组二进制码来表示抽样脉冲的幅值。」</p>
+<h5 id="WAV文件的CHUNK信息"><a href="#WAV文件的CHUNK信息" class="headerlink" title="WAV文件的CHUNK信息"></a>WAV文件的CHUNK信息</h5><p>WAVE文件是由若干个CHUNK组成的.按照文件中CHUNK的出现顺序分别为：RIFF Chunk, Format Chunk, Fact Chunk, Data Chunk,其中的Fact CHUNK为非必要部分，结构具体如下图所示：</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/39.png" alt="39"></p>
+<p>RIFF是头CHUNK,而Format CHUNK里面记录了WAV的各种参数信息，详细参数信息如下：</p>
+<ul>
+<li>FormatTag       音频数据的编码方式，其中PCM方式为1</li>
+<li>Channels        声道数，单声道为1，双声道为2</li>
+<li>SamplesPerSec   采样率(每秒样本数)</li>
+<li>BytesPerSec*     音频数据传送速率</li>
+<li>BlockAlign*      每次采样的大小</li>
+<li>BitsPerSample*   每个声道的采样精度</li>
+</ul>
+<h5 id="Python代码"><a href="#Python代码" class="headerlink" title="Python代码"></a>Python代码</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> wave</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"><span class="keyword">from</span> scipy <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> pylab <span class="keyword">import</span> *</span><br><span class="line">  </span><br><span class="line"><span class="comment">#读取wav文件，我这儿读了个自己用python写的音阶的wav</span></span><br><span class="line">filename = <span class="string">&#x27;1.wav&#x27;</span></span><br><span class="line">wavefile = wave.open(filename, <span class="string">&#x27;r&#x27;</span>) <span class="comment"># open for writing</span></span><br><span class="line">  </span><br><span class="line"><span class="comment">#读取wav文件的四种信息的函数。期中numframes表示一共读取了几个frames，在后面要用到滴。</span></span><br><span class="line">nchannels = wavefile.getnchannels()</span><br><span class="line">sample_width = wavefile.getsampwidth()</span><br><span class="line">framerate = wavefile.getframerate()</span><br><span class="line">numframes = wavefile.getnframes()</span><br><span class="line">info= wavefile.getparams()</span><br><span class="line">  </span><br><span class="line">print(<span class="string">&quot;channel&quot;</span>,nchannels)</span><br><span class="line">print(<span class="string">&quot;sample_width&quot;</span>,sample_width)</span><br><span class="line">print(<span class="string">&quot;framerate&quot;</span>,framerate)</span><br><span class="line">print(<span class="string">&quot;numframes&quot;</span>,numframes)</span><br><span class="line">print(<span class="string">&quot;info&quot;</span>,info)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">channel <span class="number">1</span></span><br><span class="line">sample_width <span class="number">2</span></span><br><span class="line">framerate <span class="number">8000</span></span><br><span class="line">numframes <span class="number">159999</span></span><br><span class="line">info _wave_params(nchannels=<span class="number">1</span>, sampwidth=<span class="number">2</span>, framerate=<span class="number">8000</span>, nframes=<span class="number">159999</span>, comptype=<span class="string">&#x27;NONE&#x27;</span>, compname=<span class="string">&#x27;not compressed&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h5 id="PYC"><a href="#PYC" class="headerlink" title="PYC"></a>PYC</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">03F30D0A</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">t@kali:~&#x2F;桌面&#x2F;steady# file &#x2F;root&#x2F;桌面&#x2F;steady&#x2F;O_O </span><br><span class="line">&#x2F;root&#x2F;桌面&#x2F;steady&#x2F;O_O: python 3.6 byte-compiled</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="ELF文件"><a href="#ELF文件" class="headerlink" title="ELF文件"></a>ELF文件</h4><p><code>7F 45 4C 46</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">file <span class="string">&#x27;/root/桌面/flag/1&#x27;</span> </span><br><span class="line">/root/桌面/flag/<span class="number">1</span>: ELF <span class="number">64</span>-bit LSB executable, x86<span class="number">-64</span>, version <span class="number">1</span> (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86<span class="number">-64.</span>so<span class="number">.2</span>, <span class="keyword">for</span> GNU/Linux <span class="number">2.6</span><span class="number">.24</span>, BuildID[sha1]=<span class="number">8</span>df45089fa39fec83423ec37a944e81065d16bee, <span class="keyword">not</span> stripped</span><br></pre></td></tr></table></figure>
+
+<p>使用ideal或者linux直接打开。</p>
+<h4 id="vmdk"><a href="#vmdk" class="headerlink" title="vmdk"></a>vmdk</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@root:~&#x2F;桌面&#x2F;flag# file &#39;&#x2F;root&#x2F;桌面&#x2F;flag&#x2F;_mianju.jpg.extracted&#x2F;flag.vmdk&#39; </span><br><span class="line">&#x2F;root&#x2F;桌面&#x2F;flag&#x2F;_mianju.jpg.extracted&#x2F;flag.vmdk: VMware4 disk image</span><br></pre></td></tr></table></figure>
+
+<p>vmdk也可以用7z解压。</p>
+<h4 id="avi"><a href="#avi" class="headerlink" title="avi"></a>avi</h4><p>视频文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">file &#39;&#x2F;root&#x2F;桌面&#x2F;flag&#x2F;output&#x2F;zip&#x2F;里面都是出题人.jpg&#39; </span><br><span class="line">&#x2F;root&#x2F;桌面&#x2F;flag&#x2F;output&#x2F;zip&#x2F;里面都是出题人.jpg: RIFF (little-endian) data, AVI, 720 x 480, ~30 fps, video: uncompressed, audio: uncompressed PCM (stereo, 48000 Hz)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">52 49 46 46 1C 7D 7D 02</span><br></pre></td></tr></table></figure>
+
+<p>elf</p>
+<p>可以直接在linux下运行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">steady@steady:~&#x2F;桌面&#x2F;steady$ file &#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;output&#x2F;zip&#x2F;hidden_binary</span><br><span class="line">&#x2F;home&#x2F;steady&#x2F;桌面&#x2F;steady&#x2F;output&#x2F;zip&#x2F;hidden_binary: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter &#x2F;lib64&#x2F;ld-linux-x86-64.so.2, BuildID[sha1]&#x3D;101705e6f60a300ab34f377a87fdb67f92996732, for GNU&#x2F;Linux 3.2.0, not stripped</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="工具使用"><a href="#工具使用" class="headerlink" title="工具使用"></a>工具使用</h3><h4 id="01editor"><a href="#01editor" class="headerlink" title="01editor"></a>01editor</h4><p><img src="C:\Users\12521\AppData\Roaming\Typora\typora-user-images\image-20201030154428607.png" alt="image-20201030154428607"></p>
+<p>可以使用搜索功能搜索十六进制和ascii，搜索-&gt;查找。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/28.png" alt="28"></p>
+<p>更换编码方式。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/47.png" alt="47"></p>
+<h4 id="notepad"><a href="#notepad" class="headerlink" title="notepad++"></a>notepad++</h4><h5 id="解码"><a href="#解码" class="headerlink" title="解码"></a>解码</h5><p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/59.png" alt="59"></p>
+<h5 id="标记替换功能"><a href="#标记替换功能" class="headerlink" title="标记替换功能"></a>标记替换功能</h5><p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/60.png" alt="60"></p>
+<h5 id="转换大小写"><a href="#转换大小写" class="headerlink" title="转换大小写"></a>转换大小写</h5><p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/61.png" alt="61"></p>
+<h5 id="生成md5"><a href="#生成md5" class="headerlink" title="生成md5"></a>生成md5</h5><p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/62.png" alt="62"></p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/projects_url">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CTF%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C"><span class="toc-number">1.</span> <span class="toc-text">CTF杂项手册</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%89%87base64"><span class="toc-number">1.0.1.</span> <span class="toc-text">图片base64</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.0.2.</span> <span class="toc-text">文件格式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PNG"><span class="toc-number">1.0.2.1.</span> <span class="toc-text">PNG</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%9D%97-CHUNk"><span class="toc-number">1.0.2.1.1.</span> <span class="toc-text">数据块 CHUNk</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%A4%B4%E6%95%B0%E6%8D%AE%E5%9D%97IHDR"><span class="toc-number">1.0.2.1.2.</span> <span class="toc-text">文件头数据块IHDR</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9B%BE%E5%83%8F%E7%BB%93%E6%9D%9F%E6%95%B0%E6%8D%AEIEND"><span class="toc-number">1.0.2.1.3.</span> <span class="toc-text">图像结束数据IEND</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9B%BE%E5%83%8F%E6%95%B0%E6%8D%AE%E5%9D%97IDAT"><span class="toc-number">1.0.2.1.4.</span> <span class="toc-text">图像数据块IDAT</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JPG"><span class="toc-number">1.0.2.2.</span> <span class="toc-text">JPG</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ZIP"><span class="toc-number">1.0.2.3.</span> <span class="toc-text">ZIP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RAR"><span class="toc-number">1.0.2.4.</span> <span class="toc-text">RAR</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F-1"><span class="toc-number">1.0.2.4.1.</span> <span class="toc-text">文件格式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%AF%8F%E4%B8%AA%E5%9D%97%E7%9A%84%E7%BB%84%E6%88%90"><span class="toc-number">1.0.2.4.2.</span> <span class="toc-text">每个块的组成</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%93%E5%B0%BE%E5%BF%AB"><span class="toc-number">1.0.2.4.3.</span> <span class="toc-text">结尾快</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MKV"><span class="toc-number">1.0.2.5.</span> <span class="toc-text">MKV</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#WAV"><span class="toc-number">1.0.2.6.</span> <span class="toc-text">WAV</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#RIFF%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.0.2.6.1.</span> <span class="toc-text">RIFF格式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#CHUNK%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-number">1.0.2.6.2.</span> <span class="toc-text">CHUNK的结构</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%84%89%E5%86%B2%E7%BC%96%E7%A0%81%E8%B0%83%E5%88%B6%EF%BC%88PCM%EF%BC%89"><span class="toc-number">1.0.2.6.3.</span> <span class="toc-text">脉冲编码调制（PCM）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#WAV%E6%96%87%E4%BB%B6%E7%9A%84CHUNK%E4%BF%A1%E6%81%AF"><span class="toc-number">1.0.2.6.4.</span> <span class="toc-text">WAV文件的CHUNK信息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Python%E4%BB%A3%E7%A0%81"><span class="toc-number">1.0.2.6.5.</span> <span class="toc-text">Python代码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#PYC"><span class="toc-number">1.0.2.6.6.</span> <span class="toc-text">PYC</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ELF%E6%96%87%E4%BB%B6"><span class="toc-number">1.0.2.7.</span> <span class="toc-text">ELF文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#vmdk"><span class="toc-number">1.0.2.8.</span> <span class="toc-text">vmdk</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#avi"><span class="toc-number">1.0.2.9.</span> <span class="toc-text">avi</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8"><span class="toc-number">1.0.3.</span> <span class="toc-text">工具使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#01editor"><span class="toc-number">1.0.3.1.</span> <span class="toc-text">01editor</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#notepad"><span class="toc-number">1.0.3.2.</span> <span class="toc-text">notepad++</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E7%A0%81"><span class="toc-number">1.0.3.2.1.</span> <span class="toc-text">解码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A0%87%E8%AE%B0%E6%9B%BF%E6%8D%A2%E5%8A%9F%E8%83%BD"><span class="toc-number">1.0.3.2.2.</span> <span class="toc-text">标记替换功能</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E5%A4%A7%E5%B0%8F%E5%86%99"><span class="toc-number">1.0.3.2.3.</span> <span class="toc-text">转换大小写</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%94%9F%E6%88%90md5"><span class="toc-number">1.0.3.2.4.</span> <span class="toc-text">生成md5</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://s1eady.top/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://s1eady.top/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/&text=CTF-杂项手册"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://s1eady.top/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/&title=CTF-杂项手册"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://s1eady.top/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/&is_video=false&description=CTF-杂项手册"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CTF-杂项手册&body=Check out this article: http://s1eady.top/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://s1eady.top/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/&title=CTF-杂项手册"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://s1eady.top/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/&title=CTF-杂项手册"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://s1eady.top/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/&title=CTF-杂项手册"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://s1eady.top/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/&title=CTF-杂项手册"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://s1eady.top/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/&name=CTF-杂项手册&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://s1eady.top/2019/05/10/CTF-%E6%9D%82%E9%A1%B9%E6%89%8B%E5%86%8C/&t=CTF-杂项手册"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2018.12.8-2020
+    steady
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/projects_url">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

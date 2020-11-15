@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="CTF-python库的使用-PIL库PIL库生成Image对象im是一个Image对象，属性有format，size，mode。format是格式，size 是一个元组，表示(宽，高)，mode则指的图片的模式。 12345from PIL import Image#生成一个image对象。img &#x3D; Image.open(&amp;#x27;sunset.jpg&amp;#x27;)#显示图片img.show">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTF-python库PIL的使用">
+<meta property="og:url" content="http://s1eady.top/2019/04/17/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="steady&#39;s blog">
+<meta property="og:description" content="CTF-python库的使用-PIL库PIL库生成Image对象im是一个Image对象，属性有format，size，mode。format是格式，size 是一个元组，表示(宽，高)，mode则指的图片的模式。 12345from PIL import Image#生成一个image对象。img &#x3D; Image.open(&amp;#x27;sunset.jpg&amp;#x27;)#显示图片img.show">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/29.png">
+<meta property="article:published_time" content="2019-04-17T14:14:20.000Z">
+<meta property="article:modified_time" content="2020-11-15T10:01:15.339Z">
+<meta property="article:author" content="steady">
+<meta property="article:tag" content="CTF-python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/29.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>CTF-python库PIL的使用</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="steady's blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/projects_url">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/05/02/%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/04/10/CTF-python%E5%BA%93zipfile%E7%9A%84%E4%BD%BF%E7%94%A8/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://s1eady.top/2019/04/17/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://s1eady.top/2019/04/17/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/&text=CTF-python库PIL的使用"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://s1eady.top/2019/04/17/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/&title=CTF-python库PIL的使用"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://s1eady.top/2019/04/17/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/&is_video=false&description=CTF-python库PIL的使用"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CTF-python库PIL的使用&body=Check out this article: http://s1eady.top/2019/04/17/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://s1eady.top/2019/04/17/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/&title=CTF-python库PIL的使用"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://s1eady.top/2019/04/17/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/&title=CTF-python库PIL的使用"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://s1eady.top/2019/04/17/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/&title=CTF-python库PIL的使用"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://s1eady.top/2019/04/17/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/&title=CTF-python库PIL的使用"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://s1eady.top/2019/04/17/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/&name=CTF-python库PIL的使用&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://s1eady.top/2019/04/17/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/&t=CTF-python库PIL的使用"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CTF-python%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8-PIL%E5%BA%93"><span class="toc-number">1.</span> <span class="toc-text">CTF-python库的使用-PIL库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PIL%E5%BA%93"><span class="toc-number">1.1.</span> <span class="toc-text">PIL库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90Image%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.1.1.</span> <span class="toc-text">生成Image对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Image%E5%AF%B9%E8%B1%A1%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.2.</span> <span class="toc-text">Image对象常用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#im-size"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">im.size</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#im-getpixel-x-y"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">im.getpixel((x, y))</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%89%87%E5%89%AA%E8%B4%B4"><span class="toc-number">1.1.3.</span> <span class="toc-text">图片剪贴</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%89%87%E9%BB%8F%E8%B4%B4"><span class="toc-number">1.1.4.</span> <span class="toc-text">图片黏贴</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E5%83%8F%E5%88%86%E5%B8%A7"><span class="toc-number">1.1.5.</span> <span class="toc-text">图像分帧</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81CTF%E9%A2%98%E7%9B%AE"><span class="toc-number">1.2.</span> <span class="toc-text">常见CTF题目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.2.1.</span> <span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E7%89%87%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">图片模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#gif"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">gif</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#glance-gif"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">glance.gif</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LSB%E9%9A%90%E5%86%99"><span class="toc-number">1.2.1.4.</span> <span class="toc-text">LSB隐写</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        CTF-python库PIL的使用
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">steady</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-04-17T14:14:20.000Z" itemprop="datePublished">2019-04-17</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/CTF-python/">CTF-python</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/CTF-python/" rel="tag">CTF-python</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="CTF-python库的使用-PIL库"><a href="#CTF-python库的使用-PIL库" class="headerlink" title="CTF-python库的使用-PIL库"></a>CTF-python库的使用-PIL库</h1><h2 id="PIL库"><a href="#PIL库" class="headerlink" title="PIL库"></a>PIL库</h2><h3 id="生成Image对象"><a href="#生成Image对象" class="headerlink" title="生成Image对象"></a>生成Image对象</h3><p>im是一个Image对象，属性有format，size，mode。format是格式，size 是一个元组，表示(宽，高)，mode则指的图片的模式。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="comment">#生成一个image对象。</span></span><br><span class="line">img = Image.open(<span class="string">&#x27;sunset.jpg&#x27;</span>)</span><br><span class="line"><span class="comment">#显示图片</span></span><br><span class="line">img.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="Image对象常用方法"><a href="#Image对象常用方法" class="headerlink" title="Image对象常用方法"></a>Image对象常用方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">im.save(&#39;test.jpg&#39;, &#39;jpeg&#39;)	保存到文件，第二个参数为格式</span><br><span class="line">im.show()	显示图像，会启动一个新窗口</span><br><span class="line">im.size	(这是属性不是方法)得到图像的大小，返回值为tuple，可以通过元组来读取。</span><br><span class="line">im &#x3D; im.convert(&#39;L&#39;)	色彩空间的转换，支持RGB、CMYK等常见空间，注意这个函数不是就地的结果保存在返回值里</span><br><span class="line">im.colors()	很有用的方法，返回颜色统计列表(count, color)，可以判断图像中的色彩分布</span><br><span class="line">im.hist()	直方图，与colors方法类似，但直接返回的是每个像素的直方高度</span><br><span class="line">im.getpixel((x, y))	得到某个像素点的颜色，一般返回(r, g, b)</span><br><span class="line">im.putpixel((x, y), color)	设置某个像素点的颜色，这个操作是就地的</span><br></pre></td></tr></table></figure>
+
+<h4 id="im-size"><a href="#im-size" class="headerlink" title="im.size"></a>im.size</h4><p>打印出像素值。也就是图片的高度宽度。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line">img = Image.open(<span class="string">&#x27;sunset.jpg&#x27;</span>)</span><br><span class="line">print(img.size)</span><br><span class="line">(<span class="number">2000</span>, <span class="number">1328</span>)</span><br></pre></td></tr></table></figure>
+
+<p>遍历图片的每一个坐标或像素。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line">img = Image.open(<span class="string">&#x27;sunset.jpg&#x27;</span>)</span><br><span class="line">print(img.size)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(img.size[<span class="number">0</span>]):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(img.size[<span class="number">1</span>]):</span><br><span class="line">        print(i,j)</span><br></pre></td></tr></table></figure>
+
+<h4 id="im-getpixel-x-y"><a href="#im-getpixel-x-y" class="headerlink" title="im.getpixel((x, y))"></a>im.getpixel((x, y))</h4><p>得到某个像素点的颜色，一般返回(r, g, b)</p>
+<p>遍历每个像素点的颜色。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line">img = Image.open(<span class="string">&#x27;sunset.jpg&#x27;</span>)</span><br><span class="line">print(img.size)</span><br><span class="line">print(img.size)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(img.size[<span class="number">0</span>]):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(img.size[<span class="number">1</span>]):</span><br><span class="line">        print(img.getpixel((i, j)))</span><br></pre></td></tr></table></figure>
+
+<h3 id="图片剪贴"><a href="#图片剪贴" class="headerlink" title="图片剪贴"></a>图片剪贴</h3><p>crop()方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">im = Image.open(<span class="string">&#x27;flag.jpg&#x27;</span>)</span><br><span class="line">box = (<span class="number">150</span>,<span class="number">150</span>,<span class="number">245</span>,<span class="number">280</span>)</span><br><span class="line">img = im.crop(box)</span><br><span class="line">img.show()</span><br></pre></td></tr></table></figure>
+
+<p>box，是一个4元的坐标数组，坐标轴是左上角是(0,0)的卡迪尔坐标系。假设box是(b1,a1,b2,a2)，则所取区域是以各自坐标划线所围的区域。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/29.png" alt="29"></p>
+<h3 id="图片黏贴"><a href="#图片黏贴" class="headerlink" title="图片黏贴"></a>图片黏贴</h3><p>paste()</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">im = Image.open(<span class="string">&#x27;flag.jpg&#x27;</span>)</span><br><span class="line">box = (<span class="number">50</span>,<span class="number">50</span>,<span class="number">200</span>,<span class="number">200</span>)</span><br><span class="line">region = im.crop(box)</span><br><span class="line">im.paste(region,box)</span><br><span class="line">im.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="图像分帧"><a href="#图像分帧" class="headerlink" title="图像分帧"></a>图像分帧</h3><p>seek()和tell()</p>
+<p>tell是读取帧数，而seek是取当前帧数的图片。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line">im = Image.open(<span class="string">&quot;flag.gif&quot;</span>)</span><br><span class="line">im.seek(<span class="number">1</span>)</span><br><span class="line">im.show()</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">        im.seek(im.tell()+<span class="number">1</span>)</span><br><span class="line">        im.show()</span><br><span class="line"><span class="keyword">except</span> EOFError:</span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="常见CTF题目"><a href="#常见CTF题目" class="headerlink" title="常见CTF题目"></a>常见CTF题目</h2><h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><h4 id="图片模式"><a href="#图片模式" class="headerlink" title="图片模式"></a>图片模式</h4><p>9种，分别为1，L，P，RGB，RGBA，CMYK，YCbCr，I，F。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">模式&quot;1&quot;为二值图像，非黑即白。但是它每个像素用8个bit表示，0表示黑，255表示白。</span><br><span class="line"></span><br><span class="line">模式L&quot;为灰色图像，它的每个像素用8个bit表示，0表示黑，255表示白，其他数字表示不同的灰度。在PIL中，从模式&quot;RGB&quot;转换为&quot;L&quot;模式是按照下面的公式转换的</span><br><span class="line"> L &#x3D; R * 299&#x2F;1000 + G * 587&#x2F;1000+ B * 114&#x2F;1000</span><br><span class="line"></span><br><span class="line">模式&quot;P&quot;为8位彩色图像，它的每个像素用8个bit表示，其对应的彩色值是按照调色板查询出来的。</span><br><span class="line"></span><br><span class="line">模式&quot;RGBA&quot;为32位彩色图像，它的每个像素用32个bit表示，其中24bit表示红色、绿色和蓝色三个通道，另外8bit表示alpha通道，即透明通道。</span><br><span class="line"></span><br><span class="line">模式&quot;CMYK&quot;为32位彩色图像，它的每个像素用32个bit表示。模式&quot;CMYK&quot;就是印刷四分色模式，它是彩色印刷时采用的一种套色模式，利用色料的三原色混色原理，加上黑色油墨，共计四种颜色混合叠加，形成所谓&quot;全彩印刷&quot;。</span><br><span class="line"> 四种标准颜色是：C：Cyan &#x3D; 青色，又称为&#39;天蓝色&#39;或是&#39;湛蓝&#39;M：Magenta &#x3D; 品红色，又称为&#39;洋红色&#39;；Y：Yellow &#x3D; 黄色；K：Key Plate(blacK) &#x3D; 定位套版色（黑色）。PIL中&quot;RGB&quot;转换为&quot;CMYK&quot;的公式如下：</span><br><span class="line"> C &#x3D; 255 - R</span><br><span class="line"> M &#x3D; 255 - G</span><br><span class="line"> Y &#x3D; 255 - B</span><br><span class="line"> K &#x3D; 0</span><br><span class="line"></span><br><span class="line">模式&quot;YCbCr&quot;为24位彩色图像，它的每个像素用24个bit表示。YCbCr其中Y是指亮度分量，Cb指蓝色色度分量，而Cr指红色色度分量。人的肉眼对视频的Y分量更敏感，因此在通过对色度分量进行子采样来减少色度分量后，肉眼将察觉不到的图像质量的变化。</span><br><span class="line"> 模式&quot;RGB&quot;转换为&quot;YCbCr&quot;的公式如下：</span><br><span class="line"> Y&#x3D; 0.257*R+0.504*G+0.098*B+16</span><br><span class="line"> Cb &#x3D; -0.148*R-0.291*G+0.439*B+128</span><br><span class="line"> Cr &#x3D; 0.439*R-0.368*G-0.071*B+128</span><br><span class="line"></span><br><span class="line">模式&quot;I&quot;为32位整型灰色图像，它的每个像素用32个bit表示，0表示黑，255表示白，(0,255)之间的数字表示不同的灰度。在PIL中，从模式&quot;RGB&quot;转换为&quot;I&quot;模式是按照下面的公式转换的：</span><br><span class="line"> I &#x3D; R * 299&#x2F;1000 + G * 587&#x2F;1000 + B * 114&#x2F;1000</span><br><span class="line"></span><br><span class="line">模式&quot;F&quot;为32位浮点灰色图像，它的每个像素用32个bit表示，0表示黑，255表示白，(0,255)之间的数字表示不同的灰度。在PIL中，从模式&quot;RGB&quot;转换为&quot;F&quot;模式是按照下面的公式转换的：</span><br><span class="line"> F &#x3D; R * 299&#x2F;1000+ G * 587&#x2F;1000 + B * 114&#x2F;1000</span><br><span class="line"> 模式&quot;F&quot;与模式&quot;L&quot;的转换公式是一样的，都是RGB转换为灰色值的公式，但模式&quot;F&quot;会保留小数部分.</span><br><span class="line"></span><br><span class="line">模式&quot;RGB&quot;为24位彩色图像，它的每个像素用24个bit表示，分别表示红色、绿色和蓝色三个通道。</span><br><span class="line"> 在PIL中，对于彩色图像，open后都会转换为&quot;RGB&quot;模式，然后该模式可以转换为其他模式，比如&quot;1&quot;、&quot;L&quot;、&quot;P&quot;和&quot;RGBA&quot;，这几种模式也可以转换为&quot;RGB&quot;模式。</span><br></pre></td></tr></table></figure>
+
+<h4 id="gif"><a href="#gif" class="headerlink" title="gif"></a>gif</h4><p>拿到许多图片，只有全白和全黑，考虑白色是0，黑色是1。</p>
+<p>首先获取指定坐标的rgb，然后写脚本转换成二进制，二进制转化ascii。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line">img = Image.open(<span class="string">&#x27;./gif/0.jpg&#x27;</span>)</span><br><span class="line">print(list(img.getpixel((<span class="number">1</span>,<span class="number">1</span>))))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line">flag=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">104</span>):</span><br><span class="line">    img = Image.open(<span class="string">&#x27;./gif/&#123;&#125;.jpg&#x27;</span>.format(i))</span><br><span class="line">    <span class="keyword">if</span> list(img.getpixel((<span class="number">1</span>,<span class="number">1</span>)))==[<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>]:</span><br><span class="line">        flag+=<span class="string">&#x27;0&#x27;</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        flag+=<span class="string">&#x27;1&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(flag),<span class="number">8</span>):</span><br><span class="line">    flag+=chr(int(flag[i:i+<span class="number">8</span>],<span class="number">2</span>))</span><br><span class="line">print(flag)</span><br></pre></td></tr></table></figure>
+
+<h4 id="glance-gif"><a href="#glance-gif" class="headerlink" title="glance.gif"></a>glance.gif</h4><p>具体思路就是分帧，粘贴，但是在写脚本的时候还需要仔细一点，有许多细节需要处理。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line">im=Image.open(<span class="string">&#x27;glance.gif&#x27;</span>)</span><br><span class="line">i=<span class="number">0</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">        i+=<span class="number">1</span></span><br><span class="line">        im.seek(im.tell()+<span class="number">1</span>)</span><br><span class="line">        im.save(<span class="string">&#x27;./gif/&#123;&#125;.png&#x27;</span>.format(i))</span><br><span class="line"><span class="keyword">except</span> EOFError:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line">im2=Image.new(<span class="string">&#x27;RGBA&#x27;</span>,(<span class="number">2</span>*<span class="number">201</span>,<span class="number">600</span>))</span><br><span class="line">width = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">201</span>):</span><br><span class="line">    image=Image.open(<span class="string">&#x27;./gif/&#123;&#125;.png&#x27;</span>.format(i))</span><br><span class="line">    im2.paste(image,(width,<span class="number">0</span>,<span class="number">2</span>+width,<span class="number">600</span>))</span><br><span class="line">    width = width +<span class="number">2</span></span><br><span class="line">im2.save(<span class="string">&#x27;flag.png&#x27;</span>)</span><br><span class="line">im2.show()</span><br></pre></td></tr></table></figure>
+
+<p>在一开始处理的时候，我是直接拼接的图片，没有尝试先去打开一个图片(open)然后粘贴，程序报错。</p>
+<p><code>ValueError: unknown color specifier: &#39;./gif/1.png&#39;</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">image=Image.open(<span class="string">&#x27;./gif/&#123;&#125;.png&#x27;</span>.format(i))<span class="comment">#这个很重要。</span></span><br><span class="line">im2.paste(image,(width,<span class="number">0</span>,<span class="number">2</span>+width,<span class="number">600</span>))</span><br></pre></td></tr></table></figure>
+
+<p>这里的坐标位置一定要处理好，首先我们需要知道，图像的高度和宽度。由于只需要横向粘贴，也就是说图片都需要集中在一行上，所以第二个坐标一定是0，第四个坐标一定是图片的高度。每个图片宽2，所以第一个和第二个坐标相差2，每张图片的间隔距离也是2。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">im2.paste(image,(width,<span class="number">0</span>,<span class="number">2</span>+width,<span class="number">600</span>))</span><br></pre></td></tr></table></figure>
+
+<h4 id="LSB隐写"><a href="#LSB隐写" class="headerlink" title="LSB隐写"></a>LSB隐写</h4><p>任何一个像素点的颜色可由<strong>三原色RGB</strong>确定，每个颜色有8bit，因而RGB最大取值为 <code>(255, 255, 255)</code>——RGB一共包含2563=16777216‬2563=16777216‬（1600万）种颜色，而人眼可以区分约1000万种不同的颜色，这意味着剩余约600万种颜色人眼无法识别。</p>
+<p>LSB隐写就是将信息藏在各个像素点的某个颜色的最后一位上，因为是最后一位，对颜色的更改是人眼无法识别出来的，起到了隐藏的效果。</p>
+<p>例子：</p>
+<p>倘若在一张图片中，我们想隐藏 <code>A</code> 这个信息，那么先将 <code>A</code> 的十六进制Unicode码 <code>0x61</code> 转换为二进制 <code>01100001</code>我们在三原色中随机选择一种颜色——比如说<strong>红</strong>，因为要隐藏的 <code>A</code> 占8个位，所以在这张图片中<strong>任意</strong>选择<strong>连续</strong>的8个像素点，将这8个像素点的RGB，代表红色的8bit的最后一位，依次修改为 <code>01100001</code>。</p>
+<p>举个例子：</p>
+<p>假设您想要将消息”A”隐藏到一个4x4的图像中，该图像具有以下像素值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[(225, 12, 99), (155, 2, 50), (99, 51, 15), (15, 55, 22),(155, 61, 87), (63, 30, 17), (1, 55, 19), (99, 81, 66),(219, 77, 91), (69, 39, 50), (18, 200, 33), (25, 54, 190)]</span><br></pre></td></tr></table></figure>
+
+<p>使用 ASCII 表 ，我们可以先将机密消息转换为十进制值，然后再转换为二进制：0110100。现在，我们对像素值逐一进行迭代，在将它们转换为二进制后，我们将每个最小有效位依次替换为该信息位。（例如 225 是 11100001，我们替换最后一位，最右边的（1）和机密消息的第一位（0），依次类推)。这样的操作只会对像素值进行 +1 或 -1 的修改，因此肉眼根本看不出来。执行最低有效位隐写术后得到的像素值如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[(224, 13, 99),(154, 3, 50),(98, 50, 15),(15, 54, 23),(154, 61, 87),(63, 30, 17),(1, 55, 19),(99, 81, 66),(219, 77, 91),(69, 39, 50),(18, 200, 33),(25, 54, 190)]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>png图片是一种无损压缩的位图片形格式，也只有在无损压缩或者无压缩的图片（BMP）上实现lsb隐写。如果图像是jpg图片的话，就没法使用lsb隐写了，原因是jpg图片对像数进行了有损压缩，我们修改的信息就可能会在压缩的过程中被破坏。</p>
+<p>查看图片模式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line">img = Image.open(<span class="string">&#x27;01.png&#x27;</span>)</span><br><span class="line">width,height=img.size</span><br><span class="line">print(img.mode)</span><br></pre></td></tr></table></figure>
+
+<p>可以看到图片是L模式。最大特点就是像素没有<code>r,g,b</code>这么多，只有1个。</p>
+<p>取图片的像素值的二进制的最后一位与1与运算，得到的数据如果为0则是白色，如果为1则是黑色。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line">img = Image.open(<span class="string">&#x27;01.png&#x27;</span>)</span><br><span class="line">width,height=img.size</span><br><span class="line">print(img.mode)</span><br><span class="line">flag=<span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,width):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>,height):</span><br><span class="line">        tmp = img.getpixel((i,j))</span><br><span class="line">        print(<span class="string">&quot;原本像素为：&quot;</span>,tmp)</span><br><span class="line">        print(tmp&amp;<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line">img = Image.open(<span class="string">&#x27;01.bmp&#x27;</span>)</span><br><span class="line">width,height=img.size</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,width):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>,height):</span><br><span class="line">        tmp = img.getpixel((i,j))</span><br><span class="line">        <span class="keyword">if</span> tmp&amp;<span class="number">0x1</span> == <span class="number">0</span>:</span><br><span class="line">            img.putpixel((i,j),<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            img.putpixel((i,j),<span class="number">255</span>)</span><br><span class="line">img.show()</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/projects_url">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CTF-python%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8-PIL%E5%BA%93"><span class="toc-number">1.</span> <span class="toc-text">CTF-python库的使用-PIL库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PIL%E5%BA%93"><span class="toc-number">1.1.</span> <span class="toc-text">PIL库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90Image%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.1.1.</span> <span class="toc-text">生成Image对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Image%E5%AF%B9%E8%B1%A1%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.2.</span> <span class="toc-text">Image对象常用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#im-size"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">im.size</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#im-getpixel-x-y"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">im.getpixel((x, y))</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%89%87%E5%89%AA%E8%B4%B4"><span class="toc-number">1.1.3.</span> <span class="toc-text">图片剪贴</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E7%89%87%E9%BB%8F%E8%B4%B4"><span class="toc-number">1.1.4.</span> <span class="toc-text">图片黏贴</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E5%83%8F%E5%88%86%E5%B8%A7"><span class="toc-number">1.1.5.</span> <span class="toc-text">图像分帧</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81CTF%E9%A2%98%E7%9B%AE"><span class="toc-number">1.2.</span> <span class="toc-text">常见CTF题目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.2.1.</span> <span class="toc-text">基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E7%89%87%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">图片模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#gif"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">gif</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#glance-gif"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">glance.gif</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LSB%E9%9A%90%E5%86%99"><span class="toc-number">1.2.1.4.</span> <span class="toc-text">LSB隐写</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://s1eady.top/2019/04/17/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://s1eady.top/2019/04/17/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/&text=CTF-python库PIL的使用"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://s1eady.top/2019/04/17/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/&title=CTF-python库PIL的使用"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://s1eady.top/2019/04/17/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/&is_video=false&description=CTF-python库PIL的使用"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CTF-python库PIL的使用&body=Check out this article: http://s1eady.top/2019/04/17/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://s1eady.top/2019/04/17/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/&title=CTF-python库PIL的使用"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://s1eady.top/2019/04/17/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/&title=CTF-python库PIL的使用"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://s1eady.top/2019/04/17/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/&title=CTF-python库PIL的使用"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://s1eady.top/2019/04/17/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/&title=CTF-python库PIL的使用"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://s1eady.top/2019/04/17/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/&name=CTF-python库PIL的使用&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://s1eady.top/2019/04/17/CTF-python%E5%BA%93PIL%E7%9A%84%E4%BD%BF%E7%94%A8/&t=CTF-python库PIL的使用"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2018.12.8-2020
+    steady
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/projects_url">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>
