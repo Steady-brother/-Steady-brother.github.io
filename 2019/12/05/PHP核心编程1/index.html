@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="PHP核心编程1PHP与数据库PHP连接MySQL服务器mysqli_connect()描述：连接到 MySQL服务器 语法：mysqli  mysqli_connect([host][,username][,password][,dbname][,port]) 参数： 123456789host：MySQL服务器。可以包含端口号，默认值为“localhost:3306”username：用户名。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP开发学习--核心编程1">
+<meta property="og:url" content="http://s1eady.top/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="PHP核心编程1PHP与数据库PHP连接MySQL服务器mysqli_connect()描述：连接到 MySQL服务器 语法：mysqli  mysqli_connect([host][,username][,password][,dbname][,port]) 参数： 123456789host：MySQL服务器。可以包含端口号，默认值为“localhost:3306”username：用户名。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-12-04T23:29:22.000Z">
+<meta property="article:modified_time" content="2020-11-15T09:23:04.414Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="PHP开发学习">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>PHP开发学习--核心编程1</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/projects_url">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/12/07/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B2/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/11/13/PHP%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0--PHP%E5%9F%BA%E7%A1%803/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://s1eady.top/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://s1eady.top/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/&text=PHP开发学习--核心编程1"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://s1eady.top/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/&title=PHP开发学习--核心编程1"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://s1eady.top/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/&is_video=false&description=PHP开发学习--核心编程1"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PHP开发学习--核心编程1&body=Check out this article: http://s1eady.top/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://s1eady.top/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/&title=PHP开发学习--核心编程1"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://s1eady.top/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/&title=PHP开发学习--核心编程1"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://s1eady.top/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/&title=PHP开发学习--核心编程1"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://s1eady.top/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/&title=PHP开发学习--核心编程1"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://s1eady.top/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/&name=PHP开发学习--核心编程1&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://s1eady.top/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/&t=PHP开发学习--核心编程1"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1"><span class="toc-number">1.</span> <span class="toc-text">PHP核心编程1</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.1.</span> <span class="toc-text">PHP与数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PHP%E8%BF%9E%E6%8E%A5MySQL%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.1.1.</span> <span class="toc-text">PHP连接MySQL服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-connect"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">mysqli_connect()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">@运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#exit-%E6%88%96die"><span class="toc-number">1.1.1.3.</span> <span class="toc-text">exit()或die()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-connect-error"><span class="toc-number">1.1.1.4.</span> <span class="toc-text">mysqli_connect_error()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-close"><span class="toc-number">1.1.1.5.</span> <span class="toc-text">mysqli_close()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E5%BD%93%E5%89%8D%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.1.1.6.</span> <span class="toc-text">选择当前数据库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AD%97%E7%AC%A6%E9%9B%86"><span class="toc-number">1.1.1.7.</span> <span class="toc-text">设置客户端字符集</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E5%90%84%E7%A7%8DSQL%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.1.2.</span> <span class="toc-text">执行各种SQL语句</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-query"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">mysqli_query()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-free-result"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">mysqli_free_result()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E7%BB%93%E6%9E%9C%E9%9B%86%E8%8E%B7%E5%8F%96%E4%B8%80%E8%A1%8C%E6%95%B0%E6%8D%AE"><span class="toc-number">1.1.3.</span> <span class="toc-text">从结果集获取一行数据</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-fetch-row"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">mysqli_fetch_row()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-fetch-assoc"><span class="toc-number">1.1.3.2.</span> <span class="toc-text">mysqli_fetch_assoc()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-fetch-array"><span class="toc-number">1.1.3.3.</span> <span class="toc-text">mysqli_fetch_array()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-fetch-all"><span class="toc-number">1.1.3.4.</span> <span class="toc-text">mysqli_fetch_all()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E8%AE%B0%E5%BD%95%E6%95%B0"><span class="toc-number">1.1.4.</span> <span class="toc-text">获取记录数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-num-rows"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">mysqli_num_rows()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-affected-rows"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">mysqli_affected_rows()</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql%E5%90%84%E7%A7%8D%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%87%BD%E6%95%B0%E6%8A%A5%E9%94%99%E6%80%BB%E7%BB%93"><span class="toc-number">1.2.</span> <span class="toc-text">mysql各种获取数据函数报错总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-connect-1"><span class="toc-number">1.2.0.1.</span> <span class="toc-text">mysqli_connect()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-query-1"><span class="toc-number">1.2.0.2.</span> <span class="toc-text">mysqli_query()</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#SELECT%EF%BC%8CSHOW-%E6%88%96-DESCRIBE-%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.2.0.2.1.</span> <span class="toc-text">SELECT，SHOW 或 DESCRIBE 语句</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%B6%E5%AE%83%E7%B1%BB%E5%9E%8B%E7%9A%84-SQL-%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.2.0.2.2.</span> <span class="toc-text">其它类型的 SQL 语句</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-fetch-all-%E3%80%81mysqli-fetch-array-%E3%80%81mysqli-fetch-assoc-%E3%80%81mysqli-fetch-row"><span class="toc-number">1.2.0.3.</span> <span class="toc-text">mysqli_fetch_all()、mysqli_fetch_array()、mysqli_fetch_assoc()、mysqli_fetch_row()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-num-rows-1"><span class="toc-number">1.2.0.4.</span> <span class="toc-text">mysqli_num_rows()</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E7%94%9F%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.3.</span> <span class="toc-text">学生管理系统</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">创建数据库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%96%87%E4%BB%B6%E2%80%93coon-php"><span class="toc-number">1.3.0.2.</span> <span class="toc-text">数据库连接文件–coon.php</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E5%88%97%E8%A1%A8%E6%98%BE%E7%A4%BA%E6%96%87%E4%BB%B6%E2%80%93listt-php"><span class="toc-number">1.3.0.3.</span> <span class="toc-text">学生信息列表显示文件–listt.php</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.0.4.</span> <span class="toc-text">删除学生信息操作</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        PHP开发学习--核心编程1
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-12-04T23:29:22.000Z" itemprop="datePublished">2019-12-05</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/PHP%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0/">PHP开发学习</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/PHP%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0/" rel="tag">PHP开发学习</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="PHP核心编程1"><a href="#PHP核心编程1" class="headerlink" title="PHP核心编程1"></a>PHP核心编程1</h1><h2 id="PHP与数据库"><a href="#PHP与数据库" class="headerlink" title="PHP与数据库"></a>PHP与数据库</h2><h3 id="PHP连接MySQL服务器"><a href="#PHP连接MySQL服务器" class="headerlink" title="PHP连接MySQL服务器"></a>PHP连接MySQL服务器</h3><h4 id="mysqli-connect"><a href="#mysqli-connect" class="headerlink" title="mysqli_connect()"></a>mysqli_connect()</h4><p>描述：连接到 MySQL服务器</p>
+<p>语法：<code>mysqli  mysqli_connect([host][,username][,password][,dbname][,port])</code></p>
+<p>参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">host：MySQL服务器。可以包含端口号，默认值为“localhost:3306”</span><br><span class="line"></span><br><span class="line">username：用户名。默认值是服务器进程所有者的用户名；</span><br><span class="line"></span><br><span class="line">password：密码。</span><br><span class="line"></span><br><span class="line">dbname：数据库名称。</span><br><span class="line"></span><br><span class="line">port：MySQL服务器的端口号，默认为3306。</span><br></pre></td></tr></table></figure>
+
+<p>返回值：如果连接成功，则返回MySQLi连接对象。如果失败，则返回FALSE。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//(1)数据库配置信息</span></span><br><span class="line">$db_host = <span class="string">&quot;127.0.0.1&quot;</span>;	<span class="comment">//主机名  localhost:3306</span></span><br><span class="line">$db_port = <span class="string">&quot;3306&quot;</span>;		<span class="comment">//端口号</span></span><br><span class="line">$db_user = <span class="string">&quot;root&quot;</span>;		<span class="comment">//用户名</span></span><br><span class="line">$db_pass = <span class="string">&quot;root&quot;</span>;		<span class="comment">//密码</span></span><br><span class="line">$db_name = <span class="string">&quot;test&quot;</span>;	<span class="comment">//数据库名</span></span><br><span class="line">$charset = <span class="string">&quot;utf8&quot;</span>;		<span class="comment">//字符集</span></span><br><span class="line">$link=mysqli_connect($db_host.<span class="string">&quot;:&quot;</span>.$db_port,$db_user,$db_pass);</span><br><span class="line">var_dump($link);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">object</span>(mysqli)[<span class="number">1</span>]</span><br><span class="line">  <span class="keyword">public</span> <span class="string">&#x27;affected_rows&#x27;</span> =&gt; <span class="keyword">int</span> <span class="number">0</span></span><br><span class="line">  <span class="keyword">public</span> <span class="string">&#x27;client_info&#x27;</span> =&gt; <span class="keyword">string</span> <span class="string">&#x27;mysqlnd 5.0.11-dev - 20120503 - $Id: 76b08b24596e12d4553bd41fc93cccd5bac2fe7a $&#x27;</span> (length=<span class="number">79</span>)</span><br><span class="line">  <span class="keyword">public</span> <span class="string">&#x27;client_version&#x27;</span> =&gt; <span class="keyword">int</span> <span class="number">50011</span></span><br><span class="line">  <span class="keyword">public</span> <span class="string">&#x27;connect_errno&#x27;</span> =&gt; <span class="keyword">int</span> <span class="number">0</span></span><br><span class="line">  <span class="keyword">public</span> <span class="string">&#x27;connect_error&#x27;</span> =&gt; <span class="literal">null</span></span><br><span class="line">  <span class="keyword">public</span> <span class="string">&#x27;errno&#x27;</span> =&gt; <span class="keyword">int</span> <span class="number">0</span></span><br><span class="line">  <span class="keyword">public</span> <span class="string">&#x27;error&#x27;</span> =&gt; <span class="keyword">string</span> <span class="string">&#x27;&#x27;</span> (length=<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">public</span> <span class="string">&#x27;error_list&#x27;</span> =&gt; </span><br><span class="line">    <span class="keyword">array</span> (size=<span class="number">0</span>)</span><br><span class="line">      <span class="keyword">empty</span></span><br><span class="line">  <span class="keyword">public</span> <span class="string">&#x27;field_count&#x27;</span> =&gt; <span class="keyword">int</span> <span class="number">0</span></span><br><span class="line">  <span class="keyword">public</span> <span class="string">&#x27;host_info&#x27;</span> =&gt; <span class="keyword">string</span> <span class="string">&#x27;127.0.0.1:3306 via TCP/IP&#x27;</span> (length=<span class="number">25</span>)</span><br><span class="line">  <span class="keyword">public</span> <span class="string">&#x27;info&#x27;</span> =&gt; <span class="literal">null</span></span><br><span class="line">  <span class="keyword">public</span> <span class="string">&#x27;insert_id&#x27;</span> =&gt; <span class="keyword">int</span> <span class="number">0</span></span><br><span class="line">  <span class="keyword">public</span> <span class="string">&#x27;server_info&#x27;</span> =&gt; <span class="keyword">string</span> <span class="string">&#x27;5.7.26&#x27;</span> (length=<span class="number">6</span>)</span><br><span class="line">  <span class="keyword">public</span> <span class="string">&#x27;server_version&#x27;</span> =&gt; <span class="keyword">int</span> <span class="number">50726</span></span><br><span class="line">  <span class="keyword">public</span> <span class="string">&#x27;stat&#x27;</span> =&gt; <span class="keyword">string</span> <span class="string">&#x27;Uptime: 366  Threads: 1  Questions: 83  Slow queries: 0  Opens: 110  Flush tables: 1  Open tables: 4  Queries per second avg: 0.226&#x27;</span> (length=<span class="number">131</span>)</span><br><span class="line">  <span class="keyword">public</span> <span class="string">&#x27;sqlstate&#x27;</span> =&gt; <span class="keyword">string</span> <span class="string">&#x27;00000&#x27;</span> (length=<span class="number">5</span>)</span><br><span class="line">  <span class="keyword">public</span> <span class="string">&#x27;protocol_version&#x27;</span> =&gt; <span class="keyword">int</span> <span class="number">10</span></span><br><span class="line">  <span class="keyword">public</span> <span class="string">&#x27;thread_id&#x27;</span> =&gt; <span class="keyword">int</span> <span class="number">33</span></span><br><span class="line">  <span class="keyword">public</span> <span class="string">&#x27;warning_count&#x27;</span> =&gt; <span class="keyword">int</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="运算符"><a href="#运算符" class="headerlink" title="@运算符"></a>@运算符</h4><ul>
+<li>PHP 支持一个错误控制运算符@。当将其放置在一个 PHP 表达式之前，该表达式可能产生的任何错误信息都被忽略掉(不包括语法错误)。</li>
+<li>@ 运算符只对表达式有效。</li>
+</ul>
+<h4 id="exit-或die"><a href="#exit-或die" class="headerlink" title="exit()或die()"></a>exit()或die()</h4><p>描述：输出一个消息并且退出当前脚本，等同于die()。</p>
+<p>语法：<code>void exit ([ string $string ] )</code> 。</p>
+<p>说明：输出 $string 的值，并中止程序的运行。</p>
+<p>返回值：没有返回值。</p>
+<h4 id="mysqli-connect-error"><a href="#mysqli-connect-error" class="headerlink" title="mysqli_connect_error()"></a>mysqli_connect_error()</h4><p>描述：返回上一个 MySQL 连接产生的文本错误信息 </p>
+<p>语法：string mysqli_connect_error ( void) </p>
+<p>参数：没有参数</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//(1)数据库配置信息</span></span><br><span class="line">$db_host = <span class="string">&quot;127.0.0.1&quot;</span>;	<span class="comment">//主机名  localhost:3306</span></span><br><span class="line">$db_port = <span class="string">&quot;3306&quot;</span>;		<span class="comment">//端口号</span></span><br><span class="line">$db_user = <span class="string">&quot;root123&quot;</span>;		<span class="comment">//用户名，这里设置一个错误的用户名。</span></span><br><span class="line">$db_pass = <span class="string">&quot;root&quot;</span>;		<span class="comment">//密码</span></span><br><span class="line">$db_name = <span class="string">&quot;test&quot;</span>;	<span class="comment">//数据库名</span></span><br><span class="line">$charset = <span class="string">&quot;utf8&quot;</span>;		<span class="comment">//字符集</span></span><br><span class="line">$link=mysqli_connect($db_host.<span class="string">&quot;:&quot;</span>.$db_port,$db_user,$db_pass);</span><br><span class="line"><span class="keyword">if</span>(!$link=@mysqli_connect($db_host.<span class="string">&quot;:&quot;</span>.$db_port,$db_user,$db_pass))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;数据库连接错误&quot;</span>.<span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;错误信息为:&quot;</span>.mysqli_connect_error();</span><br><span class="line">    <span class="keyword">die</span>();</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;steady is a good hacker&quot;</span>;<span class="comment">//该语句不会运行。</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">数据库连接错误</span><br><span class="line">错误信息为:Access denied <span class="keyword">for</span> user <span class="string">&#x27;root123&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> (using password: YES)</span><br></pre></td></tr></table></figure>
+
+<h4 id="mysqli-close"><a href="#mysqli-close" class="headerlink" title="mysqli_close()"></a>mysqli_close()</h4><p>描述：关闭先前打开的数据库连接</p>
+<p>语法：<code>bool mysqli_close ( mysqli $link )</code></p>
+<h4 id="选择当前数据库"><a href="#选择当前数据库" class="headerlink" title="选择当前数据库"></a>选择当前数据库</h4><p>描述：一个数据库服务器可能包含很多的数据库，通常需要针对某个具体的数据库进行编程</p>
+<p>语法：<code>bool mysqli_select_db(mysqli $link, string $database)</code></p>
+<p>返回值：如果成功返回TRUE，失败则返回FALSE。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//(1)数据库配置信息</span></span><br><span class="line">$db_host = <span class="string">&quot;127.0.0.1&quot;</span>;	<span class="comment">//主机名  localhost:3306</span></span><br><span class="line">$db_port = <span class="string">&quot;3306&quot;</span>;		<span class="comment">//端口号</span></span><br><span class="line">$db_user = <span class="string">&quot;root&quot;</span>;		<span class="comment">//用户名</span></span><br><span class="line">$db_pass = <span class="string">&quot;root&quot;</span>;		<span class="comment">//密码</span></span><br><span class="line">$db_name = <span class="string">&quot;test&quot;</span>;	<span class="comment">//数据库名</span></span><br><span class="line">$charset = <span class="string">&quot;utf8&quot;</span>;		<span class="comment">//字符集</span></span><br><span class="line">$link=mysqli_connect($db_host.<span class="string">&quot;:&quot;</span>.$db_port,$db_user,$db_pass);</span><br><span class="line"><span class="keyword">if</span>(!mysqli_select_db($link,$db_name))</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;&lt;h2&gt;选择数据库<span class="subst">&#123;$db_name&#125;</span>失败！&lt;/h2&gt;&quot;</span>;</span><br><span class="line">	<span class="keyword">die</span>();</span><br><span class="line">&#125;<span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;数据库<span class="subst">&#123;$db_name&#125;</span>连接成功。&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">数据库test连接成功。</span><br></pre></td></tr></table></figure>
+
+<h4 id="设置客户端字符集"><a href="#设置客户端字符集" class="headerlink" title="设置客户端字符集"></a>设置客户端字符集</h4><p>描述：设置默认字符编码</p>
+<p>语法：<code>bool mysqli_set_charset ( mysqli $link , string $charset )</code></p>
+<p>返回：成功时返回 TRUE， 或者在失败时返回 FALSE。</p>
+<h3 id="执行各种SQL语句"><a href="#执行各种SQL语句" class="headerlink" title="执行各种SQL语句"></a>执行各种SQL语句</h3><h4 id="mysqli-query"><a href="#mysqli-query" class="headerlink" title="mysqli_query()"></a>mysqli_query()</h4><p>描述：发送一条 MySQL 查询；</p>
+<p>语法：<code>resource mysqli_query(mysqli $link , string $query )</code></p>
+<p>参数：</p>
+<p>$query是查询字符串；</p>
+<p>$link是创建的活动的数据库连接；</p>
+<p>说明：mysqli_query() 仅对 SELECT，SHOW 或 DESCRIBE 语句返回一个<code>mysqli_result结果集对象</code>，如果查询执行不正确则返回 FALSE。对于其它类型的 SQL 语句，mysqli_query()在执行成功时返回 TRUE，出错时返回 FALSE。非 FALSE 的返回值意味着查询是合法的并能够被服务器执行。 </p>
+<p>注意：查询字符串不应以分号结束，和命令行模式下有区别。</p>
+<p><code>select</code>语句</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//(1)数据库配置信息</span></span><br><span class="line">ini_set(<span class="string">&#x27;display_errors&#x27;</span>,<span class="number">1</span>);	</span><br><span class="line">$db_host = <span class="string">&quot;127.0.0.1&quot;</span>;	<span class="comment">//主机名  localhost:3306</span></span><br><span class="line">$db_port = <span class="string">&quot;3306&quot;</span>;		<span class="comment">//端口号</span></span><br><span class="line">$db_user = <span class="string">&quot;root&quot;</span>;		<span class="comment">//用户名</span></span><br><span class="line">$db_pass = <span class="string">&quot;root&quot;</span>;		<span class="comment">//密码</span></span><br><span class="line">$db_name = <span class="string">&quot;test&quot;</span>;	<span class="comment">//数据库名</span></span><br><span class="line">$charset = <span class="string">&quot;utf8&quot;</span>;		<span class="comment">//字符集</span></span><br><span class="line">$link=mysqli_connect($db_host.<span class="string">&quot;:&quot;</span>.$db_port,$db_user,$db_pass,$db_name);</span><br><span class="line">$sql=<span class="string">&quot;select * from math&quot;</span>;</span><br><span class="line">$resault=mysqli_query($link,$sql);</span><br><span class="line">var_dump($resault);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;Applications&#x2F;MAMP&#x2F;htdocs&#x2F;steady.php:13:</span><br><span class="line">object(mysqli_result)[2]</span><br><span class="line">  public &#39;current_field&#39; &#x3D;&gt; int 0</span><br><span class="line">  public &#39;field_count&#39; &#x3D;&gt; int 2</span><br><span class="line">  public &#39;lengths&#39; &#x3D;&gt; null</span><br><span class="line">  public &#39;num_rows&#39; &#x3D;&gt; int 18</span><br><span class="line">  public &#39;type&#39; &#x3D;&gt; int 0</span><br></pre></td></tr></table></figure>
+
+<p>查询成功返回一个结果集，查询失败返回False。</p>
+<p><code>Update</code>语句</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//(1)数据库配置信息</span></span><br><span class="line">ini_set(<span class="string">&#x27;display_errors&#x27;</span>,<span class="number">1</span>);	</span><br><span class="line">$db_host = <span class="string">&quot;127.0.0.1&quot;</span>;	<span class="comment">//主机名  localhost:3306</span></span><br><span class="line">$db_port = <span class="string">&quot;3306&quot;</span>;		<span class="comment">//端口号</span></span><br><span class="line">$db_user = <span class="string">&quot;root&quot;</span>;		<span class="comment">//用户名</span></span><br><span class="line">$db_pass = <span class="string">&quot;root&quot;</span>;		<span class="comment">//密码</span></span><br><span class="line">$db_name = <span class="string">&quot;test&quot;</span>;	<span class="comment">//数据库名</span></span><br><span class="line">$charset = <span class="string">&quot;utf8&quot;</span>;		<span class="comment">//字符集</span></span><br><span class="line">$link=mysqli_connect($db_host.<span class="string">&quot;:&quot;</span>.$db_port,$db_user,$db_pass,$db_name);</span><br><span class="line">$sql=<span class="string">&#x27;update math set name=&quot;steady&quot; where id=3&#x27;</span>;</span><br><span class="line">$resault=mysqli_query($link,$sql);</span><br><span class="line">var_dump($resault);</span><br><span class="line"><span class="comment">#$arr=mysqli_fetch_row($resault);</span></span><br><span class="line"><span class="comment">#print_r($arr)</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;Applications&#x2F;MAMP&#x2F;htdocs&#x2F;steady.php:13:boolean true</span><br></pre></td></tr></table></figure>
+
+<p>执行正确返回true，执行错误返回false。</p>
+<h4 id="mysqli-free-result"><a href="#mysqli-free-result" class="headerlink" title="mysqli_free_result()"></a>mysqli_free_result()</h4><p>描述：释放与结果集相关联的内存</p>
+<p>语法：<code>void mysqli_free_result ( mysqli_result $result )</code></p>
+<p>参数：$result为结果集对象。</p>
+<p>内存中的变量何时消失：</p>
+<p>(1)网页执行完毕，所有与本网页相关的变量自动销毁；</p>
+<p>(2)手动销毁指定的变量。</p>
+<h3 id="从结果集获取一行数据"><a href="#从结果集获取一行数据" class="headerlink" title="从结果集获取一行数据"></a>从结果集获取一行数据</h3><h4 id="mysqli-fetch-row"><a href="#mysqli-fetch-row" class="headerlink" title="mysqli_fetch_row()"></a>mysqli_fetch_row()</h4><p>描述：从结果集中取得一行作为枚举数组；</p>
+<p>格式：<code>array mysqli_fetch_row ( mysqli_result  $result )</code></p>
+<p>返回：返回根据所取得的行生成的数组，如果没有更多行则返回 FALSE。</p>
+<p>说明：mysqli_fetch_row() 从指定的结果标识关联的结果集中取得一行数据并作为数组返回。每个结果的列储存在一个数组的单元中，偏移量从 0 开始。</p>
+<p>提示：依次调用mysqli_fetch_row()将返回结果集中的下一行，如果没有更多行则返回FALSE。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//(1)数据库配置信息</span></span><br><span class="line">ini_set(<span class="string">&#x27;display_errors&#x27;</span>,<span class="number">1</span>);	</span><br><span class="line">$db_host = <span class="string">&quot;127.0.0.1&quot;</span>;	<span class="comment">//主机名  localhost:3306</span></span><br><span class="line">$db_port = <span class="string">&quot;3306&quot;</span>;		<span class="comment">//端口号</span></span><br><span class="line">$db_user = <span class="string">&quot;root&quot;</span>;		<span class="comment">//用户名</span></span><br><span class="line">$db_pass = <span class="string">&quot;root&quot;</span>;		<span class="comment">//密码</span></span><br><span class="line">$db_name = <span class="string">&quot;test&quot;</span>;	<span class="comment">//数据库名</span></span><br><span class="line">$charset = <span class="string">&quot;utf8&quot;</span>;		<span class="comment">//字符集</span></span><br><span class="line">$link=mysqli_connect($db_host.<span class="string">&quot;:&quot;</span>.$db_port,$db_user,$db_pass,$db_name);</span><br><span class="line">$sql=<span class="string">&#x27;select * from math&#x27;</span>;</span><br><span class="line">$resault=mysqli_query($link,$sql);</span><br><span class="line">$arr=mysqli_fetch_row($resault);</span><br><span class="line">$arr1=mysqli_fetch_row($resault);</span><br><span class="line">print_r($arr);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">print_r($arr1);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Array ( [0] &#x3D;&gt; 1 [1] &#x3D;&gt; gongxinao )</span><br><span class="line">Array ( [0] &#x3D;&gt; 1 [1] &#x3D;&gt; 李明 )</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//(1)数据库配置信息</span></span><br><span class="line">ini_set(<span class="string">&#x27;display_errors&#x27;</span>,<span class="number">1</span>);	</span><br><span class="line">$db_host = <span class="string">&quot;127.0.0.1&quot;</span>;	<span class="comment">//主机名  localhost:3306</span></span><br><span class="line">$db_port = <span class="string">&quot;3306&quot;</span>;		<span class="comment">//端口号</span></span><br><span class="line">$db_user = <span class="string">&quot;root&quot;</span>;		<span class="comment">//用户名</span></span><br><span class="line">$db_pass = <span class="string">&quot;root&quot;</span>;		<span class="comment">//密码</span></span><br><span class="line">$db_name = <span class="string">&quot;test&quot;</span>;	<span class="comment">//数据库名</span></span><br><span class="line">$charset = <span class="string">&quot;utf8&quot;</span>;		<span class="comment">//字符集</span></span><br><span class="line">$link=mysqli_connect($db_host.<span class="string">&quot;:&quot;</span>.$db_port,$db_user,$db_pass,$db_name);</span><br><span class="line">$sql=<span class="string">&#x27;select * from math&#x27;</span>;</span><br><span class="line">$resault=mysqli_query($link,$sql);</span><br><span class="line"><span class="keyword">while</span>($arr=mysqli_fetch_row($resault))</span><br><span class="line">&#123;</span><br><span class="line">    print_r($arr);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">Array</span></span><br><span class="line">(</span><br><span class="line">    [<span class="number">0</span>] =&gt; <span class="number">1</span></span><br><span class="line">    [<span class="number">1</span>] =&gt; gongxinao</span><br><span class="line">)</span><br><span class="line"><span class="keyword">Array</span></span><br><span class="line">(</span><br><span class="line">    [<span class="number">0</span>] =&gt; <span class="number">1</span></span><br><span class="line">    [<span class="number">1</span>] =&gt; 李明</span><br><span class="line">)</span><br><span class="line"><span class="keyword">Array</span></span><br><span class="line">(</span><br><span class="line">    [<span class="number">0</span>] =&gt; <span class="number">1</span></span><br><span class="line">    [<span class="number">1</span>] =&gt; gongxinao</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h4 id="mysqli-fetch-assoc"><a href="#mysqli-fetch-assoc" class="headerlink" title="mysqli_fetch_assoc()"></a>mysqli_fetch_assoc()</h4><p>描述：从结果集中取得一行作为关联数组</p>
+<p>语法：<code>array mysqli_fetch_assoc ( mysqli_result  $result )</code></p>
+<p>返回值：从结果集取得的行生成的关联数组，如果没有更多行则返回 FALSE；</p>
+<p>注意：此函数返回的字段名大小写敏感。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//(1)数据库配置信息</span></span><br><span class="line">ini_set(<span class="string">&#x27;display_errors&#x27;</span>,<span class="number">1</span>);	</span><br><span class="line">$db_host = <span class="string">&quot;127.0.0.1&quot;</span>;	<span class="comment">//主机名  localhost:3306</span></span><br><span class="line">$db_port = <span class="string">&quot;3306&quot;</span>;		<span class="comment">//端口号</span></span><br><span class="line">$db_user = <span class="string">&quot;root&quot;</span>;		<span class="comment">//用户名</span></span><br><span class="line">$db_pass = <span class="string">&quot;root&quot;</span>;		<span class="comment">//密码</span></span><br><span class="line">$db_name = <span class="string">&quot;test&quot;</span>;	<span class="comment">//数据库名</span></span><br><span class="line">$charset = <span class="string">&quot;utf8&quot;</span>;		<span class="comment">//字符集</span></span><br><span class="line">$link=mysqli_connect($db_host.<span class="string">&quot;:&quot;</span>.$db_port,$db_user,$db_pass,$db_name);</span><br><span class="line">$sql=<span class="string">&#x27;select * from math&#x27;</span>;</span><br><span class="line">$resault=mysqli_query($link,$sql);</span><br><span class="line">$arr=mysqli_fetch_assoc($resault);</span><br><span class="line">print_r($arr);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Array ( [id] &#x3D;&gt; 1 [name] &#x3D;&gt; gongxinao )</span><br></pre></td></tr></table></figure>
+
+<h4 id="mysqli-fetch-array"><a href="#mysqli-fetch-array" class="headerlink" title="mysqli_fetch_array()"></a>mysqli_fetch_array()</h4><p>描述：从结果集中取得一行作为关联数组，或数字数组，或二者兼有；</p>
+<p>语法：<code>array mysqli_fetch_array ( mysqli_result  $result  [, int $result_type = MYSQLI_BOTH ] )</code></p>
+<p>参数：$result_type是一个常量，取值：MYSQLI_BOTH(两者兼有，默认)、MYSQLI_ASSOC(关联索引)、MYSQLI_NUM(数字索引)</p>
+<p>返回：返回根据从结果集取得的行生成的数组，如果没有更多行则返回 FALSE。</p>
+<p>注意：本函数返回的字段名区分大小写。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//(1)数据库配置信息</span></span><br><span class="line">ini_set(<span class="string">&#x27;display_errors&#x27;</span>,<span class="number">1</span>);	</span><br><span class="line">$db_host = <span class="string">&quot;127.0.0.1&quot;</span>;	<span class="comment">//主机名  localhost:3306</span></span><br><span class="line">$db_port = <span class="string">&quot;3306&quot;</span>;		<span class="comment">//端口号</span></span><br><span class="line">$db_user = <span class="string">&quot;root&quot;</span>;		<span class="comment">//用户名</span></span><br><span class="line">$db_pass = <span class="string">&quot;root&quot;</span>;		<span class="comment">//密码</span></span><br><span class="line">$db_name = <span class="string">&quot;test&quot;</span>;	<span class="comment">//数据库名</span></span><br><span class="line">$charset = <span class="string">&quot;utf8&quot;</span>;		<span class="comment">//字符集</span></span><br><span class="line">$link=mysqli_connect($db_host.<span class="string">&quot;:&quot;</span>.$db_port,$db_user,$db_pass,$db_name);</span><br><span class="line">$sql=<span class="string">&#x27;select * from math&#x27;</span>;</span><br><span class="line">$resault=mysqli_query($link,$sql);</span><br><span class="line">$arr=mysqli_fetch_array($resault);</span><br><span class="line">print_r($arr);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Array ( [0] &#x3D;&gt; 1 [id] &#x3D;&gt; 1 [1] &#x3D;&gt; gongxinao [name] &#x3D;&gt; gongxinao )</span><br></pre></td></tr></table></figure>
+
+<h4 id="mysqli-fetch-all"><a href="#mysqli-fetch-all" class="headerlink" title="mysqli_fetch_all()"></a>mysqli_fetch_all()</h4><p>描述：从结果集中取得所有行作为关联数组、枚举数组、或二者兼有</p>
+<p>语法：<code>mixed mysqli_fetch_all ( mysqli_result $result [, int $resulttype = MYSQLI_NUM ] )</code></p>
+<h3 id="获取记录数"><a href="#获取记录数" class="headerlink" title="获取记录数"></a>获取记录数</h3><h4 id="mysqli-num-rows"><a href="#mysqli-num-rows" class="headerlink" title="mysqli_num_rows()"></a>mysqli_num_rows()</h4><p>描述：取得结果集中行的数目 </p>
+<p>语法：<code>int mysqli_num_rows ( mysqli_result  $result )</code></p>
+<p>说明：mysqli_num_rows()返回结果集中行的数目。</p>
+<p>注意：此命令仅对 SELECT 语句有效。 </p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//(1)数据库配置信息</span></span><br><span class="line">ini_set(<span class="string">&#x27;display_errors&#x27;</span>,<span class="number">1</span>);	</span><br><span class="line">$db_host = <span class="string">&quot;127.0.0.1&quot;</span>;	<span class="comment">//主机名  localhost:3306</span></span><br><span class="line">$db_port = <span class="string">&quot;3306&quot;</span>;		<span class="comment">//端口号</span></span><br><span class="line">$db_user = <span class="string">&quot;root&quot;</span>;		<span class="comment">//用户名</span></span><br><span class="line">$db_pass = <span class="string">&quot;root&quot;</span>;		<span class="comment">//密码</span></span><br><span class="line">$db_name = <span class="string">&quot;test&quot;</span>;	<span class="comment">//数据库名</span></span><br><span class="line">$charset = <span class="string">&quot;utf8&quot;</span>;		<span class="comment">//字符集</span></span><br><span class="line">$link=mysqli_connect($db_host.<span class="string">&quot;:&quot;</span>.$db_port,$db_user,$db_pass,$db_name);</span><br><span class="line">$sql=<span class="string">&#x27;select * from math&#x27;</span>;</span><br><span class="line">$resault=mysqli_query($link,$sql);</span><br><span class="line">$num=mysqli_num_rows($resault);</span><br><span class="line"><span class="keyword">print</span>($num);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">18</span><br></pre></td></tr></table></figure>
+
+<h4 id="mysqli-affected-rows"><a href="#mysqli-affected-rows" class="headerlink" title="mysqli_affected_rows()"></a>mysqli_affected_rows()</h4><p>描述：取得前一次 MySQL 操作所影响的记录行数；</p>
+<p>语法：<code>int mysqli_affected_rows ( mysqli $link )</code></p>
+<p>说明：取得最近一次与 $link 关联的 SELECT、INSERT、UPDATE 或 DELETE 查询所影响的记录行数。 </p>
+<p>注意：如果最近一次查询失败，函数返回-1。当使用UPDATE查询，MySQL不会将原值和新值一样的值更新，返回值不一定就是查询条件所符合的记录，只有修改过的记录数才会被返回。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//(1)数据库配置信息</span></span><br><span class="line">ini_set(<span class="string">&#x27;display_errors&#x27;</span>,<span class="number">1</span>);	</span><br><span class="line">$db_host = <span class="string">&quot;127.0.0.1&quot;</span>;	<span class="comment">//主机名  localhost:3306</span></span><br><span class="line">$db_port = <span class="string">&quot;3306&quot;</span>;		<span class="comment">//端口号</span></span><br><span class="line">$db_user = <span class="string">&quot;root&quot;</span>;		<span class="comment">//用户名</span></span><br><span class="line">$db_pass = <span class="string">&quot;root&quot;</span>;		<span class="comment">//密码</span></span><br><span class="line">$db_name = <span class="string">&quot;test&quot;</span>;	<span class="comment">//数据库名</span></span><br><span class="line">$charset = <span class="string">&quot;utf8&quot;</span>;		<span class="comment">//字符集</span></span><br><span class="line">$link=mysqli_connect($db_host.<span class="string">&quot;:&quot;</span>.$db_port,$db_user,$db_pass,$db_name);</span><br><span class="line">$sql=<span class="string">&#x27;select * from math&#x27;</span>;</span><br><span class="line">$resault=mysqli_query($link,$sql);</span><br><span class="line">$num=mysqli_affected_rows($link);</span><br><span class="line"><span class="keyword">print</span>(<span class="string">&quot;一共查询数据的行数为：&quot;</span>.$num);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">一共查询数据的行数为：18</span><br></pre></td></tr></table></figure>
+
+<h2 id="mysql各种获取数据函数报错总结"><a href="#mysql各种获取数据函数报错总结" class="headerlink" title="mysql各种获取数据函数报错总结"></a>mysql各种获取数据函数报错总结</h2><h4 id="mysqli-connect-1"><a href="#mysqli-connect-1" class="headerlink" title="mysqli_connect()"></a>mysqli_connect()</h4><p>连接成功：返回一个mysqli对象。</p>
+<p>连接失败：返回对应的报错信息，比如如果数据库密码错误返回<code>( ! ) Warning: mysqli_connect(): (HY000/1045): Access denied for user  &#39;root&#39;@&#39;localhost&#39; (using password: YES) in  /Applications/MAMP/htdocs/phpinfo.php on line *10*</code>。</p>
+<h4 id="mysqli-query-1"><a href="#mysqli-query-1" class="headerlink" title="mysqli_query()"></a>mysqli_query()</h4><h5 id="SELECT，SHOW-或-DESCRIBE-语句"><a href="#SELECT，SHOW-或-DESCRIBE-语句" class="headerlink" title="SELECT，SHOW 或 DESCRIBE 语句"></a>SELECT，SHOW 或 DESCRIBE 语句</h5><p>查询成功：返回一个结果集。<code>mysqli_result</code>。</p>
+<p>查询失败：返回false，<code>boolean false</code>。</p>
+<h5 id="其它类型的-SQL-语句"><a href="#其它类型的-SQL-语句" class="headerlink" title="其它类型的 SQL 语句"></a>其它类型的 SQL 语句</h5><p>查询成功：返回true。</p>
+<p>查询失败：返回false。</p>
+<h4 id="mysqli-fetch-all-、mysqli-fetch-array-、mysqli-fetch-assoc-、mysqli-fetch-row"><a href="#mysqli-fetch-all-、mysqli-fetch-array-、mysqli-fetch-assoc-、mysqli-fetch-row" class="headerlink" title="mysqli_fetch_all()、mysqli_fetch_array()、mysqli_fetch_assoc()、mysqli_fetch_row()"></a>mysqli_fetch_all()、mysqli_fetch_array()、mysqli_fetch_assoc()、mysqli_fetch_row()</h4><p>接受参数为数据库语句执行产生的结果集，一般的报错就是因为数据库语句执行失败导致，最常见的报错语句为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Warning: mysqli_fetch_all() expects parameter 1 to be mysqli_result, boolean given in &#x2F;Applications&#x2F;MAMP&#x2F;htdocs&#x2F;phpinfo.php on line 13</span><br></pre></td></tr></table></figure>
+
+<h4 id="mysqli-num-rows-1"><a href="#mysqli-num-rows-1" class="headerlink" title="mysqli_num_rows()"></a>mysqli_num_rows()</h4><p>常见错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Warning: mysqli_num_rows() expects parameter 1 to be mysqli_result, boolean given in &#x2F;Applications&#x2F;MAMP&#x2F;htdocs&#x2F;phpinfo.php on line 13</span><br></pre></td></tr></table></figure>
+
+<p>以上报错的基础是php开启了报错模式。比如</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ini_set(<span class="string">&#x27;display_errors&#x27;</span>,<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="学生管理系统"><a href="#学生管理系统" class="headerlink" title="学生管理系统"></a>学生管理系统</h2><h4 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; create table student(</span><br><span class="line">    -&gt; id int(10),</span><br><span class="line">    -&gt; name varchar(20),</span><br><span class="line">    -&gt; sex enum(&#x27;男&#x27;,&#x27;女&#x27;),</span><br><span class="line">    -&gt; age tinyint(4),</span><br><span class="line">    -&gt; edu enum(&#x27;初中&#x27;,&#x27;高中&#x27;,&#x27;大专&#x27;,&#x27;大本&#x27;,&#x27;研究生&#x27;),</span><br><span class="line">    -&gt; salary float(8,2) unsigned,</span><br><span class="line">    -&gt; bonus float(6,2) unsigned,</span><br><span class="line">    -&gt; city varchar(32)</span><br><span class="line">    -&gt; );</span><br><span class="line">Query OK, 0 rows affected (0.04 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; desc student;</span><br><span class="line">+<span class="comment">--------+-------------------------------------------------------+------+-----+---------+-------+</span></span><br><span class="line">| Field  | Type                                                  | Null | Key | Default | Extra |</span><br><span class="line">+<span class="comment">--------+-------------------------------------------------------+------+-----+---------+-------+</span></span><br><span class="line">| id     | int(10)                                               | YES  |     | NULL    |       |</span><br><span class="line">| name   | varchar(20)                                           | YES  |     | NULL    |       |</span><br><span class="line">| sex    | enum(&#x27;男&#x27;,&#x27;女&#x27;)                                       | YES  |     | NULL    |       |</span><br><span class="line">| age    | tinyint(4)                                            | YES  |     | NULL    |       |</span><br><span class="line">| edu    | enum(&#x27;初中&#x27;,&#x27;高中&#x27;,&#x27;大专&#x27;,&#x27;大本&#x27;,&#x27;研究生&#x27;)            | YES  |     | NULL    |       |</span><br><span class="line">| salary | float(8,2) unsigned                                   | YES  |     | NULL    |       |</span><br><span class="line">| bonus  | float(6,2) unsigned                                   | YES  |     | NULL    |       |</span><br><span class="line">| city   | varchar(32)                                           | YES  |     | NULL    |       |</span><br><span class="line">+<span class="comment">--------+-------------------------------------------------------+------+-----+---------+-------+</span></span><br><span class="line">8 rows in <span class="keyword">set</span> (<span class="number">0.01</span> sec)</span><br></pre></td></tr></table></figure>
+
+<p>输入信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; insert into student (id,name,sex,age,edu,salary,bonus,city) values(1,&#39;steady&#39;,&#39;男&#39;,18,&#39;初中&#39;,8000,8999,&#39;烟台&#39;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="数据库连接文件–coon-php"><a href="#数据库连接文件–coon-php" class="headerlink" title="数据库连接文件–coon.php"></a>数据库连接文件–coon.php</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$db_addr=<span class="string">&quot;127.0.0.1&quot;</span>;</span><br><span class="line">$db_port=<span class="string">&quot;3306&quot;</span>;</span><br><span class="line">$db_name=<span class="string">&quot;test&quot;</span>;</span><br><span class="line">$db_charset=<span class="string">&quot;utf-8&quot;</span>;</span><br><span class="line">$db_user=<span class="string">&quot;root&quot;</span>;</span><br><span class="line">$dn_passwd=<span class="string">&quot;root&quot;</span>;</span><br><span class="line"><span class="keyword">if</span>(!$link=@mysqli_connect($db_addr.<span class="string">&quot;:&quot;</span>.$db_port,$db_user,$dn_passwd,$db_name))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;数据库连接错误。&quot;</span>;</span><br><span class="line">    <span class="keyword">die</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="学生信息列表显示文件–listt-php"><a href="#学生信息列表显示文件–listt-php" class="headerlink" title="学生信息列表显示文件–listt.php"></a>学生信息列表显示文件–listt.php</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//包含连接数据库的公共文件</span></span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./coon.php&quot;</span>);</span><br><span class="line"><span class="comment">//执行查询的SQL语句</span></span><br><span class="line">$sql = <span class="string">&quot;SELECT * FROM student ORDER BY id DESC&quot;</span>;</span><br><span class="line">$result = mysqli_query($link,$sql);</span><br><span class="line"><span class="comment">//获取所有行数据</span></span><br><span class="line">$arrs = mysqli_fetch_all($result,MYSQLI_ASSOC);</span><br><span class="line"><span class="comment">//获取学生人数</span></span><br><span class="line">$records = mysqli_num_rows($result);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta charset=<span class="string">&quot;utf-8&quot;</span>&gt;</span><br><span class="line">&lt;title&gt;学生信息管理中心&lt;/title&gt;</span><br><span class="line">&lt;script type=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><br><span class="line"><span class="comment">//定义一个JS的提示函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">confirmDel</span>(<span class="params">id</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//询问是否要删除？</span></span><br><span class="line">	<span class="keyword">if</span>(window.confirm(<span class="string">&quot;你真的要删除吗？&quot;</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//如果单击&quot;确定&quot;按钮，跳转到delete.php页面</span></span><br><span class="line">		location.href = <span class="string">&quot;./delete.php?id=&quot;</span>+id;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;div style=<span class="string">&quot;text-align:center;padding-bottom: 10px;&quot;</span>&gt;</span><br><span class="line">	&lt;h2&gt;学生信息管理中心&lt;/h2&gt;</span><br><span class="line">	&lt;a href=<span class="string">&quot;./add.php&quot;</span>&gt;添加学生&lt;/a&gt;</span><br><span class="line">	共有&lt;font color=red&gt;<span class="meta">&lt;?php</span> <span class="keyword">echo</span> $records<span class="meta">?&gt;</span>&lt;/font&gt;个学生信息</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;table width=<span class="string">&quot;600&quot;</span> border=<span class="string">&quot;1&quot;</span> align=<span class="string">&quot;center&quot;</span> rules=<span class="string">&quot;all&quot;</span> cellpadding=<span class="string">&quot;5&quot;</span>&gt;</span><br><span class="line">	&lt;tr bgcolor=<span class="string">&#x27;#ccc&#x27;</span>&gt;</span><br><span class="line">		&lt;th&gt;编号&lt;/th&gt;</span><br><span class="line">		&lt;th&gt;姓名&lt;/th&gt;</span><br><span class="line">		&lt;th&gt;性别&lt;/th&gt;</span><br><span class="line">		&lt;th&gt;年龄&lt;/th&gt;</span><br><span class="line">		&lt;th&gt;学历&lt;/th&gt;</span><br><span class="line">		&lt;th&gt;工资&lt;/th&gt;</span><br><span class="line">		&lt;th&gt;奖金&lt;/th&gt;</span><br><span class="line">		&lt;th&gt;籍贯&lt;/th&gt;</span><br><span class="line">		&lt;th&gt;操作选项&lt;/th&gt;</span><br><span class="line">	&lt;/tr&gt;</span><br><span class="line">	<span class="meta">&lt;?php</span></span><br><span class="line">	<span class="comment">//循环二维数组</span></span><br><span class="line">	<span class="keyword">foreach</span>($arrs <span class="keyword">as</span> $arr)&#123;</span><br><span class="line">	<span class="meta">?&gt;</span></span><br><span class="line">	&lt;tr align=<span class="string">&quot;center&quot;</span>&gt;</span><br><span class="line">		&lt;td&gt;<span class="meta">&lt;?php</span> <span class="keyword">echo</span> $arr[<span class="string">&#x27;id&#x27;</span>]<span class="meta">?&gt;</span>&lt;/td&gt;</span><br><span class="line">		&lt;td&gt;<span class="meta">&lt;?php</span> <span class="keyword">echo</span> $arr[<span class="string">&#x27;name&#x27;</span>]<span class="meta">?&gt;</span>&lt;/td&gt;</span><br><span class="line">		&lt;td&gt;<span class="meta">&lt;?php</span> <span class="keyword">echo</span> $arr[<span class="string">&#x27;sex&#x27;</span>]<span class="meta">?&gt;</span>&lt;/td&gt;</span><br><span class="line">		&lt;td&gt;<span class="meta">&lt;?php</span> <span class="keyword">echo</span> $arr[<span class="string">&#x27;age&#x27;</span>]<span class="meta">?&gt;</span>&lt;/td&gt;</span><br><span class="line">		&lt;td&gt;<span class="meta">&lt;?php</span> <span class="keyword">echo</span> $arr[<span class="string">&#x27;edu&#x27;</span>]<span class="meta">?&gt;</span>&lt;/td&gt;</span><br><span class="line">		&lt;td&gt;<span class="meta">&lt;?php</span> <span class="keyword">echo</span> $arr[<span class="string">&#x27;salary&#x27;</span>]<span class="meta">?&gt;</span>&lt;/td&gt;</span><br><span class="line">		&lt;td&gt;<span class="meta">&lt;?php</span> <span class="keyword">echo</span> $arr[<span class="string">&#x27;bonus&#x27;</span>]<span class="meta">?&gt;</span>&lt;/td&gt;</span><br><span class="line">		&lt;td&gt;<span class="meta">&lt;?php</span> <span class="keyword">echo</span> $arr[<span class="string">&#x27;city&#x27;</span>]<span class="meta">?&gt;</span>&lt;/td&gt;</span><br><span class="line">		&lt;td&gt;</span><br><span class="line">			&lt;a href=<span class="string">&quot;&quot;</span>&gt;修改&lt;/a&gt; | </span><br><span class="line">			&lt;a href=<span class="string">&quot;#&quot;</span> onClick=<span class="string">&quot;confirmDel(&lt;?php echo <span class="subst">$arr</span>[&#x27;id&#x27;]?&gt;)&quot;</span>&gt;删除&lt;/a&gt;</span><br><span class="line">		&lt;/td&gt;</span><br><span class="line">	&lt;/tr&gt;</span><br><span class="line">	<span class="meta">&lt;?php</span> &#125;<span class="meta">?&gt;</span></span><br><span class="line">&lt;/table&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>学生信息删除文件–deletee.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&#x27;./coon.php&#x27;</span>);</span><br><span class="line">$id=$_GET[<span class="string">&#x27;id&#x27;</span>];</span><br><span class="line">$sql=<span class="string">&quot;delete from student where id=<span class="subst">$id</span>&quot;</span>;</span><br><span class="line"><span class="keyword">if</span>(mysqli_query($link,$sql))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;学生id为<span class="subst">&#123;$id&#125;</span>的信息删除成功。&quot;</span>;</span><br><span class="line">    header(<span class="string">&quot;refresh:3;url=./listt.php&quot;</span>);</span><br><span class="line">    <span class="keyword">die</span>();</span><br><span class="line">&#125;<span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="删除学生信息操作"><a href="#删除学生信息操作" class="headerlink" title="删除学生信息操作"></a>删除学生信息操作</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&#x27;./coon.php&#x27;</span>);</span><br><span class="line">$id=$_GET[<span class="string">&#x27;id&#x27;</span>];</span><br><span class="line">$sql=<span class="string">&quot;delete from student where id=<span class="subst">$id</span>&quot;</span>;</span><br><span class="line"><span class="keyword">if</span>(mysqli_query($link,$sql))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;学生id为<span class="subst">&#123;$id&#125;</span>的信息删除成功。&quot;</span>;</span><br><span class="line">    header(<span class="string">&quot;refresh:3;url=./listt.php&quot;</span>);</span><br><span class="line">    <span class="keyword">die</span>();</span><br><span class="line">&#125;<span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/projects_url">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1"><span class="toc-number">1.</span> <span class="toc-text">PHP核心编程1</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.1.</span> <span class="toc-text">PHP与数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PHP%E8%BF%9E%E6%8E%A5MySQL%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">1.1.1.</span> <span class="toc-text">PHP连接MySQL服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-connect"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">mysqli_connect()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">@运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#exit-%E6%88%96die"><span class="toc-number">1.1.1.3.</span> <span class="toc-text">exit()或die()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-connect-error"><span class="toc-number">1.1.1.4.</span> <span class="toc-text">mysqli_connect_error()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-close"><span class="toc-number">1.1.1.5.</span> <span class="toc-text">mysqli_close()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E5%BD%93%E5%89%8D%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.1.1.6.</span> <span class="toc-text">选择当前数据库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AD%97%E7%AC%A6%E9%9B%86"><span class="toc-number">1.1.1.7.</span> <span class="toc-text">设置客户端字符集</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E5%90%84%E7%A7%8DSQL%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.1.2.</span> <span class="toc-text">执行各种SQL语句</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-query"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">mysqli_query()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-free-result"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">mysqli_free_result()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E7%BB%93%E6%9E%9C%E9%9B%86%E8%8E%B7%E5%8F%96%E4%B8%80%E8%A1%8C%E6%95%B0%E6%8D%AE"><span class="toc-number">1.1.3.</span> <span class="toc-text">从结果集获取一行数据</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-fetch-row"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">mysqli_fetch_row()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-fetch-assoc"><span class="toc-number">1.1.3.2.</span> <span class="toc-text">mysqli_fetch_assoc()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-fetch-array"><span class="toc-number">1.1.3.3.</span> <span class="toc-text">mysqli_fetch_array()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-fetch-all"><span class="toc-number">1.1.3.4.</span> <span class="toc-text">mysqli_fetch_all()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E8%AE%B0%E5%BD%95%E6%95%B0"><span class="toc-number">1.1.4.</span> <span class="toc-text">获取记录数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-num-rows"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">mysqli_num_rows()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-affected-rows"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">mysqli_affected_rows()</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql%E5%90%84%E7%A7%8D%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%87%BD%E6%95%B0%E6%8A%A5%E9%94%99%E6%80%BB%E7%BB%93"><span class="toc-number">1.2.</span> <span class="toc-text">mysql各种获取数据函数报错总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-connect-1"><span class="toc-number">1.2.0.1.</span> <span class="toc-text">mysqli_connect()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-query-1"><span class="toc-number">1.2.0.2.</span> <span class="toc-text">mysqli_query()</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#SELECT%EF%BC%8CSHOW-%E6%88%96-DESCRIBE-%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.2.0.2.1.</span> <span class="toc-text">SELECT，SHOW 或 DESCRIBE 语句</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%B6%E5%AE%83%E7%B1%BB%E5%9E%8B%E7%9A%84-SQL-%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.2.0.2.2.</span> <span class="toc-text">其它类型的 SQL 语句</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-fetch-all-%E3%80%81mysqli-fetch-array-%E3%80%81mysqli-fetch-assoc-%E3%80%81mysqli-fetch-row"><span class="toc-number">1.2.0.3.</span> <span class="toc-text">mysqli_fetch_all()、mysqli_fetch_array()、mysqli_fetch_assoc()、mysqli_fetch_row()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mysqli-num-rows-1"><span class="toc-number">1.2.0.4.</span> <span class="toc-text">mysqli_num_rows()</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%A6%E7%94%9F%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.3.</span> <span class="toc-text">学生管理系统</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">创建数据库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%96%87%E4%BB%B6%E2%80%93coon-php"><span class="toc-number">1.3.0.2.</span> <span class="toc-text">数据库连接文件–coon.php</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E5%88%97%E8%A1%A8%E6%98%BE%E7%A4%BA%E6%96%87%E4%BB%B6%E2%80%93listt-php"><span class="toc-number">1.3.0.3.</span> <span class="toc-text">学生信息列表显示文件–listt.php</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.0.4.</span> <span class="toc-text">删除学生信息操作</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://s1eady.top/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://s1eady.top/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/&text=PHP开发学习--核心编程1"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://s1eady.top/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/&title=PHP开发学习--核心编程1"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://s1eady.top/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/&is_video=false&description=PHP开发学习--核心编程1"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PHP开发学习--核心编程1&body=Check out this article: http://s1eady.top/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://s1eady.top/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/&title=PHP开发学习--核心编程1"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://s1eady.top/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/&title=PHP开发学习--核心编程1"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://s1eady.top/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/&title=PHP开发学习--核心编程1"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://s1eady.top/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/&title=PHP开发学习--核心编程1"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://s1eady.top/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/&name=PHP开发学习--核心编程1&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://s1eady.top/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/&t=PHP开发学习--核心编程1"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2018-2020
+    John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/projects_url">项目</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
