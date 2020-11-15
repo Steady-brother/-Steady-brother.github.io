@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Hexo</title>
+  <title>steady&#39;s blog</title>
   
-  
+  <subtitle>深山夕照深秋雨。</subtitle>
   <link href="http://s1eady.top/atom.xml" rel="self"/>
   
   <link href="http://s1eady.top/"/>
@@ -10,7 +10,7 @@
   <id>http://s1eady.top/</id>
   
   <author>
-    <name>John Doe</name>
+    <name>steady</name>
     
   </author>
   
