@@ -14,8 +14,9 @@
 <meta property="og:description" content="session、cookie原理实例登陆前session_start()  用户第一次访问文件(含有session_start函数的文件) 用户第一次访问是没有PHPSESSID,所以会创建$_SESSION变量,同时创建sess_abc123的session文件,将abc123作为PHPSESSID的值返回给浏览器 比如: 我们在从未提交过表单,也就是没有访问login.php,因此sessio">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201119144130981.png">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201119144914097.png">
 <meta property="article:published_time" content="2019-02-04T18:40:36.000Z">
-<meta property="article:modified_time" content="2020-11-19T06:45:11.272Z">
+<meta property="article:modified_time" content="2020-11-19T06:51:58.025Z">
 <meta property="article:author" content="steady">
 <meta property="article:tag" content="Cookie与Session">
 <meta name="twitter:card" content="summary">
@@ -311,6 +312,7 @@
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9</span><span class="selector-class">.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9</span><span class="selector-class">.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>注意：secret是保存在服务器端的，jwt的签发生成也是在服务器端的，secret就是用来进行jwt的签发和jwt的验证，所以，它就是你服务端的私钥，在任何场景都不应该流露出去。一旦客户端得知这个secret, 那就意味着客户端是可以自我签发jwt了。</strong></p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201119144914097.png" alt="image-20201119144914097"></p>
 <h3 id="JWT优点"><a href="#JWT优点" class="headerlink" title="JWT优点"></a>JWT优点</h3><ul>
 <li>JWT是可以进行跨语言支持的，像JAVA,JavaScript,NodeJS,PHP等很多语言都可以使用。</li>
 <li>jwt的构成非常简单，字节占用很小，所以它是非常便于传输的。</li>
