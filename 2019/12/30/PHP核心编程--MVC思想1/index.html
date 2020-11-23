@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="PHP核心编程–MVC思想1MVC框架思想原理MVC概述MVC全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写； MVC是一种软件设计典范，用一种业务逻辑、数据、界面显示分离的方法组织代码； MVC中，每个模块只做自己范围内的事情，不是自己的事情千万不做； MVC各组件的功能Model（数据模型）用于处理应用程序数据逻辑">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP开发学习--核心编程1">
+<meta property="og:url" content="http://s1eady.top/2019/12/30/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B--MVC%E6%80%9D%E6%83%B31/index.html">
+<meta property="og:site_name" content="steady&#39;s blog">
+<meta property="og:description" content="PHP核心编程–MVC思想1MVC框架思想原理MVC概述MVC全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写； MVC是一种软件设计典范，用一种业务逻辑、数据、界面显示分离的方法组织代码； MVC中，每个模块只做自己范围内的事情，不是自己的事情千万不做； MVC各组件的功能Model（数据模型）用于处理应用程序数据逻辑">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201118154838078.png">
+<meta property="article:published_time" content="2019-12-29T23:29:22.000Z">
+<meta property="article:modified_time" content="2020-11-23T07:41:33.906Z">
+<meta property="article:author" content="steady">
+<meta property="article:tag" content="PHP开发学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201118154838078.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>PHP开发学习--核心编程1</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="steady's blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/01/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B6/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/12/22/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--Metasploit%E7%9A%84%E4%BD%BF%E7%94%A8/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://s1eady.top/2019/12/30/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B--MVC%E6%80%9D%E6%83%B31/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://s1eady.top/2019/12/30/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B--MVC%E6%80%9D%E6%83%B31/&text=PHP开发学习--核心编程1"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://s1eady.top/2019/12/30/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B--MVC%E6%80%9D%E6%83%B31/&title=PHP开发学习--核心编程1"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://s1eady.top/2019/12/30/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B--MVC%E6%80%9D%E6%83%B31/&is_video=false&description=PHP开发学习--核心编程1"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PHP开发学习--核心编程1&body=Check out this article: http://s1eady.top/2019/12/30/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B--MVC%E6%80%9D%E6%83%B31/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://s1eady.top/2019/12/30/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B--MVC%E6%80%9D%E6%83%B31/&title=PHP开发学习--核心编程1"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://s1eady.top/2019/12/30/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B--MVC%E6%80%9D%E6%83%B31/&title=PHP开发学习--核心编程1"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://s1eady.top/2019/12/30/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B--MVC%E6%80%9D%E6%83%B31/&title=PHP开发学习--核心编程1"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://s1eady.top/2019/12/30/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B--MVC%E6%80%9D%E6%83%B31/&title=PHP开发学习--核心编程1"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://s1eady.top/2019/12/30/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B--MVC%E6%80%9D%E6%83%B31/&name=PHP开发学习--核心编程1&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://s1eady.top/2019/12/30/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B--MVC%E6%80%9D%E6%83%B31/&t=PHP开发学习--核心编程1"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B%E2%80%93MVC%E6%80%9D%E6%83%B31"><span class="toc-number">1.</span> <span class="toc-text">PHP核心编程–MVC思想1</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MVC%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">MVC框架思想原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MVC%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.1.</span> <span class="toc-text">MVC概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MVC%E5%90%84%E7%BB%84%E4%BB%B6%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-number">1.1.2.</span> <span class="toc-text">MVC各组件的功能</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MVC%E5%AE%9E%E4%BE%8B%EF%BC%9A%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86"><span class="toc-number">1.2.</span> <span class="toc-text">MVC实例：学生信息管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B7%A5%E5%8E%82%E7%B1%BB%E4%B8%89%E7%A7%81%E4%B8%80%E5%85%AC"><span class="toc-number">1.2.1.</span> <span class="toc-text">数据库工厂类三私一公</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E7%94%9F%E6%A8%A1%E5%9E%8B%E7%B1%BB"><span class="toc-number">1.2.2.</span> <span class="toc-text">学生模型类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E7%94%9F%E7%B1%BB%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="toc-number">1.2.3.</span> <span class="toc-text">学生类控制器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E7%94%9F%E8%A7%86%E5%9B%BE%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.4.</span> <span class="toc-text">学生视图文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.2.5.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MVC%E5%AE%9E%E4%BE%8B%EF%BC%9A%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%862"><span class="toc-number">1.3.</span> <span class="toc-text">MVC实例：学生信息管理2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E5%90%88%E5%AD%A6%E7%94%9F%E6%A8%A1%E5%9D%97%E5%92%8C%E6%96%B0%E9%97%BB%E6%A8%A1%E5%9D%97%E5%B9%B6%E6%95%B4%E5%90%88%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%9E%8B%E7%B1%BB%E3%80%81%E5%9F%BA%E7%A1%80%E6%A8%A1%E5%9E%8B%E7%B1%BB%E7%AD%89%E7%AD%89"><span class="toc-number">1.3.1.</span> <span class="toc-text">整合学生模块和新闻模块并整合工厂模型类、基础模型类等等</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">需求分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%9F%BA%E7%A1%80%E6%A8%A1%E5%9E%8B%E7%B1%BB%E6%96%87%E4%BB%B6%EF%BC%9ABaseModel-class-php"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">创建基础模型类文件：BaseModel.class.php</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%9E%8B%E7%B1%BB%EF%BC%9AFactoryModel-class-php"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">创建工厂模型类：FactoryModel.class.php</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%8E%A7%E5%88%B6%E5%99%A8%E7%B1%BB%EF%BC%9ANewsController-php"><span class="toc-number">1.3.1.4.</span> <span class="toc-text">创建控制器类：NewsController.php</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%9F%BA%E7%A1%80%E6%8E%A7%E5%88%B6%E5%99%A8%E7%B1%BB%EF%BC%9ABaseController-class-php"><span class="toc-number">1.3.1.5.</span> <span class="toc-text">创建基础控制器类：BaseController.class.php</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%AE%80%E5%8D%95%E5%88%86%E7%9B%AE%E5%BD%95"><span class="toc-number">1.3.1.6.</span> <span class="toc-text">文件简单分目录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E6%8E%A7%E5%88%B6%E5%99%A8%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.3.1.7.</span> <span class="toc-text">前端控制器实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B9%B3%E5%8F%B0%E6%A6%82%E5%BF%B5%E7%9A%84%E5%BC%95%E5%85%A5"><span class="toc-number">1.3.1.8.</span> <span class="toc-text">平台概念的引入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B1%BB%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8A%A0%E8%BD%BD"><span class="toc-number">1.3.1.9.</span> <span class="toc-text">类的自动加载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E7%9B%AE%E5%BD%95%E5%B8%B8%E9%87%8F%E9%85%8D%E7%BD%AE"><span class="toc-number">1.3.1.10.</span> <span class="toc-text">常用目录常量配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E7%B1%BB%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.3.1.11.</span> <span class="toc-text">初始类实现</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        PHP开发学习--核心编程1
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">steady</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-12-29T23:29:22.000Z" itemprop="datePublished">2019-12-30</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/PHP%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0/">PHP开发学习</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/PHP%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0/" rel="tag">PHP开发学习</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="PHP核心编程–MVC思想1"><a href="#PHP核心编程–MVC思想1" class="headerlink" title="PHP核心编程–MVC思想1"></a>PHP核心编程–MVC思想1</h1><h2 id="MVC框架思想原理"><a href="#MVC框架思想原理" class="headerlink" title="MVC框架思想原理"></a>MVC框架思想原理</h2><h3 id="MVC概述"><a href="#MVC概述" class="headerlink" title="MVC概述"></a>MVC概述</h3><p>MVC全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写；</p>
+<p>MVC是一种软件设计典范，用一种业务逻辑、数据、界面显示分离的方法组织代码；</p>
+<p>MVC中，每个模块只做自己范围内的事情，不是自己的事情千万不做；</p>
+<h3 id="MVC各组件的功能"><a href="#MVC各组件的功能" class="headerlink" title="MVC各组件的功能"></a>MVC各组件的功能</h3><p>Model（数据模型）用于处理应用程序数据逻辑的部分。通常模型对象负责在数据库中存取数据。</p>
+<p>View（视图）是用于处理数据显示的部分。通常视图是依据模型数据创建的。</p>
+<p>Controller（控制器）是应用程序中处理用户交互的部分。通常控制器负责从视图读取数据，控制用户输入，并向模型发送数据。</p>
+<p><img src="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201118154838078.png" alt="image-20201118154838078"></p>
+<h2 id="MVC实例：学生信息管理"><a href="#MVC实例：学生信息管理" class="headerlink" title="MVC实例：学生信息管理"></a>MVC实例：学生信息管理</h2><h3 id="数据库工厂类三私一公"><a href="#数据库工厂类三私一公" class="headerlink" title="数据库工厂类三私一公"></a>数据库工厂类三私一公</h3><p>主要是创建数据库对象，进行数据库连接。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params">$config=<span class="keyword">array</span>(<span class="params"></span>)</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">$this</span>-&gt;db_host = $config[<span class="string">&#x27;db_host&#x27;</span>];</span><br><span class="line">	<span class="keyword">$this</span>-&gt;db_user = $config[<span class="string">&#x27;db_user&#x27;</span>];</span><br><span class="line">	<span class="keyword">$this</span>-&gt;db_pass = $config[<span class="string">&#x27;db_pass&#x27;</span>];</span><br><span class="line">	<span class="keyword">$this</span>-&gt;db_name = $config[<span class="string">&#x27;db_name&#x27;</span>];</span><br><span class="line">	<span class="keyword">$this</span>-&gt;charset = $config[<span class="string">&#x27;charset&#x27;</span>];</span><br><span class="line">	<span class="keyword">$this</span>-&gt;connectDb(); <span class="comment">//连接MySQL服务器</span></span><br><span class="line">	<span class="keyword">$this</span>-&gt;selectDb();  <span class="comment">//选择数据库</span></span><br><span class="line">	<span class="keyword">$this</span>-&gt;setCharset();<span class="comment">//设置字符集</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="学生模型类"><a href="#学生模型类" class="headerlink" title="学生模型类"></a>学生模型类</h3><p>主要是连接数据库，对学生数据进行操作。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//包含数据库工具类</span></span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./Db.class.php&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//连接数据库</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//创建Db类对象</span></span><br><span class="line">	$arr = <span class="keyword">array</span>(</span><br><span class="line">			<span class="string">&#x27;db_host&#x27;</span> =&gt; <span class="string">&#x27;localhost&#x27;</span>,</span><br><span class="line">			<span class="string">&#x27;db_user&#x27;</span> =&gt; <span class="string">&#x27;root&#x27;</span>,</span><br><span class="line">			<span class="string">&#x27;db_pass&#x27;</span> =&gt; <span class="string">&#x27;root&#x27;</span>,</span><br><span class="line">			<span class="string">&#x27;db_name&#x27;</span> =&gt; <span class="string">&#x27;test&#x27;</span>,</span><br><span class="line">			<span class="string">&#x27;charset&#x27;</span> =&gt; <span class="string">&#x27;utf8&#x27;</span></span><br><span class="line">		);</span><br><span class="line">	<span class="keyword">$this</span>-&gt;db = Db::getInstance($arr);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在学生模型类中调用数据库对象的某一个方法，其中sql语句自己定义。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取多行数据</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">fetchAll</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//构建查询的SQL语句</span></span><br><span class="line">	$sql = <span class="string">&quot;SELECT * FROM student ORDER BY id DESC&quot;</span>;</span><br><span class="line">	<span class="comment">//执行SQL语句，返回二维数组</span></span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">$this</span>-&gt;db-&gt;fetchAll($sql);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//删除记录</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">delete</span>(<span class="params">$id</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//构建删除的SQL语句</span></span><br><span class="line">	$sql = <span class="string">&quot;DELETE FROM student WHERE id=<span class="subst">&#123;$id&#125;</span>&quot;</span>;</span><br><span class="line">	<span class="comment">//执行SQL语句，并返回布尔值</span></span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">$this</span>-&gt;db-&gt;exec($sql);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="学生类控制器"><a href="#学生类控制器" class="headerlink" title="学生类控制器"></a>学生类控制器</h3><p>主要是控制用户与数据进行交互，主要是用户交互。比如get、post参数等对应的操作，项目中有删除数据、添加数据等等操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;包含学生模型类</span><br><span class="line">require_once(&quot;.&#x2F;StudentModel.class.php&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>调用模型类中的方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$modelObj &#x3D; new StudentModel();</span><br><span class="line">$arrs &#x3D; $modelObj-&gt;fetchAll();</span><br></pre></td></tr></table></figure>
+
+<p>最后包含视图模型。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include &quot;.&#x2F;StudentIndexView.html&quot;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="学生视图文件"><a href="#学生视图文件" class="headerlink" title="学生视图文件"></a>学生视图文件</h3><p>显示数据库中的数据，将数据输送到html页面</p>
+<p>包含控制器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href&#x3D;&quot;.&#x2F;StudentController.php&quot;&gt;学生管理&lt;&#x2F;a&gt; | </span><br><span class="line">&lt;a href&#x3D;&quot;.&#x2F;NewsController.php&quot;&gt;新闻管理&lt;&#x2F;a&gt;&lt;hr&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;td&gt;&lt;?php echo $arr[&#39;id&#39;]?&gt;&lt;&#x2F;td&gt;</span><br><span class="line">&lt;td&gt;&lt;?php echo $arr[&#39;name&#39;]?&gt;&lt;&#x2F;td&gt;</span><br><span class="line">&lt;td&gt;&lt;?php echo $arr[&#39;sex&#39;]?&gt;&lt;&#x2F;td&gt;</span><br><span class="line">&lt;td&gt;&lt;?php echo $arr[&#39;age&#39;]?&gt;&lt;&#x2F;td&gt;</span><br><span class="line">&lt;td&gt;&lt;?php echo $arr[&#39;edu&#39;]?&gt;&lt;&#x2F;td&gt;</span><br><span class="line">&lt;td&gt;&lt;?php echo $arr[&#39;salary&#39;]?&gt;&lt;&#x2F;td&gt;</span><br><span class="line">&lt;td&gt;&lt;?php echo $arr[&#39;bonus&#39;]?&gt;&lt;&#x2F;td&gt;</span><br><span class="line">&lt;td&gt;&lt;?php echo $arr[&#39;city&#39;]?&gt;&lt;&#x2F;td&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>模型类，创建数据库对象，与数据库进行连接，定义sql方法，执行sql语句。</p>
+<p>控制器接受用户的操作，创建模型类对象，调用模型类对象方法，取出数据存入数组。</p>
+<p>视图，将数据从控制器中取出，输出到html前端页面。</p>
+<p>新闻功能也是如此。</p>
+<h2 id="MVC实例：学生信息管理2"><a href="#MVC实例：学生信息管理2" class="headerlink" title="MVC实例：学生信息管理2"></a>MVC实例：学生信息管理2</h2><h3 id="整合学生模块和新闻模块并整合工厂模型类、基础模型类等等"><a href="#整合学生模块和新闻模块并整合工厂模型类、基础模型类等等" class="headerlink" title="整合学生模块和新闻模块并整合工厂模型类、基础模型类等等"></a>整合学生模块和新闻模块并整合工厂模型类、基础模型类等等</h3><h4 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h4><p>模型类主要是取出数据，多个模型类都有取出数据的功能，我们可以对其进行整合，整合共有的功能，其他模型类继承基础模型类。</p>
+<p>我们将两个模型类中，公共的属性和方法，提炼出来，放入基础模型类(BaseModel.class.php)中。其它模型类完成对基础模型类的继承。</p>
+<h4 id="创建基础模型类文件：BaseModel-class-php"><a href="#创建基础模型类文件：BaseModel-class-php" class="headerlink" title="创建基础模型类文件：BaseModel.class.php"></a>创建基础模型类文件：BaseModel.class.php</h4><p>公共部分放入基础模型类。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//包含数据库工具类</span></span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./Db.class.php&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义抽象的基础模型类</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseModel</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="comment">//受保护的保存数据库对象的属性</span></span><br><span class="line">	<span class="keyword">protected</span> $db = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//构造方法</span></span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="comment">//创建Db类对象</span></span><br><span class="line">		$arr = <span class="keyword">array</span>(</span><br><span class="line">				<span class="string">&#x27;db_host&#x27;</span> =&gt; <span class="string">&#x27;localhost&#x27;</span>,</span><br><span class="line">				<span class="string">&#x27;db_user&#x27;</span> =&gt; <span class="string">&#x27;root&#x27;</span>,</span><br><span class="line">				<span class="string">&#x27;db_pass&#x27;</span> =&gt; <span class="string">&#x27;root&#x27;</span>,</span><br><span class="line">				<span class="string">&#x27;db_name&#x27;</span> =&gt; <span class="string">&#x27;itcast&#x27;</span>,</span><br><span class="line">				<span class="string">&#x27;charset&#x27;</span> =&gt; <span class="string">&#x27;utf8&#x27;</span></span><br><span class="line">			);</span><br><span class="line">		<span class="keyword">$this</span>-&gt;db = Db::getInstance($arr);</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其他模型类</p>
+<p>直接包含基础模型类，调用基础模型类中的对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class StudentModel extends BaseModel</span><br></pre></td></tr></table></figure>
+
+<h4 id="创建工厂模型类：FactoryModel-class-php"><a href="#创建工厂模型类：FactoryModel-class-php" class="headerlink" title="创建工厂模型类：FactoryModel.class.php"></a>创建工厂模型类：FactoryModel.class.php</h4><p>生产模型类对象</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//包含所有模型类</span></span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./StudentModel.class.php&quot;</span>);</span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./NewsModel.class.php&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义最终的工厂模型类</span></span><br><span class="line"><span class="comment">//主要用来生产不同模型类的对象</span></span><br><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">FactoryModel</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="comment">//公共的静态的创建不同模型类对象的方法</span></span><br><span class="line">	<span class="keyword">public</span> <span class="built_in">static</span> <span class="function"><span class="keyword">function</span> <span class="title">getInstance</span>(<span class="params">$modelClassName</span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="comment">//创建指定模型类对象，并返回</span></span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> $modelClassName();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>控制器创建模型类对象，直接使用工厂类创建对象，而不用单独的去创建某一个模型类对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$modelObj &#x3D; FactoryModel::getInstance(&quot;StudentModel&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>不使用工厂类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$modelObj &#x3D; new StudentModel();</span><br></pre></td></tr></table></figure>
+
+<h4 id="创建控制器类：NewsController-php"><a href="#创建控制器类：NewsController-php" class="headerlink" title="创建控制器类：NewsController.php"></a>创建控制器类：NewsController.php</h4><p>一开始控制器是一个单纯的文件，进行接受用户输入的数据，执行用户的操作等，接下来把控制器变成一个控制器类。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义最终的新闻控制器类</span></span><br><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">NewsController</span></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">delete</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		$id = $_GET[<span class="string">&#x27;id&#x27;</span>];</span><br><span class="line">		$modelObj = FactoryModel::getInstance(<span class="string">&quot;NewsModel&quot;</span>);</span><br><span class="line">		<span class="keyword">if</span>($modelObj-&gt;delete($id))&#123;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;&lt;h2&gt;id=<span class="subst">&#123;$id&#125;</span>的记录删除成功！&lt;/h2&gt;&quot;</span>;</span><br><span class="line">			header(<span class="string">&quot;refresh:3;url=?&quot;</span>);</span><br><span class="line">			<span class="keyword">die</span>();</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="keyword">echo</span> <span class="string">&quot;&lt;h2&gt;id=<span class="subst">&#123;$id&#125;</span>的记录删除失败！&lt;/h2&gt;&quot;</span>;</span><br><span class="line">			header(<span class="string">&quot;refresh:3;url=?&quot;</span>);</span><br><span class="line">			<span class="keyword">die</span>();		</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">index</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		$modelObj = FactoryModel::getInstance(<span class="string">&quot;NewsModel&quot;</span>);</span><br><span class="line">		$arrs = $modelObj-&gt;fetchAll();</span><br><span class="line">		<span class="keyword">include</span> <span class="string">&quot;./NewsIndexView.html&quot;</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对应的用户操作，变成一个函数，通过创建控制器类。来调用相应的函数。</p>
+<h4 id="创建基础控制器类：BaseController-class-php"><a href="#创建基础控制器类：BaseController-class-php" class="headerlink" title="创建基础控制器类：BaseController.class.php"></a>创建基础控制器类：BaseController.class.php</h4><p>与基础模型类一样</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//定义抽象的基础控制器类</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseController</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="comment">//受保护的跳转方法</span></span><br><span class="line">	<span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">jump</span>(<span class="params">$message,$url=<span class="string">&#x27;?&#x27;</span>,$time=<span class="number">3</span></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">&quot;&lt;h2&gt;<span class="subst">&#123;$message&#125;</span>&lt;/h2&gt;&quot;</span>;</span><br><span class="line">		header(<span class="string">&quot;refresh:<span class="subst">&#123;$time&#125;</span>;url=<span class="subst">&#123;$url&#125;</span>&quot;</span>);</span><br><span class="line">		<span class="keyword">die</span>(); <span class="comment">//中止程序向下运行</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>控制器调用基础控制器的方法。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取用户动作参数</span></span><br><span class="line">$ac = <span class="keyword">isset</span>($_GET[<span class="string">&#x27;ac&#x27;</span>]) ? $_GET[<span class="string">&#x27;ac&#x27;</span>] : <span class="string">&#x27;index&#x27;</span>;</span><br><span class="line"><span class="comment">//创建新闻控制器类的对象</span></span><br><span class="line">$controllerObj = <span class="keyword">new</span> NewsController();</span><br><span class="line"><span class="comment">//根据用户的不同动作，调用不同的方法</span></span><br><span class="line">$controllerObj-&gt;$ac();</span><br></pre></td></tr></table></figure>
+
+<h4 id="文件简单分目录"><a href="#文件简单分目录" class="headerlink" title="文件简单分目录"></a>文件简单分目录</h4><p>Model目录：主要存放各个模块的模型类文件；</p>
+<p>Controller目录：主要存放各个模块的控制器类文件；</p>
+<p>View目录：主要存放各个模块的视图文件；</p>
+<p>Frame目录：主要存放各个模块公共的类文件。</p>
+<h4 id="前端控制器实现"><a href="#前端控制器实现" class="headerlink" title="前端控制器实现"></a>前端控制器实现</h4><p>之前的index.php文件</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//包含所有类文件</span></span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./Frame/BaseController.class.php&quot;</span>);</span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./Frame/FactoryModel.class.php&quot;</span>);</span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./Frame/Db.class.php&quot;</span>);</span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./Frame/BaseModel.class.php&quot;</span>);</span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./Model/StudentModel.class.php&quot;</span>);</span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./Model/NewsModel.class.php&quot;</span>);</span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./Controller/StudentController.class.php&quot;</span>);</span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./Controller/NewsController.class.php&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取用户动作参数</span></span><br><span class="line">$ac = <span class="keyword">isset</span>($_GET[<span class="string">&#x27;ac&#x27;</span>]) ? $_GET[<span class="string">&#x27;ac&#x27;</span>] : <span class="string">&#x27;index&#x27;</span>;</span><br><span class="line"><span class="comment">//创建学生控制器类的对象</span></span><br><span class="line">$controllerObj = <span class="keyword">new</span> StudentController();</span><br><span class="line"><span class="comment">//根据用户的不同动作，调用不同的方法</span></span><br><span class="line">$controllerObj-&gt;$ac();</span><br></pre></td></tr></table></figure>
+
+<p>修改之后</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//包含所有类文件</span></span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./Frame/BaseController.class.php&quot;</span>);</span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./Frame/FactoryModel.class.php&quot;</span>);</span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./Frame/Db.class.php&quot;</span>);</span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./Frame/BaseModel.class.php&quot;</span>);</span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./Model/StudentModel.class.php&quot;</span>);</span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./Model/NewsModel.class.php&quot;</span>);</span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./Controller/StudentController.class.php&quot;</span>);</span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./Controller/NewsController.class.php&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取路由参数</span></span><br><span class="line">$c = <span class="keyword">isset</span>($_GET[<span class="string">&#x27;c&#x27;</span>]) ? $_GET[<span class="string">&#x27;c&#x27;</span>] : <span class="string">&#x27;Student&#x27;</span>; <span class="comment">//控制器名</span></span><br><span class="line">$a = <span class="keyword">isset</span>($_GET[<span class="string">&#x27;a&#x27;</span>]) ? $_GET[<span class="string">&#x27;a&#x27;</span>] : <span class="string">&#x27;index&#x27;</span>; <span class="comment">//动作名</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//创建控制器类的对象：StudentController</span></span><br><span class="line">$controllerClassName = $c . <span class="string">&quot;Controller&quot;</span>;</span><br><span class="line">$controllerObj = <span class="keyword">new</span> $controllerClassName();</span><br><span class="line"></span><br><span class="line"><span class="comment">//根据用户的不同动作，调用不同的方法</span></span><br><span class="line">$controllerObj-&gt;$a();</span><br></pre></td></tr></table></figure>
+
+<h4 id="平台概念的引入"><a href="#平台概念的引入" class="headerlink" title="平台概念的引入"></a>平台概念的引入</h4><p>有了“平台”概念后，MVC的目录结构，就要进一步扩展了。</p>
+<p>引入“平台”概念后，客户的每次请求，必须带3个参数：平台参数、控制器参数、用户动作。</p>
+<p>Platform称为p参数，controller称为c参数，action简称a参数。</p>
+<p>请求地址：index.php?p=平台&amp;c=控制器&amp;a=动作&amp;其它参数</p>
+<p>举例说明：<code>index.php?p=Home&amp;c=Student&amp;a=index</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//获取路由参数</span></span><br><span class="line">$p = <span class="keyword">isset</span>($_GET[<span class="string">&#x27;p&#x27;</span>]) ? $_GET[<span class="string">&#x27;p&#x27;</span>] : <span class="string">&#x27;Home&#x27;</span>; <span class="comment">//平台参数</span></span><br><span class="line">$c = <span class="keyword">isset</span>($_GET[<span class="string">&#x27;c&#x27;</span>]) ? $_GET[<span class="string">&#x27;c&#x27;</span>] : <span class="string">&#x27;Student&#x27;</span>; <span class="comment">//控制器名</span></span><br><span class="line">$a = <span class="keyword">isset</span>($_GET[<span class="string">&#x27;a&#x27;</span>]) ? $_GET[<span class="string">&#x27;a&#x27;</span>] : <span class="string">&#x27;index&#x27;</span>; <span class="comment">//动作名</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//包含所有类文件</span></span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./Frame/BaseController.class.php&quot;</span>);</span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./Frame/FactoryModel.class.php&quot;</span>);</span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./Frame/Db.class.php&quot;</span>);</span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./Frame/BaseModel.class.php&quot;</span>);</span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./App/<span class="subst">$p</span>/Model/StudentModel.class.php&quot;</span>);</span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./App/<span class="subst">$p</span>/Model/NewsModel.class.php&quot;</span>);</span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./App/<span class="subst">$p</span>/Controller/StudentController.class.php&quot;</span>);</span><br><span class="line"><span class="keyword">require_once</span>(<span class="string">&quot;./App/<span class="subst">$p</span>/Controller/NewsController.class.php&quot;</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//创建控制器类的对象：StudentController</span></span><br><span class="line">$controllerClassName = $c . <span class="string">&quot;Controller&quot;</span>;</span><br><span class="line">$controllerObj = <span class="keyword">new</span> $controllerClassName();</span><br><span class="line"></span><br><span class="line"><span class="comment">//根据用户的不同动作，调用不同的方法</span></span><br><span class="line">$controllerObj-&gt;$a();</span><br></pre></td></tr></table></figure>
+
+<h4 id="类的自动加载"><a href="#类的自动加载" class="headerlink" title="类的自动加载"></a>类的自动加载</h4><p>如果客户每次请求，都去包含所有类文件，会造成服务器内存浪费，程序的加载速度会更加缓慢。</p>
+<p>我们可以使用类的自动加载，来实现类文件的按需加载，不需要的不用加载。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//获取路由参数</span></span><br><span class="line">$p = <span class="keyword">isset</span>($_GET[<span class="string">&#x27;p&#x27;</span>]) ? $_GET[<span class="string">&#x27;p&#x27;</span>] : <span class="string">&#x27;Home&#x27;</span>; <span class="comment">//平台参数</span></span><br><span class="line">$c = <span class="keyword">isset</span>($_GET[<span class="string">&#x27;c&#x27;</span>]) ? $_GET[<span class="string">&#x27;c&#x27;</span>] : <span class="string">&#x27;Student&#x27;</span>; <span class="comment">//控制器名</span></span><br><span class="line">$a = <span class="keyword">isset</span>($_GET[<span class="string">&#x27;a&#x27;</span>]) ? $_GET[<span class="string">&#x27;a&#x27;</span>] : <span class="string">&#x27;index&#x27;</span>; <span class="comment">//动作名</span></span><br><span class="line">define(<span class="string">&quot;PLAT&quot;</span>,$p);</span><br><span class="line"></span><br><span class="line"><span class="comment">//类的自动加载</span></span><br><span class="line">spl_autoload_register(<span class="function"><span class="keyword">function</span>(<span class="params">$className</span>)</span>&#123;</span><br><span class="line">	<span class="comment">//类文件路径数组</span></span><br><span class="line">	$arr = <span class="keyword">array</span>(</span><br><span class="line">			<span class="string">&quot;./Frame/<span class="subst">$className</span>.class.php&quot;</span>,</span><br><span class="line">			<span class="string">&quot;./App/&quot;</span>.PLAT.<span class="string">&quot;/Model/<span class="subst">$className</span>.class.php&quot;</span>,</span><br><span class="line">			<span class="string">&quot;./App/&quot;</span>.PLAT.<span class="string">&quot;/Controller/<span class="subst">$className</span>.class.php&quot;</span></span><br><span class="line">		);</span><br><span class="line">	<span class="comment">//循环数组</span></span><br><span class="line">	<span class="keyword">foreach</span>($arr <span class="keyword">as</span> $filename)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//如果类文件路径存在，则包含</span></span><br><span class="line">		<span class="keyword">if</span>(file_exists($filename))&#123;</span><br><span class="line">			<span class="keyword">echo</span> $filename.<span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">			<span class="keyword">require_once</span>($filename);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建控制器类的对象：StudentController</span></span><br><span class="line">$controllerClassName = $c . <span class="string">&quot;Controller&quot;</span>;</span><br><span class="line">$controllerObj = <span class="keyword">new</span> $controllerClassName();</span><br><span class="line"></span><br><span class="line"><span class="comment">//根据用户的不同动作，调用不同的方法</span></span><br><span class="line">$controllerObj-&gt;$a();</span><br></pre></td></tr></table></figure>
+
+<p>唯一的区别就是之前的index文件，我们载入就会加载所有的类，但是现在我们只想根据我们输入的参数加载对应的类文件。</p>
+<h4 id="常用目录常量配置"><a href="#常用目录常量配置" class="headerlink" title="常用目录常量配置"></a>常用目录常量配置</h4><p>常量在任何地方都可以使用，而变量只能在其作用域下使用；</p>
+<p>我们把MVC中常用的目录定义成常量，可以简化目录路径的编写。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//获取路由参数</span></span><br><span class="line">$p = <span class="keyword">isset</span>($_GET[<span class="string">&#x27;p&#x27;</span>]) ? $_GET[<span class="string">&#x27;p&#x27;</span>] : <span class="string">&#x27;Home&#x27;</span>; <span class="comment">//平台参数</span></span><br><span class="line">$c = <span class="keyword">isset</span>($_GET[<span class="string">&#x27;c&#x27;</span>]) ? $_GET[<span class="string">&#x27;c&#x27;</span>] : <span class="string">&#x27;Student&#x27;</span>; <span class="comment">//控制器名</span></span><br><span class="line">$a = <span class="keyword">isset</span>($_GET[<span class="string">&#x27;a&#x27;</span>]) ? $_GET[<span class="string">&#x27;a&#x27;</span>] : <span class="string">&#x27;index&#x27;</span>; <span class="comment">//动作名</span></span><br><span class="line">define(<span class="string">&quot;PLAT&quot;</span>,$p);</span><br><span class="line"></span><br><span class="line"><span class="comment">//定义目录常量</span></span><br><span class="line">define(<span class="string">&quot;DS&quot;</span>,DIRECTORY_SEPARATOR); <span class="comment">//动态目录分割符</span></span><br><span class="line">define(<span class="string">&quot;ROOT_PATH&quot;</span>,getcwd().DS); <span class="comment">//当前目录</span></span><br><span class="line">define(<span class="string">&quot;FRAME_PATH&quot;</span>,ROOT_PATH.<span class="string">&quot;Frame&quot;</span>.DS); <span class="comment">//Frame目录</span></span><br><span class="line">define(<span class="string">&quot;MODEL_PATH&quot;</span>,ROOT_PATH.<span class="string">&quot;App&quot;</span>.DS.PLAT.DS.<span class="string">&quot;Model&quot;</span>.DS); <span class="comment">//Model目录</span></span><br><span class="line">define(<span class="string">&quot;CONTROLLER_PATH&quot;</span>,ROOT_PATH.<span class="string">&quot;App&quot;</span>.DS.PLAT.DS.<span class="string">&quot;Controller&quot;</span>.DS); <span class="comment">//Controller目录</span></span><br><span class="line">define(<span class="string">&quot;VIEW_PATH&quot;</span>,ROOT_PATH.<span class="string">&quot;App&quot;</span>.DS.PLAT.DS.<span class="string">&quot;View&quot;</span>.DS.$c.DS); <span class="comment">//View目录</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//类的自动加载</span></span><br><span class="line">spl_autoload_register(<span class="function"><span class="keyword">function</span>(<span class="params">$className</span>)</span>&#123;</span><br><span class="line">	<span class="comment">//类文件路径数组</span></span><br><span class="line">	$arr = <span class="keyword">array</span>(</span><br><span class="line">			FRAME_PATH.<span class="string">&quot;<span class="subst">$className</span>.class.php&quot;</span>,</span><br><span class="line">			MODEL_PATH.<span class="string">&quot;<span class="subst">$className</span>.class.php&quot;</span>,</span><br><span class="line">			CONTROLLER_PATH.<span class="string">&quot;<span class="subst">$className</span>.class.php&quot;</span></span><br><span class="line">		);</span><br><span class="line">	<span class="comment">//循环数组</span></span><br><span class="line">	<span class="keyword">foreach</span>($arr <span class="keyword">as</span> $filename)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//如果类文件路径存在，则包含</span></span><br><span class="line">		<span class="keyword">if</span>(file_exists($filename))&#123;</span><br><span class="line">			<span class="keyword">echo</span> $filename.<span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">			<span class="keyword">require_once</span>($filename);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建控制器类的对象：StudentController</span></span><br><span class="line">$controllerClassName = $c . <span class="string">&quot;Controller&quot;</span>;</span><br><span class="line">$controllerObj = <span class="keyword">new</span> $controllerClassName();</span><br><span class="line"></span><br><span class="line"><span class="comment">//根据用户的不同动作，调用不同的方法</span></span><br><span class="line">$controllerObj-&gt;$a();</span><br></pre></td></tr></table></figure>
+
+<h4 id="初始类实现"><a href="#初始类实现" class="headerlink" title="初始类实现"></a>初始类实现</h4><p>就是把我们上面的index文件的所有功能初始化一个类。最后直接在index调用类即可。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//定义最终的框架初始类</span></span><br><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Frame</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="comment">//公共的静态的框架初始化方法</span></span><br><span class="line">	<span class="keyword">public</span> <span class="built_in">static</span> <span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="built_in">self</span>::initConfig();		<span class="comment">//初始化配置信息</span></span><br><span class="line">		<span class="built_in">self</span>::initRoute();		<span class="comment">//初始化路由参数</span></span><br><span class="line">		<span class="built_in">self</span>::initConst();		<span class="comment">//初始化目录常量</span></span><br><span class="line">		<span class="built_in">self</span>::initAutoLoad();	<span class="comment">//初始化类的自动加载</span></span><br><span class="line">		<span class="built_in">self</span>::initDispatch();	<span class="comment">//初始化请求分发</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//私有的静态的初始化配置信息</span></span><br><span class="line">	<span class="keyword">private</span> <span class="built_in">static</span> <span class="function"><span class="keyword">function</span> <span class="title">initConfig</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		$GLOBALS[<span class="string">&#x27;config&#x27;</span>] = <span class="keyword">require_once</span>(<span class="string">&quot;./App/Conf/Config.php&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//私有的静态的初始化路由参数</span></span><br><span class="line">	<span class="keyword">private</span> <span class="built_in">static</span> <span class="function"><span class="keyword">function</span> <span class="title">initRoute</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="comment">//获取路由参数</span></span><br><span class="line">		$p = <span class="keyword">isset</span>($_GET[<span class="string">&#x27;p&#x27;</span>]) ? $_GET[<span class="string">&#x27;p&#x27;</span>] : $GLOBALS[<span class="string">&#x27;config&#x27;</span>][<span class="string">&#x27;default_platform&#x27;</span>]; <span class="comment">//平台参数</span></span><br><span class="line">		$c = <span class="keyword">isset</span>($_GET[<span class="string">&#x27;c&#x27;</span>]) ? $_GET[<span class="string">&#x27;c&#x27;</span>] : $GLOBALS[<span class="string">&#x27;config&#x27;</span>][<span class="string">&#x27;default_controller&#x27;</span>]; <span class="comment">//控制器名</span></span><br><span class="line">		$a = <span class="keyword">isset</span>($_GET[<span class="string">&#x27;a&#x27;</span>]) ? $_GET[<span class="string">&#x27;a&#x27;</span>] : $GLOBALS[<span class="string">&#x27;config&#x27;</span>][<span class="string">&#x27;default_action&#x27;</span>]; <span class="comment">//动作名</span></span><br><span class="line">		define(<span class="string">&quot;PLAT&quot;</span>,$p);</span><br><span class="line">		define(<span class="string">&quot;CONTROLLER&quot;</span>,$c);</span><br><span class="line">		define(<span class="string">&quot;ACTION&quot;</span>,$a);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//私有的静态的初始化目录常量</span></span><br><span class="line">	<span class="keyword">private</span> <span class="built_in">static</span> <span class="function"><span class="keyword">function</span> <span class="title">initConst</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		define(<span class="string">&quot;DS&quot;</span>,DIRECTORY_SEPARATOR); <span class="comment">//动态目录分割符</span></span><br><span class="line">		define(<span class="string">&quot;ROOT_PATH&quot;</span>,getcwd().DS); <span class="comment">//当前目录</span></span><br><span class="line">		define(<span class="string">&quot;FRAME_PATH&quot;</span>,ROOT_PATH.<span class="string">&quot;Frame&quot;</span>.DS); <span class="comment">//Frame目录</span></span><br><span class="line">		define(<span class="string">&quot;MODEL_PATH&quot;</span>,ROOT_PATH.<span class="string">&quot;App&quot;</span>.DS.PLAT.DS.<span class="string">&quot;Model&quot;</span>.DS); <span class="comment">//Model目录</span></span><br><span class="line">		define(<span class="string">&quot;CONTROLLER_PATH&quot;</span>,ROOT_PATH.<span class="string">&quot;App&quot;</span>.DS.PLAT.DS.<span class="string">&quot;Controller&quot;</span>.DS); <span class="comment">//Controller目录</span></span><br><span class="line">		define(<span class="string">&quot;VIEW_PATH&quot;</span>,ROOT_PATH.<span class="string">&quot;App&quot;</span>.DS.PLAT.DS.<span class="string">&quot;View&quot;</span>.DS.CONTROLLER.DS); <span class="comment">//View目录</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//私有的静态的初始化类的自动加载</span></span><br><span class="line">	<span class="keyword">private</span> <span class="built_in">static</span> <span class="function"><span class="keyword">function</span> <span class="title">initAutoLoad</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="comment">//类的自动加载</span></span><br><span class="line">		spl_autoload_register(<span class="function"><span class="keyword">function</span>(<span class="params">$className</span>)</span>&#123;</span><br><span class="line">			<span class="comment">//类文件路径数组</span></span><br><span class="line">			$arr = <span class="keyword">array</span>(</span><br><span class="line">					FRAME_PATH.<span class="string">&quot;<span class="subst">$className</span>.class.php&quot;</span>,</span><br><span class="line">					MODEL_PATH.<span class="string">&quot;<span class="subst">$className</span>.class.php&quot;</span>,</span><br><span class="line">					CONTROLLER_PATH.<span class="string">&quot;<span class="subst">$className</span>.class.php&quot;</span></span><br><span class="line">				);</span><br><span class="line">			<span class="comment">//循环数组</span></span><br><span class="line">			<span class="keyword">foreach</span>($arr <span class="keyword">as</span> $filename)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="comment">//如果类文件路径存在，则包含</span></span><br><span class="line">				<span class="keyword">if</span>(file_exists($filename))&#123;</span><br><span class="line">					<span class="keyword">echo</span> $filename.<span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">					<span class="keyword">require_once</span>($filename);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);		</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//私有的静态的初始化请求分发：创建哪个控制器类的对象？调用控制器对象的哪个方法？</span></span><br><span class="line">	<span class="keyword">private</span> <span class="built_in">static</span> <span class="function"><span class="keyword">function</span> <span class="title">initDispatch</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="comment">//创建控制器类的对象：StudentController</span></span><br><span class="line">		$controllerClassName = CONTROLLER . <span class="string">&quot;Controller&quot;</span>;</span><br><span class="line">		$controllerObj = <span class="keyword">new</span> $controllerClassName();</span><br><span class="line"></span><br><span class="line">		<span class="comment">//根据用户的不同动作，调用不同的方法</span></span><br><span class="line">		$action_name = ACTION;</span><br><span class="line">		$controllerObj-&gt;$action_name();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B%E2%80%93MVC%E6%80%9D%E6%83%B31"><span class="toc-number">1.</span> <span class="toc-text">PHP核心编程–MVC思想1</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MVC%E6%A1%86%E6%9E%B6%E6%80%9D%E6%83%B3%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">MVC框架思想原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MVC%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.1.</span> <span class="toc-text">MVC概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MVC%E5%90%84%E7%BB%84%E4%BB%B6%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-number">1.1.2.</span> <span class="toc-text">MVC各组件的功能</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MVC%E5%AE%9E%E4%BE%8B%EF%BC%9A%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86"><span class="toc-number">1.2.</span> <span class="toc-text">MVC实例：学生信息管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%B7%A5%E5%8E%82%E7%B1%BB%E4%B8%89%E7%A7%81%E4%B8%80%E5%85%AC"><span class="toc-number">1.2.1.</span> <span class="toc-text">数据库工厂类三私一公</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E7%94%9F%E6%A8%A1%E5%9E%8B%E7%B1%BB"><span class="toc-number">1.2.2.</span> <span class="toc-text">学生模型类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E7%94%9F%E7%B1%BB%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="toc-number">1.2.3.</span> <span class="toc-text">学生类控制器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%A6%E7%94%9F%E8%A7%86%E5%9B%BE%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.4.</span> <span class="toc-text">学生视图文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.2.5.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MVC%E5%AE%9E%E4%BE%8B%EF%BC%9A%E5%AD%A6%E7%94%9F%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%862"><span class="toc-number">1.3.</span> <span class="toc-text">MVC实例：学生信息管理2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E5%90%88%E5%AD%A6%E7%94%9F%E6%A8%A1%E5%9D%97%E5%92%8C%E6%96%B0%E9%97%BB%E6%A8%A1%E5%9D%97%E5%B9%B6%E6%95%B4%E5%90%88%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%9E%8B%E7%B1%BB%E3%80%81%E5%9F%BA%E7%A1%80%E6%A8%A1%E5%9E%8B%E7%B1%BB%E7%AD%89%E7%AD%89"><span class="toc-number">1.3.1.</span> <span class="toc-text">整合学生模块和新闻模块并整合工厂模型类、基础模型类等等</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">需求分析</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%9F%BA%E7%A1%80%E6%A8%A1%E5%9E%8B%E7%B1%BB%E6%96%87%E4%BB%B6%EF%BC%9ABaseModel-class-php"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">创建基础模型类文件：BaseModel.class.php</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%9E%8B%E7%B1%BB%EF%BC%9AFactoryModel-class-php"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">创建工厂模型类：FactoryModel.class.php</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%8E%A7%E5%88%B6%E5%99%A8%E7%B1%BB%EF%BC%9ANewsController-php"><span class="toc-number">1.3.1.4.</span> <span class="toc-text">创建控制器类：NewsController.php</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%9F%BA%E7%A1%80%E6%8E%A7%E5%88%B6%E5%99%A8%E7%B1%BB%EF%BC%9ABaseController-class-php"><span class="toc-number">1.3.1.5.</span> <span class="toc-text">创建基础控制器类：BaseController.class.php</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%AE%80%E5%8D%95%E5%88%86%E7%9B%AE%E5%BD%95"><span class="toc-number">1.3.1.6.</span> <span class="toc-text">文件简单分目录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E6%8E%A7%E5%88%B6%E5%99%A8%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.3.1.7.</span> <span class="toc-text">前端控制器实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B9%B3%E5%8F%B0%E6%A6%82%E5%BF%B5%E7%9A%84%E5%BC%95%E5%85%A5"><span class="toc-number">1.3.1.8.</span> <span class="toc-text">平台概念的引入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B1%BB%E7%9A%84%E8%87%AA%E5%8A%A8%E5%8A%A0%E8%BD%BD"><span class="toc-number">1.3.1.9.</span> <span class="toc-text">类的自动加载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E7%9B%AE%E5%BD%95%E5%B8%B8%E9%87%8F%E9%85%8D%E7%BD%AE"><span class="toc-number">1.3.1.10.</span> <span class="toc-text">常用目录常量配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E7%B1%BB%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.3.1.11.</span> <span class="toc-text">初始类实现</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://s1eady.top/2019/12/30/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B--MVC%E6%80%9D%E6%83%B31/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://s1eady.top/2019/12/30/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B--MVC%E6%80%9D%E6%83%B31/&text=PHP开发学习--核心编程1"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://s1eady.top/2019/12/30/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B--MVC%E6%80%9D%E6%83%B31/&title=PHP开发学习--核心编程1"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://s1eady.top/2019/12/30/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B--MVC%E6%80%9D%E6%83%B31/&is_video=false&description=PHP开发学习--核心编程1"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PHP开发学习--核心编程1&body=Check out this article: http://s1eady.top/2019/12/30/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B--MVC%E6%80%9D%E6%83%B31/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://s1eady.top/2019/12/30/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B--MVC%E6%80%9D%E6%83%B31/&title=PHP开发学习--核心编程1"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://s1eady.top/2019/12/30/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B--MVC%E6%80%9D%E6%83%B31/&title=PHP开发学习--核心编程1"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://s1eady.top/2019/12/30/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B--MVC%E6%80%9D%E6%83%B31/&title=PHP开发学习--核心编程1"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://s1eady.top/2019/12/30/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B--MVC%E6%80%9D%E6%83%B31/&title=PHP开发学习--核心编程1"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://s1eady.top/2019/12/30/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B--MVC%E6%80%9D%E6%83%B31/&name=PHP开发学习--核心编程1&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://s1eady.top/2019/12/30/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B--MVC%E6%80%9D%E6%83%B31/&t=PHP开发学习--核心编程1"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2018.12.8-2020
+    steady
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>

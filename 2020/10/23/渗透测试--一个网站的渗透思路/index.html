@@ -6,17 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="一个网站的渗透思路信息收集信息收集网站 1https:&#x2F;&#x2F;www.shodan.io&#x2F;   判断网站是否存在cdn  什么是cdn？ CDN的全称是Content Delivery Network，即内容分发网络。其目的是通过在现有的internet中增加一层新的网络架构，将网站的内容发布到最接近用户的网络边缘，使用户可以就近取得所需的内容，提高用户访问网站的响应速度">
+    <meta name="description" content="一个网站的渗透思路信息收集信息收集网站 1https:&#x2F;&#x2F;www.shodan.io&#x2F;  判断网站是否存在cdn 什么是cdn？ CDN的全称是Content Delivery Network，即内容分发网络。其目的是通过在现有的internet中增加一层新的网络架构，将网站的内容发布到最接近用户的网络边缘，使用户可以就近取得所需的内容，提高用户访问网站的响应速度。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一个网站的渗透思路">
 <meta property="og:url" content="http://s1eady.top/2020/10/23/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--%E4%B8%80%E4%B8%AA%E7%BD%91%E7%AB%99%E7%9A%84%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF/index.html">
 <meta property="og:site_name" content="steady&#39;s blog">
-<meta property="og:description" content="一个网站的渗透思路信息收集信息收集网站 1https:&#x2F;&#x2F;www.shodan.io&#x2F;   判断网站是否存在cdn  什么是cdn？ CDN的全称是Content Delivery Network，即内容分发网络。其目的是通过在现有的internet中增加一层新的网络架构，将网站的内容发布到最接近用户的网络边缘，使用户可以就近取得所需的内容，提高用户访问网站的响应速度">
+<meta property="og:description" content="一个网站的渗透思路信息收集信息收集网站 1https:&#x2F;&#x2F;www.shodan.io&#x2F;  判断网站是否存在cdn 什么是cdn？ CDN的全称是Content Delivery Network，即内容分发网络。其目的是通过在现有的internet中增加一层新的网络架构，将网站的内容发布到最接近用户的网络边缘，使用户可以就近取得所需的内容，提高用户访问网站的响应速度。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201111235353259.png">
 <meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20201110222106564.png">
 <meta property="article:published_time" content="2020-10-23T13:21:43.000Z">
-<meta property="article:modified_time" content="2020-11-17T02:57:48.126Z">
+<meta property="article:modified_time" content="2020-11-23T02:48:47.965Z">
 <meta property="article:author" content="steady">
 <meta property="article:tag" content="渗透测试">
 <meta name="twitter:card" content="summary">
@@ -116,7 +116,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E7%BD%91%E7%AB%99%E7%9A%84%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF"><span class="toc-number">1.</span> <span class="toc-text">一个网站的渗透思路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.1.</span> <span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98"><span class="toc-number">1.2.</span> <span class="toc-text">漏洞挖掘</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#owasp-top-10%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98"><span class="toc-number">1.2.1.</span> <span class="toc-text">owasp top 10漏洞挖掘</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81GetShell%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.2.</span> <span class="toc-text">常见GetShell方式</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#owasp-top-10%E6%BC%8F%E6%B4%9E%E6%8B%BFshell"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">owasp top 10漏洞拿shell</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E5%8A%9F%E8%83%BD%E7%82%B9%E4%B8%8A%E4%BC%A0shell"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">网站功能点上传shell</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%AB%AF%E5%8F%A3%E5%88%A9%E7%94%A8"><span class="toc-number">1.2.3.</span> <span class="toc-text">常见端口利用</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#11211%E7%AB%AF%E5%8F%A3%E2%80%93memcache"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">11211端口–memcache</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="toc-number">1.3.</span> <span class="toc-text">权限提升</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%99%E5%BA%93%E5%88%86%E7%A6%BB"><span class="toc-number">1.4.</span> <span class="toc-text">站库分离</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%8Eweb%E5%85%A5%E5%8F%A3"><span class="toc-number">1.4.1.</span> <span class="toc-text">从web入口</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%A5%E5%8F%A3%E6%B8%97%E9%80%8F"><span class="toc-number">1.4.2.</span> <span class="toc-text">从数据库入口渗透</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AB%99%E5%BA%93%E5%88%86%E7%A6%BB%E7%9A%84%E5%88%A4%E6%96%AD%E6%96%B9%E6%B3%95"><span class="toc-number">1.4.3.</span> <span class="toc-text">站库分离的判断方法</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5%E7%8A%B6%E6%80%81"><span class="toc-number">1.4.3.1.</span> <span class="toc-text">查看网络连接状态</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84IP"><span class="toc-number">1.4.3.2.</span> <span class="toc-text">查看当前服务器的IP</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AB%99%E5%BA%93%E5%88%86%E7%A6%BB%E5%88%A9%E7%94%A8%E6%80%9D%E8%B7%AF"><span class="toc-number">1.4.4.</span> <span class="toc-text">站库分离利用思路</span></a></li></ol></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E7%BD%91%E7%AB%99%E7%9A%84%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF"><span class="toc-number">1.</span> <span class="toc-text">一个网站的渗透思路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.1.</span> <span class="toc-text">信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E7%BD%91%E7%AB%99%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8cdn"><span class="toc-number">1.1.1.</span> <span class="toc-text">判断网站是否存在cdn</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%95%E8%BF%87CDN%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="toc-number">1.1.2.</span> <span class="toc-text">绕过CDN的方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E4%BF%A1%E6%81%AF"><span class="toc-number">1.1.3.</span> <span class="toc-text">网站信息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F"><span class="toc-number">1.1.4.</span> <span class="toc-text">目录扫描</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">1.1.5.</span> <span class="toc-text">端口扫描</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AD%90%E5%9F%9F%E5%90%8D%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.1.6.</span> <span class="toc-text">子域名信息收集</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E7%BD%91%E7%AB%99CMS%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.1.7.</span> <span class="toc-text">判断网站CMS类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84cms%E6%89%AB%E6%8F%8F%E5%B7%A5%E5%85%B7"><span class="toc-number">1.1.8.</span> <span class="toc-text">常见的cms扫描工具</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%88%A4%E6%96%AD"><span class="toc-number">1.1.9.</span> <span class="toc-text">操作系统的判断</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8"><span class="toc-number">1.1.10.</span> <span class="toc-text">工具使用</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BD%91%E7%AB%99CMS"><span class="toc-number">1.2.</span> <span class="toc-text">网站CMS</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#owasp-top-10%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98"><span class="toc-number">1.2.1.</span> <span class="toc-text">owasp top 10漏洞挖掘</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81GetShell%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.2.</span> <span class="toc-text">常见GetShell方式</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#owasp-top-10%E6%BC%8F%E6%B4%9E%E6%8B%BFshell"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">owasp top 10漏洞拿shell</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E5%8A%9F%E8%83%BD%E7%82%B9%E4%B8%8A%E4%BC%A0shell"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">网站功能点上传shell</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%AB%AF%E5%8F%A3%E5%88%A9%E7%94%A8"><span class="toc-number">1.2.3.</span> <span class="toc-text">常见端口利用</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#11211%E7%AB%AF%E5%8F%A3%E2%80%93memcache"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">11211端口–memcache</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="toc-number">1.3.</span> <span class="toc-text">权限提升</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%99%E5%BA%93%E5%88%86%E7%A6%BB"><span class="toc-number">1.4.</span> <span class="toc-text">站库分离</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%8Eweb%E5%85%A5%E5%8F%A3"><span class="toc-number">1.4.1.</span> <span class="toc-text">从web入口</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%A5%E5%8F%A3%E6%B8%97%E9%80%8F"><span class="toc-number">1.4.2.</span> <span class="toc-text">从数据库入口渗透</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AB%99%E5%BA%93%E5%88%86%E7%A6%BB%E7%9A%84%E5%88%A4%E6%96%AD%E6%96%B9%E6%B3%95"><span class="toc-number">1.4.3.</span> <span class="toc-text">站库分离的判断方法</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5%E7%8A%B6%E6%80%81"><span class="toc-number">1.4.3.1.</span> <span class="toc-text">查看网络连接状态</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84IP"><span class="toc-number">1.4.3.2.</span> <span class="toc-text">查看当前服务器的IP</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AB%99%E5%BA%93%E5%88%86%E7%A6%BB%E5%88%A9%E7%94%A8%E6%80%9D%E8%B7%AF"><span class="toc-number">1.4.4.</span> <span class="toc-text">站库分离利用思路</span></a></li></ol></li></ol></li></ol>
     </div>
   </span>
 </div>
@@ -168,9 +168,7 @@
     <h3 id="一个网站的渗透思路"><a href="#一个网站的渗透思路" class="headerlink" title="一个网站的渗透思路"></a>一个网站的渗透思路</h3><h4 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h4><p>信息收集网站</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;www.shodan.io&#x2F;</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li><p>判断网站是否存在cdn</p>
-<ul>
+<h5 id="判断网站是否存在cdn"><a href="#判断网站是否存在cdn" class="headerlink" title="判断网站是否存在cdn"></a>判断网站是否存在cdn</h5><ul>
 <li><p>什么是cdn？</p>
 <p>CDN的全称是Content Delivery Network，即内容分发网络。其目的是通过在现有的internet中增加一层新的网络架构，将网站的内容发布到最接近用户的网络边缘，使用户可以就近取得所需的内容，提高用户访问网站的响应速度。</p>
 <p>具体流程为: 用户在自己的浏览器中输入要访问的网站的域名，浏览器向本地DNS请求对该域名的解析，本地DNS将请求发到网站的主DNS，主DNS根据一系列的策略确定当时最适当的CDN节点，并将解析的结果（IP地址）发给用户，用户向给定的CDN节点请求相应网站的内容。</p>
@@ -190,11 +188,12 @@
 </li>
 <li><p>使用工具直接查询</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;www.ipip.net&#x2F;ip.html</span><br></pre></td></tr></table></figure>
+
 </li>
 </ul>
 </li>
-<li><p>绕过CDN的方式</p>
-<ul>
+</ul>
+<h5 id="绕过CDN的方式"><a href="#绕过CDN的方式" class="headerlink" title="绕过CDN的方式"></a>绕过CDN的方式</h5><ul>
 <li><p>查找子域名</p>
 <p>因为CDN架设需要钱，所以有的站点只给主域名架上CDN，而子域名一般不架设CDN。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.oneforall 查找子域名</span><br><span class="line">2、Google hacker 查找子域名</span><br><span class="line">3、site:baidu.com -www</span><br></pre></td></tr></table></figure>
@@ -219,16 +218,12 @@
 <p>使用国外的网站ping</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;asm.ca.com&#x2F;en&#x2F;ping.php</span><br></pre></td></tr></table></figure>
 </li>
-</ul>
-</li>
 <li><p>绕过之后开始渗透</p>
 <p>把真实的ip与目标域名在hosts文件中绑定。</p>
 <p>或者直接访问目标的ip而不是访问域名。</p>
 </li>
 </ul>
-</li>
-<li><p>网站信息</p>
-<ul>
+<h5 id="网站信息"><a href="#网站信息" class="headerlink" title="网站信息"></a>网站信息</h5><ul>
 <li><p>使用burp抓包、放包，在返回包中可以看到使用的系统、脚本语言、服务类型以及waf类型等等。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HTTP&#x2F;1.1 200 OK</span><br><span class="line">Content-Type: text&#x2F;html; charset&#x3D;gb2312</span><br><span class="line">Vary: Accept-Encoding</span><br><span class="line">Server: Microsoft-IIS&#x2F;8.5</span><br><span class="line">X-Powered-By: WAF&#x2F;2.0</span><br><span class="line">Date: Mon, 21 Sep 2020 12:02:33 GMT</span><br><span class="line">Connection: close</span><br><span class="line">Content-Length: 9173</span><br></pre></td></tr></table></figure>
 </li>
@@ -267,27 +262,22 @@
 </li>
 <li><p>各个数据库特有的表</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1、mssql数据库</span><br><span class="line"></span><br><span class="line"> http:&#x2F;&#x2F;127.0.0.1&#x2F;test.php?id&#x3D;1 and (select count(*) from sysobjects)&gt;0 and 1&#x3D;1</span><br><span class="line">2、access数据库</span><br><span class="line"></span><br><span class="line"> http:&#x2F;&#x2F;127.0.0.1&#x2F;test.php?id&#x3D;1 and (select count(*) from msysobjects)&gt;0 and 1&#x3D;1</span><br><span class="line">3、mysql数据库(mysql版本在5.0以上)</span><br><span class="line"></span><br><span class="line">  http:&#x2F;&#x2F;127.0.0.1&#x2F;test.php?id&#x3D;1 and (select count(*) from information_schema.TABLES)&gt;0 and 1&#x3D;1</span><br><span class="line">4、oracle数据库</span><br><span class="line"></span><br><span class="line">  http:&#x2F;&#x2F;127.0.0.1&#x2F;test.php?id&#x3D;1 and (select count(*) from sys.user_tables)&gt;0 and 1&#x3D;1</span><br></pre></td></tr></table></figure>
+
 </li>
 </ul>
 </li>
-<li><p>目录扫描</p>
-<p>dirsearch、dirmap、dirb、御剑扫描工具。</p>
-</li>
-<li><p>端口扫描</p>
-<p>namp、Masscan、msf</p>
-</li>
-<li><p>子域名信息收集</p>
-<ul>
+</ul>
+<h5 id="目录扫描"><a href="#目录扫描" class="headerlink" title="目录扫描"></a>目录扫描</h5><p>dirsearch、dirmap、dirb、御剑扫描工具。</p>
+<h5 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h5><p>namp、Masscan、msf</p>
+<h5 id="子域名信息收集"><a href="#子域名信息收集" class="headerlink" title="子域名信息收集"></a>子域名信息收集</h5><ul>
 <li><p>oneforall、知道创宇实验室ksubdomain</p>
 </li>
 <li><p>谷歌hacker语法</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">site:baidu.com -www</span><br></pre></td></tr></table></figure>
+
 </li>
 </ul>
-</li>
-<li><p>网站CMS</p>
-<p>判断网站CMS类型</p>
-<ul>
+<h5 id="判断网站CMS类型"><a href="#判断网站CMS类型" class="headerlink" title="判断网站CMS类型"></a>判断网站CMS类型</h5><ul>
 <li><p>cms特有的文件路径</p>
 <p>比如WordPress的常用路径为wp-admin等等。</p>
 </li>
@@ -300,13 +290,10 @@
 </ul>
 </li>
 </ul>
-<p>常见的cms扫描工具</p>
-<p>WordPress的专用扫描工具，wpscan。</p>
+<h5 id="常见的cms扫描工具"><a href="#常见的cms扫描工具" class="headerlink" title="常见的cms扫描工具"></a>常见的cms扫描工具</h5><p>WordPress的专用扫描工具，wpscan。</p>
 <p>CMSmap可以扫描WordPress，Joomla和Drupal。</p>
 <p>判断出CMS之后可以搜索以往的cms漏洞，或者找到源码审计一下。</p>
-</li>
-<li><p>操作系统的判断</p>
-<ul>
+<h5 id="操作系统的判断"><a href="#操作系统的判断" class="headerlink" title="操作系统的判断"></a>操作系统的判断</h5><ul>
 <li><p>nmap 参数-O表示扫描操作系统信息</p>
 </li>
 <li><p>ping命令 </p>
@@ -319,11 +306,9 @@
 <p>window系统对大小写不敏感</p>
 </li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
-<h4 id="漏洞挖掘"><a href="#漏洞挖掘" class="headerlink" title="漏洞挖掘"></a>漏洞挖掘</h4><h5 id="owasp-top-10漏洞挖掘"><a href="#owasp-top-10漏洞挖掘" class="headerlink" title="owasp top 10漏洞挖掘"></a>owasp top 10漏洞挖掘</h5><ul>
+<h5 id="工具使用"><a href="#工具使用" class="headerlink" title="工具使用"></a>工具使用</h5><p>goby批量信息收集</p>
+<p>w8fuckcdn 通过扫描全网绕过CDN获取网站IP地址</p>
+<h4 id="网站CMS"><a href="#网站CMS" class="headerlink" title="网站CMS"></a>网站CMS</h4><h5 id="owasp-top-10漏洞挖掘"><a href="#owasp-top-10漏洞挖掘" class="headerlink" title="owasp top 10漏洞挖掘"></a>owasp top 10漏洞挖掘</h5><ul>
 <li><p>sql注入漏洞</p>
 </li>
 <li><p>逻辑漏洞</p>
@@ -562,7 +547,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E7%BD%91%E7%AB%99%E7%9A%84%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF"><span class="toc-number">1.</span> <span class="toc-text">一个网站的渗透思路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.1.</span> <span class="toc-text">信息收集</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98"><span class="toc-number">1.2.</span> <span class="toc-text">漏洞挖掘</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#owasp-top-10%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98"><span class="toc-number">1.2.1.</span> <span class="toc-text">owasp top 10漏洞挖掘</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81GetShell%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.2.</span> <span class="toc-text">常见GetShell方式</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#owasp-top-10%E6%BC%8F%E6%B4%9E%E6%8B%BFshell"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">owasp top 10漏洞拿shell</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E5%8A%9F%E8%83%BD%E7%82%B9%E4%B8%8A%E4%BC%A0shell"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">网站功能点上传shell</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%AB%AF%E5%8F%A3%E5%88%A9%E7%94%A8"><span class="toc-number">1.2.3.</span> <span class="toc-text">常见端口利用</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#11211%E7%AB%AF%E5%8F%A3%E2%80%93memcache"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">11211端口–memcache</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="toc-number">1.3.</span> <span class="toc-text">权限提升</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%99%E5%BA%93%E5%88%86%E7%A6%BB"><span class="toc-number">1.4.</span> <span class="toc-text">站库分离</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%8Eweb%E5%85%A5%E5%8F%A3"><span class="toc-number">1.4.1.</span> <span class="toc-text">从web入口</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%A5%E5%8F%A3%E6%B8%97%E9%80%8F"><span class="toc-number">1.4.2.</span> <span class="toc-text">从数据库入口渗透</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AB%99%E5%BA%93%E5%88%86%E7%A6%BB%E7%9A%84%E5%88%A4%E6%96%AD%E6%96%B9%E6%B3%95"><span class="toc-number">1.4.3.</span> <span class="toc-text">站库分离的判断方法</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5%E7%8A%B6%E6%80%81"><span class="toc-number">1.4.3.1.</span> <span class="toc-text">查看网络连接状态</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84IP"><span class="toc-number">1.4.3.2.</span> <span class="toc-text">查看当前服务器的IP</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AB%99%E5%BA%93%E5%88%86%E7%A6%BB%E5%88%A9%E7%94%A8%E6%80%9D%E8%B7%AF"><span class="toc-number">1.4.4.</span> <span class="toc-text">站库分离利用思路</span></a></li></ol></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E7%BD%91%E7%AB%99%E7%9A%84%E6%B8%97%E9%80%8F%E6%80%9D%E8%B7%AF"><span class="toc-number">1.</span> <span class="toc-text">一个网站的渗透思路</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.1.</span> <span class="toc-text">信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E7%BD%91%E7%AB%99%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8cdn"><span class="toc-number">1.1.1.</span> <span class="toc-text">判断网站是否存在cdn</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%95%E8%BF%87CDN%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="toc-number">1.1.2.</span> <span class="toc-text">绕过CDN的方式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E4%BF%A1%E6%81%AF"><span class="toc-number">1.1.3.</span> <span class="toc-text">网站信息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F"><span class="toc-number">1.1.4.</span> <span class="toc-text">目录扫描</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">1.1.5.</span> <span class="toc-text">端口扫描</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AD%90%E5%9F%9F%E5%90%8D%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.1.6.</span> <span class="toc-text">子域名信息收集</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E7%BD%91%E7%AB%99CMS%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.1.7.</span> <span class="toc-text">判断网站CMS类型</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84cms%E6%89%AB%E6%8F%8F%E5%B7%A5%E5%85%B7"><span class="toc-number">1.1.8.</span> <span class="toc-text">常见的cms扫描工具</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%88%A4%E6%96%AD"><span class="toc-number">1.1.9.</span> <span class="toc-text">操作系统的判断</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8"><span class="toc-number">1.1.10.</span> <span class="toc-text">工具使用</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BD%91%E7%AB%99CMS"><span class="toc-number">1.2.</span> <span class="toc-text">网站CMS</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#owasp-top-10%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98"><span class="toc-number">1.2.1.</span> <span class="toc-text">owasp top 10漏洞挖掘</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81GetShell%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.2.</span> <span class="toc-text">常见GetShell方式</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#owasp-top-10%E6%BC%8F%E6%B4%9E%E6%8B%BFshell"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">owasp top 10漏洞拿shell</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E5%8A%9F%E8%83%BD%E7%82%B9%E4%B8%8A%E4%BC%A0shell"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">网站功能点上传shell</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%AB%AF%E5%8F%A3%E5%88%A9%E7%94%A8"><span class="toc-number">1.2.3.</span> <span class="toc-text">常见端口利用</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#11211%E7%AB%AF%E5%8F%A3%E2%80%93memcache"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">11211端口–memcache</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="toc-number">1.3.</span> <span class="toc-text">权限提升</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%99%E5%BA%93%E5%88%86%E7%A6%BB"><span class="toc-number">1.4.</span> <span class="toc-text">站库分离</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%8Eweb%E5%85%A5%E5%8F%A3"><span class="toc-number">1.4.1.</span> <span class="toc-text">从web入口</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%A5%E5%8F%A3%E6%B8%97%E9%80%8F"><span class="toc-number">1.4.2.</span> <span class="toc-text">从数据库入口渗透</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AB%99%E5%BA%93%E5%88%86%E7%A6%BB%E7%9A%84%E5%88%A4%E6%96%AD%E6%96%B9%E6%B3%95"><span class="toc-number">1.4.3.</span> <span class="toc-text">站库分离的判断方法</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5%E7%8A%B6%E6%80%81"><span class="toc-number">1.4.3.1.</span> <span class="toc-text">查看网络连接状态</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84IP"><span class="toc-number">1.4.3.2.</span> <span class="toc-text">查看当前服务器的IP</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AB%99%E5%BA%93%E5%88%86%E7%A6%BB%E5%88%A9%E7%94%A8%E6%80%9D%E8%B7%AF"><span class="toc-number">1.4.4.</span> <span class="toc-text">站库分离利用思路</span></a></li></ol></li></ol></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
