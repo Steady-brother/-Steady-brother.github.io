@@ -18,7 +18,7 @@
 <meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20200613203325747.png">
 <meta property="og:image" content="https://steady-1302023625.cos.ap-beijing.myqcloud.com/makedown/image-20200613204834299.png">
 <meta property="article:published_time" content="2019-12-11T21:33:56.000Z">
-<meta property="article:modified_time" content="2020-12-05T03:00:45.316Z">
+<meta property="article:modified_time" content="2020-12-19T15:02:01.787Z">
 <meta property="article:author" content="steady">
 <meta property="article:tag" content="渗透测试">
 <meta name="twitter:card" content="summary">
@@ -292,6 +292,9 @@
 <h4 id="查看系统体系架构"><a href="#查看系统体系架构" class="headerlink" title="查看系统体系架构"></a>查看系统体系架构</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo %PROCESSOR_ARCHITECTURE%</span><br></pre></td></tr></table></figure>
 
 <h4 id="常见软件杀毒进程"><a href="#常见软件杀毒进程" class="headerlink" title="常见软件杀毒进程"></a>常见软件杀毒进程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;360tray.exe&quot;,    &quot;360安全卫士&quot;&#125;,</span><br><span class="line">&#123;&quot;360sd.exe&quot;,      &quot;360杀毒&quot;&#125;,</span><br><span class="line">&#123;&quot;a2guard.exe&quot;,    &quot;a-squared杀毒&quot;&#125;,</span><br><span class="line">&#123;&quot;ad-watch.exe&quot;,    &quot;Lavasoft杀毒&quot;&#125;,</span><br><span class="line">&#123;&quot;cleaner8.exe&quot;,    &quot;The Cleaner杀毒&quot;&#125;,</span><br><span class="line">&#123;&quot;vba32lder.exe&quot;,    &quot;vb32杀毒&quot;&#125;,</span><br><span class="line">火绒</span><br><span class="line">hipstray.exe</span><br><span class="line">wsctrl.exe</span><br><span class="line">usysdiag.exe</span><br></pre></td></tr></table></figure>
+
+<p>使用tasklist命令，列出当前进程然后使用在线工具识别进程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;tools.mo60.cn&#x2F;index.php</span><br></pre></td></tr></table></figure>
 
 <h4 id="常见WAF进程"><a href="#常见WAF进程" class="headerlink" title="常见WAF进程"></a>常见WAF进程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">安全狗</span><br><span class="line">SafeDogGuardCenter.exe</span><br><span class="line">safedogupdatecenter.exe</span><br><span class="line">safedogguardcenter.exe</span><br><span class="line">SafeDogSiteIIS.exe</span><br><span class="line">SafeDogTray.exe</span><br><span class="line">SafeDogServerUI.exe</span><br><span class="line">D盾</span><br><span class="line">D_Safe_Manage.exe</span><br><span class="line">d_manage.exe</span><br><span class="line">云锁</span><br><span class="line">yunsuo_agent_service.exe</span><br><span class="line">yunsuo_agent_daemon.exe</span><br></pre></td></tr></table></figure>
 
